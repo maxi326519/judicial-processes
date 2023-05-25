@@ -1,0 +1,44 @@
+:root {
+  --primary-color: #076bb3;
+  --primary-color--transp: #076bb344;
+
+  --background: #fff;
+  --panel: #ccc;
+  --border: #aaa;
+  --font: black;
+
+  --dark-background: #0d1117;
+  --dark-panel: #21262d;
+  --dark-border: #445566;
+  --dark-font: white;
+}
+
+.App {
+  width: 100%;
+  height: 100vh;
+}
+
+.form-floating select,
+.form-floating input {
+  background-color: var(--dark-panel);
+  border: 1px solid var(--dark-border);
+  color: white;
+}
+
+.form-floating select:focus,
+.form-floating input:focus,
+.form-floating select:active,
+.form-floating input:active {
+  background-color: #00000044;
+  border: 1px solid var(--dark-border);
+  color: white;
+}
+
+.btn-close {
+  filter: invert(100%);
+}
+
+.btn-close:hover {
+  filter: invert(23%) sepia(98%) saturate(7468%) hue-rotate(358deg)
+    brightness(109%) contrast(112%);
+}

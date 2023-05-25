@@ -1,0 +1,33 @@
+.toTop {
+  animation-name: toTopAnimation;
+  animation-duration: 0.2s;
+  animation-timing-function: ease-out;
+}
+
+.toRight {
+  animation-name: toRightAnimation;
+  animation-duration: 0.2s;
+  animation-timing-function: ease-out;
+}
+
+@keyframes toTopAnimation{
+  0%{
+    top: 10%;
+    opacity: 0;
+  }
+  100%{
+    top: 0%;
+    opacity: 100%;
+  }
+}
+
+@keyframes toRightAnimation{
+  0%{
+    right: 10%;
+    opacity: 0;
+  }
+  100%{
+    right: 0%;
+    opacity: 100%;
+  }
+}

@@ -111,9 +111,9 @@ export interface ProcessesDetails {
 export const initProcessesFilters: ProcessesFilters = {
   firma: "",
   idEkogui: 0,
-  initialNumber: "",
-  currentNumber: "",
-  demanding: "",
+  numProcesoRamaInicial: "",
+  numProcesoRamaActual: "",
+  nombreDemandante: "",
 };
 
 export const initProcessesDetails: ProcessesDetails = {

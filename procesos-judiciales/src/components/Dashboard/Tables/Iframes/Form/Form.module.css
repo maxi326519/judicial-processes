@@ -49,10 +49,11 @@
 }
 
 .flex textarea {
-  height: 300px;
+  height: 300px !important;
   background-color: var(--dark-panel);
   border: 1px solid var(--dark-border);
   color: white;
+  resize: none;
 }
 
 .flex textarea:focus,

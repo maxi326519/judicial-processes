@@ -49,6 +49,10 @@
   border-radius: 5px;
 }
 
+.table button {
+  border: none;
+}
+
 .table div {
   max-height: calc(100vh - 73.5px - 58px - 56px);
   overflow-y: scroll;

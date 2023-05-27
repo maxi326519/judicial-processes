@@ -1,15 +1,16 @@
 import { initProcessesDetails } from "../../interfaces/JudicialProcesses";
 import { RootState } from "../../interfaces/RootState";
 import { initUser } from "../../interfaces/users";
-import { GET_IFRAME, SET_IFRAME } from "../actions/iframe";
+import { IFrames } from "../../interfaces/iframes";
+import { GET_IFRAME, SET_IFRAME, UPDATE_IFRAME } from "../actions/iframe";
 import {
   GET_PROCESSES,
   GET_PROCESSES_DETAILS,
   SET_PROCESSES,
   UPDATE_PROCESSES,
 } from "../actions/judicialProcesses";
-import { LOADING } from "../actions/loading";
 import { GET_USER, SET_USER } from "../actions/users";
+import { LOADING } from "../actions/loading";
 
 const initialState: RootState = {
   user: initUser,
@@ -120,6 +121,14 @@ export const rootReducer = (state = initialState, action: any) => {
       return {
         ...state,
         iframes: action.payload,
+      };
+
+    case UPDATE_IFRAME:
+      return {
+        ...state,
+        iframes: state.iframes.map((iframe: IFrames) =>
+          iframe.id === action.payload.id ? action.payload : iframe
+        ),
       };
     /* IFRAME */
 

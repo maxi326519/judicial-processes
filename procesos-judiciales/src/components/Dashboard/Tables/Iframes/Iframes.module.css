@@ -30,7 +30,11 @@
   overflow: hidden;
   table-layout: fixed;
   border-radius: 5px;
-  widtH: 100%;
+  width: 100%;
+}
+
+.table button {
+  border: none;
 }
 
 .table div {
@@ -82,7 +86,7 @@
 
 .row {
   display: grid;
-  grid-template-columns: 1fr 1fr 100px 50px;
+  grid-template-columns: 1fr 50px 50px;
   gap: 10px;
   padding: 10px;
   outline: 1px solid var(--border);
@@ -147,7 +151,7 @@
     brightness(50%) contrast(112%);
 }
 
-.error div{
+.error div {
   display: flex;
   gap: 10px;
   margin-top: 10px;

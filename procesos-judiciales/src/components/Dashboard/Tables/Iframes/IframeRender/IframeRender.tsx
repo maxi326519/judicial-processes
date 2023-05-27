@@ -1,18 +1,23 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../../interfaces/RootState";
+import { IFrames } from "../../../../../interfaces/iframes";
 
-const IFrameRenderer = () => {
-  const iFrameCode: Array<string> = useSelector(
-    (state: RootState) => state.iframes
-  ); // Obtén el código del IFrame desde el estado de Redux
+import styles from "./IframeRender.module.css";
 
+interface Props {
+  iframe: IFrames;
+  handleClose: () => void;
+}
+
+const IFrameRenderer = ({ iframe, handleClose }: Props) => {
   return (
-    <div>
-      <span>iFrame[0]</span>
-      {iFrameCode.length > 0 ? (
-        <div dangerouslySetInnerHTML={{ __html: iFrameCode[0]! }} />
-      ) : null}
+    <div className={styles.background}>
+      <header>
+        <h3>{iframe.name}</h3>
+        <div className="btn btn-close" />
+      </header>
+      <div
+        className={styles.container}
+        dangerouslySetInnerHTML={{ __html: iframe.data }}
+      />
     </div>
   );
 };

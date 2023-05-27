@@ -1,0 +1,31 @@
+.background {
+  position: absolute;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: var(--dark-background);
+}
+
+.background header {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 20px;
+}
+
+.background header h3 {
+  flex-grow: 1;
+  text-align: left;
+  margin: 0;
+}
+
+.container {
+  flex-grow: 1;
+  width: 100%;
+}

@@ -1,7 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../interfaces/RootState";
 import { useEffect, useState } from "react";
-import { getIframe, setIframe } from "../../../../redux/actions/iframe";
+import {
+  getIframe,
+  setIframe,
+  updateIframe,
+} from "../../../../redux/actions/iframe";
 
 import IFramesRow from "./IFramesRow/IFramesRow";
 import Form from "./Form/Form";
@@ -10,10 +14,14 @@ import styles from "./Iframes.module.css";
 import loadingGif from "../../../../assets/img/loading.gif";
 import errorSvg from "../../../../assets/svg/error.svg";
 import swal from "sweetalert";
+import { IFrames } from "../../../../interfaces/iframes";
+import IFrameRenderer from "./IframeRender/IframeRender";
 
 const IFrameInput = () => {
   const dispatch = useDispatch();
   const iframes = useSelector((state: RootState) => state.iframes);
+  const [dataEdit, setDataEdit] = useState<IFrames | undefined>();
+  const [dataView, setDataView] = useState<IFrames | undefined>();
   const [form, setForm] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -22,13 +30,23 @@ const IFrameInput = () => {
     handleGetIFrames();
   }, []);
 
-  function handleView(iframe: string) {}
+  function handleView(iframe: IFrames) {
+    setDataView(iframe);
+  }
+
+  function handleEdit(data: IFrames) {
+    setDataEdit(data);
+    handleClose();
+  }
 
   function handleClose() {
     setForm(!form);
+    if (form) {
+      setDataEdit(undefined);
+    }
   }
 
-  function handleGetIFrames(){
+  function handleGetIFrames() {
     setLoading(true);
     setError(false);
     dispatch<any>(getIframe())
@@ -42,9 +60,10 @@ const IFrameInput = () => {
       });
   }
 
-  function handleSaveIFrame(IFrame: string) {
-    dispatch<any>(setIframe(IFrame))
+  function handleSaveIFrame(IFrame: IFrames, edit: boolean) {
+    dispatch<any>(edit ? updateIframe(IFrame) : setIframe(IFrame))
       .then(() => {
+        handleClose();
         swal("Guardado", "Se guardo el iframe correctamente", "success");
       })
       .catch((err: any) => {
@@ -56,7 +75,14 @@ const IFrameInput = () => {
   return (
     <div className={`toLeft ${styles.dashboard}`}>
       {form ? (
-        <Form handleClose={handleClose} handleSubmit={handleSaveIFrame} />
+        <Form
+          handleClose={handleClose}
+          handleSubmit={handleSaveIFrame}
+          data={dataEdit}
+        />
+      ) : null}
+      {dataView ? (
+        <IFrameRenderer iframe={dataView} handleClose={handleClose} />
       ) : null}
       <header>
         <h3>IFrames</h3>
@@ -73,7 +99,7 @@ const IFrameInput = () => {
       <table className={styles.table}>
         <thead>
           <tr className={`${styles.row} ${styles.firstRow}`}>
-            <th>IFrame</th>
+            <th>Nombre</th>
           </tr>
         </thead>
         <tbody className={styles.contentRows}>
@@ -90,7 +116,7 @@ const IFrameInput = () => {
                 <div>
                   <button
                     className="btn btn-outline-primary"
-                    onClick={handleGetIframes}
+                    onClick={handleGetIFrames}
                   >
                     Recargar
                   </button>
@@ -109,8 +135,13 @@ const IFrameInput = () => {
                 <th>No hay iframes</th>
               </tr>
             ) : (
-              iframes?.map((user: string, i) => (
-                <IFramesRow key={i} iframe={user} handleView={handleView} />
+              iframes?.map((iframe: IFrames, i) => (
+                <IFramesRow
+                  key={i}
+                  iframe={iframe}
+                  handleEdit={handleEdit}
+                  handleView={handleView}
+                />
               ))
             )}
           </div>

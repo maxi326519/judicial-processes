@@ -1,25 +1,31 @@
 import { ThunkAction } from "redux-thunk";
 import { RootState } from "../../../interfaces/RootState";
 import { AnyAction, Dispatch } from "redux";
-import { collection, doc, getDocs, setDoc } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDocs,
+  updateDoc,
+} from "firebase/firestore";
 import { db } from "../../../firebase";
+import { IFrames } from "../../../interfaces/iframes";
 
 export const SET_IFRAME = "SET_IFRAME";
 export const GET_IFRAME = "GET_IFRAME";
+export const UPDATE_IFRAME = "UPDATE_IFRAME";
 
 export function setIframe(
-  iframe: string
+  iframe: IFrames
 ): ThunkAction<Promise<void>, RootState, null, AnyAction> {
   return async (dispatch: Dispatch<AnyAction>) => {
     try {
-      const colUser = collection(db, "IFrames");
-      const response = await setDoc(doc(colUser), { data: iframe });
-
-      console.log(response);
+      const colIframes = collection(db, "IFrames");
+      const snapshot = await addDoc(colIframes, iframe);
 
       dispatch({
         type: SET_IFRAME,
-        payload: iframe,
+        payload: { id: snapshot.id, ...iframe },
       });
     } catch (e: any) {
       throw new Error(e);
@@ -46,6 +52,26 @@ export function getIframe(): ThunkAction<
       dispatch({
         type: GET_IFRAME,
         payload: iframes,
+      });
+    } catch (e: any) {
+      throw new Error(e);
+    }
+  };
+}
+
+export function updateIframe(
+  iframe: IFrames
+): ThunkAction<Promise<void>, RootState, null, AnyAction> {
+  return async (dispatch: Dispatch<AnyAction>) => {
+    try {
+      const colProcesses = collection(db, "IFrames");
+      await updateDoc(doc(colProcesses, iframe.id), {
+        ...iframe,
+      });
+
+      dispatch({
+        type: UPDATE_IFRAME,
+        payload: iframe,
       });
     } catch (e: any) {
       throw new Error(e);

@@ -6,19 +6,13 @@ import Dashboard from "./components/Dashboard/Dashboard";
 
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { getAuth } from "firebase/auth";
 
 function App() {
   const redirect = useNavigate();
 
   useEffect(() => {
-    setTimeout(() => {
-      const auth = getAuth();
-      if (auth.currentUser) {
-        redirect("/dashboard");
-      }
-    });
-  });
+    redirect("/dashboard");
+  }, []);
 
   return (
     <div className="App">

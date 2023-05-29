@@ -68,14 +68,14 @@
   top: 5px;
   right: 5px;
   padding: 10px 15px;
-  height: calc(100% - 10px);
+  height: 48px;
   background-color: var(--dark-panel);
   border-radius: 5px;
   border: 1px solid var(--dark-border);
   color: var(--dark-border);
 }
 
-.generated:hover{
+.generated:hover {
   background-color: grey;
   color: white;
 }

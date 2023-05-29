@@ -25,17 +25,17 @@ export function setProcesses(
   return async (dispatch: Dispatch<AnyAction>) => {
     try {
       const head = {
-        idEkogui: processes.idEkogui,
-        numProcesoRamaInicial: processes.numProcesoRamaInicial,
-        numProcesoRamaActual: processes.numProcesoRamaActual,
-        nombreDemandante: processes.nombreDemandante,
+        idSiproj: processes.idSiproj,
+        radRamaJudicialInicial: processes.radRamaJudicialInicial,
+        radRamaJudicialActual: processes.radRamaJudicialActual,
+        demandante: processes.demandante,
       };
       const details = processes;
 
       const colProcesses = collection(db, "Processes");
       const colDetails = collection(db, "Details");
-      await setDoc(doc(colProcesses, processes.idEkogui), head);
-      await setDoc(doc(colDetails, processes.idEkogui), details);
+      await setDoc(doc(colProcesses, processes.idSiproj.toString()), head);
+      await setDoc(doc(colDetails, processes.idSiproj.toString()), details);
 
       dispatch({
         type: SET_PROCESSES,
@@ -99,17 +99,17 @@ export function updateProcesses(
     const batch = writeBatch(db);
 
     const head = {
-      idEkogui: processes.idEkogui,
-      numProcesoRamaInicial: processes.numProcesoRamaInicial,
-      numProcesoRamaActual: processes.numProcesoRamaActual,
-      nombreDemandante: processes.nombreDemandante,
+      idSiproj: processes.idSiproj,
+      radRamaJudicialInicial: processes.radRamaJudicialInicial,
+      radRamaJudicialActual: processes.radRamaJudicialActual,
+      demandante: processes.demandante,
     };
     const details = { ...processes };
 
     const colProcesses = collection(db, "Processes");
     const colDetails = collection(db, "Details");
-    batch.update(doc(colProcesses, processes.idEkogui), head);
-    batch.update(doc(colDetails, processes.idEkogui), details);
+    batch.update(doc(colProcesses, processes.idSiproj.toString()), head);
+    batch.update(doc(colDetails, processes.idSiproj.toString()), details);
 
     batch.commit();
 

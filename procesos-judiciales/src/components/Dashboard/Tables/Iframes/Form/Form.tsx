@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import style from "./Form.module.css";
-import { IFrames, initIFrames } from "../../../../../interfaces/iframes";
+import {
+  ErrorIFrames,
+  IFrames,
+  initErrorIFrames,
+  initIFrames,
+} from "../../../../../interfaces/iframes";
 
 interface Props {
   handleClose: () => void;
@@ -10,6 +15,7 @@ interface Props {
 
 export default function Form({ handleClose, handleSubmit, data }: Props) {
   const [iframe, setIFrame] = useState<IFrames>(initIFrames);
+  const [error, setError] = useState<ErrorIFrames>(initErrorIFrames);
 
   useEffect(() => {
     if (data) {
@@ -19,7 +25,10 @@ export default function Form({ handleClose, handleSubmit, data }: Props) {
 
   function handlelocalSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    handleSubmit(iframe, data ? true : false);
+
+    if (validations()) {
+      handleSubmit(iframe, data ? true : false);
+    }
   }
 
   function handleChange(
@@ -30,6 +39,23 @@ export default function Form({ handleClose, handleSubmit, data }: Props) {
 
   function handleLocalClose() {
     handleClose();
+  }
+
+  function validations() {
+    let errors = initErrorIFrames;
+    let value = true;
+
+    if (iframe.name === "") {
+      errors.name = "Debes ingresar un nombre";
+      value = false;
+    }
+    if (iframe.data === "") {
+      errors.data = "Debes ingresar un iframe";
+      value = false;
+    }
+
+    setError(errors);
+    return value;
   }
 
   return (
@@ -50,6 +76,7 @@ export default function Form({ handleClose, handleSubmit, data }: Props) {
               onChange={handleChange}
             />
             <label htmlFor="name">Nombre:</label>
+            {error.name ? <small>{error.name}</small> : null}
           </div>
 
           {/* IFRAME */}
@@ -62,7 +89,9 @@ export default function Form({ handleClose, handleSubmit, data }: Props) {
               onChange={handleChange}
             />
             <label htmlFor="data">IFrame:</label>
+            {error.data ? <small>{error.data}</small> : null}
           </div>
+
           <button type="submit" className="btn btn-success">
             Agregar iframe
           </button>

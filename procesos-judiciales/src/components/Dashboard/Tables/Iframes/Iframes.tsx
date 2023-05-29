@@ -14,7 +14,7 @@ import styles from "./Iframes.module.css";
 import loadingGif from "../../../../assets/img/loading.gif";
 import errorSvg from "../../../../assets/svg/error.svg";
 import swal from "sweetalert";
-import { IFrames } from "../../../../interfaces/iframes";
+import { IFrames, initErrorIFrames } from "../../../../interfaces/iframes";
 import IFrameRenderer from "./IframeRender/IframeRender";
 
 const IFrameInput = () => {
@@ -82,7 +82,7 @@ const IFrameInput = () => {
         />
       ) : null}
       {dataView ? (
-        <IFrameRenderer iframe={dataView} handleClose={handleClose} />
+        <IFrameRenderer iframe={dataView} handleClose={handleView} />
       ) : null}
       <header>
         <h3>IFrames</h3>

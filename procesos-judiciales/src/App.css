@@ -42,3 +42,7 @@
   filter: invert(23%) sepia(98%) saturate(7468%) hue-rotate(358deg)
     brightness(109%) contrast(112%);
 }
+
+small {
+  color: red;
+}

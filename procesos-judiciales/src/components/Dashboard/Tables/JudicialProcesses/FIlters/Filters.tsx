@@ -11,11 +11,11 @@ interface Props {
 export default function Filters({ filters, handleSetFilter }: Props) {
   const [filter, setFilter] = useState(false);
   const [currentFilters, setFilters] = useState<ProcessesFilters>({
-    firma: "",
-    idEkogui: 0,
-    numProcesoRamaInicial: "",
-    numProcesoRamaActual: "",
-    nombreDemandante: "",
+    apoderadoActual: "",
+    idSiproj: 0,
+    radRamaJudicialInicial: "",
+    radRamaJudicialActual: "",
+    demandante: "",
   });
 
   function handleFilter() {
@@ -41,74 +41,74 @@ export default function Filters({ filters, handleSetFilter }: Props) {
       </button>
       {filter ? (
         <form className={style.filterContainer} onSubmit={handleSubmit}>
-          {/* FIRMA */}
+          {/* APODERADO ACTUAL */}
           <div className="form-floating">
             <select
-              id="firma"
+              id="apoderadoActual"
               className="form-control form-control-dark"
-              name="firma"
-              value={currentFilters.firma}
+              name="apoderadoActual"
+              value={currentFilters.apoderadoActual}
               onChange={handleChange}
             >
-              <option value="0">Seleccionar firma</option>
+              <option value="0">Seleccionar Apoderado</option>
             </select>
-            <label htmlFor="firma">Firma</label>
+            <label htmlFor="apoderadoActual">Apoderado actual:</label>
           </div>
 
-          {/* ID EKOGUI */}
+          {/* ID SIPROJ */}
           <div className="form-floating form-floating-dark">
             <input
-              id="idEkogui"
+              id="idSiproj"
               className="form-control form-control-dark"
-              name="idEkogui"
+              name="idSiproj"
               type="number"
-              value={currentFilters.idEkogui}
+              value={currentFilters.idSiproj}
               onChange={handleChange}
             />
-            <label htmlFor="idEkogui">ID Ekogui</label>
+            <label htmlFor="idSiproj">ID Siproj:</label>
           </div>
 
-          {/* INITIAL NUMBER */}
+          {/* RUD DE RAMA JUDICIAL INICIAL */}
           <div className="form-floating">
             <input
-              id="initialNumber"
+              id="radRamaJudicialInicial"
               className="form-control"
               type="text"
-              name="initialNumber"
-              value={currentFilters.numProcesoRamaInicial}
+              name="radRamaJudicialInicial"
+              value={currentFilters.radRamaJudicialInicial}
               onChange={handleChange}
             />
-            <label htmlFor="initialNumber">
-              Número de proceso rama judicial (INICIAL)
+            <label htmlFor="radRamaJudicialInicial">
+              Rud de proceso rama judicial (INICIAL)
             </label>
           </div>
 
-          {/* CURRENT NUMBER */}
+          {/* RUD DE RAMA JUDICIAL ACTUAL */}
           <div className="form-floating">
             <input
-              id="currentNumber"
+              id="radRamaJudicialActual"
               className="form-control"
-              name="currentNumber"
+              name="radRamaJudicialActual"
               type="text"
-              value={currentFilters.numProcesoRamaActual}
+              value={currentFilters.radRamaJudicialActual}
               onChange={handleChange}
             />
-            <label htmlFor="currentNumber">
-              Número de proceso rama judicial (ACTUAL)
+            <label htmlFor="radRamaJudicialActual">
+              Rud de proceso rama judicial (ACTUAL)
             </label>
           </div>
 
-          {/* DEMANDING */}
+          {/* DEMANDANTE */}
           <div className="form-floating">
             <input
-              id="demanding"
+              id="demandante"
               className="form-control"
-              name="demanding"
+              name="demandante"
               type="text"
-              value={currentFilters.nombreDemandante}
+              value={currentFilters.demandante}
               onChange={handleChange}
             />
-            <label htmlFor="demanding">Nombre del demandante</label>
+            <label htmlFor="demandante">Nombre del demandante</label>
           </div>
 
           <button className="btn btn-success" type="submit">

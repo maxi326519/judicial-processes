@@ -12,17 +12,16 @@ export default function JudicialProcessesRow({
   judicialProcesses,
   handleEdit,
 }: Props) {
-
   return (
     <tr className={style.row}>
-      <td>{judicialProcesses.idEkogui}</td>
-      <td>{judicialProcesses.numProcesoRamaInicial}</td>
-      <td>{judicialProcesses.numProcesoRamaActual}</td>
-      <td>{judicialProcesses.nombreDemandante}</td>
+      <td>{judicialProcesses.idSiproj}</td>
+      <td>{judicialProcesses.radRamaJudicialInicial}</td>
+      <td>{judicialProcesses.radRamaJudicialInicial}</td>
+      <td>{judicialProcesses.demandante}</td>
       <button
         className="btn btn-outline-primary"
         type="button"
-        onClick={() => handleEdit(judicialProcesses.idEkogui)}
+        onClick={() => handleEdit(judicialProcesses.idSiproj)}
       >
         <img src={editSvg} alt="edit" />
       </button>

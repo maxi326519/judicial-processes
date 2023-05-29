@@ -17,4 +17,16 @@ export const initUser = {
   email: "",
   rol: UserRol.User,
   password: "",
+};
+
+export interface ErrorUser {
+  name: string;
+  email: string;
+  password?: string;
 }
+
+export const initErrorUser: ErrorUser = {
+  name: "",
+  email: "",
+  password: "",
+};

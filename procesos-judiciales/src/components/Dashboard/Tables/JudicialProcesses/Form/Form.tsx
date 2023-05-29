@@ -1,9 +1,10 @@
 import { useDispatch } from "react-redux";
-import useJudicialProcesses from "../../../../../hooks/useJudicialProcesses";
-import style from "./Form.module.css";
 import { setProcesses } from "../../../../../redux/actions/judicialProcesses";
+import { Timestamp } from "firebase/firestore";
+import useJudicialProcesses from "../../../../../hooks/useJudicialProcesses";
 import swal from "sweetalert";
 
+import style from "./Form.module.css";
 interface Props {
   handleClose: () => void;
 }
@@ -18,7 +19,8 @@ export default function Form({ handleClose }: Props) {
       .then(() => {
         swal("Guardado", "Se guardo el proceso judicial", "success");
       })
-      .catch(() => {
+      .catch((error: any) => {
+        console.log();
         swal("Error", "No se pudo guardar el proceso judicial", "error");
       });
   }
@@ -26,10 +28,17 @@ export default function Form({ handleClose }: Props) {
   function handleChange(
     event: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>
   ) {
-    setJudicialProcesses({
-      ...judicialProcesses,
-      [event.target.name]: event.target.value,
-    });
+    if (event.target.type === "date") {
+      setJudicialProcesses({
+        ...judicialProcesses,
+        [event.target.name]: Timestamp.fromDate(new Date(event.target.value)),
+      });
+    } else {
+      setJudicialProcesses({
+        ...judicialProcesses,
+        [event.target.name]: event.target.value,
+      });
+    }
   }
 
   function handleLocalClose() {
@@ -42,112 +51,136 @@ export default function Form({ handleClose }: Props) {
         <h3>Agregar inventario</h3>
         <div className="btn-close" onClick={handleLocalClose} />
       </div>
-      <div className={style.flex}>
+      <div className={style.grid}>
+        {/* ID SIPROJ */}
         <div className="form-floating">
           <input
-            type="text"
-            id="firma"
-            name="firma"
+            id="idSiproj"
+            name="idSiproj"
             className="form-control"
-            value={judicialProcesses.firma}
+            type="text"
+            value={judicialProcesses.idSiproj}
             onChange={handleChange}
           />
-          <label htmlFor="firma" className="form-label">
-            Firma:
+          <label htmlFor="idSiproj" className="form-label">
+            ID Siproj:
           </label>
         </div>
 
+        {/* APODERADO ACTUAL */}
         <div className="form-floating">
           <input
-            type="text"
-            id="idEkogui"
-            name="idEkogui"
+            id="apoderadoActual"
+            name="apoderadoActual"
             className="form-control"
-            value={judicialProcesses.idEkogui}
+            type="text"
+            value={judicialProcesses.apoderadoActual}
             onChange={handleChange}
           />
-          <label htmlFor="idEkogui" className="form-label">
-            ID Ekogui:
+          <label htmlFor="apoderadoActual" className="form-label">
+            Apoderado Actual:
           </label>
         </div>
 
+        {/* APODERADO ANTERIOR */}
         <div className="form-floating">
           <input
+            id="apoderadoAnterior"
+            name="apoderadoAnterior"
+            className="form-control"
+            type="text"
+            value={judicialProcesses.apoderadoAnterior}
+            onChange={handleChange}
+          />
+          <label htmlFor="apoderadoAnterior" className="form-label">
+            Apoderado Anterior:
+          </label>
+        </div>
+
+        {/* PROCESO ALTO IMPACTO */}
+        <div className="form-floating">
+          <select
+            id="procesoAltoImpacto"
+            name="procesoAltoImpacto"
+            className="form-select"
+            value={judicialProcesses.procesoAltoImpacto}
+            onChange={handleChange}
+          >
+            <option value="">Seleccionar</option>
+          </select>
+          <label htmlFor="procesoAltoImpacto" className="form-label">
+            Proceso Alto Impacto:
+          </label>
+        </div>
+
+        {/* RAMA JUDICIAL INICIAL */}
+        <div className="form-floating">
+          <input
+            id="radRamaJudicialInicial"
+            name="radRamaJudicialInicial"
+            className="form-control"
+            type="text"
+            value={judicialProcesses.radRamaJudicialInicial}
+            onChange={handleChange}
+          />
+          <label htmlFor="radRamaJudicialInicial" className="form-label">
+            Rad. Rama Judicial Inicial:
+          </label>
+        </div>
+
+        {/* RAMA JUDICIAL ACTUAL */}
+        <div className="form-floating">
+          <input
+            id="radRamaJudicialActual"
+            name="radRamaJudicialActual"
+            className="form-control"
+            type="text"
+            value={judicialProcesses.radRamaJudicialActual}
+            onChange={handleChange}
+          />
+          <label htmlFor="radRamaJudicialActual" className="form-label">
+            Rad. Rama Judicial Actual:
+          </label>
+        </div>
+
+        {/* TIPO DE PROCESO: */}
+        <div className="form-floating">
+          <select
+            id="tipoProceso"
+            name="tipoProceso"
+            className="form-select"
+            value={judicialProcesses.tipoProceso}
+            onChange={handleChange}
+          >
+            <option value="">Seleccionar</option>
+          </select>
+          <label htmlFor="tipoProceso" className="form-label">
+            Tipo de proceso:
+          </label>
+        </div>
+
+        {/* DIAS TERMINOS DE CONTESTACION */}
+        <div className="form-floating">
+          <input
+            id="diasTerminoContestacion"
+            name="diasTerminoContestacion"
+            className="form-control"
             type="number"
-            id="numberSGD"
-            name="numberSGD"
-            className="form-control"
-            value={judicialProcesses.numberSGD}
+            value={judicialProcesses.diasTerminoContestacion}
             onChange={handleChange}
           />
-          <label htmlFor="numberSGD" className="form-label">
-            Number SGD:
+          <label htmlFor="diasTerminoContestacion" className="form-label">
+            Días términos de contestación:
           </label>
         </div>
 
+        {/* FECHA DE NOTIFICACION DE LA DEMANDA */}
         <div className="form-floating">
           <input
-            type="date"
-            id="fechaRegistro"
-            name="fechaRegistro"
-            className="form-control"
-            value={
-              judicialProcesses.fechaRegistro
-                .toDate()
-                .toISOString()
-                .split("T")[0]
-            }
-            onChange={handleChange}
-          />
-          <label htmlFor="fechaRegistro" className="form-label">
-            fechaRegistro:
-          </label>
-        </div>
-
-        <div className="form-floating">
-          <input
-            type="date"
-            id="fechaOtorgamiento"
-            name="fechaOtorgamiento"
-            className="form-control"
-            value={
-              judicialProcesses.fechaOtorgamiento
-                .toDate()
-                .toISOString()
-                .split("T")[0]
-            }
-            onChange={handleChange}
-          />
-          <label htmlFor="fechaOtorgamiento" className="form-label">
-            fechaOtorgamiento:
-          </label>
-        </div>
-
-        <div className="form-floating">
-          <input
-            type="date"
-            id="fechaAdmision"
-            name="fechaAdmision"
-            className="form-control"
-            value={
-              judicialProcesses.fechaAdmision
-                .toDate()
-                .toISOString()
-                .split("T")[0]
-            }
-            onChange={handleChange}
-          />
-          <label htmlFor="fechaAdmision" className="form-label">
-            fechaAdmision:
-          </label>
-        </div>
-
-        <div className="form-floating">
-          <input
-            type="date"
             id="fechaNotificacion"
             name="fechaNotificacion"
             className="form-control"
+            type="date"
             value={
               judicialProcesses.fechaNotificacion
                 .toDate()
@@ -157,44 +190,17 @@ export default function Form({ handleClose }: Props) {
             onChange={handleChange}
           />
           <label htmlFor="fechaNotificacion" className="form-label">
-            fechaNotificacion:
+            Fecha de notificación de la demanda:
           </label>
         </div>
 
+        {/* FECHA DE CONTESTACION DE LA DEMANDA */}
         <div className="form-floating">
           <input
-            type="string"
-            id="jurisdiccionAccion"
-            name="jurisdiccionAccion"
-            className="form-control"
-            value={judicialProcesses.jurisdiccionAccion}
-            onChange={handleChange}
-          />
-          <label htmlFor="jurisdiccionAccion" className="form-label">
-            jurisdiccionAccion:
-          </label>
-        </div>
-
-        <div className="form-floating">
-          <input
-            type="text"
-            id="diasTerminosContestacion"
-            name="diasTerminosContestacion"
-            className="form-control"
-            value={judicialProcesses.diasTerminosContestacion}
-            onChange={handleChange}
-          />
-          <label htmlFor="diasTerminosContestacion" className="form-label">
-            diasTerminosContestacion:
-          </label>
-        </div>
-
-        <div className="form-floating">
-          <input
-            type="date"
             id="fechaContestacion"
             name="fechaContestacion"
             className="form-control"
+            type="date"
             value={
               judicialProcesses.fechaContestacion
                 .toDate()
@@ -204,973 +210,479 @@ export default function Form({ handleClose }: Props) {
             onChange={handleChange}
           />
           <label htmlFor="fechaContestacion" className="form-label">
-            fechaContestacion:
+            Fecha de contestación de la demanda:
           </label>
         </div>
 
+        {/* FECHA LIMITE PROBABLE DE CONTESTACION */}
         <div className="form-floating">
           <input
-            type="number"
-            id="limiteProbable"
-            name="limiteProbable"
+            id="fechaLimiteProbContestacion"
+            name="fechaLimiteProbContestacion"
             className="form-control"
-            value={judicialProcesses.limiteProbable}
+            type="date"
+            value={
+              judicialProcesses.fechaLimiteProbContestacion
+                .toDate()
+                .toISOString()
+                .split("T")[0]
+            }
             onChange={handleChange}
           />
-          <label htmlFor="limiteProbable" className="form-label">
-            limiteProbable:
+          <label htmlFor="fechaLimiteProbContestacion" className="form-label">
+            Fecha límite de la contestación:
           </label>
         </div>
 
+        {/* VALIDACION DE CONTESTACION */}
         <div className="form-floating">
           <input
-            type="text"
             id="validacionContestacion"
             name="validacionContestacion"
             className="form-control"
+            type="text"
             value={judicialProcesses.validacionContestacion}
             onChange={handleChange}
           />
           <label htmlFor="validacionContestacion" className="form-label">
-            validacionContestacion:
+            Validación de la contestación:
           </label>
         </div>
 
-        <div className="form-floating">
-          <input
-            type="text"
-            id="documentoDemandante"
-            name="documentoDemandante"
-            className="form-control"
-            value={judicialProcesses.documentoDemandante}
-            onChange={handleChange}
-          />
-          <label htmlFor="documentoDemandante" className="form-label">
-            Otros Demandantes Nombres:
-          </label>
-        </div>
-
-        <div className="form-floating">
-          <input
-            type="text"
-            id="nombreDemandante"
-            name="nombreDemandante"
-            className="form-control"
-            value={judicialProcesses.nombreDemandante}
-            onChange={handleChange}
-          />
-          <label htmlFor="nombreDemandante" className="form-label">
-            Nombre Demandante:
-          </label>
-        </div>
-
-        <div className="form-floating">
-          <input
-            type="text"
-            id="otrosDemandantesDocumentos"
-            name="otrosDemandantesDocumentos"
-            className="form-control"
-            value={judicialProcesses.otrosDemandantesDocumentos}
-            onChange={handleChange}
-          />
-          <label htmlFor="otrosDemandantesDocumentos" className="form-label">
-            Otros Demandantes Documentos:
-          </label>
-        </div>
-
-        <div className="form-floating">
-          <input
-            type="text"
-            id="otrosDemandantesNombres"
-            name="otrosDemandantesNombres"
-            className="form-control"
-            value={judicialProcesses.otrosDemandantesNombres}
-            onChange={handleChange}
-          />
-          <label htmlFor="otrosDemandantesNombres" className="form-label">
-            Otros Demandantes Nombres:
-          </label>
-        </div>
-
-        <div className="form-floating">
-          <input
-            type="text"
-            id="demandadoDocumento"
-            name="demandadoDocumento"
-            className="form-control"
-            value={judicialProcesses.demandadoDocumento}
-            onChange={handleChange}
-          />
-          <label htmlFor="demandadoDocumento" className="form-label">
-            Demandado Documento:
-          </label>
-        </div>
-
-        <div className="form-floating">
-          <input
-            type="text"
-            id="demandadoNombre"
-            name="demandadoNombre"
-            className="form-control"
-            value={judicialProcesses.demandadoNombre}
-            onChange={handleChange}
-          />
-          <label htmlFor="demandadoNombre" className="form-label">
-            Demandado Nombre:
-          </label>
-        </div>
-
+        {/* CALIDAD EN LA QUE ATÚA LA ENTIDAD */}
         <div className="form-floating">
           <select
-            id="calidadActuacion"
-            name="calidadActuacion"
+            id="calidadActuacionEntidad"
+            name="calidadActuacionEntidad"
             className="form-select"
-            value={judicialProcesses.calidadActuacion}
+            value={judicialProcesses.calidadActuacionEntidad}
             onChange={handleChange}
           >
-            <option value="">Seleccionar</option>
-            <option value="opcion1">Opción 1</option>
+            <option value="calidadActuacionEntidad">Seleccionar</option>
           </select>
-          <label htmlFor="calidadActuacion" className="form-label">
-            Calidad Actuación:
+          <label htmlFor="calidadActuacionEntidad" className="form-label">
+            Calidad en al que actúa la entidad:
           </label>
         </div>
 
+        {/* DEMANDADOS */}
         <div className="form-floating">
           <input
-            type="number"
-            id="numeroRadicacion"
-            name="numeroRadicacion"
+            id="demandados"
+            name="demandados"
             className="form-control"
-            value={judicialProcesses.numeroRadicacion}
+            type="text"
+            value={judicialProcesses.demandados}
             onChange={handleChange}
           />
-          <label htmlFor="numeroRadicacion" className="form-label">
-            Número de Radicación:
+          <label htmlFor="demandados" className="form-label">
+            Demandados:
           </label>
         </div>
 
-        <div className="form-floating">
-          <select
-            id="departamentoDespachoInicial"
-            name="departamentoDespachoInicial"
-            className="form-select"
-            value={judicialProcesses.departamentoDespachoInicial}
-            onChange={handleChange}
-          >
-            <option value="">Seleccionar</option>
-            <option value="opcion1">Opción 1</option>
-          </select>
-          <label htmlFor="departamentoDespachoInicial" className="form-label">
-            Departamento Despacho Inicial:
-          </label>
-        </div>
-
-        <div className="form-floating">
-          <select
-            id="departamentoDespachoActual"
-            name="departamentoDespachoActual"
-            className="form-select"
-            value={judicialProcesses.departamentoDespachoActual}
-            onChange={handleChange}
-          >
-            <option value="">Seleccionar</option>
-            <option value="opcion1">Opción 1</option>
-          </select>
-          <label htmlFor="departamentoDespachoActual" className="form-label">
-            Departamento Despacho Actual:
-          </label>
-        </div>
-
-        <div className="form-floating">
-          <select
-            id="ciudadDespachoActual"
-            name="ciudadDespachoActual"
-            className="form-select"
-            value={judicialProcesses.ciudadDespachoActual}
-            onChange={handleChange}
-          >
-            <option value="">Seleccionar</option>
-            <option value="opcion1">Opción 1</option>
-          </select>
-          <label htmlFor="ciudadDespachoActual" className="form-label">
-            Ciudad Despacho Actual:
-          </label>
-        </div>
-
+        {/* ID DEL DEMANDANTE */}
         <div className="form-floating">
           <input
+            id="idDemanante"
+            name="idDemanante"
+            className="form-control"
             type="text"
+            value={judicialProcesses.idDemanante}
+            onChange={handleChange}
+          />
+          <label htmlFor="idDemanante" className="form-label">
+            ID del demandante:
+          </label>
+        </div>
+
+        {/* DEMANDANTE */}
+        <div className="form-floating">
+          <input
+            id="demandante"
+            name="demandante"
+            className="form-control"
+            type="text"
+            value={judicialProcesses.demandante}
+            onChange={handleChange}
+          />
+          <label htmlFor="demandante" className="form-label">
+            Demandante:
+          </label>
+        </div>
+
+        {/* DESPACHO INICIAL */}
+        <div className="form-floating">
+          <input
+            id="despachoInicial"
+            name="despachoInicial"
+            className="form-control"
+            type="text"
+            value={judicialProcesses.despachoInicial}
+            onChange={handleChange}
+          />
+          <label htmlFor="despachoInicial" className="form-label">
+            Despacho inicial:
+          </label>
+        </div>
+
+        {/* DESPACHO ACTUAL */}
+        <div className="form-floating">
+          <input
             id="despachoActual"
             name="despachoActual"
             className="form-control"
+            type="text"
             value={judicialProcesses.despachoActual}
             onChange={handleChange}
           />
           <label htmlFor="despachoActual" className="form-label">
-            Despacho Actual:
+            Despacho actual:
           </label>
         </div>
 
+        {/* POSICION SDP */}
         <div className="form-floating">
           <input
-            type="number"
-            id="numProcesoRamaInicial"
-            name="numProcesoRamaInicial"
+            id="posicionSDP"
+            name="posicionSDP"
             className="form-control"
-            value={judicialProcesses.numProcesoRamaInicial}
-            onChange={handleChange}
-          />
-          <label htmlFor="numProcesoRamaInicial" className="form-label">
-            Número de Proceso Rama Inicial:
-          </label>
-        </div>
-
-        <div className="form-floating">
-          <input
-            type="number"
-            id="codigoCiudadUno"
-            name="codigoCiudadUno"
-            className="form-control"
-            value={judicialProcesses.codigoCiudadUno}
-            onChange={handleChange}
-          />
-          <label htmlFor="codigoCiudadUno" className="form-label">
-            Código de Ciudad Uno:
-          </label>
-        </div>
-
-        <div className="form-floating">
-          <input
             type="text"
-            id="ciudadRelacionadaUno"
-            name="ciudadRelacionadaUno"
-            className="form-control"
-            value={judicialProcesses.ciudadRelacionadaUno}
+            value={judicialProcesses.posicionSDP}
             onChange={handleChange}
           />
-          <label htmlFor="ciudadRelacionadaUno" className="form-label">
-            Ciudad Relacionada Uno:
+          <label htmlFor="posicionSDP" className="form-label">
+            Posicion SDP:
           </label>
         </div>
 
+        {/* TEMA GENERAL */}
         <div className="form-floating">
           <input
-            type="number"
-            id="numProcesoRamaActual"
-            name="numProcesoRamaActual"
+            id="temaGeneral"
+            name="temaGeneral"
             className="form-control"
-            value={judicialProcesses.numProcesoRamaActual}
-            onChange={handleChange}
-          />
-          <label htmlFor="numProcesoRamaActual" className="form-label">
-            Número de Proceso Rama Actual:
-          </label>
-        </div>
-
-        <div className="form-floating">
-          <input
-            type="number"
-            id="codigoCiudadDos"
-            name="codigoCiudadDos"
-            className="form-control"
-            value={judicialProcesses.codigoCiudadDos}
-            onChange={handleChange}
-          />
-          <label htmlFor="codigoCiudadDos" className="form-label">
-            Código de Ciudad Dos:
-          </label>
-        </div>
-
-        <div className="form-floating">
-          <input
             type="text"
-            id="ciudadRelacionadaDos"
-            name="ciudadRelacionadaDos"
-            className="form-control"
-            value={judicialProcesses.ciudadRelacionadaDos}
+            value={judicialProcesses.temaGeneral}
             onChange={handleChange}
           />
-          <label htmlFor="ciudadRelacionadaDos" className="form-label">
-            Ciudad Relacionada Dos:
+          <label htmlFor="temaGeneral" className="form-label">
+            Tema general:
           </label>
         </div>
 
+        {/* PRETENSION ASUNTO */}
         <div className="form-floating">
           <input
+            id="pretensionAsunto"
+            name="pretensionAsunto"
+            className="form-control"
             type="text"
-            id="pretension"
-            name="pretension"
-            className="form-control"
-            value={judicialProcesses.pretension}
+            value={judicialProcesses.pretensionAsunto}
             onChange={handleChange}
           />
-          <label htmlFor="pretension" className="form-label">
-            Pretensión:
+          <label htmlFor="pretensionAsunto" className="form-label">
+            Pretension asunto:
           </label>
         </div>
 
-        <div className="form-floating">
-          <select
-            id="fichaRealizada"
-            name="fichaRealizada"
-            className="form-select"
-            value={judicialProcesses.fichaRealizada}
-            onChange={handleChange}
-          >
-            <option value="">Seleccionar</option>
-            <option value="opcion1">Opción 1</option>
-          </select>
-          <label htmlFor="fichaRealizada" className="form-label">
-            Ficha Realizada:
-          </label>
-        </div>
-
-        <div className="form-floating">
-          <select
-            id="fichaIrregulares"
-            name="fichaIrregulares"
-            className="form-select"
-            value={judicialProcesses.fichaIrregulares}
-            onChange={handleChange}
-          >
-            <option value="">Seleccionar</option>
-            <option value="opcion1">Opción 1</option>
-          </select>
-          <label htmlFor="fichaIrregulares" className="form-label">
-            Ficha Irregulares:
-          </label>
-        </div>
-
+        {/* CUANTIA ESTIMADA */}
         <div className="form-floating">
           <input
-            type="number"
-            id="tiempoEstimadoMeses"
-            name="tiempoEstimadoMeses"
-            className="form-control"
-            value={judicialProcesses.tiempoEstimadoMeses}
-            onChange={handleChange}
-          />
-          <label htmlFor="tiempoEstimadoMeses" className="form-label">
-            Tiempo Estimado en Meses:
-          </label>
-        </div>
-
-        <div className="form-floating">
-          <input
-            type="number"
-            id="tiempoEstimadoAnios"
-            name="tiempoEstimadoAnios"
-            className="form-control"
-            value={judicialProcesses.tiempoEstimadoAnios}
-            onChange={handleChange}
-          />
-          <label htmlFor="tiempoEstimadoAnios" className="form-label">
-            Tiempo Estimado en Años:
-          </label>
-        </div>
-
-        <div className="form-floating">
-          <input
-            type="number"
-            id="porcentajeAjuste"
-            name="porcentajeAjuste"
-            className="form-control"
-            value={judicialProcesses.porcentajeAjuste}
-            onChange={handleChange}
-          />
-          <label htmlFor="porcentajeAjuste" className="form-label">
-            Porcentaje de Ajuste:
-          </label>
-        </div>
-
-        <div className="form-floating">
-          <input
-            type="text"
-            id="fechaCalificacion"
-            name="fechaCalificacion"
-            className="form-control"
-            value={
-              judicialProcesses.fechaCalificacion
-                .toDate()
-                .toISOString()
-                .split("T")[0]
-            }
-            onChange={handleChange}
-          />
-          <label htmlFor="fechaCalificacion" className="form-label">
-            Fecha de Calificación:
-          </label>
-        </div>
-
-        <div className="form-floating">
-          <select
-            id="calificacionRiesgoProcesal-fortalezaDefenza"
-            name="calificacionRiesgoProcesal.fortalezaDefenza"
-            className="form-select"
-            value={
-              judicialProcesses.calificacionRiesgoProcesal.fortalezaDefenza
-            }
-            onChange={handleChange}
-          >
-            <option value="">Seleccionar</option>
-            <option value="opcion1">Opción 1</option>
-          </select>
-          <label
-            htmlFor="calificacionRiesgoProcesal-fortalezaDefenza"
-            className="form-label"
-          >
-            Fortaleza Defensa:
-          </label>
-        </div>
-
-        <div className="form-floating">
-          <select
-            id="calificacionRiesgoProcesal-fortalezaProbatoria"
-            name="calificacionRiesgoProcesal.fortalezaProbatoria"
-            className="form-select"
-            value={
-              judicialProcesses.calificacionRiesgoProcesal.fortalezaProbatoria
-            }
-            onChange={handleChange}
-          >
-            <option value="">Seleccionar</option>
-            <option value="opcion1">Opción 1</option>
-          </select>
-          <label
-            htmlFor="calificacionRiesgoProcesal-fortalezaProbatoria"
-            className="form-label"
-          >
-            Fortaleza Probatoria:
-          </label>
-        </div>
-
-        <div className="form-floating">
-          <select
-            id="calificacionRiesgoProcesal-RiesgosProcesales"
-            name="calificacionRiesgoProcesal.RiesgosProcesales"
-            className="form-select"
-            value={
-              judicialProcesses.calificacionRiesgoProcesal.RiesgosProcesales
-            }
-            onChange={handleChange}
-          >
-            <option value="">Seleccionar</option>
-            <option value="opcion1">Opción 1</option>
-          </select>
-          <label
-            htmlFor="calificacionRiesgoProcesal-RiesgosProcesales"
-            className="form-label"
-          >
-            Riesgos Procesales:
-          </label>
-        </div>
-
-        <div className="form-floating">
-          <select
-            id="calificacionRiesgoProcesal-nivelJurisprudencia"
-            name="calificacionRiesgoProcesal.nivelJurisprudencia"
-            className="form-select"
-            value={
-              judicialProcesses.calificacionRiesgoProcesal.nivelJurisprudencia
-            }
-            onChange={handleChange}
-          >
-            <option value="">Seleccionar</option>
-            <option value="opcion1">Opción 1</option>
-          </select>
-          <label
-            htmlFor="calificacionRiesgoProcesal-nivelJurisprudencia"
-            className="form-label"
-          >
-            Nivel Jurisprudencia:
-          </label>
-        </div>
-
-        <div className="form-floating">
-          <select
-            id="tipoValia"
-            name="tipoValia"
-            className="form-select"
-            value={judicialProcesses.tipoValia}
-            onChange={handleChange}
-          >
-            <option value="">Seleccionar</option>
-            <option value="opcion1">Opción 1</option>
-          </select>
-          <label htmlFor="tipoValia" className="form-label">
-            Tipo Valia:
-          </label>
-        </div>
-
-        <div className="form-floating">
-          <input
-            type="number"
             id="cuantiaEstimada"
             name="cuantiaEstimada"
             className="form-control"
+            type="text"
             value={judicialProcesses.cuantiaEstimada}
             onChange={handleChange}
           />
           <label htmlFor="cuantiaEstimada" className="form-label">
-            Cuantía Estimada:
+            Cuantia estimada:
           </label>
         </div>
 
+        {/* VALOR DE LAS PRETENSIONES EN SMLVM */}
         <div className="form-floating">
           <input
-            type="text"
-            id="valorPredSMLVM"
-            name="valorPredSMLVM"
+            id="valorPretensionesSMLVM"
+            name="valorPretensionesSMLVM"
             className="form-control"
-            value={judicialProcesses.valorPredSMLVM}
+            type="number"
+            value={judicialProcesses.valorPretensionesSMLVM}
             onChange={handleChange}
           />
-          <label htmlFor="valorPredSMLVM" className="form-label">
-            Valor PredSMLVM:
+          <label htmlFor="valorPretensionesSMLVM" className="form-label">
+            Valor de las pretesiones en SMLVM:
           </label>
         </div>
 
+        {/* INSTANCIA DEL PROCESO */}
         <div className="form-floating">
           <select
-            id="actFichasComiteConciliacion"
-            name="actFichasComiteConciliacion"
+            id="instanciaProceso"
+            name="instanciaProceso"
             className="form-select"
-            value={judicialProcesses.actFichasComiteConciliacion.toString()}
+            value={judicialProcesses.instanciaProceso}
             onChange={handleChange}
           >
             <option value="">Seleccionar</option>
-            <option value="true">Sí</option>
-            <option value="false">No</option>
           </select>
-          <label htmlFor="actFichasComiteConciliacion" className="form-label">
-            Act Fichas Comite Conciliacion:
+          <label htmlFor="instanciaProceso" className="form-label">
+            Instancia del proceso:
           </label>
         </div>
 
-        <div className="form-floating">
-          <select
-            id="expedienteDIgitalMEN"
-            name="expedienteDIgitalMEN"
-            className="form-select"
-            value={judicialProcesses.expedienteDIgitalMEN.toString()}
-            onChange={handleChange}
-          >
-            <option value="">Seleccionar</option>
-            <option value="true">Sí</option>
-            <option value="false">No</option>
-          </select>
-          <label htmlFor="expedienteDIgitalMEN" className="form-label">
-            Expediente Digital MEN:
-          </label>
-        </div>
-
-        <div className="form-floating">
-          <select
-            id="envioDocumento"
-            name="envioDocumento"
-            className="form-select"
-            value={judicialProcesses.envioDocumento.toString()}
-            onChange={handleChange}
-          >
-            <option value="">Seleccionar</option>
-            <option value="true">Sí</option>
-            <option value="false">No</option>
-          </select>
-          <label htmlFor="envioDocumento" className="form-label">
-            Envío Documento:
-          </label>
-        </div>
-
-        <div className="form-floating">
-          <select
-            id="estatoProcesoDespacho"
-            name="estatoProcesoDespacho"
-            className="form-select"
-            value={judicialProcesses.estatoProcesoDespacho}
-            onChange={handleChange}
-          >
-            <option value="">Seleccionar</option>
-            <option value="opcion1">Opción 1</option>
-          </select>
-          <label htmlFor="estatoProcesoDespacho" className="form-label">
-            Estado Proceso Despacho:
-          </label>
-        </div>
-
+        {/* FECHA DEL PROCESO */}
         <div className="form-floating">
           <input
-            type="text"
-            id="detSituacionProcesal"
-            name="detSituacionProcesal"
+            id="fechaProceso"
+            name="fechaProceso"
             className="form-control"
-            value={judicialProcesses.detSituacionProcesal}
-            onChange={handleChange}
-          />
-          <label htmlFor="detSituacionProcesal" className="form-label">
-            Detalle Situación Procesal:
-          </label>
-        </div>
-
-        <div className="form-floating">
-          <input
             type="date"
-            id="fechaUltimaSituacion"
-            name="fechaUltimaSituacion"
-            className="form-control"
             value={
-              judicialProcesses.fechaUltimaSituacion
+              judicialProcesses.fechaProceso
                 .toDate()
                 .toISOString()
                 .split("T")[0]
             }
             onChange={handleChange}
           />
-          <label htmlFor="fechaUltimaSituacion" className="form-label">
-            Fecha Última Situación:
+          <label htmlFor="fechaProceso" className="form-label">
+            Fecha del proceso:
           </label>
         </div>
 
+        {/* ULTIMO ESTADO DEL PROCESO */}
+        <div className="form-floating">
+          <input
+            id="ultimoEstadoProceso"
+            name="ultimoEstadoProceso"
+            className="form-control"
+            type="text"
+            value={judicialProcesses.ultimoEstadoProceso}
+            onChange={handleChange}
+          />
+          <label htmlFor="ultimoEstadoProceso" className="form-label">
+            último estado del proceso:
+          </label>
+        </div>
+
+        {/* ETAPA PROCESAL */}
         <div className="form-floating">
           <select
-            id="instanciaActual"
-            name="instanciaActual"
+            id="etapaProcesal"
+            name="etapaProcesal"
             className="form-select"
-            value={judicialProcesses.instanciaActual}
+            value={judicialProcesses.etapaProcesal}
             onChange={handleChange}
           >
             <option value="">Seleccionar</option>
-            <option value="opcion1">Opción 1</option>
           </select>
-          <label htmlFor="instanciaActual" className="form-label">
-            Instancia Actual:
+          <label htmlFor="etapaProcesal" className="form-label">
+            Etapa procesal:
           </label>
         </div>
 
+        {/* FECHA DE FALLO DE PRIMERA INSTANCIA */}
         <div className="form-floating">
           <input
-            type="date"
-            id="fechaFalloPrimeraInst"
-            name="fechaFalloPrimeraInst"
+            id="fechaFalloPrimeraInstancia"
+            name="fechaFalloPrimeraInstancia"
             className="form-control"
+            type="date"
             value={
-              judicialProcesses.fechaFalloPrimeraInst
+              judicialProcesses.fechaFalloPrimeraInstancia
                 .toDate()
                 .toISOString()
                 .split("T")[0]
             }
             onChange={handleChange}
           />
-          <label htmlFor="fechaFalloPrimeraInst" className="form-label">
-            Fecha Fallo Primera Instancia:
+          <label htmlFor="fechaFalloPrimeraInstancia" className="form-label">
+            Fecha de fallo de primera instancia:
           </label>
         </div>
 
+        {/* SENTIDO DEL FALLO PRIMERA INSTANCIA */}
         <div className="form-floating">
           <select
-            id="sentidoFalloPrimeraInst"
-            name="sentidoFalloPrimeraInst"
+            id="sentidoFalloPrimeraInstancia"
+            name="sentidoFalloPrimeraInstancia"
             className="form-select"
-            value={judicialProcesses.sentidoFalloPrimeraInst}
+            value={judicialProcesses.sentidoFalloPrimeraInstancia}
             onChange={handleChange}
           >
             <option value="">Seleccionar</option>
-            <option value="opcion1">Opción 1</option>
           </select>
-          <label htmlFor="sentidoFalloPrimeraInst" className="form-label">
-            Sentido Fallo Primera Instancia:
+          <label htmlFor="sentidoFalloPrimeraInstancia" className="form-label">
+            Sentido del fallo primera instancia:
           </label>
         </div>
 
+        {/* RESUMEN PRIMERA INSTANCIA */}
         <div className="form-floating">
           <input
-            type="number"
-            id="valorCondenaPrimeraInst"
-            name="valorCondenaPrimeraInst"
+            id="resumenPrimeraInstancia"
+            name="resumenPrimeraInstancia"
             className="form-control"
-            value={judicialProcesses.valorCondenaPrimeraInst}
-            onChange={handleChange}
-          />
-          <label htmlFor="valorCondenaPrimeraInst" className="form-label">
-            Valor Condena Primera Instancia:
-          </label>
-        </div>
-
-        <div className="form-floating">
-          <input
             type="text"
-            id="valorCondenaObservaciones"
-            name="valorCondenaObservaciones"
-            className="form-control"
-            value={judicialProcesses.valorCondenaObservaciones}
+            value={judicialProcesses.resumenPrimeraInstancia}
             onChange={handleChange}
           />
-          <label htmlFor="valorCondenaObservaciones" className="form-label">
-            Observaciones Valor Condena:
+          <label htmlFor="resumenPrimeraInstancia" className="form-label">
+            Resumen primera instancia:
           </label>
         </div>
 
-        <div className="form-floating">
-          <select
-            id="recursoExtraordinario"
-            name="recursoExtraordinario"
-            className="form-select"
-            value={judicialProcesses.recursoExtraordinario}
-            onChange={handleChange}
-          >
-            <option value="">Seleccionar</option>
-            <option value="opcion1">Opción 1</option>
-          </select>
-          <label htmlFor="recursoExtraordinario" className="form-label">
-            Recurso Extraordinario:
-          </label>
-        </div>
-
-        <div className="form-floating">
-          <select
-            id="llamamientoGarantia"
-            name="llamamientoGarantia"
-            className="form-select"
-            value={judicialProcesses.llamamientoGarantia}
-            onChange={handleChange}
-          >
-            <option value="">Seleccionar</option>
-            <option value="opcion1">Opción 1</option>
-          </select>
-          <label htmlFor="llamamientoGarantia" className="form-label">
-            Llamamiento a Garantía:
-          </label>
-        </div>
-
-        <div className="form-floating">
-          <select
-            id="providenciasExcepcionesPrev"
-            name="providenciasExcepcionesPrev"
-            className="form-select"
-            value={judicialProcesses.providenciasExcepcionesPrev}
-            onChange={handleChange}
-          >
-            <option value="">Seleccionar</option>
-            <option value="opcion1">Opción 1</option>
-          </select>
-          <label htmlFor="providenciasExcepcionesPrev" className="form-label">
-            Providencias Excepciones Previas:
-          </label>
-        </div>
-
-        <div className="form-floating">
-          <select
-            id="providenciasPretDemanda"
-            name="providenciasPretDemanda"
-            className="form-select"
-            value={judicialProcesses.providenciasPretDemanda}
-            onChange={handleChange}
-          >
-            <option value="">Seleccionar</option>
-            <option value="opcion1">Opción 1</option>
-          </select>
-          <label htmlFor="providenciasPretDemanda" className="form-label">
-            Providencias Pretensión Demanda:
-          </label>
-        </div>
-
+        {/* FECHA DE PRESENTACION DE RECURSOS */}
         <div className="form-floating">
           <input
-            type="date"
-            id="fechaEjecutoria"
-            name="fechaEjecutoria"
+            id="fechaPresentacionRecurso"
+            name="fechaPresentacionRecurso"
             className="form-control"
+            type="date"
             value={
-              judicialProcesses.fechaEjecutoria
+              judicialProcesses.fechaPresentacionRecurso
                 .toDate()
                 .toISOString()
                 .split("T")[0]
             }
             onChange={handleChange}
           />
-          <label htmlFor="fechaEjecutoria" className="form-label">
-            Fecha Ejecutoria:
+          <label htmlFor="fechaPresentacionRecurso" className="form-label">
+            Fecha de presentacion de recursos:
           </label>
         </div>
 
-        <div className="form-floating">
-          <select
-            id="terminacionAnormal"
-            name="terminacionAnormal"
-            className="form-select"
-            value={judicialProcesses.terminacionAnormal}
-            onChange={handleChange}
-          >
-            <option value="">Seleccionar</option>
-            <option value="opcion1">Opción 1</option>
-          </select>
-          <label htmlFor="terminacionAnormal" className="form-label">
-            Terminación Anormal:
-          </label>
-        </div>
-
+        {/* FECHA FALLO DE SEGUNDA INSTANCIA */}
         <div className="form-floating">
           <input
-            type="number"
-            id="valorAcuerdo"
-            name="valorAcuerdo"
+            id="fechaFalloSegundaInstancia"
+            name="fechaFalloSegundaInstancia"
             className="form-control"
-            value={judicialProcesses.valorAcuerdo}
+            type="date"
+            value={
+              judicialProcesses.fechaFalloSegundaInstancia
+                .toDate()
+                .toISOString()
+                .split("T")[0]
+            }
             onChange={handleChange}
           />
-          <label htmlFor="valorAcuerdo" className="form-label">
-            Valor Acuerdo:
+          <label htmlFor="fechaFalloSegundaInstancia" className="form-label">
+            Fecha fallo de segunda instancia:
           </label>
         </div>
 
+        {/* SENTIDO DE FALLO DE SEGUNDA INSTANCIA */}
         <div className="form-floating">
           <select
-            id="providenciasPretensiones"
-            name="providenciasPretensiones"
+            id="sentidoFalloSegundaInstancia"
+            name="sentidoFalloSegundaInstancia"
             className="form-select"
-            value={judicialProcesses.providenciasPretensiones}
+            value={judicialProcesses.sentidoFalloSegundaInstancia}
             onChange={handleChange}
           >
             <option value="">Seleccionar</option>
-            <option value="opcion1">Opción 1</option>
           </select>
-          <label htmlFor="providenciasPretensiones" className="form-label">
-            Providencias Pretensiones:
+          <label htmlFor="sentidoFalloSegundaInstancia" className="form-label">
+            Sentido de fallo de segunda instancia:
           </label>
         </div>
 
-        <div className="form-floating">
-          <select
-            id="ejercerDefProvReferidas"
-            name="ejercerDefProvReferidas"
-            className="form-select"
-            value={judicialProcesses.ejercerDefProvReferidas}
-            onChange={handleChange}
-          >
-            <option value="">Seleccionar</option>
-            <option value="opcion1">Opción 1</option>
-          </select>
-          <label htmlFor="ejercerDefProvReferidas" className="form-label">
-            Ejercer Defensa en Providencias Referidas:
-          </label>
-        </div>
-
-        <div className="form-floating">
-          <select
-            id="soportesDocumentales"
-            name="soportesDocumentales"
-            className="form-select"
-            value={judicialProcesses.soportesDocumentales}
-            onChange={handleChange}
-          >
-            <option value="">Seleccionar</option>
-            <option value="opcion1">Opción 1</option>
-          </select>
-          <label htmlFor="soportesDocumentales" className="form-label">
-            Soportes Documentales:
-          </label>
-        </div>
-
+        {/* RESUMEN SEGUNDA INSTANCIA */}
         <div className="form-floating">
           <input
-            type="number"
-            id="apoderadoNumId"
-            name="apoderadoNumId"
+            id="resumenSegundaInstanciaL"
+            name="resumenSegundaInstanciaL"
             className="form-control"
-            value={judicialProcesses.apoderadoNumId}
-            onChange={handleChange}
-          />
-          <label htmlFor="apoderadoNumId" className="form-label">
-            Número de Identificación del Apoderado:
-          </label>
-        </div>
-
-        <div className="form-floating">
-          <input
             type="text"
-            id="nombreApoderado"
-            name="nombreApoderado"
-            className="form-control"
-            value={judicialProcesses.nombreApoderado}
+            value={judicialProcesses.resumenSegundaInstanciaL}
             onChange={handleChange}
           />
-          <label htmlFor="nombreApoderado" className="form-label">
-            Nombre del Apoderado:
+          <label htmlFor="resumenSegundaInstanciaL" className="form-label">
+            Resumen segunda instancia:
           </label>
         </div>
 
-        <div className="form-floating">
-          <input
-            type="text"
-            id="numTarjetaProfApoderado"
-            name="numTarjetaProfApoderado"
-            className="form-control"
-            value={judicialProcesses.numTarjetaProfApoderado}
-            onChange={handleChange}
-          />
-          <label htmlFor="numTarjetaProfApoderado" className="form-label">
-            Número de Tarjeta Profesional del Apoderado:
-          </label>
-        </div>
-
-        <div className="form-floating">
-          <input
-            type="text"
-            id="nombreAproderadoContraparte"
-            name="nombreAproderadoContraparte"
-            className="form-control"
-            value={judicialProcesses.nombreAproderadoContraparte}
-            onChange={handleChange}
-          />
-          <label htmlFor="nombreAproderadoContraparte" className="form-label">
-            Nombre del Apoderado de la Contraparte:
-          </label>
-        </div>
-
-        <div className="form-floating">
-          <input
-            type="email"
-            id="emailApoderadoContraparte"
-            name="emailApoderadoContraparte"
-            className="form-control"
-            value={judicialProcesses.emailApoderadoContraparte}
-            onChange={handleChange}
-          />
-          <label htmlFor="emailApoderadoContraparte" className="form-label">
-            Email del Apoderado de la Contraparte:
-          </label>
-        </div>
-
-        <div className="form-floating">
-          <input
-            type="number"
-            id="telefonoApoderadoContraparte"
-            name="telefonoApoderadoContraparte"
-            className="form-control"
-            value={judicialProcesses.telefonoApoderadoContraparte}
-            onChange={handleChange}
-          />
-          <label htmlFor="telefonoApoderadoContraparte" className="form-label">
-            Teléfono del Apoderado de la Contraparte:
-          </label>
-        </div>
-
+        {/* INCIDENTE */}
         <div className="form-floating">
           <select
-            id="zona"
-            name="zona"
+            id="incidente"
+            name="incidente"
             className="form-select"
-            value={judicialProcesses.zona}
+            value={judicialProcesses.incidente}
             onChange={handleChange}
           >
             <option value="">Seleccionar</option>
-            <option value="opcion1">Opción 1</option>
           </select>
-          <label htmlFor="zona" className="form-label">
-            Zona:
+          <label htmlFor="incidente" className="form-label">
+            Incidente:
           </label>
         </div>
 
+        {/* ESTADO DEL INCIDENTE */}
+        <div className="form-floating">
+          <select
+            id="estadoIncidente"
+            name="estadoIncidente"
+            className="form-select"
+            value={judicialProcesses.estadoIncidente}
+            onChange={handleChange}
+          >
+            <option value="">Seleccionar</option>
+          </select>
+          <label htmlFor="estadoIncidente" className="form-label">
+            Estado incidente:
+          </label>
+        </div>
+
+        {/* RESUMEN DEL INCIDENTE */}
+        <div className="form-floating">
+          <input
+            id="resumenIncidente"
+            name="resumenIncidente"
+            className="form-control"
+            type="text"
+            value={judicialProcesses.resumenIncidente}
+            onChange={handleChange}
+          />
+          <label htmlFor="resumenIncidente" className="form-label">
+            Resumen incidente:
+          </label>
+        </div>
+
+        {/* OBSERVACIONES / COMENTARIOS */}
+        <div className="form-floating">
+          <input
+            id="observaciones"
+            name="observaciones"
+            className="form-control"
+            type="text"
+            value={judicialProcesses.observaciones}
+            onChange={handleChange}
+          />
+          <label htmlFor="observaciones" className="form-label">
+            Observaciones:
+          </label>
+        </div>
+
+        {/* CALIFICACION CONTINGENTE */}
+        <div className="form-floating">
+          <select
+            id="calificacionContingente"
+            name="calificacionContingente"
+            className="form-select"
+            value={judicialProcesses.calificacionContingente}
+            onChange={handleChange}
+          >
+            <option value="">Seleccionar</option>
+          </select>
+          <label htmlFor="calificacionContingente" className="form-label">
+            Calificacion contingente:
+          </label>
+        </div>
+
+        {/* ESTADO (ACTIVO O TERMINADO) */}
         <div className="form-floating">
           <select
             id="estado"
@@ -1180,24 +692,29 @@ export default function Form({ handleClose }: Props) {
             onChange={handleChange}
           >
             <option value="">Seleccionar</option>
-            <option value="opcion1">Opción 1</option>
           </select>
           <label htmlFor="estado" className="form-label">
             Estado:
           </label>
         </div>
 
+        {/* FECHA DE TERMINACION */}
         <div className="form-floating">
           <input
-            type="text"
-            id="fechaMesTerminacion"
-            name="fechaMesTerminacion"
+            id="fechaTerminacion"
+            name="fechaTerminacion"
             className="form-control"
-            value={judicialProcesses.fechaMesTerminacion}
+            type="date"
+            value={
+              judicialProcesses.fechaTerminacion
+                .toDate()
+                .toISOString()
+                .split("T")[0]
+            }
             onChange={handleChange}
           />
-          <label htmlFor="fechaMesTerminacion" className="form-label">
-            Fecha Mes Terminación:
+          <label htmlFor="fechaTerminacion" className="form-label">
+            Fecha terminación:
           </label>
         </div>
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../interfaces/RootState";
@@ -30,32 +30,28 @@ export default function JudicialProcessesTable() {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    if (judicialProcesses.length === 0) {
-      handleGetProcesses();
-    }
+    if (judicialProcesses.length === 0) handleGetProcesses();
   }, []);
 
   useEffect(() => {
     const filter = judicialProcesses.filter((data: JudicialProcesses) => {
       if (
-        !filters.firma &&
-        !filters.idEkogui &&
-        !filters.numProcesoRamaInicial &&
-        !filters.numProcesoRamaActual &&
-        !filters.nombreDemandante
+        !filters.apoderadoActual &&
+        !filters.idSiproj &&
+        !filters.radRamaJudicialInicial &&
+        !filters.radRamaJudicialActual &&
+        !filters.demandante
       )
         return true;
-      if (data.idEkogui !== filters.idEkogui) return false;
-      if (data.numProcesoRamaInicial !== filters.numProcesoRamaInicial)
+      if (data.idSiproj !== filters.idSiproj) return false;
+      if (data.radRamaJudicialInicial !== filters.radRamaJudicialInicial)
         return false;
-      if (data.numProcesoRamaActual !== filters.numProcesoRamaActual)
+      if (data.radRamaJudicialActual !== filters.radRamaJudicialActual)
         return false;
-      if (data.nombreDemandante !== filters.nombreDemandante) return false;
+      if (data.demandante !== filters.demandante) return false;
       return true;
     });
     setRows(filter);
-
-    console.log(filter);
   }, [judicialProcesses, filters]);
 
   function handleGetProcesses() {
@@ -136,6 +132,7 @@ export default function JudicialProcessesTable() {
                   </button>
                   <button
                     className="btn btn-outline-danger"
+                    type="button"
                     onClick={() => setError(false)}
                   >
                     Cancelar
@@ -150,7 +147,7 @@ export default function JudicialProcessesTable() {
             ) : (
               rows?.map((judicialProcesses: JudicialProcesses) => (
                 <JudicialProcessesRow
-                  key={judicialProcesses.idEkogui}
+                  key={judicialProcesses.idSiproj}
                   judicialProcesses={judicialProcesses}
                   handleEdit={handleEdit}
                 />

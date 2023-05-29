@@ -1,4 +1,7 @@
-import { initProcessesDetails } from "../../interfaces/JudicialProcesses";
+import {
+  initLists,
+  initProcessesDetails,
+} from "../../interfaces/JudicialProcesses";
 import { RootState } from "../../interfaces/RootState";
 import { initUser } from "../../interfaces/users";
 import { IFrames } from "../../interfaces/iframes";
@@ -19,24 +22,7 @@ const initialState: RootState = {
     judicialProcesses: [],
     processesDetails: initProcessesDetails,
   },
-  lists: {
-    Departamentos: [],
-    Ciudades: [],
-    Zonas: [],
-    TipoDeActuación: [],
-    JurisdicciónAcción: [],
-    Pretensiones: [],
-    Calificaciones: [],
-    Etapas: [],
-    DetallesEtapaAnterior: [],
-    Instancia: [],
-    TipoFallos: [],
-    FormasTerminación: [],
-    LlamamientoGarantía: [],
-    Estados: [],
-    Festivos: [],
-    SalariosMínimos: [],
-  },
+  lists: initLists,
   graphics: {},
   iframes: [],
 };
@@ -102,7 +88,7 @@ export const rootReducer = (state = initialState, action: any) => {
           ...state.processes,
           judicialProcesses: state.processes.judicialProcesses.map(
             (processes) =>
-              processes.idEkogui === action.payload.idEkogui
+              processes.idSiproj === action.payload.idSiproj
                 ? action.payload
                 : processes
           ),

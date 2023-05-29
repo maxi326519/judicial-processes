@@ -1,6 +1,13 @@
 import { useState } from "react";
-import { UserRol, Users, initUser } from "../../../../../interfaces/users";
+import {
+  ErrorUser,
+  UserRol,
+  Users,
+  initErrorUser,
+  initUser,
+} from "../../../../../interfaces/users";
 import style from "./Form.module.css";
+import { generatePassword } from "../../../../../functions/generatePassword";
 
 interface Props {
   handleClose: () => void;
@@ -9,10 +16,13 @@ interface Props {
 
 export default function Form({ handleClose, handleSubmit }: Props) {
   const [user, setUser] = useState<Users>(initUser);
+  const [error, setError] = useState<ErrorUser>(initErrorUser);
 
   function handlelocalSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    handleSubmit(user);
+    if (validations()) {
+      handleSubmit(user);
+    }
   }
 
   function handleChange(
@@ -26,17 +36,32 @@ export default function Form({ handleClose, handleSubmit }: Props) {
   }
 
   function handleGeneratePassword() {
-    const length = 8;
-    const chars =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    let password = "";
+    setUser({ ...user, password: generatePassword() });
+  }
 
-    for (let i = 0; i < length; i++) {
-      const randomIndex = Math.floor(Math.random() * chars.length);
-      password += chars[randomIndex];
+  function validations() {
+    let errors: ErrorUser = initErrorUser;
+    let value = true;
+
+    /* NAME */
+    if (user.name === "") {
+      errors.name = "Debes ingresar un nombre";
+      value = false;
     }
 
-    setUser({ ...user, password: password });
+    /* EMAIL */
+    if (user.email === "") {
+      errors.email = "Debes ingresar un email";
+      value = false;
+    }
+
+    /* Password */
+    if (user.password === "") {
+      errors.password = "Debes ingresar una contraseña";
+      value = false;
+    }
+    setError(errors);
+    return value;
   }
 
   return (
@@ -70,13 +95,14 @@ export default function Form({ handleClose, handleSubmit }: Props) {
               type="text"
               id="name"
               name="name"
-              className="form-control"
+              className={`form-control ${!error.name ? "" : "is-invalid"}`}
               value={user.name}
               onChange={handleChange}
             />
             <label htmlFor="name" className="form-label">
               Nombre:
             </label>
+            {error.name ? <small>{error.name}</small> : null}
           </div>
 
           {/* E-MAIL */}
@@ -85,13 +111,14 @@ export default function Form({ handleClose, handleSubmit }: Props) {
               type="text"
               id="email"
               name="email"
-              className="form-control"
+              className={`form-control ${!error.email ? "" : "is-invalid"}`}
               value={user.email}
               onChange={handleChange}
             />
             <label htmlFor="email" className="form-label">
               Email:
             </label>
+            {error.email ? <small>{error.email}</small> : null}
           </div>
 
           {/* PASSWORD */}
@@ -100,13 +127,15 @@ export default function Form({ handleClose, handleSubmit }: Props) {
               type="text"
               id="password"
               name="password"
-              className="form-control"
+              className={`form-control ${!error.password ? "" : "is-invalid"}`}
               value={user.password}
               onChange={handleChange}
             />
             <label htmlFor="password" className="form-label">
               Contraseña:
             </label>
+            {error.password ? <small>{error.password}</small> : null}
+
             <button
               className={style.generated}
               type="button"

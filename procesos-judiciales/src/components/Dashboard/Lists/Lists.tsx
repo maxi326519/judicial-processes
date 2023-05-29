@@ -51,7 +51,7 @@ export default function Lists({ handleClose, handleSubmit }: Props) {
           <h3>Agregar inventario</h3>
           <div className="btn-close" onClick={handleClose} />
         </header>
-{/*         <SideBar handleSelect={handleSelect} /> */}
+        <SideBar handleSelect={handleSelect} />
 {/*         <Tables list={list[list]} /> */}
       </div>
     </div>

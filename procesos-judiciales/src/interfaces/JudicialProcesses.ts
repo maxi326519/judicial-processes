@@ -1,210 +1,174 @@
 import { Timestamp } from "firebase/firestore";
 
 export interface JudicialProcesses {
-  idEkogui: number;
-  numProcesoRamaInicial: string;
-  numProcesoRamaActual: string;
-  nombreDemandante: string;
+  idSiproj: number;
+  radRamaJudicialInicial: string;
+  radRamaJudicialActual: string;
+  demandante: string;
 }
 
 export interface ProcessesFilters {
-  firma: string;
-  idEkogui: number;
-  numProcesoRamaInicial: string;
-  numProcesoRamaActual: string;
-  nombreDemandante: string;
+  apoderadoActual: string;
+  idSiproj: number;
+  radRamaJudicialInicial: string;
+  radRamaJudicialActual: string;
+  demandante: string;
 }
 
 export interface ProcessesDetails {
-  firma: string;
-  idEkogui: string;
-  numberSGD: number;
+  idSiproj: number;
 
-  fechaRegistro: Timestamp;
-  fechaOtorgamiento: Timestamp;
-  fechaAdmision: Timestamp;
+  apoderadoActual: string;
+  apoderadoAnterior: string;
+  procesoAltoImpacto: string;
+
+  radRamaJudicialInicial: string;
+  radRamaJudicialActual: string;
+
+  tipoProceso: string;
+
+  diasTerminoContestacion: number;
   fechaNotificacion: Timestamp;
-
-  jurisdiccionAccion: string;
-  diasTerminosContestacion: number;
   fechaContestacion: Timestamp;
-  limiteProbable: number;
+  fechaLimiteProbContestacion: Timestamp;
   validacionContestacion: string;
 
-  documentoDemandante: string;
-  nombreDemandante: string;
-  otrosDemandantesDocumentos: string;
-  otrosDemandantesNombres: string;
-  demandadoDocumento: string;
-  demandadoNombre: string;
+  calidadActuacionEntidad: string;
 
-  calidadActuacion: string;
-  numeroRadicacion: number;
-  departamentoDespachoInicial: string;
-  departamentoDespachoActual: string;
-  ciudadDespachoActual: string;
+  demandados: string;
+  idDemanante: string;
+  demandante: string;
+  despachoInicial: string;
   despachoActual: string;
 
-  numProcesoRamaInicial: number;
-  codigoCiudadUno: number;
-  ciudadRelacionadaUno: string;
-  numProcesoRamaActual: number;
-  codigoCiudadDos: number;
-  ciudadRelacionadaDos: string;
+  posicionSDP: string;
+  temaGeneral: string;
 
-  pretension: string;
-  fichaRealizada: string;
-  fichaIrregulares: string;
-  tiempoEstimadoMeses: number;
-  tiempoEstimadoAnios: number;
-  porcentajeAjuste: number;
-  fechaCalificacion: Timestamp;
+  pretensionAsunto: string;
 
-  calificacionRiesgoProcesal: {
-    fortalezaDefenza: string;
-    fortalezaProbatoria: string;
-    RiesgosProcesales: string;
-    nivelJurisprudencia: string;
-  };
+  cuantiaEstimada: string;
+  valorPretensionesSMLVM: number;
 
-  tipoValia: string;
-  cuantiaEstimada: number;
-  valorPredSMLVM: string;
+  instanciaProceso: string;
+  fechaProceso: Timestamp;
+  ultimoEstadoProceso: string;
+  etapaProcesal: string;
 
-  actFichasComiteConciliacion: false;
-  expedienteDIgitalMEN: false;
-  envioDocumento: false;
-  estatoProcesoDespacho: string;
-  detSituacionProcesal: string;
+  fechaFalloPrimeraInstancia: Timestamp;
+  sentidoFalloPrimeraInstancia: string;
+  resumenPrimeraInstancia: string;
+  fechaPresentacionRecurso: Timestamp;
+  fechaFalloSegundaInstancia: Timestamp;
+  sentidoFalloSegundaInstancia: string;
+  resumenSegundaInstanciaL: string;
 
-  fechaUltimaSituacion: Timestamp;
-  instanciaActual: string;
-  fechaFalloPrimeraInst: Timestamp;
-  sentidoFalloPrimeraInst: string;
-  valorCondenaPrimeraInst: number;
-  valorCondenaObservaciones: string;
+  incidente: string;
+  estadoIncidente: string;
+  resumenIncidente: string;
 
-  recursoExtraordinario: string;
-  llamamientoGarantia: string;
-  providenciasExcepcionesPrev: string;
-  providenciasPretDemanda: string;
-  fechaEjecutoria: Timestamp;
-  terminacionAnormal: string;
-  valorAcuerdo: number;
+  observaciones: string;
 
-  providenciasPretensiones: string;
-  ejercerDefProvReferidas: string;
-  soportesDocumentales: string;
-  apoderadoNumId: number;
+  calificacionContingente: string;
+  estado: string;
+  fechaTerminacion: Timestamp;
+}
 
-  nombreApoderado: string;
-  numTarjetaProfApoderado: string;
-  nombreAproderadoContraparte: string;
-  emailApoderadoContraparte: string;
-  telefonoApoderadoContraparte: number;
+export interface Lists {
+  procesoAltoImpacto: string[];
+  tipoProceso: string[];
+  calidadActuacionEntidad: string[];
+  despachoInicial: string[];
+  despachoActual: string[];
+  posicionSDP: string[];
+  temaGeneral: string[];
+  instanciaProceso: string[];
+  sentidoFalloPrimeraInstancia: string[];
+  sentidoFalloSegundaInstancia: string[];
+  incidente: string[];
+  estadoIncidente: string[];
+  calificacionContingente: string[];
+  estado: string[];
+}
 
-  zona: string /* Select */;
-  estado: string /* Select */;
-  fechaMesTerminacion: string;
+export const initLists = {
+  procesoAltoImpacto: [],
+  tipoProceso: [],
+  calidadActuacionEntidad: [],
+  despachoInicial: [],
+  despachoActual: [],
+  posicionSDP: [],
+  temaGeneral: [],
+  instanciaProceso: [],
+  sentidoFalloPrimeraInstancia: [],
+  sentidoFalloSegundaInstancia: [],
+  incidente: [],
+  estadoIncidente: [],
+  calificacionContingente: [],
+  estado: [],
 }
 
 export const initProcessesFilters: ProcessesFilters = {
-  firma: "",
-  idEkogui: 0,
-  numProcesoRamaInicial: "",
-  numProcesoRamaActual: "",
-  nombreDemandante: "",
+  apoderadoActual: "",
+  idSiproj: 0,
+  radRamaJudicialInicial: "",
+  radRamaJudicialActual: "",
+  demandante: "",
 };
 
 export const initProcessesDetails: ProcessesDetails = {
-  firma: "",
-  idEkogui: "",
-  numberSGD: 0,
+  idSiproj: 0,
 
-  fechaRegistro: Timestamp.now(),
-  fechaOtorgamiento: Timestamp.now(),
-  fechaAdmision: Timestamp.now(),
+  apoderadoActual: "",
+  apoderadoAnterior: "",
+  procesoAltoImpacto: "",
+
+  radRamaJudicialInicial: "",
+  radRamaJudicialActual: "",
+
+  tipoProceso: "",
+
+  diasTerminoContestacion: 0,
   fechaNotificacion: Timestamp.now(),
-
-  jurisdiccionAccion: "",
-  diasTerminosContestacion: 0,
   fechaContestacion: Timestamp.now(),
-  limiteProbable: 0,
+  fechaLimiteProbContestacion: Timestamp.now(),
   validacionContestacion: "",
 
-  documentoDemandante: "",
-  nombreDemandante: "",
-  otrosDemandantesDocumentos: "",
-  otrosDemandantesNombres: "",
-  demandadoDocumento: "",
-  demandadoNombre: "",
+  calidadActuacionEntidad: "",
 
-  calidadActuacion: "",
-  numeroRadicacion: 0,
-  departamentoDespachoInicial: "",
-  departamentoDespachoActual: "",
-  ciudadDespachoActual: "",
+  demandados: "",
+  idDemanante: "",
+  demandante: "",
+  despachoInicial: "",
   despachoActual: "",
 
-  numProcesoRamaInicial: 0,
-  codigoCiudadUno: 0,
-  ciudadRelacionadaUno: "",
-  numProcesoRamaActual: 0,
-  codigoCiudadDos: 0,
-  ciudadRelacionadaDos: "",
+  posicionSDP: "",
+  temaGeneral: "",
 
-  pretension: "",
-  fichaRealizada: "",
-  fichaIrregulares: "",
-  tiempoEstimadoMeses: 0,
-  tiempoEstimadoAnios: 0,
-  porcentajeAjuste: 0,
-  fechaCalificacion: Timestamp.now(),
+  pretensionAsunto: "",
 
-  calificacionRiesgoProcesal: {
-    fortalezaDefenza: "",
-    fortalezaProbatoria: "",
-    RiesgosProcesales: "",
-    nivelJurisprudencia: "",
-  },
+  cuantiaEstimada: "",
+  valorPretensionesSMLVM: 0,
 
-  tipoValia: "",
-  cuantiaEstimada: 0,
-  valorPredSMLVM: "",
+  instanciaProceso: "",
+  fechaProceso: Timestamp.now(),
+  ultimoEstadoProceso: "",
+  etapaProcesal: "",
 
-  actFichasComiteConciliacion: false,
-  expedienteDIgitalMEN: false,
-  envioDocumento: false,
-  estatoProcesoDespacho: "",
-  detSituacionProcesal: "",
+  fechaFalloPrimeraInstancia: Timestamp.now(),
+  sentidoFalloPrimeraInstancia: "",
+  resumenPrimeraInstancia: "",
+  fechaPresentacionRecurso: Timestamp.now(),
+  fechaFalloSegundaInstancia: Timestamp.now(),
+  sentidoFalloSegundaInstancia: "",
+  resumenSegundaInstanciaL: "",
 
-  fechaUltimaSituacion: Timestamp.now(),
-  instanciaActual: "",
-  fechaFalloPrimeraInst: Timestamp.now(),
-  sentidoFalloPrimeraInst: "",
-  valorCondenaPrimeraInst: 0,
-  valorCondenaObservaciones: "",
+  incidente: "",
+  estadoIncidente: "",
+  resumenIncidente: "",
 
-  recursoExtraordinario: "",
-  llamamientoGarantia: "",
-  providenciasExcepcionesPrev: "",
-  providenciasPretDemanda: "",
-  fechaEjecutoria: Timestamp.now(),
-  terminacionAnormal: "",
-  valorAcuerdo: 0,
+  observaciones: "",
 
-  providenciasPretensiones: "",
-  ejercerDefProvReferidas: "",
-  soportesDocumentales: "",
-  apoderadoNumId: 0,
-
-  nombreApoderado: "",
-  numTarjetaProfApoderado: "",
-  nombreAproderadoContraparte: "",
-  emailApoderadoContraparte: "",
-  telefonoApoderadoContraparte: 0,
-
-  zona: "",
+  calificacionContingente: "",
   estado: "",
-  fechaMesTerminacion: "",
+  fechaTerminacion: Timestamp.now(),
 };

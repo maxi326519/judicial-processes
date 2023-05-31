@@ -18,21 +18,21 @@
   height: 100vh;
 }
 
-.form-floating select,
+/* .form-floating select,
 .form-floating input {
   background-color: var(--dark-panel);
   border: 1px solid var(--dark-border);
   color: white;
-}
+} */
 
-.form-floating select:focus,
+/* .form-floating select:focus,
 .form-floating input:focus,
 .form-floating select:active,
 .form-floating input:active {
   background-color: #00000044;
   border: 1px solid var(--dark-border);
   color: white;
-}
+} */
 
 .btn-close {
   filter: invert(100%);

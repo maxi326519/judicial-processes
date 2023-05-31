@@ -36,7 +36,7 @@ export default function Lists({ handleClose, handleSubmit }: Props) {
 
   function handleSelect(index: number) {
     const entries = Object.entries(listData);
-    
+
     // Recorrer el array hasta el índice máximo
     for (let i = 0; i <= index; i++) {
       const [key, value] = entries[i];
@@ -51,8 +51,8 @@ export default function Lists({ handleClose, handleSubmit }: Props) {
           <h3>Agregar inventario</h3>
           <div className="btn-close" onClick={handleClose} />
         </header>
-        <SideBar handleSelect={handleSelect} />
-{/*         <Tables list={list[list]} /> */}
+        {/*         <SideBar handleSelect={handleSelect} /> */}
+        {/*         <Tables list={list[list]} /> */}
       </div>
     </div>
   );

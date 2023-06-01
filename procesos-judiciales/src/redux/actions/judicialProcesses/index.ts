@@ -2,18 +2,21 @@ import { Dispatch } from "react";
 import { AnyAction } from "redux";
 import { ThunkAction } from "redux-thunk";
 import { RootState } from "../../../interfaces/RootState";
-import { ProcessesDetails } from "../../../interfaces/JudicialProcesses";
+import {
+  JudicialProcesses,
+  ProcessesDetails,
+} from "../../../interfaces/JudicialProcesses";
 import {
   collection,
   doc,
   getDoc,
   getDocs,
-  setDoc,
   writeBatch,
 } from "firebase/firestore";
 import { db } from "../../../firebase";
 
 export const SET_PROCESSES = "SET_PROCESSES";
+export const IMPORT_PROCESSES = "IMPORT_PROCESSES";
 export const GET_PROCESSES = "GET_PROCESSES";
 export const GET_PROCESSES_DETAILS = "GET_PROCESSES_DETAILS";
 export const UPDATE_PROCESSES = "UPDATE_PROCESSES";
@@ -24,6 +27,8 @@ export function setProcesses(
 ): ThunkAction<Promise<void>, RootState, null, AnyAction> {
   return async (dispatch: Dispatch<AnyAction>) => {
     try {
+      const batch = writeBatch(db);
+
       const head = {
         idSiproj: processes.idSiproj,
         radRamaJudicialInicial: processes.radRamaJudicialInicial,
@@ -34,12 +39,44 @@ export function setProcesses(
 
       const colProcesses = collection(db, "Processes");
       const colDetails = collection(db, "Details");
-      await setDoc(doc(colProcesses, processes.idSiproj.toString()), head);
-      await setDoc(doc(colDetails, processes.idSiproj.toString()), details);
+      batch.set(doc(colProcesses), head);
+      batch.set(doc(colDetails), details);
+
+      await batch.commit();
 
       dispatch({
         type: SET_PROCESSES,
         payload: { head, details },
+      });
+    } catch (e: any) {
+      throw new Error(e);
+    }
+  };
+}
+
+export function importProcesses(processesList: {
+  head: JudicialProcesses[];
+  details: ProcessesDetails[];
+}): ThunkAction<Promise<void>, RootState, null, AnyAction> {
+  return async (dispatch: Dispatch<AnyAction>) => {
+    try {
+      const batch = writeBatch(db);
+
+      processesList.head.forEach((head: JudicialProcesses) => {
+        const colProcesses = collection(db, "Processes");
+        batch.set(doc(colProcesses, head.idSiproj.toString()), head);
+      });
+
+      processesList.details.forEach((details: ProcessesDetails) => {
+        const colDetails = collection(db, "Details");
+        batch.set(doc(colDetails, details.idSiproj.toString()), details);
+      });
+
+      await batch.commit();
+
+      dispatch({
+        type: IMPORT_PROCESSES,
+        payload: processesList,
       });
     } catch (e: any) {
       throw new Error(e);

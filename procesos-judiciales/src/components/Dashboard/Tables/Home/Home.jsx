@@ -9,8 +9,8 @@ export default function Home() {
     <div className={styles.charts}>
       <ProcessesChart />
       <EntityChart />
-      <TypeChart />
       <StageChart />
+      <TypeChart />
     </div>
   );
 }

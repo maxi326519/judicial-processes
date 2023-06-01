@@ -7,6 +7,7 @@ import styles from "./Dashboard.module.css";
 import UsersTable from "./Tables/Users/Users";
 import Iframe from "./Tables/Iframes/Iframes";
 import Home from "./Tables/Home/Home.jsx";
+import Excel from "./Tables/Excel/Excel";
 
 export default function Dashboard() {
   const [table, setTable] = useState<number>(1);
@@ -23,6 +24,7 @@ export default function Dashboard() {
         {table === 1 ? <UsersTable /> : null}
         {table === 2 ? <JudicialProcessesTable /> : null}
         {table === 3 ? <Iframe /> : null}
+        {table === 4 ? <Excel /> : null}
       </div>
     </div>
   );

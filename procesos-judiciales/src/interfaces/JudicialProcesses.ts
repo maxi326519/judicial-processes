@@ -28,15 +28,15 @@ export interface ProcessesDetails {
   tipoProceso: string;
 
   diasTerminoContestacion: number;
-  fechaNotificacion: Timestamp;
-  fechaContestacion: Timestamp;
-  fechaLimiteProbContestacion: Timestamp;
+  fechaNotificacion: Timestamp | null;
+  fechaContestacion: Timestamp | null;
+  fechaLimiteProbContestacion: Timestamp | null;
   validacionContestacion: string;
 
   calidadActuacionEntidad: string;
 
   demandados: string;
-  idDemanante: string;
+  idDemanante: number;
   demandante: string;
   despachoInicial: string;
   despachoActual: string;
@@ -46,19 +46,19 @@ export interface ProcessesDetails {
 
   pretensionAsunto: string;
 
-  cuantiaEstimada: string;
+  cuantiaEstimada: number;
   valorPretensionesSMLVM: number;
 
   instanciaProceso: string;
-  fechaProceso: Timestamp;
+  fechaProceso: Timestamp | null;
   ultimoEstadoProceso: string;
   etapaProcesal: string;
 
-  fechaFalloPrimeraInstancia: Timestamp;
+  fechaFalloPrimeraInstancia: Timestamp | null;
   sentidoFalloPrimeraInstancia: string;
   resumenPrimeraInstancia: string;
-  fechaPresentacionRecurso: Timestamp;
-  fechaFalloSegundaInstancia: Timestamp;
+  fechaPresentacionRecurso: Timestamp | null;
+  fechaFalloSegundaInstancia: Timestamp | null;
   sentidoFalloSegundaInstancia: string;
   resumenSegundaInstanciaL: string;
 
@@ -70,7 +70,7 @@ export interface ProcessesDetails {
 
   calificacionContingente: string;
   estado: string;
-  fechaTerminacion: Timestamp;
+  fechaTerminacion: Timestamp | null;
 }
 
 export interface Lists {
@@ -136,7 +136,7 @@ export const initProcessesDetails: ProcessesDetails = {
   calidadActuacionEntidad: "",
 
   demandados: "",
-  idDemanante: "",
+  idDemanante: 0,
   demandante: "",
   despachoInicial: "",
   despachoActual: "",
@@ -146,7 +146,7 @@ export const initProcessesDetails: ProcessesDetails = {
 
   pretensionAsunto: "",
 
-  cuantiaEstimada: "",
+  cuantiaEstimada: 0,
   valorPretensionesSMLVM: 0,
 
   instanciaProceso: "",

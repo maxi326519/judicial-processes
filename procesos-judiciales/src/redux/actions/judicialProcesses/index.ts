@@ -29,18 +29,26 @@ export function setProcesses(
     try {
       const batch = writeBatch(db);
 
-      const head = {
+      let head: JudicialProcesses = {
         idSiproj: processes.idSiproj,
         radRamaJudicialInicial: processes.radRamaJudicialInicial,
         radRamaJudicialActual: processes.radRamaJudicialActual,
         demandante: processes.demandante,
       };
-      const details = processes;
+      let details: ProcessesDetails = processes;
 
       const colProcesses = collection(db, "Processes");
       const colDetails = collection(db, "Details");
-      batch.set(doc(colProcesses), head);
-      batch.set(doc(colDetails), details);
+
+      const headDoc = doc(colProcesses);
+      const detailsDoc = doc(colDetails);
+
+      head.id = headDoc.id;
+      head.idDetails = detailsDoc.id;
+      details.id = detailsDoc.id;
+
+      batch.set(headDoc, head);
+      batch.set(detailsDoc, details);
 
       await batch.commit();
 
@@ -62,14 +70,27 @@ export function importProcesses(processesList: {
     try {
       const batch = writeBatch(db);
 
-      processesList.head.forEach((head: JudicialProcesses) => {
-        const colProcesses = collection(db, "Processes");
-        batch.set(doc(colProcesses, head.idSiproj.toString()), head);
-      });
-
       processesList.details.forEach((details: ProcessesDetails) => {
+        let head: JudicialProcesses = {
+          idSiproj: details.idSiproj,
+          radRamaJudicialInicial: details.radRamaJudicialInicial,
+          radRamaJudicialActual: details.radRamaJudicialActual,
+          demandante: details.demandante,
+        };
+        let detailsData = details;
+
+        const colProcesses = collection(db, "Processes");
         const colDetails = collection(db, "Details");
-        batch.set(doc(colDetails, details.idSiproj.toString()), details);
+
+        const headDoc = doc(colProcesses);
+        const detailsDoc = doc(colDetails);
+
+        head.id = headDoc.id;
+        head.idDetails = detailsDoc.id;
+        detailsData.id = detailsDoc.id;
+
+        batch.set(headDoc, head);
+        batch.set(detailsDoc, details);
       });
 
       await batch.commit();
@@ -162,13 +183,21 @@ export function updateProcesses(
 }
 
 export function deleteProcesses(
-  processesId: number
+  processes: JudicialProcesses
 ): ThunkAction<Promise<void>, RootState, null, AnyAction> {
   return async (dispatch: Dispatch<AnyAction>) => {
     try {
+      const batch = writeBatch(db);
+
+      const colProcesses = collection(db, "Processes");
+      const colDetails = collection(db, "Details");
+
+      batch.delete(doc(colProcesses, processes.id));
+      batch.delete(doc(colDetails, processes.idDetails));
+
       dispatch({
         type: DELETE_PROCESSES,
-        payload: processesId,
+        payload: processes.id,
       });
     } catch (e: any) {
       throw new Error(e);

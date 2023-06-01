@@ -7,6 +7,7 @@ import { initUser } from "../../interfaces/users";
 import { IFrames } from "../../interfaces/iframes";
 import { GET_IFRAME, SET_IFRAME, UPDATE_IFRAME } from "../actions/iframe";
 import {
+  DELETE_PROCESSES,
   GET_PROCESSES,
   GET_PROCESSES_DETAILS,
   SET_PROCESSES,
@@ -94,6 +95,15 @@ export const rootReducer = (state = initialState, action: any) => {
           ),
         },
       };
+
+      case DELETE_PROCESSES:
+        return {
+          ...state,
+          process:{
+            judicialProcesses: state.processes.judicialProcesses.filter((doc) => doc.id !== action.payload),
+            processesDetails: initProcessesDetails,
+          }
+        }
     /* PROCESSES */
 
     /* IFRAME */

@@ -63,7 +63,7 @@
 
 .row {
   display: grid;
-  grid-template-columns: 100px repeat(3, 1fr) 50px;
+  grid-template-columns: 100px repeat(3, 1fr) 50px 50px;
   gap: 10px;
   padding: 10px;
   outline: 1px solid var(--border);
@@ -78,6 +78,11 @@
   filter: invert(21%) sepia(76%) saturate(2935%) hue-rotate(190deg)
     brightness(98%) contrast(95%);
   transition: 0.2s;
+}
+
+.row button:nth-child(6) img {
+  filter: invert(28%) sepia(73%) saturate(7153%) hue-rotate(353deg)
+    brightness(94%) contrast(125%);
 }
 
 .row button:hover img {

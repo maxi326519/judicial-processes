@@ -2,7 +2,10 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../interfaces/RootState";
-import { getProcesses } from "../../../../redux/actions/judicialProcesses";
+import {
+  deleteProcesses,
+  getProcesses,
+} from "../../../../redux/actions/judicialProcesses";
 import {
   JudicialProcesses,
   ProcessesFilters,
@@ -17,6 +20,7 @@ import styles from "./JudicialProcesses.module.css";
 import list from "../../../../assets/svg/list.svg";
 import loadingSvg from "../../../../assets/img/loading.gif";
 import errorSvg from "../../../../assets/svg/error.svg";
+import swal from "sweetalert";
 export default function JudicialProcessesTable() {
   const dispatch = useDispatch();
   const judicialProcesses = useSelector(
@@ -65,6 +69,21 @@ export default function JudicialProcessesTable() {
         console.log(err);
         setLoading(false);
         setError(true);
+      });
+  }
+
+  function handleDelete(id: number) {
+    dispatch<any>(deleteProcesses(id))
+      .then(() => {
+        swal("Eliminado", "Se eliminó correctamente el proceso", "success");
+      })
+      .catch((err: any) => {
+        console.log(err);
+        swal(
+          "Error",
+          "No se pudo eliminar este proceso, intentelo más tarde",
+          "error"
+        );
       });
   }
 
@@ -150,6 +169,7 @@ export default function JudicialProcessesTable() {
                   key={judicialProcesses.idSiproj}
                   judicialProcesses={judicialProcesses}
                   handleEdit={handleEdit}
+                  handleDelete={handleDelete}
                 />
               ))
             )}

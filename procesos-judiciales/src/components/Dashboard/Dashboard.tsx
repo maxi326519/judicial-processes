@@ -10,7 +10,7 @@ import Home from "./Tables/Home/Home.jsx";
 import Excel from "./Tables/Excel/Excel";
 
 export default function Dashboard() {
-  const [table, setTable] = useState<number>(1);
+  const [table, setTable] = useState<number>(0);
 
   function changeTable(table: number) {
     setTable(table);

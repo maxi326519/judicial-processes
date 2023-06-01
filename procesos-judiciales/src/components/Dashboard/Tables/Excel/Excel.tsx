@@ -31,7 +31,7 @@ export default function Excel() {
   const [form, setForm] = useState<boolean>(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [type, setType] = useState<string>(0);
+  const [type, setType] = useState<number>(0);
   const [data, setData] = useState<Data>({ head: [], details: [] });
 
   useEffect(() => {

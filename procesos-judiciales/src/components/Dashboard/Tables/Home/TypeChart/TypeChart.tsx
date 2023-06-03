@@ -1,15 +1,15 @@
 import { Chart } from "react-google-charts";
 
 export const data = [
-  ["Year", "Sales", "Expenses"],
-  ["2013", 1000, 400],
-  ["2014", 1170, 460],
-  ["2015", 660, 1120],
-  ["2016", 1030, 540],
+  ["Tipo", "Tipos"],
+  ["NULIDAD SIMPLE", 10],
+  ["REPARACION DIRECTA", 11],
+  ["NULIDAD Y RESTABLECIMIENTO DEL DERECHO", 66],
+  ["ACCION DE GRUPO", 10],
 ];
 
 export const options = {
-  title: "Company Performance",
+  title: "Tipos de procesos",
   hAxis: { title: "Year", titleTextStyle: { color: "#333" } },
   vAxis: { minValue: 0 },
   chartArea: { width: "50%", height: "70%" },

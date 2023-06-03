@@ -2,26 +2,30 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../interfaces/RootState";
+import { closeLoading, openLoading } from "../../../../redux/actions/loading";
 import {
   deleteProcesses,
+  deleteProcessesDetails,
   getProcesses,
+  getProcessesDetails,
 } from "../../../../redux/actions/judicialProcesses";
 import {
   JudicialProcesses,
   ProcessesFilters,
   initProcessesFilters,
 } from "../../../../interfaces/JudicialProcesses";
+import swal from "sweetalert";
 
 import JudicialProcessesRow from "./JudicialProcessesRow/JudicialProcessesRow";
 import Form from "./Form/Form";
 import Filters from "./FIlters/Filters";
+import Lists from "../../Lists/Lists";
 
 import styles from "./JudicialProcesses.module.css";
-import list from "../../../../assets/svg/list.svg";
 import loadingSvg from "../../../../assets/img/loading.gif";
 import errorSvg from "../../../../assets/svg/error.svg";
-import swal from "sweetalert";
-import { closeLoading, openLoading } from "../../../../redux/actions/loading";
+import listSvg from "../../../../assets/svg/list.svg";
+
 export default function JudicialProcessesTable() {
   const dispatch = useDispatch();
   const judicialProcesses = useSelector(
@@ -33,6 +37,7 @@ export default function JudicialProcessesTable() {
   const [form, setForm] = useState<boolean>(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [list, setList] = useState(true);
 
   useEffect(() => {
     if (judicialProcesses.length === 0) handleGetProcesses();
@@ -107,24 +112,45 @@ export default function JudicialProcessesTable() {
     setFilters(filters);
   }
 
-  function handleEdit(id: number) {}
+  function handleEdit(idDetails: string) {
+    dispatch<any>(getProcessesDetails(idDetails))
+      .then(() => {
+        setForm(true);
+      })
+      .catch((error: any) => {
+        console.log(error);
+        swal(
+          "Error",
+          "Hubo un error al cargar el proceso, intentelo mas tarde",
+          "error"
+        );
+      });
+  }
 
   function handleClose() {
     setForm(!form);
+    if (form) {
+      dispatch(deleteProcessesDetails());
+    }
+  }
+
+  function handleShowList() {
+    setList(!list);
   }
 
   return (
     <div className={`toLeft ${styles.dashboard}`}>
       {form ? <Form handleClose={handleClose} /> : null}
+      {list ? <Lists handleClose={handleShowList} /> : null}
       <h3>Procesos Judiciales</h3>
       <div className={styles.controls}>
         <Filters filters={filters} handleSetFilter={handleFilter} />
         <button
           className="btn btn-outline-primary"
           type="button"
-          onClick={handleClose}
+          onClick={handleShowList}
         >
-          <img src={list} alt="list" />
+          <img src={listSvg} alt="list" />
           <span>Listas</span>
         </button>
         <div>

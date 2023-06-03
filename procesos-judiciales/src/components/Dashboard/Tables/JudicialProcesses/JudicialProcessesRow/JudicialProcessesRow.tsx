@@ -6,7 +6,7 @@ import deleteSvg from "../../../../../assets/svg/delete.svg";
 
 interface Props {
   judicialProcesses: JudicialProcesses;
-  handleEdit: (id: number) => void;
+  handleEdit: (id: string) => void;
   handleDelete: (procesess: JudicialProcesses) => void;
 }
 
@@ -24,7 +24,7 @@ export default function JudicialProcessesRow({
       <button
         className="btn btn-outline-primary"
         type="button"
-        onClick={() => handleEdit(judicialProcesses.idSiproj)}
+        onClick={() => handleEdit(judicialProcesses.idDetails!)}
       >
         <img src={editSvg} alt="edit" />
       </button>

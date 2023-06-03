@@ -14,8 +14,9 @@ import styles from "./Iframes.module.css";
 import loadingGif from "../../../../assets/img/loading.gif";
 import errorSvg from "../../../../assets/svg/error.svg";
 import swal from "sweetalert";
-import { IFrames, initErrorIFrames } from "../../../../interfaces/iframes";
+import { IFrames } from "../../../../interfaces/iframes";
 import IFrameRenderer from "./IframeRender/IframeRender";
+import { closeLoading, openLoading } from "../../../../redux/actions/loading";
 
 const IFrameInput = () => {
   const dispatch = useDispatch();
@@ -61,12 +62,15 @@ const IFrameInput = () => {
   }
 
   function handleSaveIFrame(IFrame: IFrames, edit: boolean) {
+    dispatch(openLoading());
     dispatch<any>(edit ? updateIframe(IFrame) : setIframe(IFrame))
       .then(() => {
+        dispatch(closeLoading());
         handleClose();
         swal("Guardado", "Se guardo el iframe correctamente", "success");
       })
       .catch((err: any) => {
+        dispatch(closeLoading());
         swal("Error", "No se pudo guardar el iframe", "error");
         console.log(err);
       });

@@ -1,5 +1,8 @@
-import { useDispatch } from "react-redux";
-import { setProcesses } from "../../../../../redux/actions/judicialProcesses";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setProcesses,
+  updateProcesses,
+} from "../../../../../redux/actions/judicialProcesses";
 import { Timestamp } from "firebase/firestore";
 import useJudicialProcesses from "../../../../../hooks/useJudicialProcesses";
 import swal from "sweetalert";
@@ -9,6 +12,8 @@ import {
   closeLoading,
   openLoading,
 } from "../../../../../redux/actions/loading";
+import { useEffect } from "react";
+import { RootState } from "../../../../../interfaces/RootState";
 interface Props {
   handleClose: () => void;
 }
@@ -16,11 +21,24 @@ interface Props {
 export default function Form({ handleClose }: Props) {
   const dispatch = useDispatch();
   const { judicialProcesses, setJudicialProcesses } = useJudicialProcesses();
+  const processesDetails = useSelector(
+    (state: RootState) => state.processes.processesDetails
+  );
+
+  useEffect(() => {
+    if (processesDetails) {
+      setJudicialProcesses(processesDetails);
+    }
+  }, [processesDetails, setJudicialProcesses]);
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     dispatch(openLoading());
-    dispatch<any>(setProcesses(judicialProcesses))
+    dispatch<any>(
+      processesDetails
+        ? updateProcesses(judicialProcesses)
+        : setProcesses(judicialProcesses)
+    )
       .then(() => {
         dispatch(closeLoading());
         handleClose();
@@ -28,7 +46,7 @@ export default function Form({ handleClose }: Props) {
       })
       .catch((error: any) => {
         dispatch(closeLoading());
-        console.log();
+        console.log(error);
         swal("Error", "No se pudo guardar el proceso judicial", "error");
       });
   }

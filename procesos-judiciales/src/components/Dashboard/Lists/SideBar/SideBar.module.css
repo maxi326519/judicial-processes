@@ -1,3 +1,25 @@
 .sideBar {
+  display: flex;
+  flex-direction: column;
+  height: calc(100% - 65px);
+  overflow-y: scroll;
+  border-radius: 5px;
+  border: 1px solid var(--border);
+}
 
+.sideBar ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.sideBar button {
+  border: none;
+  width: 100%;
+  padding: 5px;
+  text-align: left;
+}
+
+.sideBar button:hover {
+  background-color: #0004;
 }

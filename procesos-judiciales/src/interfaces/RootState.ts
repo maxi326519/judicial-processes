@@ -11,7 +11,7 @@ export interface RootState {
   users: Users[];
   processes: {
     judicialProcesses: JudicialProcesses[];
-    processesDetails: ProcessesDetails;
+    processesDetails: ProcessesDetails | null;
   };
   lists: Lists;
   graphics: {};

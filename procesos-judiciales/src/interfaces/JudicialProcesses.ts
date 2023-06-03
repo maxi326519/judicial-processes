@@ -19,6 +19,7 @@ export interface ProcessesFilters {
 
 export interface ProcessesDetails {
   id?: string;
+  idHead?: string;
 
   apoderadoActual: string;
   apoderadoAnterior: string;

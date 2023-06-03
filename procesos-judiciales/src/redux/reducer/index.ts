@@ -8,6 +8,7 @@ import { IFrames } from "../../interfaces/iframes";
 import { GET_IFRAME, SET_IFRAME, UPDATE_IFRAME } from "../actions/iframe";
 import {
   DELETE_PROCESSES,
+  DELETE_PROCESSES_DETAILS,
   GET_PROCESSES,
   GET_PROCESSES_DETAILS,
   SET_PROCESSES,
@@ -22,7 +23,7 @@ const initialState: RootState = {
   users: [],
   processes: {
     judicialProcesses: [],
-    processesDetails: initProcessesDetails,
+    processesDetails: null,
   },
   lists: initLists,
   graphics: {},
@@ -77,7 +78,7 @@ export const rootReducer = (state = initialState, action: any) => {
         ...state,
         processes: {
           judicialProcesses: action.payload,
-          processesDetails: initProcessesDetails,
+          processesDetails: null,
         },
       };
 
@@ -97,7 +98,7 @@ export const rootReducer = (state = initialState, action: any) => {
           ...state.processes,
           judicialProcesses: state.processes.judicialProcesses.map(
             (processes) =>
-              processes.idSiproj === action.payload.idSiproj
+              processes.id === action.payload.id
                 ? action.payload
                 : processes
           ),
@@ -114,6 +115,15 @@ export const rootReducer = (state = initialState, action: any) => {
           processesDetails: initProcessesDetails,
         },
       };
+
+    case DELETE_PROCESSES_DETAILS:
+      return{
+        ...state,
+        processes: {
+          ...state.processes,
+          processesDetails: null
+        }
+      }
     /* PROCESSES */
 
     /* IFRAME */

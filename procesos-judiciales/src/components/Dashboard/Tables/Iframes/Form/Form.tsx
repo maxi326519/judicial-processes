@@ -21,7 +21,7 @@ export default function Form({ handleClose, handleSubmit, data }: Props) {
     if (data) {
       setIFrame(data);
     }
-  }, []);
+  }, [data]);
 
   function handlelocalSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();

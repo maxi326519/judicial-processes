@@ -21,6 +21,7 @@ export const GET_PROCESSES = "GET_PROCESSES";
 export const GET_PROCESSES_DETAILS = "GET_PROCESSES_DETAILS";
 export const UPDATE_PROCESSES = "UPDATE_PROCESSES";
 export const DELETE_PROCESSES = "DELETE_PROCESSES";
+export const DELETE_PROCESSES_DETAILS = "DELETE_PROCESSES_DETAILS";
 
 export function setProcesses(
   processes: ProcessesDetails
@@ -46,6 +47,7 @@ export function setProcesses(
       head.id = headDoc.id;
       head.idDetails = detailsDoc.id;
       details.id = detailsDoc.id;
+      details.idHead = headDoc.id;
 
       batch.set(headDoc, head);
       batch.set(detailsDoc, details);
@@ -88,9 +90,10 @@ export function importProcesses(processesList: {
         head.id = headDoc.id;
         head.idDetails = detailsDoc.id;
         detailsData.id = detailsDoc.id;
+        detailsData.idHead = headDoc.id;
 
         batch.set(headDoc, head);
-        batch.set(detailsDoc, details);
+        batch.set(detailsDoc, detailsData);
       });
 
       await batch.commit();
@@ -136,13 +139,15 @@ export function getProcessesDetails(
   idDetails: string
 ): ThunkAction<Promise<void>, RootState, null, AnyAction> {
   return async (dispatch: Dispatch<AnyAction>) => {
-    const colProcesses = collection(db, "Processes");
-    const snapshot = await getDoc(doc(colProcesses, idDetails));
-
     try {
+      const colProcesses = collection(db, "Details");
+      const snapshot = await getDoc(doc(colProcesses, idDetails));
+
+      let details = snapshot.data();
+
       dispatch({
         type: GET_PROCESSES_DETAILS,
-        payload: snapshot.data(),
+        payload: details,
       });
     } catch (e: any) {
       throw new Error(e);
@@ -157,6 +162,8 @@ export function updateProcesses(
     const batch = writeBatch(db);
 
     const head = {
+      id: processes.idHead,
+      idDetails: processes.id,
       idSiproj: processes.idSiproj,
       radRamaJudicialInicial: processes.radRamaJudicialInicial,
       radRamaJudicialActual: processes.radRamaJudicialActual,
@@ -166,15 +173,15 @@ export function updateProcesses(
 
     const colProcesses = collection(db, "Processes");
     const colDetails = collection(db, "Details");
-    batch.update(doc(colProcesses, processes.idSiproj.toString()), head);
-    batch.update(doc(colDetails, processes.idSiproj.toString()), details);
+    batch.update(doc(colProcesses, processes.idHead), head);
+    batch.update(doc(colDetails, processes.id), details);
 
     batch.commit();
 
     try {
       dispatch({
         type: UPDATE_PROCESSES,
-        payload: { head, details },
+        payload: head,
       });
     } catch (e: any) {
       throw new Error(e);
@@ -192,10 +199,6 @@ export function deleteProcesses(
       const colProcesses = collection(db, "Processes");
       const colDetails = collection(db, "Details");
 
-      console.log(colProcesses);
-      console.log(colDetails);
-      console.log(processes);
-
       batch.delete(doc(colProcesses, processes.id));
       batch.delete(doc(colDetails, processes.idDetails));
 
@@ -208,5 +211,11 @@ export function deleteProcesses(
     } catch (e: any) {
       throw new Error(e);
     }
+  };
+}
+
+export function deleteProcessesDetails() {
+  return {
+    type: DELETE_PROCESSES_DETAILS,
   };
 }

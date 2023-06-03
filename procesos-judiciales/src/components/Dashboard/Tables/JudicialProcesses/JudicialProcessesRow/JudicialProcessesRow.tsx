@@ -7,13 +7,13 @@ import deleteSvg from "../../../../../assets/svg/delete.svg";
 interface Props {
   judicialProcesses: JudicialProcesses;
   handleEdit: (id: number) => void;
-  handleDelete: (id: number) => void;
+  handleDelete: (procesess: JudicialProcesses) => void;
 }
 
 export default function JudicialProcessesRow({
   judicialProcesses,
   handleEdit,
-  handleDelete
+  handleDelete,
 }: Props) {
   return (
     <tr className={style.row}>
@@ -31,7 +31,7 @@ export default function JudicialProcessesRow({
       <button
         className="btn btn-outline-danger"
         type="button"
-        onClick={() => handleDelete(judicialProcesses.idSiproj)}
+        onClick={() => handleDelete(judicialProcesses)}
       >
         <img src={deleteSvg} alt="delete" />
       </button>

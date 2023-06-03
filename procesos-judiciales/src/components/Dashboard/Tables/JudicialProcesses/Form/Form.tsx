@@ -5,6 +5,10 @@ import useJudicialProcesses from "../../../../../hooks/useJudicialProcesses";
 import swal from "sweetalert";
 
 import style from "./Form.module.css";
+import {
+  closeLoading,
+  openLoading,
+} from "../../../../../redux/actions/loading";
 interface Props {
   handleClose: () => void;
 }
@@ -15,11 +19,15 @@ export default function Form({ handleClose }: Props) {
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    dispatch(openLoading());
     dispatch<any>(setProcesses(judicialProcesses))
       .then(() => {
+        dispatch(closeLoading());
+        handleClose();
         swal("Guardado", "Se guardo el proceso judicial", "success");
       })
       .catch((error: any) => {
+        dispatch(closeLoading());
         console.log();
         swal("Error", "No se pudo guardar el proceso judicial", "error");
       });

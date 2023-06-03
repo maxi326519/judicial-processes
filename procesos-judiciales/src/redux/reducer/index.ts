@@ -14,9 +14,10 @@ import {
   UPDATE_PROCESSES,
 } from "../actions/judicialProcesses";
 import { GET_USER, SET_USER } from "../actions/users";
-import { LOADING } from "../actions/loading";
+import { CLOSE_LOADING, LOADING } from "../actions/loading";
 
 const initialState: RootState = {
+  loading: false,
   user: initUser,
   users: [],
   processes: {
@@ -36,6 +37,13 @@ export const rootReducer = (state = initialState, action: any) => {
         ...state,
         loading: true,
       };
+
+    case CLOSE_LOADING:
+      return {
+        ...state,
+        loading: false,
+      };
+    /* LOADING */
 
     /* USERS */
     case SET_USER:
@@ -96,14 +104,16 @@ export const rootReducer = (state = initialState, action: any) => {
         },
       };
 
-      case DELETE_PROCESSES:
-        return {
-          ...state,
-          process:{
-            judicialProcesses: state.processes.judicialProcesses.filter((doc) => doc.id !== action.payload),
-            processesDetails: initProcessesDetails,
-          }
-        }
+    case DELETE_PROCESSES:
+      return {
+        ...state,
+        processes: {
+          judicialProcesses: state.processes.judicialProcesses.filter(
+            (doc) => doc.id !== action.payload
+          ),
+          processesDetails: initProcessesDetails,
+        },
+      };
     /* PROCESSES */
 
     /* IFRAME */

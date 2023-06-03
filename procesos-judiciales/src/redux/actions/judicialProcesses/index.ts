@@ -192,8 +192,14 @@ export function deleteProcesses(
       const colProcesses = collection(db, "Processes");
       const colDetails = collection(db, "Details");
 
+      console.log(colProcesses);
+      console.log(colDetails);
+      console.log(processes);
+
       batch.delete(doc(colProcesses, processes.id));
       batch.delete(doc(colDetails, processes.idDetails));
+
+      await batch.commit();
 
       dispatch({
         type: DELETE_PROCESSES,

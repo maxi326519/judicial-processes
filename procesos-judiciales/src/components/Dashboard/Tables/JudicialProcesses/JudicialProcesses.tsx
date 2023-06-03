@@ -21,6 +21,7 @@ import list from "../../../../assets/svg/list.svg";
 import loadingSvg from "../../../../assets/img/loading.gif";
 import errorSvg from "../../../../assets/svg/error.svg";
 import swal from "sweetalert";
+import { closeLoading, openLoading } from "../../../../redux/actions/loading";
 export default function JudicialProcessesTable() {
   const dispatch = useDispatch();
   const judicialProcesses = useSelector(
@@ -72,19 +73,34 @@ export default function JudicialProcessesTable() {
       });
   }
 
-  function handleDelete(id: number) {
-    dispatch<any>(deleteProcesses(id))
-      .then(() => {
-        swal("Eliminado", "Se eliminó correctamente el proceso", "success");
-      })
-      .catch((err: any) => {
-        console.log(err);
-        swal(
-          "Error",
-          "No se pudo eliminar este proceso, intentelo más tarde",
-          "error"
-        );
-      });
+  function handleDelete(processes: JudicialProcesses) {
+    swal({
+      text: "¿Seguro que desea eliminar este proceso?",
+      icon: "warning",
+      buttons: {
+        Aceptar: true,
+        Cancelar: true,
+      },
+    }).then((response: any) => {
+      console.log(response);
+      if (response === "Aceptar") {
+        dispatch(openLoading());
+        dispatch<any>(deleteProcesses(processes))
+          .then(() => {
+            dispatch(closeLoading());
+            swal("Eliminado", "Se eliminó correctamente el proceso", "success");
+          })
+          .catch((err: any) => {
+            dispatch(closeLoading());
+            console.log(err);
+            swal(
+              "Error",
+              "No se pudo eliminar este proceso, intentelo más tarde",
+              "error"
+            );
+          });
+      }
+    });
   }
 
   function handleFilter(filters: ProcessesFilters) {

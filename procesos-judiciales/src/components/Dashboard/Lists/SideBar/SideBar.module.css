@@ -1,7 +1,8 @@
 .sideBar {
   display: flex;
   flex-direction: column;
-  height: calc(100% - 65px);
+  height: calc(100% - 85px);
+  min-width: 300px;
   overflow-y: scroll;
   border-radius: 5px;
   border: 1px solid var(--border);
@@ -22,4 +23,9 @@
 
 .sideBar button:hover {
   background-color: #0004;
+}
+
+.sideBar .selected {
+  border-left: 4px solid var(--primary-color);
+  background-color: #0003;
 }

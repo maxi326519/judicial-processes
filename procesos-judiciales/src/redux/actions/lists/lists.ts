@@ -8,15 +8,15 @@ import {
   doc,
   getDoc,
   updateDoc,
+  writeBatch,
 } from "firebase/firestore";
 import { db } from "../../../firebase";
 
-const GET_LIST = "GET_LIST";
-const SET_ITEM = "SET_ITEM";
-const UPDATE_ITEM = "UPDATE_ITEM";
-const DELETE_ITEM = "DELETE_ITEM";
+export const GET_LIST = "GET_LIST";
+export const SET_ITEM = "SET_ITEM";
+export const DELETE_ITEM = "DELETE_ITEM";
 
-export function getList(): ThunkAction<Promise<void>, RootState, null, any> {
+export function getLists(): ThunkAction<Promise<void>, RootState, null, any> {
   return async (dispatch: Dispatch<any>) => {
     try {
       const listCol = collection(db, "Lists");
@@ -37,22 +37,27 @@ export function getList(): ThunkAction<Promise<void>, RootState, null, any> {
 // Acción para agregar un nuevo valor a una lista
 export function setItem(
   listName: string,
-  newValue: any
+  newValues: string[]
 ): ThunkAction<Promise<void>, RootState, null, any> {
   return async (dispatch: Dispatch<any>) => {
     try {
-      const listCol = collection(db, "List");
+      const batch = writeBatch(db);
+      const listCol = collection(db, "Lists");
       const listDoc = doc(listCol, "list");
 
-      await updateDoc(listDoc, {
-        [listName]: arrayUnion(newValue),
+      newValues.forEach((value: string) => {
+        batch.update(listDoc, {
+          [listName]: arrayUnion(value),
+        });
       });
+
+      batch.commit();
 
       dispatch({
         type: SET_ITEM,
         payload: {
           listName,
-          newValue,
+          newValues,
         },
       });
     } catch (error) {
@@ -61,54 +66,31 @@ export function setItem(
   };
 }
 
-// Acción para actualizar un valor en una lista
-export function updateItem(
-  listName: string,
-  newValue: any,
-  index: number
-): ThunkAction<Promise<void>, RootState, null, any> {
-  return async (dispatch: Dispatch<any>) => {
-    try {
-      const listCol = collection(db, "List");
-      const listDoc = doc(listCol, "list");
-
-      await updateDoc(listDoc, {
-        [`${listName}.${index}`]: newValue,
-      });
-
-      dispatch({
-        type: UPDATE_ITEM,
-        payload: {
-          listName,
-          newValue,
-          index,
-        },
-      });
-    } catch (error) {
-      console.error("Error al actualizar el valor en la lista:", error);
-    }
-  };
-}
-
 // Acción para eliminar un valor de una lista
 export function deleteItem(
   listName: string,
-  index: number
+  values: string[]
 ): ThunkAction<Promise<void>, RootState, null, any> {
   return async (dispatch: Dispatch<any>) => {
     try {
-      const listCol = collection(db, "List");
+      const batch = writeBatch(db);
+
+      const listCol = collection(db, "Lists");
       const listDoc = doc(listCol, "list");
 
-      await updateDoc(listDoc, {
-        [listName]: arrayRemove(index),
+      values.forEach((value: string) => {
+        batch.update(listDoc, {
+          [listName]: arrayRemove(value),
+        });
       });
+
+      batch.commit();
 
       dispatch({
         type: DELETE_ITEM,
         payload: {
           listName,
-          index,
+          values,
         },
       });
     } catch (error) {

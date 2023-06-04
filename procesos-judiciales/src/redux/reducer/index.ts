@@ -16,6 +16,8 @@ import {
 } from "../actions/judicialProcesses";
 import { GET_USER, SET_USER } from "../actions/users";
 import { CLOSE_LOADING, LOADING } from "../actions/loading";
+import { DELETE_ITEM, GET_LIST, SET_ITEM } from "../actions/lists/lists";
+import Lists from "../../components/Dashboard/Lists/Lists";
 
 const initialState: RootState = {
   loading: false,
@@ -98,9 +100,7 @@ export const rootReducer = (state = initialState, action: any) => {
           ...state.processes,
           judicialProcesses: state.processes.judicialProcesses.map(
             (processes) =>
-              processes.id === action.payload.id
-                ? action.payload
-                : processes
+              processes.id === action.payload.id ? action.payload : processes
           ),
         },
       };
@@ -117,14 +117,48 @@ export const rootReducer = (state = initialState, action: any) => {
       };
 
     case DELETE_PROCESSES_DETAILS:
-      return{
+      return {
         ...state,
         processes: {
           ...state.processes,
-          processesDetails: null
-        }
-      }
+          processesDetails: null,
+        },
+      };
     /* PROCESSES */
+
+    /* LISTS */
+    case GET_LIST:
+      return {
+        ...state,
+        lists: action.payload,
+      };
+
+    case SET_ITEM:
+      return {
+        ...state,
+        lists: {
+          ...state.lists,
+          [action.payload.listName]: [
+            ...state.lists[action.payload.listName as keyof typeof state.lists],
+            ...action.payload.newValues,
+          ],
+        },
+      };
+
+    case DELETE_ITEM:
+      return {
+        ...state,
+        lists: {
+          ...state.lists,
+          [action.payload.listName]: state.lists[
+            action.payload.listName as keyof typeof state.lists
+          ].filter(
+            (item) =>
+              !action.payload.values.some((value: string) => value === item)
+          ),
+        },
+      };
+    /* LISTS */
 
     /* IFRAME */
     case SET_IFRAME:

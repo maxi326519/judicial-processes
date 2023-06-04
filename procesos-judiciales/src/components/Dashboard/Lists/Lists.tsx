@@ -27,7 +27,7 @@ const lists = [
 ];
 
 export default function Lists({ handleClose }: Props) {
-  const [name, setName] = useState<string>("procesoAltoImpacto");
+  const [name, setName] = useState<string>("calidadActuacionEntidad");
 
   function handleSelect(index: number) {
     setName(lists[index]);
@@ -41,7 +41,7 @@ export default function Lists({ handleClose }: Props) {
           <div className="btn-close" onClick={handleClose} />
         </header>
         <div className={style.container}>
-          <SideBar handleSelect={handleSelect} />
+          <SideBar name={name} handleSelect={handleSelect} />
           <Tables name={name} />
         </div>
       </div>

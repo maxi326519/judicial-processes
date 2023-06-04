@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../interfaces/RootState";
 import { closeLoading, openLoading } from "../../../../redux/actions/loading";
+import { getLists } from "../../../../redux/actions/lists/lists";
 import {
   deleteProcesses,
   deleteProcessesDetails,
@@ -67,6 +68,7 @@ export default function JudicialProcessesTable() {
   function handleGetProcesses() {
     setLoading(true);
     setError(false);
+    dispatch<any>(getLists());
     dispatch<any>(getProcesses())
       .then(() => {
         setLoading(false);

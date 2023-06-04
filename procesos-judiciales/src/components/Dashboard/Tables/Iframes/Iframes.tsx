@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../interfaces/RootState";
 import { useEffect, useState } from "react";
 import {
+  deleteIframe,
   getIframe,
   setIframe,
   updateIframe,
@@ -31,7 +32,7 @@ const IFrameInput = () => {
     handleGetIFrames();
   }, []);
 
-  function handleView(iframe: IFrames) {
+  function handleView(iframe: IFrames | undefined) {
     setDataView(iframe);
   }
 
@@ -74,6 +75,31 @@ const IFrameInput = () => {
         swal("Error", "No se pudo guardar el iframe", "error");
         console.log(err);
       });
+  }
+
+  function handleDelete(idIframe: string) {
+    swal({
+      text: "¿Seguro desea eliminar este iframe?",
+      icon: "warning",
+      buttons: {
+        Si: true,
+        No: true,
+      },
+    }).then((response: any) => {
+      if (response === "Si") {
+        dispatch(openLoading());
+        dispatch<any>(deleteIframe(idIframe))
+          .then(() => {
+            dispatch(closeLoading());
+            swal("Eliminado", "Se elimino el iframe correctamente", "success");
+          })
+          .catch((err: any) => {
+            dispatch(closeLoading());
+            swal("Error", "No se pudo eliminar el iframe", "error");
+            console.log(err);
+          });
+      }
+    });
   }
 
   return (
@@ -145,6 +171,7 @@ const IFrameInput = () => {
                   iframe={iframe}
                   handleEdit={handleEdit}
                   handleView={handleView}
+                  handleDelete={handleDelete}
                 />
               ))
             )}

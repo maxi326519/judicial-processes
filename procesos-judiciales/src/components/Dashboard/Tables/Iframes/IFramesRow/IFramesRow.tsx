@@ -3,14 +3,16 @@
 import style from "./IFramesRow.module.css";
 import editSvg from "../../../../../assets/svg/edit.svg";
 import viewSvg from "../../../../../assets/svg/view.svg";
+import deleteSvg from "../../../../../assets/svg/delete.svg";
 
 interface Props {
   iframe: IFrames;
   handleEdit: (iframe: IFrames) => void;
   handleView: (iframe: IFrames) => void;
+  handleDelete: (idIframe: string) => void;
 }
 
-export default function IFramesRow({ iframe, handleEdit, handleView }: Props) {
+export default function IFramesRow({ iframe, handleEdit, handleView, handleDelete }: Props) {
   return (
     <tr className={style.row}>
       <td>{iframe.name}</td>
@@ -27,6 +29,13 @@ export default function IFramesRow({ iframe, handleEdit, handleView }: Props) {
         onClick={() => handleView(iframe)}
       >
         <img src={viewSvg} alt="edit" />
+      </button>
+      <button
+        className="btn btn-outline-danger"
+        type="button"
+        onClick={() => handleDelete(iframe.id!)}
+      >
+        <img src={deleteSvg} alt="delete" />
       </button>
     </tr>
   );

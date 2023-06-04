@@ -7,7 +7,7 @@
   align-items: center;
   width: 100%;
   height: 100vh;
-  background-color: #00000066;
+  background-color: #0006;
 }
 
 .form {
@@ -20,8 +20,7 @@
   padding: 20px;
   padding-top: 0;
   border-radius: 5px;
-  color: var(--dark-font);
-  background-color: var(--dark-panel);
+  background-color: var(--background);
 }
 
 .close {
@@ -50,15 +49,6 @@
 
 .flex textarea {
   height: 300px !important;
-  background-color: var(--dark-panel);
-  border: 1px solid var(--dark-border);
-  color: white;
   resize: none;
 }
 
-.flex textarea:focus,
-.flex textarea:active {
-  background-color: #00000044;
-  border: 1px solid var(--dark-border);
-  color: white;
-}

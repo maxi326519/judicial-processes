@@ -5,7 +5,12 @@ import {
 import { RootState } from "../../interfaces/RootState";
 import { initUser } from "../../interfaces/users";
 import { IFrames } from "../../interfaces/iframes";
-import { GET_IFRAME, SET_IFRAME, UPDATE_IFRAME } from "../actions/iframe";
+import {
+  DELETE_IFRAME,
+  GET_IFRAME,
+  SET_IFRAME,
+  UPDATE_IFRAME,
+} from "../actions/iframe";
 import {
   DELETE_PROCESSES,
   DELETE_PROCESSES_DETAILS,
@@ -178,6 +183,14 @@ export const rootReducer = (state = initialState, action: any) => {
         ...state,
         iframes: state.iframes.map((iframe: IFrames) =>
           iframe.id === action.payload.id ? action.payload : iframe
+        ),
+      };
+
+    case DELETE_IFRAME:
+      return {
+        ...state,
+        iframes: state.iframes.filter(
+          (item: IFrames) => item.id !== action.payload
         ),
       };
     /* IFRAME */

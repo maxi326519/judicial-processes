@@ -4,7 +4,7 @@ import styles from "./IframeRender.module.css";
 
 interface Props {
   iframe: IFrames;
-  handleClose: (iframe: IFrames) => void;
+  handleClose: (iframe: IFrames | undefined) => void;
 }
 
 const IFrameRenderer = ({ iframe, handleClose }: Props) => {
@@ -12,7 +12,7 @@ const IFrameRenderer = ({ iframe, handleClose }: Props) => {
     <div className={styles.background}>
       <header>
         <h3>{iframe.name}</h3>
-        <div className="btn btn-close" onClick={() => handleClose(iframe)} />
+        <div className="btn btn-close" onClick={() => handleClose(undefined)} />
       </header>
       <div
         className={styles.container}

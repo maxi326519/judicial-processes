@@ -79,7 +79,7 @@ export default function Filters({ filters, handleSetFilter }: Props) {
               onChange={handleChange}
             />
             <label htmlFor="radRamaJudicialInicial">
-              Rud de proceso rama judicial (INICIAL)
+              Rad. de proceso rama judicial (INICIAL)
             </label>
           </div>
 
@@ -94,7 +94,7 @@ export default function Filters({ filters, handleSetFilter }: Props) {
               onChange={handleChange}
             />
             <label htmlFor="radRamaJudicialActual">
-              Rud de proceso rama judicial (ACTUAL)
+              Rad. de proceso rama judicial (ACTUAL)
             </label>
           </div>
 

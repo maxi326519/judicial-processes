@@ -9,7 +9,7 @@
   align-items: center;
   width: 100%;
   height: 100%;
-  background-color: var(--dark-background);
+  background-color: var(--background);
 }
 
 .background header {
@@ -28,4 +28,8 @@
 .container {
   flex-grow: 1;
   width: 100%;
+}
+
+.container iframe{
+  height: 100%;
 }

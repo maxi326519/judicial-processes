@@ -38,7 +38,7 @@ export default function JudicialProcessesTable() {
   const [form, setForm] = useState<boolean>(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [list, setList] = useState(true);
+  const [list, setList] = useState(false);
 
   useEffect(() => {
     if (judicialProcesses.length === 0) handleGetProcesses();

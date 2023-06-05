@@ -3,6 +3,7 @@ import users from "../../../assets/svg/users.svg";
 import judicial from "../../../assets/svg/judicial.svg";
 import excel from "../../../assets/svg/excel.svg";
 import graphics from "../../../assets/svg/graphics.svg";
+import logo from "../../../assets/img/logo.png";
 
 import styles from "./SideBar.module.css";
 
@@ -23,8 +24,7 @@ export default function SideBar({ table, changeTable }: Props) {
   return (
     <div className={styles.sideBar}>
       <div className={styles.head}>
-        <span></span>
-        {/*         <img src={logo} alt="logo" /> */}
+        <img src={logo} alt="logo" />
       </div>
       {items.map((item, i) => (
         <button

@@ -12,12 +12,11 @@
   justify-content: center;
   align-items: center;
   max-width: 300px;
-  padding: 30px;
   background-color: #0002;
 }
 
 .head img {
-  width: 80%;
+  width: 100%;
 }
 
 .sideBar button {

@@ -7,7 +7,7 @@ import { Timestamp } from "firebase/firestore";
 import useJudicialProcesses from "../../../../../hooks/useJudicialProcesses";
 import swal from "sweetalert";
 
-import style from "./Form.module.css";
+import styles from "./Form.module.css";
 import {
   closeLoading,
   openLoading,
@@ -72,12 +72,12 @@ export default function Form({ handleClose }: Props) {
   }
 
   return (
-    <form className={`toTop ${style.form}`} onSubmit={handleSubmit}>
-      <div className={style.close}>
+    <form className={`toTop ${styles.form}`} onSubmit={handleSubmit}>
+      <div className={styles.close}>
         <h3>Agregar inventario</h3>
         <div className="btn-close" onClick={handleLocalClose} />
       </div>
-      <div className={style.grid}>
+      <div className={styles.grid}>
         {/* ID SIPROJ */}
         <div className="form-floating">
           <input
@@ -186,7 +186,7 @@ export default function Form({ handleClose }: Props) {
         </div>
 
         {/* DIAS TERMINOS DE CONTESTACION */}
-        <div className="form-floating">
+        <div className={`form-floating ${styles.formulada}`}>
           <input
             id="diasTerminoContestacion"
             name="diasTerminoContestacion"
@@ -241,7 +241,7 @@ export default function Form({ handleClose }: Props) {
         </div>
 
         {/* FECHA LIMITE PROBABLE DE CONTESTACION */}
-        <div className="form-floating">
+        <div className={`form-floating ${styles.formulada}`}>
           <input
             id="fechaLimiteProbContestacion"
             name="fechaLimiteProbContestacion"
@@ -261,7 +261,7 @@ export default function Form({ handleClose }: Props) {
         </div>
 
         {/* VALIDACION DE CONTESTACION */}
-        <div className="form-floating">
+        <div className={`form-floating ${styles.formulada}`}>
           <input
             id="validacionContestacion"
             name="validacionContestacion"
@@ -427,7 +427,7 @@ export default function Form({ handleClose }: Props) {
         </div>
 
         {/* VALOR DE LAS PRETENSIONES EN SMLVM */}
-        <div className="form-floating">
+        <div className={`form-floating ${styles.formulada}`}>
           <input
             id="valorPretensionesSMLVM"
             name="valorPretensionesSMLVM"

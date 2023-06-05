@@ -27,7 +27,7 @@ const lists = [
 ];
 
 export default function Lists({ handleClose }: Props) {
-  const [name, setName] = useState<string>("calidadActuacionEntidad");
+  const [name, setName] = useState<string>(lists[0]);
 
   function handleSelect(index: number) {
     setName(lists[index]);

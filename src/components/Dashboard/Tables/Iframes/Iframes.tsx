@@ -29,7 +29,9 @@ const IFrameInput = () => {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    handleGetIFrames();
+    if (iframes.length <= 0) {
+      handleGetIFrames();
+    }
   }, []);
 
   function handleView(iframe: IFrames | undefined) {

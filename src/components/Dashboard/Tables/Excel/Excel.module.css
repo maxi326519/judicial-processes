@@ -28,6 +28,10 @@
   padding-left: 10px;
 }
 
+.controls .filter .counter{
+  width: 410px;;
+}
+
 .controls div {
   gap: 10px;
 }

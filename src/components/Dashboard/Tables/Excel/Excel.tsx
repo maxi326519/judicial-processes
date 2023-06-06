@@ -9,6 +9,7 @@ import {
 import {
   JudicialProcesses,
   ProcessesDetails,
+  ProcessesState,
 } from "../../../../interfaces/JudicialProcesses";
 
 import ExcelRow from "./ExcelRow/ExcelRow";
@@ -21,6 +22,7 @@ import exportSvg from "../../../../assets/svg/export.svg";
 import ImportExcel from "./ImportExcel/ImportExcel";
 import swal from "sweetalert";
 import { closeLoading, openLoading } from "../../../../redux/actions/loading";
+import ExportExcel from "./ExportExcel/ExportExcel";
 
 enum actionType {
   import,
@@ -42,7 +44,7 @@ export default function Excel() {
   const [form, setForm] = useState<boolean>(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [type, setType] = useState<number>(0);
+  const [state, setState] = useState<ProcessesState | string>("");
   const [data, setData] = useState<Data>(initData);
   const [action, setAction] = useState<actionType>(actionType.export);
 
@@ -53,13 +55,12 @@ export default function Excel() {
   useEffect(() => {
     setRows(
       judicialProcesses.filter((processes) => {
-        if (type === 0) return true;
-        if (type === 1) return true;
-        if (type === 2) return true;
+        console.log(state, processes.estado);
+        if ((state !== "") && (processes.estado !== state)) return false;
         return true;
       })
     );
-  }, [judicialProcesses, type]);
+  }, [judicialProcesses, state]);
 
   function handleGetProcesses() {
     setLoading(true);
@@ -76,7 +77,13 @@ export default function Excel() {
   }
 
   function handleSelect(event: React.ChangeEvent<HTMLSelectElement>) {
-    setType(Number(event.target.value));
+    if (event.target.value === "") {
+      setState("");
+    } else if (event.target.value === ProcessesState.Activo) {
+      setState(ProcessesState.Activo);
+    } else if (event.target.value === ProcessesState.Terminado) {
+      setState(ProcessesState.Terminado);
+    }
   }
 
   function handleData(data: Data) {
@@ -90,12 +97,20 @@ export default function Excel() {
     dispatch<any>(importProcesses(data))
       .then(() => {
         dispatch(closeLoading());
+        setAction(actionType.export);
+        setData(initData);
+        setRows(judicialProcesses);
+
         swal("Guardado", "Se guardaron todos los datos con exito", "success");
       })
       .catch((error: any) => {
         console.log(error);
         dispatch(closeLoading());
-        swal("Error", "No se pudieron guardar todos los datos", "error");
+        if (error.message.includes("Hubo un error")) {
+          swal("Error", error.message, "error");
+        } else {
+          swal("Error", "No se pudieron guardar todos los datos", "error");
+        }
       });
   }
 
@@ -129,17 +144,18 @@ export default function Excel() {
       <div className={styles.controls}>
         {action === actionType.export ? (
           <div className={styles.filter}>
-            <label htmlFor="type">Tipo: </label>
+            <label htmlFor="state">Tipo: </label>
             <select
-              id="type"
+              id="state"
               className="form-select"
-              value={type}
+              value={state}
               onChange={handleSelect}
             >
-              <option value="0">Todos</option>
-              <option value="1">Activos</option>
-              <option value="2">Terminados</option>
+              <option value="">Todos</option>
+              <option value={ProcessesState.Activo}>Activos</option>
+              <option value={ProcessesState.Terminado}>Terminados</option>
             </select>
+            <span className={styles.counter}>{rows.length} procesos seleccionados</span>
           </div>
         ) : (
           <div>
@@ -168,10 +184,7 @@ export default function Excel() {
             <img src={importSvg} alt="import" />
             <span>Importar</span>
           </button>
-          <button className="btn btn-outline-primary" type="button">
-            <img src={exportSvg} alt="export" />
-            <span>Exportar</span>
-          </button>
+          <ExportExcel data={rows} />
         </div>
       </div>
       <table className={styles.table}>

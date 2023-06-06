@@ -32,6 +32,8 @@ export function setProcesses(
 
       let head: JudicialProcesses = {
         idSiproj: processes.idSiproj,
+        estado: processes.estado,
+        apoderadoActual: processes.apoderadoActual,
         radRamaJudicialInicial: processes.radRamaJudicialInicial,
         radRamaJudicialActual: processes.radRamaJudicialActual,
         demandante: processes.demandante,
@@ -71,30 +73,39 @@ export function importProcesses(processesList: {
   return async (dispatch: Dispatch<AnyAction>) => {
     try {
       const batch = writeBatch(db);
+      let row = 0;
 
-      processesList.details.forEach((details: ProcessesDetails) => {
-        let head: JudicialProcesses = {
-          idSiproj: details.idSiproj,
-          radRamaJudicialInicial: details.radRamaJudicialInicial,
-          radRamaJudicialActual: details.radRamaJudicialActual,
-          demandante: details.demandante,
-        };
-        let detailsData = details;
+      try {
+        processesList.details.forEach((details: ProcessesDetails) => {
+          row++;
 
-        const colProcesses = collection(db, "Processes");
-        const colDetails = collection(db, "Details");
+          let head: JudicialProcesses = {
+            idSiproj: details.idSiproj,
+            estado: details.estado,
+            apoderadoActual: details.apoderadoActual,
+            radRamaJudicialInicial: details.radRamaJudicialInicial,
+            radRamaJudicialActual: details.radRamaJudicialActual,
+            demandante: details.demandante,
+          };
+          let detailsData = details;
 
-        const headDoc = doc(colProcesses);
-        const detailsDoc = doc(colDetails);
+          const colProcesses = collection(db, "Processes");
+          const colDetails = collection(db, "Details");
 
-        head.id = headDoc.id;
-        head.idDetails = detailsDoc.id;
-        detailsData.id = detailsDoc.id;
-        detailsData.idHead = headDoc.id;
+          const headDoc = doc(colProcesses);
+          const detailsDoc = doc(colDetails);
 
-        batch.set(headDoc, head);
-        batch.set(detailsDoc, detailsData);
-      });
+          head.id = headDoc.id;
+          head.idDetails = detailsDoc.id;
+          detailsData.id = detailsDoc.id;
+          detailsData.idHead = headDoc.id;
+
+          batch.set(headDoc, head);
+          batch.set(detailsDoc, detailsData);
+        });
+      } catch (error) {
+        throw new Error(`Hubo un error en la fila ${row} `) ;
+      }
 
       await batch.commit();
 

@@ -4,14 +4,21 @@ export interface JudicialProcesses {
   id?: string;
   idDetails?: string;
   idSiproj: number;
+  estado: ProcessesState;
+  apoderadoActual: string;
   radRamaJudicialInicial: string;
   radRamaJudicialActual: string;
   demandante: string;
 }
 
+export enum ProcessesState {
+  Activo = "activo",
+  Terminado = "terminado",
+}
+
 export interface ProcessesFilters {
-  apoderadoActual: string;
   idSiproj: number;
+  apoderadoActual: string;
   radRamaJudicialInicial: string;
   radRamaJudicialActual: string;
   demandante: string;
@@ -33,6 +40,7 @@ export interface ProcessesDetails {
 
   diasTerminoContestacion: number;
   fechaNotificacion: Timestamp | null;
+  fechaAdmision: Timestamp | null;
   fechaContestacion: Timestamp | null;
   fechaLimiteProbContestacion: Timestamp | null;
   validacionContestacion: string;
@@ -64,7 +72,7 @@ export interface ProcessesDetails {
   fechaPresentacionRecurso: Timestamp | null;
   fechaFalloSegundaInstancia: Timestamp | null;
   sentidoFalloSegundaInstancia: string;
-  resumenSegundaInstanciaL: string;
+  resumenSegundaInstancia: string;
 
   incidente: string;
   estadoIncidente: string;
@@ -73,7 +81,7 @@ export interface ProcessesDetails {
   observaciones: string;
 
   calificacionContingente: string;
-  estado: string;
+  estado: ProcessesState;
   fechaTerminacion: Timestamp | null;
 }
 
@@ -133,6 +141,7 @@ export const initProcessesDetails: ProcessesDetails = {
 
   diasTerminoContestacion: 0,
   fechaNotificacion: Timestamp.now(),
+  fechaAdmision: Timestamp.now(),
   fechaContestacion: Timestamp.now(),
   fechaLimiteProbContestacion: Timestamp.now(),
   validacionContestacion: "",
@@ -164,7 +173,7 @@ export const initProcessesDetails: ProcessesDetails = {
   fechaPresentacionRecurso: Timestamp.now(),
   fechaFalloSegundaInstancia: Timestamp.now(),
   sentidoFalloSegundaInstancia: "",
-  resumenSegundaInstanciaL: "",
+  resumenSegundaInstancia: "",
 
   incidente: "",
   estadoIncidente: "",
@@ -173,6 +182,6 @@ export const initProcessesDetails: ProcessesDetails = {
   observaciones: "",
 
   calificacionContingente: "",
-  estado: "",
+  estado: ProcessesState.Activo,
   fechaTerminacion: Timestamp.now(),
 };

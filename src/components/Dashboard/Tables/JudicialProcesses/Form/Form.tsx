@@ -186,14 +186,15 @@ export default function Form({ handleClose }: Props) {
         </div>
 
         {/* DIAS TERMINOS DE CONTESTACION */}
-        <div className={`form-floating ${styles.formulada}`}>
+        <div className="form-floating">
           <input
             id="diasTerminoContestacion"
             name="diasTerminoContestacion"
-            className="form-control"
+            className={`form-control ${styles.formuladas}`}
             type="number"
             value={judicialProcesses.diasTerminoContestacion}
             onChange={handleChange}
+            disabled={true}
           />
           <label htmlFor="diasTerminoContestacion" className="form-label">
             Días términos de contestación:
@@ -241,11 +242,11 @@ export default function Form({ handleClose }: Props) {
         </div>
 
         {/* FECHA LIMITE PROBABLE DE CONTESTACION */}
-        <div className={`form-floating ${styles.formulada}`}>
+        <div className="form-floating">
           <input
             id="fechaLimiteProbContestacion"
             name="fechaLimiteProbContestacion"
-            className="form-control"
+            className={`form-control ${styles.formuladas}`}
             type="date"
             value={
               judicialProcesses.fechaLimiteProbContestacion
@@ -254,6 +255,7 @@ export default function Form({ handleClose }: Props) {
                 .split("T")[0]
             }
             onChange={handleChange}
+            disabled={true}
           />
           <label htmlFor="fechaLimiteProbContestacion" className="form-label">
             Fecha límite de la contestación:
@@ -261,14 +263,15 @@ export default function Form({ handleClose }: Props) {
         </div>
 
         {/* VALIDACION DE CONTESTACION */}
-        <div className={`form-floating ${styles.formulada}`}>
+        <div className="form-floating">
           <input
             id="validacionContestacion"
             name="validacionContestacion"
-            className="form-control"
+            className={`form-control ${styles.formuladas}`}
             type="text"
             value={judicialProcesses.validacionContestacion}
             onChange={handleChange}
+            disabled={true}
           />
           <label htmlFor="validacionContestacion" className="form-label">
             Validación de la contestación:
@@ -427,14 +430,15 @@ export default function Form({ handleClose }: Props) {
         </div>
 
         {/* VALOR DE LAS PRETENSIONES EN SMLVM */}
-        <div className={`form-floating ${styles.formulada}`}>
+        <div className="form-floating">
           <input
             id="valorPretensionesSMLVM"
             name="valorPretensionesSMLVM"
-            className="form-control"
+            className={`form-control ${styles.formuladas}`}
             type="number"
             value={judicialProcesses.valorPretensionesSMLVM}
             onChange={handleChange}
+            disabled={true}
           />
           <label htmlFor="valorPretensionesSMLVM" className="form-label">
             Valor de las pretesiones en SMLVM:
@@ -618,14 +622,14 @@ export default function Form({ handleClose }: Props) {
         {/* RESUMEN SEGUNDA INSTANCIA */}
         <div className="form-floating">
           <input
-            id="resumenSegundaInstanciaL"
-            name="resumenSegundaInstanciaL"
+            id="resumenSegundaInstancia"
+            name="resumenSegundaInstancia"
             className="form-control"
             type="text"
-            value={judicialProcesses.resumenSegundaInstanciaL}
+            value={judicialProcesses.resumenSegundaInstancia}
             onChange={handleChange}
           />
-          <label htmlFor="resumenSegundaInstanciaL" className="form-label">
+          <label htmlFor="resumenSegundaInstancia" className="form-label">
             Resumen segunda instancia:
           </label>
         </div>

@@ -67,8 +67,8 @@
   border: 1px solid var(--border);
 }
 
-.formuladas{
-  background-color: #f906;
+.grid .formuladas{
+  background-color: #f944 !important;
 }
 
 /* APODERADO ACTUAL */

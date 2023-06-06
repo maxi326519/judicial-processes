@@ -100,6 +100,7 @@ export interface Lists {
   estadoIncidente: string[];
   calificacionContingente: string[];
   estado: string[];
+  diasFestivos: string[];
 }
 
 export const initLists = {
@@ -117,6 +118,7 @@ export const initLists = {
   estadoIncidente: [],
   calificacionContingente: [],
   estado: [],
+  diasFestivos: [],
 };
 
 export const initProcessesFilters: ProcessesFilters = {

@@ -20,6 +20,7 @@ const lists = [
   ["Estado del incidente", "estadoIncidente"],
   ["Calificacion contingente", "calificacionContingente"],
   ["Estado", "estado"],
+  ["Dias festivos", "diasFestivos"]
 ];
 
 export default function SideBar({ name, handleSelect }: Props) {

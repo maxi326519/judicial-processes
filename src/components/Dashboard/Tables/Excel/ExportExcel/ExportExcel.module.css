@@ -1,12 +1,10 @@
 .export {
   display: flex;
   align-items: center;
-  height: 58px;
 }
 
 .export img {
-  width: 25px;
-  filter: invert(100%);
+  width: 20px;
 }
 
 .export span {

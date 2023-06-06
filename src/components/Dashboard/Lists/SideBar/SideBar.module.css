@@ -1,7 +1,7 @@
 .sideBar {
   display: flex;
   flex-direction: column;
-  height: calc(100% - 85px);
+  height: calc(100% - 115px);
   min-width: 300px;
   overflow-y: scroll;
   border-radius: 5px;

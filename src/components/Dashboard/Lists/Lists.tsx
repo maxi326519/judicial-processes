@@ -24,6 +24,7 @@ const lists = [
   "estadoIncidente",
   "calificacionContingente",
   "estado",
+  "diasFestivos",
 ];
 
 export default function Lists({ handleClose }: Props) {

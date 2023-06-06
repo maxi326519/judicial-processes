@@ -12,7 +12,7 @@ export default function ExportExcel({ data }) {
     <ExcelFile
       element={
         <button
-          className={`btn btn-primary ${style.export}`}
+          className={`btn btn-outline-primary ${style.export}`}
           onClick={() => console.log("Data:", data)}
         >
           <img src={exportSvg} alt="export" />

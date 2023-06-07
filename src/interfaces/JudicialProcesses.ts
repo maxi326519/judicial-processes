@@ -27,45 +27,34 @@ export interface ProcessesFilters {
 export interface ProcessesDetails {
   id?: string;
   idHead?: string;
-
   apoderadoActual: string;
   apoderadoAnterior: string;
   idSiproj: number;
   procesoAltoImpacto: string;
-
   radRamaJudicialInicial: string;
   radRamaJudicialActual: string;
-
   tipoProceso: string;
-
   diasTerminoContestacion: number;
   fechaNotificacion: Timestamp | null;
   fechaAdmision: Timestamp | null;
   fechaContestacion: Timestamp | null;
   fechaLimiteProbContestacion: Timestamp | null;
   validacionContestacion: string;
-
   calidadActuacionEntidad: string;
-
   demandados: string;
   idDemanante: number;
   demandante: string;
   despachoInicial: string;
   despachoActual: string;
-
   posicionSDP: string;
   temaGeneral: string;
-
   pretensionAsunto: string;
-
   cuantiaEstimada: number;
   valorPretensionesSMLVM: number;
-
   instanciaProceso: string;
   fechaProceso: Timestamp | null;
   ultimoEstadoProceso: string;
   etapaProcesal: string;
-
   fechaFalloPrimeraInstancia: Timestamp | null;
   sentidoFalloPrimeraInstancia: string;
   resumenPrimeraInstancia: string;
@@ -73,21 +62,60 @@ export interface ProcessesDetails {
   fechaFalloSegundaInstancia: Timestamp | null;
   sentidoFalloSegundaInstancia: string;
   resumenSegundaInstancia: string;
-
   incidente: string;
   estadoIncidente: string;
   resumenIncidente: string;
-
   observaciones: string;
-
   calificacionContingente: string;
   estado: ProcessesState;
   fechaTerminacion: Timestamp | null;
 }
 
+export interface ErrorProcesses {
+  apoderadoActual: string;
+  idSiproj: string;
+  radRamaJudicialInicial: string;
+  radRamaJudicialActual: string;
+  tipoProceso: string;
+  fechaNotificacion: string;
+  calidadActuacionEntidad: string;
+  demandados: string;
+  idDemanante: string;
+  demandante: string;
+  despachoInicial: string;
+  despachoActual: string;
+  temaGeneral: string;
+  pretensionAsunto: string;
+  cuantiaEstimada: string;
+  instanciaProceso: string;
+  etapaProcesal: string;
+  estado: string;
+}
+
+export const initErrorProcesses = {
+  apoderadoActual: "",
+  idSiproj: "",
+  radRamaJudicialInicial: "",
+  radRamaJudicialActual: "",
+  tipoProceso: "",
+  fechaNotificacion: "",
+  calidadActuacionEntidad: "",
+  demandados: "",
+  idDemanante: "",
+  demandante: "",
+  despachoInicial: "",
+  despachoActual: "",
+  temaGeneral: "",
+  pretensionAsunto: "",
+  cuantiaEstimada: "",
+  instanciaProceso: "",
+  etapaProcesal: "",
+  estado: "",
+};
+
 export interface Lists {
   procesoAltoImpacto: string[];
-  tipoProceso: string[];
+  tipoProceso: Array<{ tipo: string; dias: number }>;
   calidadActuacionEntidad: string[];
   despachoInicial: string[];
   despachoActual: string[];
@@ -100,7 +128,8 @@ export interface Lists {
   estadoIncidente: string[];
   calificacionContingente: string[];
   estado: string[];
-  diasFestivos: string[];
+  diasFestivos: Array<{ fecha: string; descripcion: string }>;
+  salariosMinimos: Array<{ fecha: string; salario: number }>;
 }
 
 export const initLists = {
@@ -131,59 +160,45 @@ export const initProcessesFilters: ProcessesFilters = {
 
 export const initProcessesDetails: ProcessesDetails = {
   idSiproj: 0,
-
   apoderadoActual: "",
   apoderadoAnterior: "",
   procesoAltoImpacto: "",
-
   radRamaJudicialInicial: "",
   radRamaJudicialActual: "",
-
   tipoProceso: "",
-
   diasTerminoContestacion: 0,
-  fechaNotificacion: Timestamp.now(),
-  fechaAdmision: Timestamp.now(),
-  fechaContestacion: Timestamp.now(),
-  fechaLimiteProbContestacion: Timestamp.now(),
+  fechaNotificacion: null,
+  fechaAdmision: null,
+  fechaContestacion: null,
+  fechaLimiteProbContestacion: null,
   validacionContestacion: "",
-
   calidadActuacionEntidad: "",
-
   demandados: "",
   idDemanante: 0,
   demandante: "",
   despachoInicial: "",
   despachoActual: "",
-
   posicionSDP: "",
   temaGeneral: "",
-
   pretensionAsunto: "",
-
   cuantiaEstimada: 0,
   valorPretensionesSMLVM: 0,
-
   instanciaProceso: "",
-  fechaProceso: Timestamp.now(),
+  fechaProceso: null,
   ultimoEstadoProceso: "",
   etapaProcesal: "",
-
-  fechaFalloPrimeraInstancia: Timestamp.now(),
+  fechaFalloPrimeraInstancia: null,
   sentidoFalloPrimeraInstancia: "",
   resumenPrimeraInstancia: "",
-  fechaPresentacionRecurso: Timestamp.now(),
-  fechaFalloSegundaInstancia: Timestamp.now(),
+  fechaPresentacionRecurso: null,
+  fechaFalloSegundaInstancia: null,
   sentidoFalloSegundaInstancia: "",
   resumenSegundaInstancia: "",
-
   incidente: "",
   estadoIncidente: "",
   resumenIncidente: "",
-
   observaciones: "",
-
   calificacionContingente: "",
   estado: ProcessesState.Activo,
-  fechaTerminacion: Timestamp.now(),
+  fechaTerminacion: null,
 };

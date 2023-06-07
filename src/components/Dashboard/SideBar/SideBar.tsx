@@ -28,6 +28,7 @@ export default function SideBar({ table, changeTable }: Props) {
       </div>
       {items.map((item, i) => (
         <button
+          key={i}
           className={table === i ? styles.selected : ""}
           type="button"
           onClick={() => changeTable(i)}

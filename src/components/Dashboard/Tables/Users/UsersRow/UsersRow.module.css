@@ -6,10 +6,6 @@
   border-bottom: 1px solid var(--border);
 }
 
-.row span {
-  border-right: 1px solid var(--border);
-}
-
 .row button img {
   height: 20px;
   filter: invert(21%) sepia(76%) saturate(2935%) hue-rotate(190deg)

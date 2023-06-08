@@ -9,6 +9,11 @@ import Iframe from "./Tables/Iframes/Iframes";
 import Home from "./Tables/Home/Home.jsx";
 import Excel from "./Tables/Excel/Excel";
 
+import userSvg from "../../assets/svg/user.svg";
+import emailSvg from "../../assets/svg/menu/email.svg";
+import passSvg from "../../assets/svg/menu/password.svg";
+import logoutSvg from "../../assets/svg/menu/logout.svg";
+
 export default function Dashboard() {
   const [table, setTable] = useState<number>(0);
 
@@ -19,7 +24,7 @@ export default function Dashboard() {
   return (
     <div className={styles.dahsboard}>
       <SideBar table={table} changeTable={changeTable} />
-      <div>
+      <div className={styles.container}>
         <nav>
           <h2>
             {table === 0 ? "Home" : null}
@@ -28,14 +33,16 @@ export default function Dashboard() {
             {table === 3 ? "Graficos" : null}
             {table === 4 ? "Excel" : null}
           </h2>
-          <div>
+          <div className={styles.profile}>
             <div className={styles.userImg}>
-              <img src={null} alt="user"/>
+              <img src={userSvg} alt="user"/>
             </div>
             <ul className={styles.menu}>
-              <li>Cambiar correo</li>
-              <li>Cambiar contraseña</li>
-              <li>Cerrar sesion</li>
+              <li><b>Perfil</b></li>
+              <li>Usuario</li>
+              <li><img src={emailSvg} alt="email"/> <span>Cambiar correo</span></li>
+              <li><img src={passSvg} alt="password"/> <span>Cambiar contraseña</span></li>
+              <li><img src={logoutSvg} alt="logout"/> <span>Cerrar sesion</span></li>
             </ul>
           </div>
         </nav>

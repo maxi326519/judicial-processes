@@ -25,6 +25,7 @@ const lists = [
   "calificacionContingente",
   "estado",
   "diasFestivos",
+  "salariosMinimos"
 ];
 
 export default function Lists({ handleClose }: Props) {

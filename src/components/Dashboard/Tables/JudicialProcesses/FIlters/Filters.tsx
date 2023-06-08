@@ -25,7 +25,7 @@ export default function Filters({ filters, handleSetFilter }: Props) {
   function handleChange(
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) {
-    setFilters({ ...filters, [event.target.name]: event.target.value });
+    setFilters({ ...currentFilters, [event.target.name]: event.target.value });
   }
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -68,7 +68,7 @@ export default function Filters({ filters, handleSetFilter }: Props) {
             <label htmlFor="idSiproj">ID Siproj:</label>
           </div>
 
-          {/* RUD DE RAMA JUDICIAL INICIAL */}
+          {/* RAD DE RAMA JUDICIAL INICIAL */}
           <div className="form-floating">
             <input
               id="radRamaJudicialInicial"

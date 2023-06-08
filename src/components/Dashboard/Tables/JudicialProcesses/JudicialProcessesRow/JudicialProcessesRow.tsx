@@ -19,8 +19,9 @@ export default function JudicialProcessesRow({
     <tr className={style.row}>
       <td>{judicialProcesses.idSiproj}</td>
       <td>{judicialProcesses.radRamaJudicialInicial}</td>
-      <td>{judicialProcesses.radRamaJudicialInicial}</td>
+      <td>{judicialProcesses.radRamaJudicialActual}</td>
       <td>{judicialProcesses.demandante}</td>
+      <td>{judicialProcesses.apoderadoActual}</td>
       <button
         className="btn btn-outline-primary"
         type="button"

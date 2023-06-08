@@ -1,14 +1,13 @@
+import { useState, useEffect } from "react";
 import { Chart } from "react-google-charts";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../../interfaces/RootState";
+import { TypeChartData } from "../../../../../interfaces/charts";
 
-export const data = [
-  ["Tipo", "Tipos"],
-  ["NULIDAD SIMPLE", 10],
-  ["REPARACION DIRECTA", 11],
-  ["NULIDAD Y RESTABLECIMIENTO DEL DERECHO", 66],
-  ["ACCION DE GRUPO", 10],
-];
+const header = ["Tipo", "Tipos"];
+const example = [header, ["Sin Datos", 0]];
 
-export const options = {
+const options = {
   title: "Tipos de procesos",
   hAxis: { title: "Year", titleTextStyle: { color: "#333" } },
   vAxis: { minValue: 0 },
@@ -16,6 +15,18 @@ export const options = {
 };
 
 export default function TypeChart() {
+  const chartData = useSelector((state: RootState) => state.charts.typeChart);
+  const [data, setData] = useState<Array<Array<string | number>>>(example);
+
+  useEffect(() => {
+    if (chartData.length > 0) {
+      setData([
+        header,
+        ...chartData.map((data: TypeChartData) => [data.tipo, data.cantidad]),
+      ]);
+    }
+  }, [chartData]);
+
   return (
     <Chart
       chartType="AreaChart"

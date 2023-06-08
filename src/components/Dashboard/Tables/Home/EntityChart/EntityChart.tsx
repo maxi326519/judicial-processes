@@ -1,16 +1,29 @@
+import { useState, useEffect } from "react";
 import { Chart } from "react-google-charts";
+import { RootState } from "../../../../../interfaces/RootState";
+import { useSelector } from "react-redux";
+import { EntityChartData } from "../../../../../interfaces/charts";
 
-export const data = [
-  ["Calidad", "Porcentaje"],
-  ["1", 70],
-  ["2", 30],
-];
+const header = ["Calidad", "Porcentaje"];
+const example = [header, ["Demandados", 0], ["Demandantes", 0]];
 
-export const options = {
+const options = {
   title: "Calidad en la que actúa la entidad",
 };
 
 export default function EntityChart() {
+  const chartData = useSelector((state: RootState) => state.charts.entityChart);
+  const [data, setData] = useState<Array<Array<string | number>>>(example);
+
+  useEffect(() => {
+    
+    setData([
+      header,
+      ["Demandante", chartData.demandante],
+      ["Demandado", chartData.demandado],
+    ]);
+  }, [chartData]);
+
   return (
     <Chart
       chartType="PieChart"

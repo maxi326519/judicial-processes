@@ -22,7 +22,7 @@ import {
 import { GET_USER, SET_USER } from "../actions/users";
 import { CLOSE_LOADING, LOADING } from "../actions/loading";
 import { DELETE_ITEM, GET_LIST, SET_ITEM } from "../actions/lists/lists";
-import Lists from "../../components/Dashboard/Lists/Lists";
+import { initCharts } from "../../interfaces/charts";
 
 const initialState: RootState = {
   loading: false,
@@ -33,7 +33,7 @@ const initialState: RootState = {
     processesDetails: null,
   },
   lists: initLists,
-  graphics: {},
+  charts: initCharts,
   iframes: [],
 };
 

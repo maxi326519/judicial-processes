@@ -66,7 +66,6 @@ export default function UsersTable() {
         <Form handleClose={handleClose} handleSubmit={handleSaveUser} />
       ) : null}
       <header>
-        <h3>Usuarios</h3>
         <div className={styles.controls}>
           <button
             className="btn btn-outline-primary"

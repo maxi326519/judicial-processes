@@ -117,7 +117,6 @@ const IFrameInput = () => {
         <IFrameRenderer iframe={dataView} handleClose={handleView} />
       ) : null}
       <header>
-        <h3>IFrames</h3>
         <div className={styles.controls}>
           <button
             className="btn btn-outline-primary"

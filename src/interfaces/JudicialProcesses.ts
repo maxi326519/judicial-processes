@@ -114,6 +114,7 @@ export const initErrorProcesses = {
 };
 
 export interface Lists {
+  apoderados: string[];
   procesoAltoImpacto: string[];
   tipoProceso: Array<{ tipo: string; dias: number }>;
   calidadActuacionEntidad: string[];
@@ -128,11 +129,11 @@ export interface Lists {
   estadoIncidente: string[];
   calificacionContingente: string[];
   estado: string[];
-  diasFestivos: Array<{ fecha: string; descripcion: string }>;
+  diasFestivos: string[];
   salariosMinimos: Array<{ fecha: string; salario: number }>;
 }
 
-export const initLists = {
+export const initLists: Lists = {
   procesoAltoImpacto: [],
   tipoProceso: [],
   calidadActuacionEntidad: [],
@@ -148,6 +149,7 @@ export const initLists = {
   calificacionContingente: [],
   estado: [],
   diasFestivos: [],
+  salariosMinimos: [],
 };
 
 export const initProcessesFilters: ProcessesFilters = {

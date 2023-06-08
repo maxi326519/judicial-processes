@@ -47,20 +47,48 @@ export default function JudicialProcessesTable() {
   useEffect(() => {
     const filter = judicialProcesses.filter((data: JudicialProcesses) => {
       if (
-        !filters.apoderadoActual &&
-        !filters.idSiproj &&
-        !filters.radRamaJudicialInicial &&
-        !filters.radRamaJudicialActual &&
-        !filters.demandante
-      )
+        filters.apoderadoActual ||
+        filters.idSiproj ||
+        filters.radRamaJudicialInicial ||
+        filters.radRamaJudicialActual ||
+        filters.demandante
+      ) {
+        if (
+          filters.apoderadoActual &&
+          filters.apoderadoActual !== data.apoderadoActual
+        )
+          return false;
+        if (
+          filters.idSiproj !== 0 &&
+          Number(filters.idSiproj) !== data.idSiproj
+        )
+          return false;
+        if (
+          filters.radRamaJudicialInicial &&
+          filters.radRamaJudicialInicial !== data.radRamaJudicialInicial
+        ) {
+          console.log(
+            filters.radRamaJudicialInicial,
+            data.radRamaJudicialInicial,
+            filters.radRamaJudicialInicial !== data.radRamaJudicialInicial
+          );
+          return false;
+        }
+
+        if (
+          filters.radRamaJudicialActual &&
+          filters.radRamaJudicialActual !== data.radRamaJudicialActual
+        )
+          return false;
+        console.log(
+          filters.demandante,
+          data.demandante,
+          filters.demandante !== data.demandante
+        );
+        if (filters.demandante && !data.demandante.includes(filters.demandante))
+          return false;
         return true;
-      if (data.idSiproj !== filters.idSiproj) return false;
-      if (data.radRamaJudicialInicial !== filters.radRamaJudicialInicial)
-        return false;
-      if (data.radRamaJudicialActual !== filters.radRamaJudicialActual)
-        return false;
-      if (data.demandante !== filters.demandante) return false;
-      return true;
+      } else return true;
     });
     setRows(filter);
   }, [judicialProcesses, filters]);
@@ -115,11 +143,14 @@ export default function JudicialProcessesTable() {
   }
 
   function handleEdit(idDetails: string) {
+    dispatch(openLoading());
     dispatch<any>(getProcessesDetails(idDetails))
       .then(() => {
+        dispatch(closeLoading());
         setForm(true);
       })
       .catch((error: any) => {
+        dispatch(closeLoading());
         console.log(error);
         swal(
           "Error",
@@ -144,7 +175,6 @@ export default function JudicialProcessesTable() {
     <div className={`toLeft ${styles.dashboard}`}>
       {form ? <Form handleClose={handleClose} /> : null}
       {list ? <Lists handleClose={handleShowList} /> : null}
-      <h3>Procesos Judiciales</h3>
       <div className={styles.controls}>
         <Filters filters={filters} handleSetFilter={handleFilter} />
         <button
@@ -169,9 +199,10 @@ export default function JudicialProcessesTable() {
         <thead>
           <tr className={`${styles.row} ${styles.firstRow}`}>
             <th>ID Ekogui</th>
-            <th>Nº Proceso Judicial (INICIAL)</th>
-            <th>Nº Proceso Judicial (ACTUAL)</th>
+            <th>Rad. Proceso Judicial (INICIAL)</th>
+            <th>Rad. Proceso Judicial (ACTUAL)</th>
             <th>Demandante Nombre</th>
+            <th>Apoderado Actual</th>
           </tr>
         </thead>
         <tbody className={styles.contentRows}>

@@ -25,9 +25,9 @@ const initCache: Cache = {
 export default function Tables({ name }: Props) {
   const dispatch = useDispatch();
   const lists: Lists = useSelector((state: RootState) => state.lists);
-  const [newData, setNewData] = useState<string>("");
+  const [newData, setNewData] = useState<any>("");
   const [cache, setCache] = useState<Cache>(initCache);
-  const [data, setData] = useState<string[]>([]);
+  const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -69,11 +69,19 @@ export default function Tables({ name }: Props) {
   }
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setNewData(event.target.value);
+    if (name === "tipoProceso" || name === "salariosMinimos") {
+      setNewData({ ...newData, [event.target.name]: event.target.value });
+    } else {
+      setNewData(event.target.value);
+    }
   }
 
   function handleAdd() {
-    setData([...data, newData]);
+    if (name === "diasFestivos") {
+      setData([...data, changeDateFormat(newData)]);
+    } else {
+      setData([...data, newData]);
+    }
     setCache({ ...cache, new: [...cache.new, newData] });
     setNewData("");
   }
@@ -90,6 +98,12 @@ export default function Tables({ name }: Props) {
     }
   }
 
+  function changeDateFormat(value: string) {
+    const date = value.split("-");
+    const newFormat = `${date[2]}/${date[1]}/${date[0]}`;
+    return newFormat;
+  }
+
   return (
     <form className={styles.container} onSubmit={handleSubmit}>
       <div className={styles.categoriesList}>
@@ -99,29 +113,109 @@ export default function Tables({ name }: Props) {
           </div>
         ) : null}
         {data.length > 0 ? (
-          data.map((data, index) => (
-            <div key={index} className={styles.row}>
-              <span>{data}</span>
+          name === "tipoProceso" ? (
+            data.map((data, index) => (
               <div
-                className="btn btn-close"
-                onClick={() => handleRemove(data)}
-              />
-            </div>
-          ))
+                key={index}
+                className={`${styles.row} ${styles.tipoProceso}`}
+              >
+                <span>{data?.tipo}</span>
+                <span>{data?.dias}</span>
+                <div
+                  className="btn btn-close"
+                  onClick={() => handleRemove(data)}
+                />
+              </div>
+            ))
+          ) : name === "salariosMinimos" ? (
+            data.map((data, index) => (
+              <div key={index} className={styles.row}>
+                <span>{data.fecha}</span>
+                <span>{data.salario}</span>
+                <div
+                  className="btn btn-close"
+                  onClick={() => handleRemove(data)}
+                />
+              </div>
+            ))
+          ) : (
+            data.map((data, index) => (
+              <div key={index} className={styles.row}>
+                <span>{typeof data === "string" ? data : ""}</span>
+                <div
+                  className="btn btn-close"
+                  onClick={() => handleRemove(data)}
+                />
+              </div>
+            ))
+          )
         ) : (
           <span className={styles.empty}>Empty</span>
         )}
       </div>
       <div>
         <div className={styles.formContainer}>
-          <label htmlFor="add">.</label>
-          <input
-            className="form-control"
-            id="add"
-            type="text"
-            value={newData}
-            onChange={handleChange}
-          />
+          {name === "diasFestivos" ? (
+            <input
+              className="form-control"
+              id="fecha"
+              type="date"
+              placeholder="Fecha"
+              value={newData}
+              onChange={handleChange}
+            />
+          ) : name === "tipoProceso" ? (
+            <div className={styles.inputs}>
+              <input
+                className="form-control"
+                id="tipo"
+                name="tipo"
+                type="text"
+                placeholder="Tipo"
+                value={newData?.tipo || ""}
+                onChange={handleChange}
+              />
+              <input
+                className="form-control"
+                id="dias"
+                name="dias"
+                type="number"
+                placeholder="Dias"
+                value={newData?.dias || ""}
+                onChange={handleChange}
+              />
+            </div>
+          ) : name === "salariosMinimos" ? (
+            <div className={styles.inputs}>
+              <input
+                className="form-control"
+                id="fecha"
+                name="fecha"
+                type="number"
+                placeholder="Año"
+                value={newData?.fecha || ""}
+                onChange={handleChange}
+              />
+              <input
+                className="form-control"
+                id="salario"
+                name="salario"
+                type="number"
+                placeholder="Salario"
+                value={newData?.salario || ""}
+                onChange={handleChange}
+              />
+            </div>
+          ) : (
+            <input
+              className="form-control"
+              id="add"
+              type="text"
+              placeholder="Datos"
+              value={newData}
+              onChange={handleChange}
+            />
+          )}
           <button
             className="btn btn-outline-success"
             type="button"

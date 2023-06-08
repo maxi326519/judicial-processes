@@ -9,6 +9,7 @@ import {
 import { Timestamp } from "firebase/firestore";
 import { useSelector } from "react-redux";
 import { RootState } from "../interfaces/RootState";
+import getLimitDate from "../functions/getLimitDate";
 
 export default function useJudicialProcesses() {
   const [judicialProcesses, setJudicialProcesses] =
@@ -17,6 +18,7 @@ export default function useJudicialProcesses() {
   const processesDetails = useSelector(
     (state: RootState) => state.processes.processesDetails
   );
+  const lists = useSelector((state: RootState) => state.lists);
 
   useEffect(() => {
     if (processesDetails) {
@@ -25,27 +27,113 @@ export default function useJudicialProcesses() {
   }, [processesDetails, setJudicialProcesses]);
 
   function handleChange(
-    event: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>
+    event: React.ChangeEvent<
+      HTMLSelectElement | HTMLInputElement | HTMLTextAreaElement
+    >
   ) {
-    if (event.target.type === "date") {
-      setJudicialProcesses({
-        ...judicialProcesses,
-        [event.target.name]: Timestamp.fromDate(new Date(event.target.value)),
-      });
-    } else if (event.target.name === "tipoProceso") {
-      setJudicialProcesses({
-        ...judicialProcesses,
-        [event.target.name]: event.target.value
-      });
+    let newJudicialProcesses: ProcessesDetails = { ...judicialProcesses };
+    const value = event.target.value;
+    const name = event.target.name;
+    const type = event.target.type;
+    const error: any = {};
+
+    if (type === "date") {
+      // Convert date string to Timestamp
+      newJudicialProcesses = {
+        ...newJudicialProcesses,
+        [name]: Timestamp.fromDate(new Date(value)),
+      };
     } else {
-      setJudicialProcesses({
+      newJudicialProcesses = {
         ...judicialProcesses,
-        [event.target.name]: event.target.value,
-      });
+        [name]: value,
+      };
     }
-    if (errors.hasOwnProperty(event.target.name)) {
-      setErrors({ ...errors, [event.target.name]: "" });
+
+    // FUNCTIONS:
+    if (name === "tipoProceso" && value !== "") {
+      const days = lists.tipoProceso.find((tipo) => tipo.tipo === value)?.dias;
+      const dates = lists.diasFestivos.map((date) => date.fecha);
+
+      newJudicialProcesses.diasTerminoContestacion = days!;
+
+      if (newJudicialProcesses.fechaNotificacion !== null) {
+        console.log("Actualizando...");
+        newJudicialProcesses.fechaLimiteProbContestacion = getLimitDate(
+          newJudicialProcesses.fechaNotificacion,
+          dates,
+          days!
+        );
+      }
     }
+
+    if (
+      name === "fechaNotificacion" &&
+      value !== null &&
+      newJudicialProcesses.tipoProceso !== ""
+    ) {
+      const days =
+        lists.tipoProceso.find(
+          (tipo) => tipo.tipo === newJudicialProcesses.tipoProceso
+        )?.dias || 0;
+      const dates = lists.diasFestivos.map((date) => date.fecha);
+
+      newJudicialProcesses.fechaLimiteProbContestacion = getLimitDate(
+        Timestamp.fromDate(new Date(value)),
+        dates,
+        days
+      );
+    }
+
+    if (
+      name === "fechaContestacion" &&
+      newJudicialProcesses.fechaLimiteProbContestacion !== null
+    ) {
+      if (
+        Timestamp.fromDate(new Date(value)) <
+        newJudicialProcesses.fechaLimiteProbContestacion
+      ) {
+        newJudicialProcesses.validacionContestacion = "A TIEMPO";
+      } else {
+        newJudicialProcesses.validacionContestacion = "VENCIDO";
+      }
+    } else {
+      newJudicialProcesses.validacionContestacion = "";
+    }
+
+    if (name === "cuantiaEstimada") {
+      const currentYear = new Date().getFullYear().toString();
+      const salary = lists.salariosMinimos.find(
+        (salary) => salary.fecha === currentYear
+      );
+
+      if (salary) {
+        newJudicialProcesses.valorPretensionesSMLVM = Number(
+          (Number(value) / salary.salario).toFixed(2)
+        );
+      } else {
+        error.salariosMinimos = `No existe salario para ${currentYear}`;
+      }
+    }
+
+    if (
+      newJudicialProcesses.tipoProceso === "" ||
+      newJudicialProcesses.fechaNotificacion === null
+    ) {
+      newJudicialProcesses.fechaLimiteProbContestacion = null;
+    }
+
+    // Clean errors
+    if (errors.hasOwnProperty(name)) {
+      setErrors({ ...errors, [name]: "", ...error });
+    }
+
+    console.log(newJudicialProcesses);
+    setJudicialProcesses(newJudicialProcesses);
+  }
+
+  function reset(){
+    setJudicialProcesses(initProcessesDetails);
   }
 
   function validations() {
@@ -139,6 +227,7 @@ export default function useJudicialProcesses() {
     judicialProcesses,
     errors,
     validations,
+    reset,
     setJudicialProcesses: handleChange,
   };
 }

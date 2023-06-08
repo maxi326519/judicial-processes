@@ -12,18 +12,28 @@ import {
   openLoading,
 } from "../../../../../redux/actions/loading";
 import { RootState } from "../../../../../interfaces/RootState";
+import { useEffect } from "react";
 interface Props {
   handleClose: () => void;
 }
 
 export default function Form({ handleClose }: Props) {
   const dispatch = useDispatch();
-  const { judicialProcesses, errors, validations, setJudicialProcesses } =
-    useJudicialProcesses();
+  const {
+    judicialProcesses,
+    errors,
+    validations,
+    reset,
+    setJudicialProcesses,
+  } = useJudicialProcesses();
   const processesDetails = useSelector(
     (state: RootState) => state.processes.processesDetails
   );
   const lists = useSelector((state: RootState) => state.lists);
+
+  useEffect(() => {
+    return handleClose;
+  }, []);
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -48,7 +58,9 @@ export default function Form({ handleClose }: Props) {
   }
 
   function handleChange(
-    event: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>
+    event: React.ChangeEvent<
+      HTMLSelectElement | HTMLInputElement | HTMLTextAreaElement
+    >
   ) {
     setJudicialProcesses(event);
   }
@@ -620,21 +632,6 @@ export default function Form({ handleClose }: Props) {
           </label>
         </div>
 
-        {/* RESUMEN PRIMERA INSTANCIA */}
-        <div className="form-floating">
-          <input
-            id="resumenPrimeraInstancia"
-            name="resumenPrimeraInstancia"
-            className="form-control"
-            type="text"
-            value={judicialProcesses.resumenPrimeraInstancia}
-            onChange={handleChange}
-          />
-          <label htmlFor="resumenPrimeraInstancia" className="form-label">
-            Resumen primera instancia:
-          </label>
-        </div>
-
         {/* FECHA DE PRESENTACION DE RECURSOS */}
         <div className="form-floating">
           <input
@@ -696,13 +693,26 @@ export default function Form({ handleClose }: Props) {
           </label>
         </div>
 
+        {/* RESUMEN PRIMERA INSTANCIA */}
+        <div className="form-floating">
+          <textarea
+            id="resumenPrimeraInstancia"
+            name="resumenPrimeraInstancia"
+            className="form-control"
+            value={judicialProcesses.resumenPrimeraInstancia}
+            onChange={handleChange}
+          />
+          <label htmlFor="resumenPrimeraInstancia" className="form-label">
+            Resumen primera instancia:
+          </label>
+        </div>
+
         {/* RESUMEN SEGUNDA INSTANCIA */}
         <div className="form-floating">
-          <input
+          <textarea
             id="resumenSegundaInstancia"
             name="resumenSegundaInstancia"
             className="form-control"
-            type="text"
             value={judicialProcesses.resumenSegundaInstancia}
             onChange={handleChange}
           />
@@ -755,11 +765,10 @@ export default function Form({ handleClose }: Props) {
 
         {/* RESUMEN DEL INCIDENTE */}
         <div className="form-floating">
-          <input
+          <textarea
             id="resumenIncidente"
             name="resumenIncidente"
             className="form-control"
-            type="text"
             value={judicialProcesses.resumenIncidente}
             onChange={handleChange}
           />
@@ -770,11 +779,10 @@ export default function Form({ handleClose }: Props) {
 
         {/* OBSERVACIONES / COMENTARIOS */}
         <div className="form-floating">
-          <input
+          <textarea
             id="observaciones"
             name="observaciones"
             className="form-control"
-            type="text"
             value={judicialProcesses.observaciones}
             onChange={handleChange}
           />

@@ -56,7 +56,7 @@ export default function Excel() {
     setRows(
       judicialProcesses.filter((processes) => {
         console.log(state, processes.estado);
-        if ((state !== "") && (processes.estado !== state)) return false;
+        if (state !== "" && processes.estado !== state) return false;
         return true;
       })
     );
@@ -140,7 +140,6 @@ export default function Excel() {
       {form ? (
         <ImportExcel handleData={handleData} handleClose={handleClose} />
       ) : null}
-      <h3>Tablas en Excel</h3>
       <div className={styles.controls}>
         {action === actionType.export ? (
           <div className={styles.filter}>
@@ -155,7 +154,9 @@ export default function Excel() {
               <option value={ProcessesState.Activo}>Activos</option>
               <option value={ProcessesState.Terminado}>Terminados</option>
             </select>
-            <span className={styles.counter}>{rows.length} procesos seleccionados</span>
+            <span className={styles.counter}>
+              {rows.length} procesos seleccionados
+            </span>
           </div>
         ) : (
           <div>

@@ -3,6 +3,7 @@ import {
   Lists,
   ProcessesDetails,
 } from "./JudicialProcesses";
+import { Charts } from "./charts";
 import { Users } from "./users";
 
 export interface RootState {
@@ -14,6 +15,6 @@ export interface RootState {
     processesDetails: ProcessesDetails | null;
   };
   lists: Lists;
-  graphics: {};
+  charts: Charts;
   iframes: [];
 }

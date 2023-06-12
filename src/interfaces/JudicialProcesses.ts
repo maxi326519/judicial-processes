@@ -134,6 +134,7 @@ export interface Lists {
 }
 
 export const initLists: Lists = {
+  apoderados: [],
   procesoAltoImpacto: [],
   tipoProceso: [],
   calidadActuacionEntidad: [],

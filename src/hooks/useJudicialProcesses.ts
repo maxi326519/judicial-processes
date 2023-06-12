@@ -53,7 +53,6 @@ export default function useJudicialProcesses() {
     // FUNCTIONS:
     if (name === "tipoProceso" && value !== "") {
       const days = lists.tipoProceso.find((tipo) => tipo.tipo === value)?.dias;
-      const dates = lists.diasFestivos.map((date) => date.fecha);
 
       newJudicialProcesses.diasTerminoContestacion = days!;
 
@@ -61,7 +60,7 @@ export default function useJudicialProcesses() {
         console.log("Actualizando...");
         newJudicialProcesses.fechaLimiteProbContestacion = getLimitDate(
           newJudicialProcesses.fechaNotificacion,
-          dates,
+          lists.diasFestivos,
           days!
         );
       }
@@ -76,11 +75,10 @@ export default function useJudicialProcesses() {
         lists.tipoProceso.find(
           (tipo) => tipo.tipo === newJudicialProcesses.tipoProceso
         )?.dias || 0;
-      const dates = lists.diasFestivos.map((date) => date.fecha);
 
       newJudicialProcesses.fechaLimiteProbContestacion = getLimitDate(
         Timestamp.fromDate(new Date(value)),
-        dates,
+        lists.diasFestivos,
         days
       );
     }
@@ -132,7 +130,7 @@ export default function useJudicialProcesses() {
     setJudicialProcesses(newJudicialProcesses);
   }
 
-  function reset(){
+  function reset() {
     setJudicialProcesses(initProcessesDetails);
   }
 

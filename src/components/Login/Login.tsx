@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 import "./Login.css";
 import swal from "sweetalert";
+import { getUserData } from "../../redux/actions/users";
 
 interface Error {
   email: string | null;
@@ -44,8 +45,8 @@ export default function Signin() {
   function handleSubmit(event: React.FormEvent<HTMLFormElement>): void {
     event.preventDefault();
 
-    redirect("/dashboard");
-/* 
+    /*     redirect("/dashboard"); */
+
     if (user.email === "" || user.password === "") {
       let err: Error = {
         email: null,
@@ -55,19 +56,18 @@ export default function Signin() {
       if (user.password === "") err.password = "Debes ingresar una contraseña";
       setError(err);
     } else {
-      dispatch(loading());
+      dispatch(openLoading());
       dispatch<any>(logIn(user))
         .then(() => {
-          const year = new Date().getFullYear();
-          Promise.all([
-          ])
+          dispatch<any>(getUserData())
             .then(() => {
-              redirect("/");
+              redirect("/dashboard");
               dispatch(closeLoading());
             })
             .catch((err: any) => {
-              swal("Error", "Error to load info, try again later", "error");
               console.log(err);
+              dispatch(closeLoading());
+              swal("Error", "Error to load info, try again later", "error");
             });
         })
         .catch((e: any) => {
@@ -78,10 +78,11 @@ export default function Signin() {
             setError({ ...error, email: "Usuario incorrecto" });
           } else if (e.message?.includes("wrong-password")) {
             setError({ ...error, password: "Contraseña incorrecta" });
+          } else {
+            console.log(e);
           }
-          console.log(e);
         });
-    } */
+    }
   }
 
   return (

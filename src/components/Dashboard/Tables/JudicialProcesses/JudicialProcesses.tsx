@@ -198,7 +198,7 @@ export default function JudicialProcessesTable() {
       <table className={styles.table}>
         <thead>
           <tr className={`${styles.row} ${styles.firstRow}`}>
-            <th>ID Ekogui</th>
+            <th>ID Siproj</th>
             <th>Rad. Proceso Judicial (INICIAL)</th>
             <th>Rad. Proceso Judicial (ACTUAL)</th>
             <th>Demandante Nombre</th>

@@ -19,7 +19,7 @@ import {
   SET_PROCESSES,
   UPDATE_PROCESSES,
 } from "../actions/judicialProcesses";
-import { GET_USER, SET_USER } from "../actions/users";
+import { GET_USER, GET_USER_DATA, LOG_OUT, SET_USER } from "../actions/users";
 import { CLOSE_LOADING, LOADING } from "../actions/loading";
 import { DELETE_ITEM, GET_LIST, SET_ITEM } from "../actions/lists/lists";
 import { initCharts } from "../../interfaces/charts";
@@ -37,7 +37,7 @@ const initialState: RootState = {
   iframes: [],
 };
 
-export const rootReducer = (state = initialState, action: any) => {
+export const rootReducer = (state = { ...initialState }, action: any) => {
   switch (action.type) {
     /* LOADING */
     case LOADING:
@@ -65,6 +65,16 @@ export const rootReducer = (state = initialState, action: any) => {
         ...state,
         users: action.payload,
       };
+
+    case GET_USER_DATA:
+      return {
+        ...state,
+        user: action.payload,
+      };
+
+    case LOG_OUT:
+      return initialState;
+
     /* USERS */
 
     /* PROCESSES */
@@ -150,19 +160,21 @@ export const rootReducer = (state = initialState, action: any) => {
         },
       };
 
-    case DELETE_ITEM:
-      return {
-        ...state,
-        lists: {
-          ...state.lists,
-          [action.payload.listName]: state.lists[
-            action.payload.listName as keyof typeof state.lists
-          ].filter(
-            (item) =>
-              !action.payload.values.some((value: string) => value === item)
-          ),
-        },
-      };
+/*       case DELETE_ITEM:
+        return {
+          ...state,
+          lists: {
+            ...state.lists,
+            [action.payload.listName]: state.lists[
+              action.payload.listName as keyof typeof state.lists
+            ].filter((item: string | { tipo: string; dias: number; } | { fecha: string; salario: number; }) => {
+              if (typeof item === "string") {
+                return !action.payload.values.some((value: string) => value === item);
+              }
+              return false; // Opcional: Si deseas omitir los elementos no string
+            }),
+          },
+        }; */
     /* LISTS */
 
     /* IFRAME */

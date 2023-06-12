@@ -19,7 +19,7 @@ export default function ExportExcel({ data }) {
           <span>Export</span>
         </button>
       }
-      filename="Items expired report"
+      filename="Procesos"
     >
       <ExcelSheet data={data} name="Employees">
         <ExcelColumn label="APODERADO ACTUAL" value="apoderadoActual" />

@@ -72,7 +72,7 @@ export default function Form({ handleClose }: Props) {
   return (
     <form className={`toTop ${styles.form}`} onSubmit={handleSubmit}>
       <div className={styles.close}>
-        <h3>Agregar inventario</h3>
+        <h3>Agregar proceso</h3>
         <div className="btn-close" onClick={handleLocalClose} />
       </div>
       <div className={styles.grid}>

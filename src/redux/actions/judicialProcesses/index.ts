@@ -19,6 +19,7 @@ export const SET_PROCESSES = "SET_PROCESSES";
 export const IMPORT_PROCESSES = "IMPORT_PROCESSES";
 export const GET_PROCESSES = "GET_PROCESSES";
 export const GET_PROCESSES_DETAILS = "GET_PROCESSES_DETAILS";
+export const GET_PROCESSES_DATA = "GET_PROCESSES_DATA";
 export const UPDATE_PROCESSES = "UPDATE_PROCESSES";
 export const DELETE_PROCESSES = "DELETE_PROCESSES";
 export const DELETE_PROCESSES_DETAILS = "DELETE_PROCESSES_DETAILS";
@@ -104,7 +105,7 @@ export function importProcesses(processesList: {
           batch.set(detailsDoc, detailsData);
         });
       } catch (error) {
-        throw new Error(`Hubo un error en la fila ${row} `) ;
+        throw new Error(`Hubo un error en la fila ${row} `);
       }
 
       await batch.commit();
@@ -159,6 +160,32 @@ export function getProcessesDetails(
       dispatch({
         type: GET_PROCESSES_DETAILS,
         payload: details,
+      });
+    } catch (e: any) {
+      throw new Error(e);
+    }
+  };
+}
+
+export function getProcessesData(): ThunkAction<
+  Promise<void>,
+  RootState,
+  null,
+  AnyAction
+> {
+  return async (dispatch: Dispatch<AnyAction>) => {
+    try {
+      const colProcesses = collection(db, "Details");
+      const snapshot = await getDocs(colProcesses);
+      const data: any = [];
+
+      snapshot.forEach((doc) => {
+        data.push(doc.data());
+      });
+
+      dispatch({
+        type: GET_PROCESSES_DATA,
+        payload: data,
       });
     } catch (e: any) {
       throw new Error(e);

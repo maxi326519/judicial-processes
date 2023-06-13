@@ -13,6 +13,7 @@ export interface RootState {
   processes: {
     judicialProcesses: JudicialProcesses[];
     processesDetails: ProcessesDetails | null;
+    data: ProcessesDetails[];
   };
   lists: Lists;
   charts: Charts;

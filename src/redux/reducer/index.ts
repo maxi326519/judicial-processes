@@ -15,6 +15,7 @@ import {
   DELETE_PROCESSES,
   DELETE_PROCESSES_DETAILS,
   GET_PROCESSES,
+  GET_PROCESSES_DATA,
   GET_PROCESSES_DETAILS,
   SET_PROCESSES,
   UPDATE_PROCESSES,
@@ -23,6 +24,7 @@ import { GET_USER, GET_USER_DATA, LOG_OUT, SET_USER } from "../actions/users";
 import { CLOSE_LOADING, LOADING } from "../actions/loading";
 import { DELETE_ITEM, GET_LIST, SET_ITEM } from "../actions/lists/lists";
 import { initCharts } from "../../interfaces/charts";
+import { GET_CHARTS, SET_CHARTS } from "../actions/charts";
 
 const initialState: RootState = {
   loading: false,
@@ -31,6 +33,7 @@ const initialState: RootState = {
   processes: {
     judicialProcesses: [],
     processesDetails: null,
+    data: [],
   },
   lists: initLists,
   charts: initCharts,
@@ -108,6 +111,15 @@ export const rootReducer = (state = { ...initialState }, action: any) => {
         },
       };
 
+    case GET_PROCESSES_DATA:
+      return {
+        ...state,
+        processes: {
+          ...state.processes,
+          data: action.payload,
+        },
+      };
+
     case UPDATE_PROCESSES:
       return {
         ...state,
@@ -160,7 +172,7 @@ export const rootReducer = (state = { ...initialState }, action: any) => {
         },
       };
 
-/*       case DELETE_ITEM:
+    /*       case DELETE_ITEM:
         return {
           ...state,
           lists: {
@@ -207,6 +219,19 @@ export const rootReducer = (state = { ...initialState }, action: any) => {
       };
     /* IFRAME */
 
+    /* CHARTS */
+    case SET_CHARTS:
+      return {
+        ...state,
+        charts: action.payload,
+      };
+
+    case GET_CHARTS:
+      return {
+        ...state,
+        charts: action.payload,
+      };
+    /* CHARTS */
     default:
       return state;
   }

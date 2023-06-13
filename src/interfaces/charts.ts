@@ -26,6 +26,11 @@ export interface TypeChartData {
   cantidad: number;
 }
 
+export const initEntity = {
+  demandado: 0,
+  demandante: 0,
+}
+
 export const initCharts = {
   entityChart: {
     demandado: 0,

@@ -1,8 +1,15 @@
-.charts{
+.charts {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
   padding: 30px;
-  height: 100vh;
+  padding-top: 0;
+  height: calc(100vh - 88px);
   overflow-y: auto;
+}
+
+.charts .btnContainer {
+  grid-column: 1 / 3;
+  height: min-content;
+  margin-bottom: 20px;
 }

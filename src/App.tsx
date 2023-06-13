@@ -1,18 +1,18 @@
 import { useEffect } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "./interfaces/RootState";
+import { getUserData } from "./redux/actions/users";
+import { closeLoading, openLoading } from "./redux/actions/loading";
+import { auth } from "./firebase";
+import swal from "sweetalert";
 
+import Loading from "./components/Loading/Loading";
 import Login from "./components/Login/Login";
 import Dashboard from "./components/Dashboard/Dashboard";
 
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "./interfaces/RootState";
-import Loading from "./components/Loading/Loading";
-import { getUserData } from "./redux/actions/users";
-import { closeLoading, openLoading } from "./redux/actions/loading";
-import swal from "sweetalert";
-import { auth } from "./firebase";
 
 function App() {
   const redirect = useNavigate();
@@ -51,7 +51,7 @@ function App() {
               "error"
             );
           });
-      }else{
+      } else {
         redirect("/login");
         dispatch(closeLoading());
       }

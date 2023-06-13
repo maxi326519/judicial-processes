@@ -8,7 +8,7 @@ import SideBar from "./SideBar/SideBar";
 import JudicialProcessesTable from "./Tables/JudicialProcesses/JudicialProcesses";
 import UsersTable from "./Tables/Users/Users";
 import Iframe from "./Tables/Iframes/Iframes";
-import Home from "./Tables/Home/Home.jsx";
+import Home from "./Tables/Home/Home";
 import Excel from "./Tables/Excel/Excel";
 
 import styles from "./Dashboard.module.css";

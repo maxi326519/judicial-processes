@@ -51,7 +51,7 @@ export function setItem(
         });
       });
 
-      batch.commit();
+      await batch.commit();
 
       dispatch({
         type: SET_ITEM,
@@ -84,7 +84,7 @@ export function deleteItem(
         });
       });
 
-      batch.commit();
+      await batch.commit();
 
       dispatch({
         type: DELETE_ITEM,

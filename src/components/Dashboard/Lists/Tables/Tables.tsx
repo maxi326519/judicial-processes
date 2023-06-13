@@ -10,6 +10,8 @@ import swal from "sweetalert";
 
 interface Props {
   name: string;
+  handleOpenLoading: () => void;
+  handleCloseLoading: () => void;
 }
 
 interface Cache {
@@ -22,13 +24,16 @@ const initCache: Cache = {
   deleted: [],
 };
 
-export default function Tables({ name }: Props) {
+export default function Tables({
+  name,
+  handleOpenLoading,
+  handleCloseLoading
+}: Props,) {
   const dispatch = useDispatch();
   const lists: Lists = useSelector((state: RootState) => state.lists);
   const [newData, setNewData] = useState<any>("");
   const [cache, setCache] = useState<Cache>(initCache);
   const [data, setData] = useState<any[]>([]);
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setCache(initCache);
@@ -42,25 +47,28 @@ export default function Tables({ name }: Props) {
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    if (cache.new.length > 0 || cache.deleted.length > 0) setLoading(true);
     if (cache.new.length > 0) {
+      handleOpenLoading();
       dispatch<any>(setItem(name, cache.new))
         .then(() => {
-          setLoading(false);
+          swal("Actualizado", "Datos Actualizados", "success")
+          handleCloseLoading();
         })
         .catch((error: any) => {
-          setLoading(false);
+          handleCloseLoading();
           console.log(error);
           swal("Error", "No se pudo actualizar los datos", "error");
         });
     }
     if (cache.deleted.length > 0) {
+      handleOpenLoading();
       dispatch<any>(deleteItem(name, cache.deleted))
         .then(() => {
-          setLoading(false);
+          swal("Actualizado", "Datos Actualizados", "success")
+          handleCloseLoading();
         })
         .catch((error: any) => {
-          setLoading(false);
+          handleCloseLoading();
           console.log(error);
           swal("Error", "No se pudo actualizar los datos", "error");
         });
@@ -107,11 +115,6 @@ export default function Tables({ name }: Props) {
   return (
     <form className={styles.container} onSubmit={handleSubmit}>
       <div className={styles.categoriesList}>
-        {loading ? (
-          <div className={styles.loading}>
-            <img src={loadingSvg} alt="loading" />
-          </div>
-        ) : null}
         {data.length > 0 ? (
           name === "tipoProceso" ? (
             data.map((data, index) => (

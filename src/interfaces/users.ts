@@ -1,5 +1,5 @@
 export interface Users {
-  id: string;
+  id?: string;
   name: string;
   email: string;
   rol: UserRol;
@@ -12,7 +12,6 @@ export enum UserRol {
 }
 
 export const initUser = {
-  id: "",
   name: "",
   email: "",
   rol: UserRol.User,

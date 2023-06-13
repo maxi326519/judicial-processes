@@ -10,18 +10,32 @@ import {
   updateEmail,
 } from "firebase/auth";
 import { auth, db } from "../../../firebase";
-import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
+import {
+  arrayUnion,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  setDoc,
+  writeBatch,
+} from "firebase/firestore";
 
 export const SET_USER = "SET_USER";
 export const GET_USER = "GET_USER";
 export const GET_USER_DATA = "GET_USER_DATA";
 export const PERSISTENCE = "PERSISTENCE";
 export const LOG_OUT = "LOG_OUT";
+
 export function setUser(
   user: Users
 ): ThunkAction<Promise<void>, RootState, null, AnyAction> {
   return async (dispatch: Dispatch<AnyAction>) => {
     try {
+      const batch = writeBatch(db);
+      const userCol = collection(db, "Users");
+      const listCol = collection(db, "List");
+      const listsDoc = doc(listCol, "lists");
+
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         user.email,
@@ -33,8 +47,10 @@ export function setUser(
         id: userCredential.user.uid,
       };
 
-      const colUser = collection(db, "Users");
-      await setDoc(doc(colUser, newUser.id), newUser);
+      batch.set(doc(userCol, newUser.id), user);
+      batch.update(listsDoc, { apoderados: arrayUnion(user.name) });
+
+      await batch.commit();
 
       dispatch({
         type: SET_USER,
@@ -57,9 +73,14 @@ export function getUserData(): ThunkAction<
       const colUser = collection(db, "Users");
       const snapshot = await getDoc(doc(colUser, auth.currentUser?.uid));
 
+      const user = {
+        ...snapshot.data(),
+        id: snapshot.id,
+      };
+
       dispatch({
         type: GET_USER_DATA,
-        payload: snapshot.data(),
+        payload: user,
       });
     } catch (e: any) {
       throw new Error(e);
@@ -79,8 +100,11 @@ export function getUsers(): ThunkAction<
       const snapshot = await getDocs(colUser);
       let user: any = [];
 
-      snapshot.forEach((doc: any) => {
-        user.push(doc.data());
+      snapshot.forEach((doc) => {
+        user.push({
+          ...doc.data(),
+          id: doc.id,
+        });
       });
 
       dispatch({

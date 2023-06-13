@@ -67,6 +67,10 @@ export const rootReducer = (state = { ...initialState }, action: any) => {
       return {
         ...state,
         users: action.payload,
+        lists: {
+          ...state.lists,
+          apoderados: [...state.lists.apoderados, action.payload.name],
+        },
       };
 
     case GET_USER_DATA:

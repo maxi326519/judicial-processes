@@ -5,7 +5,7 @@ export default function getLimitDate(
   diasFestivos: string[],
   dias: number
 ): Timestamp {
-  const fecha = fechaInicial.toDate();
+  const fecha = new Date(fechaInicial.toDate().getDate() + 1);
   let diasRestantes = dias; // Mantener un seguimiento de los días restantes para sumar
 
   while (diasRestantes > 0) {

@@ -12,8 +12,8 @@ export interface JudicialProcesses {
 }
 
 export enum ProcessesState {
-  Activo = "activo",
-  Terminado = "terminado",
+  Activo = "ACTIVO",
+  Terminado = "TERMINADO",
 }
 
 export interface ProcessesFilters {

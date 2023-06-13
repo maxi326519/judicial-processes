@@ -32,7 +32,7 @@ export default function useJudicialProcesses() {
     >
   ) {
     let newJudicialProcesses: ProcessesDetails = { ...judicialProcesses };
-    const value = event.target.value;
+    const value = event.target.value.toUpperCase();
     const name = event.target.name;
     const type = event.target.type;
     const error: any = {};

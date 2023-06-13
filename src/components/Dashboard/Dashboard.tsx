@@ -1,22 +1,21 @@
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../interfaces/RootState";
+import { logOut } from "../../redux/actions/login";
+import { useNavigate } from "react-router-dom";
 
 import SideBar from "./SideBar/SideBar";
 import JudicialProcessesTable from "./Tables/JudicialProcesses/JudicialProcesses";
-
-import styles from "./Dashboard.module.css";
 import UsersTable from "./Tables/Users/Users";
 import Iframe from "./Tables/Iframes/Iframes";
 import Home from "./Tables/Home/Home.jsx";
 import Excel from "./Tables/Excel/Excel";
 
+import styles from "./Dashboard.module.css";
 import userSvg from "../../assets/svg/user.svg";
 import emailSvg from "../../assets/svg/menu/email.svg";
 import passSvg from "../../assets/svg/menu/password.svg";
 import logoutSvg from "../../assets/svg/menu/logout.svg";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../interfaces/RootState";
-import { logOut } from "../../redux/actions/login";
-import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
   const dispatch = useDispatch();

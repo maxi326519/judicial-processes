@@ -40,60 +40,60 @@ export default function ImportExcel({ handleData, handleClose }: Props) {
 
     data.forEach((processes: any) => {
       newData.push({
-        apoderadoActual: processes[0] || "",
-        apoderadoAnterior: processes[1] || "",
+        apoderadoActual: processes[0].toUpperCase() || "",
+        apoderadoAnterior: processes[1].toUpperCase() || "",
         idSiproj: Number(processes[2]) || 0,
-        procesoAltoImpacto: processes[3] || "",
+        procesoAltoImpacto: processes[3].toUpperCase() || "",
 
-        radRamaJudicialInicial: processes[4] || "",
-        radRamaJudicialActual: processes[5] || "",
+        radRamaJudicialInicial: processes[4].toUpperCase() || "",
+        radRamaJudicialActual: processes[5].toUpperCase() || "",
 
-        tipoProceso: processes[6] || "",
+        tipoProceso: processes[6].toUpperCase() || "",
 
         diasTerminoContestacion: Number(processes[7]) || 0,
         fechaNotificacion: newDate(processes[8]),
         fechaAdmision: newDate(processes[9]),
         fechaContestacion: newDate(processes[10]),
         fechaLimiteProbContestacion: newDate(processes[11]),
-        validacionContestacion: processes[12] || "",
+        validacionContestacion: processes[12].toUpperCase() || "",
 
-        calidadActuacionEntidad: processes[13] || "",
+        calidadActuacionEntidad: processes[13].toUpperCase() || "",
 
-        demandados: processes[14] || "",
+        demandados: processes[14].toUpperCase() || "",
         idDemanante: Number(processes[15]) || 0,
-        demandante: processes[16] || "",
-        despachoInicial: processes[17] || "",
-        despachoActual: processes[18] || "",
+        demandante: processes[16].toUpperCase() || "",
+        despachoInicial: processes[17].toUpperCase() || "",
+        despachoActual: processes[18].toUpperCase() || "",
 
-        posicionSDP: processes[19] || "",
-        temaGeneral: processes[20] || "",
+        posicionSDP: processes[19].toUpperCase() || "",
+        temaGeneral: processes[20].toUpperCase() || "",
 
-        pretensionAsunto: processes[21] || "",
+        pretensionAsunto: processes[21].toUpperCase() || "",
 
         cuantiaEstimada: Number(processes[22]) || 0,
         valorPretensionesSMLVM: Number(processes[23]) || 0,
 
-        instanciaProceso: processes[24] || "",
+        instanciaProceso: processes[24].toUpperCase() || "",
         fechaProceso: newDate(processes[25]),
-        ultimoEstadoProceso: processes[26] || "",
-        etapaProcesal: processes[27] || "",
+        ultimoEstadoProceso: processes[26].toUpperCase() || "",
+        etapaProcesal: processes[27].toUpperCase() || "",
 
         fechaFalloPrimeraInstancia: newDate(processes[28]),
-        sentidoFalloPrimeraInstancia: processes[29] || "",
-        resumenPrimeraInstancia: processes[30] || "",
+        sentidoFalloPrimeraInstancia: processes[29].toUpperCase() || "",
+        resumenPrimeraInstancia: processes[30].toUpperCase() || "",
         fechaPresentacionRecurso: newDate(processes[31]),
         fechaFalloSegundaInstancia: newDate(processes[32]),
-        sentidoFalloSegundaInstancia: processes[33] || "",
-        resumenSegundaInstancia: processes[34] || "",
+        sentidoFalloSegundaInstancia: processes[33].toUpperCase() || "",
+        resumenSegundaInstancia: processes[34].toUpperCase() || "",
 
-        incidente: processes[35] || "",
-        estadoIncidente: processes[36] || "",
-        resumenIncidente: processes[37] || "",
+        incidente: processes[35].toUpperCase() || "",
+        estadoIncidente: processes[36].toUpperCase() || "",
+        resumenIncidente: processes[37].toUpperCase() || "",
 
-        observaciones: processes[38] || "",
+        observaciones: processes[38].toUpperCase() || "",
 
-        calificacionContingente: processes[39] || "",
-        estado: processes[40] || ProcessesState.Activo,
+        calificacionContingente: processes[39].toUpperCase() || "",
+        estado: processes[40].toUpperCase() || ProcessesState.Activo,
         fechaTerminacion: newDate(processes[41]),
       });
     });

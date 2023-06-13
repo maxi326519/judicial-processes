@@ -2,6 +2,9 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../interfaces/RootState";
+import { closeLoading, openLoading } from "../../../../redux/actions/loading";
+import { UserRol } from "../../../../interfaces/users";
+import swal from "sweetalert";
 import {
   getProcesses,
   importProcesses,
@@ -13,22 +16,20 @@ import {
 } from "../../../../interfaces/JudicialProcesses";
 
 import ExcelRow from "./ExcelRow/ExcelRow";
+import ImportExcel from "./ImportExcel/ImportExcel";
+import ExportExcel from "./ExportExcel/ExportExcel";
 
 import styles from "./Excel.module.css";
 import loadingSvg from "../../../../assets/img/loading.gif";
 import errorSvg from "../../../../assets/svg/error.svg";
 import importSvg from "../../../../assets/svg/import.svg";
 import exportSvg from "../../../../assets/svg/export.svg";
-import ImportExcel from "./ImportExcel/ImportExcel";
-import swal from "sweetalert";
-import { closeLoading, openLoading } from "../../../../redux/actions/loading";
-import ExportExcel from "./ExportExcel/ExportExcel";
-import { UserRol } from "../../../../interfaces/users";
 
 enum actionType {
   import,
   export,
 }
+
 interface Data {
   head: [];
   details: ProcessesDetails[];
@@ -43,6 +44,7 @@ export default function Excel() {
     (state: RootState) => state.processes.judicialProcesses
   );
   const [rows, setRows] = useState<JudicialProcesses[]>([]);
+  const [excelData, setExcelData] = useState([]);
   const [form, setForm] = useState<boolean>(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -192,7 +194,7 @@ export default function Excel() {
               </button>
             ) : null
           }
-          <ExportExcel data={rows} />
+          <ExportExcel data={rows} state={state} />
         </div>
       </div>
       <table className={styles.table}>

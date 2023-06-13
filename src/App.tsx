@@ -55,8 +55,7 @@ function App() {
         redirect("/login");
         dispatch(closeLoading());
       }
-    }, 500);
-    /*     redirect("/dashboard"); */
+    }, 1000);
   }, []);
 
   return (

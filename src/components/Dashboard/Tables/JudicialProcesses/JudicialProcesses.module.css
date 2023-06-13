@@ -53,7 +53,7 @@
 }
 
 .table div {
-  max-height: calc(100vh - 73.5px - 58px - 56px);
+  max-height: calc(100vh - 90px - 58px - 56px);
   overflow-y: scroll;
 }
 

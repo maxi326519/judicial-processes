@@ -18,6 +18,7 @@ const lists = [
   "posicionSDP",
   "temaGeneral",
   "instanciaProceso",
+  "etapaProcesal",
   "sentidoFalloPrimeraInstancia",
   "sentidoFalloSegundaInstancia",
   "incidente",

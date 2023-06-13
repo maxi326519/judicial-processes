@@ -123,6 +123,7 @@ export interface Lists {
   posicionSDP: string[];
   temaGeneral: string[];
   instanciaProceso: string[];
+  etapaProcesal: string[];
   sentidoFalloPrimeraInstancia: string[];
   sentidoFalloSegundaInstancia: string[];
   incidente: string[];
@@ -143,6 +144,7 @@ export const initLists: Lists = {
   posicionSDP: [],
   temaGeneral: [],
   instanciaProceso: [],
+  etapaProcesal: [],
   sentidoFalloPrimeraInstancia: [],
   sentidoFalloSegundaInstancia: [],
   incidente: [],

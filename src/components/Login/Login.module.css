@@ -10,7 +10,7 @@
 .sesion form {
   display: flex;
   flex-direction: column;
-  padding: 30px;
+  padding: 20px;
   width: 400px;
   border-radius: 10px;
   text-align: center;
@@ -29,4 +29,12 @@
 
 .sesion small {
   color: red;
+}
+
+.sesion hr{
+  margin-bottom: 30px;
+}
+
+.logoContainer img {
+  width: 100%;
 }

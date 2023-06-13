@@ -1,4 +1,6 @@
 .sideBar {
+  position: relative;
+  z-index: 2000;
   display: flex;
   flex-direction: column;
   height: calc(100% - 155px);

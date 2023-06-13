@@ -57,7 +57,6 @@ export default function useJudicialProcesses() {
       newJudicialProcesses.diasTerminoContestacion = days!;
 
       if (newJudicialProcesses.fechaNotificacion !== null) {
-        console.log("Actualizando...");
         newJudicialProcesses.fechaLimiteProbContestacion = getLimitDate(
           newJudicialProcesses.fechaNotificacion,
           lists.diasFestivos,
@@ -95,8 +94,6 @@ export default function useJudicialProcesses() {
       } else {
         newJudicialProcesses.validacionContestacion = "VENCIDO";
       }
-    } else {
-      newJudicialProcesses.validacionContestacion = "";
     }
 
     if (name === "cuantiaEstimada") {
@@ -114,6 +111,7 @@ export default function useJudicialProcesses() {
       }
     }
 
+    // If "tipoProceso" and "fechaNotificacion" is undefined delete "fechaLimiteProbContestacion"
     if (
       newJudicialProcesses.tipoProceso === "" ||
       newJudicialProcesses.fechaNotificacion === null
@@ -121,24 +119,30 @@ export default function useJudicialProcesses() {
       newJudicialProcesses.fechaLimiteProbContestacion = null;
     }
 
+    // If "tipoProceso" and "fechaNotificacion" is undefined delete "fechaLimiteProbContestacion"
+    if (
+      !newJudicialProcesses.fechaLimiteProbContestacion ||
+      !newJudicialProcesses.fechaContestacion
+    ) {
+      newJudicialProcesses.validacionContestacion = "";
+    }
+
     // Clean errors
     if (errors.hasOwnProperty(name)) {
       setErrors({ ...errors, [name]: "", ...error });
     }
 
-    console.log(newJudicialProcesses);
     setJudicialProcesses(newJudicialProcesses);
   }
 
   function reset() {
     setJudicialProcesses(initProcessesDetails);
+    setErrors(initErrorProcesses);
   }
 
   function validations() {
-    let error: ErrorProcesses = initErrorProcesses;
+    let error: ErrorProcesses = { ...initErrorProcesses };
     let value = true;
-
-    console.log(judicialProcesses);
 
     if (judicialProcesses.apoderadoActual === "") {
       error.apoderadoActual = "Debes completar este campo";
@@ -216,7 +220,6 @@ export default function useJudicialProcesses() {
       value = false;
     }
 
-    console.log(error);
     setErrors(error);
     return value;
   }

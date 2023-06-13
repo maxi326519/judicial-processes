@@ -6,17 +6,18 @@
   flex-direction: column;
   width: 100%;
   height: 100%;
-  padding: 20px;
-  padding-top: 0;
   color: var(--font);
   background-color: var(--background);
+  overflow: hidden;
 }
 
 .close {
+  position: relative;
+  z-index: 100;
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  margin-bottom: 10px;
+  box-shadow: 0 0 10px 5px #0006;
 }
 
 .close h3 {
@@ -35,8 +36,10 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 20px;
+  padding: 20px;
   width: 100%;
   overflow-y: scroll;
+  background-color: #0004;
 }
 
 .grid::-webkit-scrollbar {
@@ -53,22 +56,35 @@
   border-radius: 5px; /* roundness of the scroll thumb */
 }
 
+.typesInputs {
+  grid-column: 1 / 3;
+  display: flex;
+  gap: 20px;
+}
+
+.typesInputs div:last-child {
+  width: 120px;
+}
+
 .dataRight {
   display: flex;
   flex-direction: column;
   width: 400px;
 }
 
-.form button[type="submit"] {
-  margin-top: 30px;
-}
-
 .container form-floating {
   border: 1px solid var(--border);
 }
 
-.grid .formuladas{
+.grid .formuladas {
   background-color: #f944 !important;
+}
+
+.form .btnContainer:last-child {
+  position: relative;
+  z-index: 100;
+  padding: 20px;
+  box-shadow: 0 0 10px 5px #0006;
 }
 
 /* APODERADO ACTUAL */
@@ -92,55 +108,75 @@
 }
 
 /* ID DEMANDANTE */
-.grid div:nth-child(15) {
+.grid div:nth-child(14) {
   grid-column: 1 / 2;
 }
 
+/* TEMA GENERAL */
+.grid div:nth-child(18) {
+  grid-column: 3 / 5;
+}
+
 /* DEMANDANTE */
-.grid div:nth-child(16) {
+.grid div:nth-child(15) {
   grid-column: 2 / 4;
 }
 
 /* DEMANDADOS */
-.grid div:nth-child(14) {
+.grid div:nth-child(13) {
   grid-column: 4 / 6;
   grid-row: 5 / 6;
 }
 
 /* RESUMEN PRIMERA INSTANCIA */
-.grid div:nth-child(33) {
-  grid-column: 1 / 3;
+.grid div:nth-child(32) {
+  grid-column: 1 / 6;
 }
 
 /* RESUMEN SEGUNDA INSTANCIA */
-.grid div:nth-child(34) {
-  grid-column: 3 / 6;
+.grid div:nth-child(33) {
+  grid-column: 1 / 6;
 }
 
 /* INCIDENTE */
-.grid div:nth-child(35) {
-  grid-column: 1 / 3;
+.grid div:nth-child(34) {
+  grid-column: 1 / 4;
 }
 
 /* ESTADO INCIDENTE */
-.grid div:nth-child(36) {
-  grid-column: 3 / 6;
+.grid div:nth-child(35) {
+  grid-column: 4 / 6;
 }
 
 /* RESUMEN INCIDENTE */
-.grid div:nth-child(37) {
-  grid-column: 1 / 3;
+.grid div:nth-child(36) {
+  grid-column: 1 / 6;
 }
 
 /* OBSERVACIONES */
+.grid div:nth-child(37) {
+  grid-column: 1 / 6;
+}
+
+/* CALIFICACION */
 .grid div:nth-child(38) {
-  grid-column: 3 / 6;
+  grid-column: 1 / 3;
+}
+
+/* ESTADO */
+.grid div:nth-child(39) {
+  grid-column: 3 / 5;
+}
+
+/* FECHA TERMINACION */
+.grid div:nth-child(40) {
+  grid-column: 5 / 6;
 }
 
 .grid div textarea {
   height: 200px !important;
 }
 
-.grid button{
+.grid button {
   grid-column: 1 / 3;
 }

@@ -14,6 +14,7 @@ const lists = [
   ["Posicion SDP", "posicionSDP"],
   ["Tema general", "temaGeneral"],
   ["Instancia del proceso", "instanciaProceso"],
+  ["Etapa Procesal", "etapaProcesal"],
   ["Sentido del fallo Primera instancia", "sentidoFalloPrimeraInstancia"],
   ["Sentido del fallo Segunda instancia", "sentidoFalloSegundaInstancia"],
   ["Incidente", "incidente"],

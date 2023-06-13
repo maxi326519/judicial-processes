@@ -3,10 +3,11 @@ import { useDispatch } from "react-redux";
 import { openLoading, closeLoading } from "../../redux/actions/loading";
 import { logIn } from "../../redux/actions/login";
 import { useNavigate } from "react-router-dom";
-
-import "./Login.css";
-import swal from "sweetalert";
 import { getUserData } from "../../redux/actions/users";
+import swal from "sweetalert";
+
+import styles from "./Login.module.css";
+import logo from "../../assets/img/logo.png";
 
 interface Error {
   email: string | null;
@@ -86,9 +87,14 @@ export default function Signin() {
   }
 
   return (
-    <div className="sesion">
+    <div className={styles.sesion}>
       <form onSubmit={handleSubmit}>
-        <h2>Iniciar sesion</h2>
+        <div className={styles.logoContainer}>
+          <img src={logo} alt="logo" />
+        </div>
+        <hr></hr>
+        <h2>Iniciar sesión</h2>
+        
         {/* EMAIL */}
         <div className="form-floating mb-3">
           <input
@@ -99,7 +105,7 @@ export default function Signin() {
             id={error.email ? "floatingInputInvalid" : "user"}
             placeholder="name"
             onChange={handleChange}
-            /*             required */
+          /*             required */
           />
           <label htmlFor="floatingInput">Email</label>
           {!error.email ? null : <small>{error.email}</small>}
@@ -115,14 +121,14 @@ export default function Signin() {
             id={error.password ? "floatingInputInvalid" : "pass"}
             placeholder="Contraseña"
             onChange={handleChange}
-            /*             required */
+          /*             required */
           />
           <label htmlFor="floatingInput">Contraseña</label>
           {!error.password ? null : <small>{error.password}</small>}
         </div>
 
         <button className="btn btn-primary" type="submit">
-          Iniciar sesion
+          Iniciar sesión
         </button>
       </form>
     </div>

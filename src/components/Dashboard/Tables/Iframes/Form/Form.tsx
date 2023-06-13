@@ -93,7 +93,7 @@ export default function Form({ handleClose, handleSubmit, data }: Props) {
           </div>
 
           <button type="submit" className="btn btn-success">
-            Agregar iframe
+            {data ? "Guardar iframe" : "Agregar iframe"}
           </button>
         </div>
       </form>

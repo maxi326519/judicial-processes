@@ -115,6 +115,14 @@ export default function ImportExcel({ handleData, handleClose }: Props) {
     return date ? Timestamp.fromDate(new Date(date)) : null;
   }
 
+  function textParser(texto: string): string {
+    const textoSinEspacios = texto.replace(/^\s+|\s+$/g, '');
+
+    const textoEnMayusculas = textoSinEspacios.toUpperCase();
+
+    return textoEnMayusculas;
+  }
+
   return (
     <div className={styles.background}>
       <form>

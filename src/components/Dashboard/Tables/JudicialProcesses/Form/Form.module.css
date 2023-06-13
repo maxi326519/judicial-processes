@@ -87,6 +87,9 @@
   box-shadow: 0 0 10px 5px #0006;
 }
 
+.form .btnContainer button {
+  margin-right: 20px;
+}
 /* APODERADO ACTUAL */
 .grid div:nth-child(2) {
   grid-column: 2 / 4;

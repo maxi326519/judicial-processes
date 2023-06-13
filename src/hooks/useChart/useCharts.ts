@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../interfaces/RootState";
 import {
@@ -9,8 +9,7 @@ import {
   TypeChartData,
   initEntity,
 } from "../../interfaces/charts";
-import { getCharts, setCharts } from "../../redux/actions/charts";
-import { getProcessesData } from "../../redux/actions/judicialProcesses";
+import { setCharts } from "../../redux/actions/charts";
 import { closeLoading, openLoading } from "../../redux/actions/loading";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebase";
@@ -36,7 +35,6 @@ export default function useChart() {
       details.push(doc.data());
     });
 
-    console.log(details);
     const data: Charts = {
       entityChart: updateEntityChart(details),
       processesChart: updateProcessesChart(details),
@@ -112,11 +110,6 @@ export default function useChart() {
         });
       } else {
         // If "apoderado" don't exist, create data
-        console.log("Nuevo", {
-          apoderado: process.apoderadoActual,
-          activos: process.estado === "ACTIVO" ? 1 : 0,
-          terminados: process.estado === "TERMINADO" ? 1 : 0,
-        });
         processesData.push({
           apoderado: process.apoderadoActual,
           activos: process.estado === "ACTIVO" ? 1 : 0,

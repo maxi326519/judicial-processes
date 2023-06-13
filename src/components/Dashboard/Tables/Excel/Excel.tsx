@@ -23,6 +23,7 @@ import ImportExcel from "./ImportExcel/ImportExcel";
 import swal from "sweetalert";
 import { closeLoading, openLoading } from "../../../../redux/actions/loading";
 import ExportExcel from "./ExportExcel/ExportExcel";
+import { UserRol } from "../../../../interfaces/users";
 
 enum actionType {
   import,
@@ -37,6 +38,7 @@ const initData: Data = { head: [], details: [] };
 
 export default function Excel() {
   const dispatch = useDispatch();
+  const user = useSelector((state: RootState) => state.user);
   const judicialProcesses = useSelector(
     (state: RootState) => state.processes.judicialProcesses
   );
@@ -55,7 +57,6 @@ export default function Excel() {
   useEffect(() => {
     setRows(
       judicialProcesses.filter((processes) => {
-        console.log(state, processes.estado);
         if (state !== "" && processes.estado !== state) return false;
         return true;
       })
@@ -179,14 +180,18 @@ export default function Excel() {
           </div>
         )}
         <div>
-          <button
-            className="btn btn-outline-primary"
-            type="button"
-            onClick={handleClose}
-          >
-            <img src={importSvg} alt="import" />
-            <span>Importar</span>
-          </button>
+          {
+            user.rol === UserRol.Admin ? (
+              <button
+                className="btn btn-outline-primary"
+                type="button"
+                onClick={handleClose}
+              >
+                <img src={importSvg} alt="import" />
+                <span>Importar</span>
+              </button>
+            ) : null
+          }
           <ExportExcel data={rows} />
         </div>
       </div>

@@ -27,3 +27,7 @@
   filter: invert(100%);
   transition: 0.2s;
 }
+
+.user{
+  grid-template-columns: 1fr 50px;
+}

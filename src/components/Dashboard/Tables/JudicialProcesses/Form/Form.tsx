@@ -1,6 +1,6 @@
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../../interfaces/RootState";
-import { useEffect } from "react";
 import useJudicialProcesses from "../../../../../hooks/useJudicialProcesses";
 import swal from "sweetalert";
 import {
@@ -31,6 +31,7 @@ export default function Form({ handleClose }: Props) {
     (state: RootState) => state.processes.processesDetails
   );
   const lists = useSelector((state: RootState) => state.lists);
+  const [errorLength, setErrorLength] = useState<number>(0);
 
   useEffect(() => {
     return () => {
@@ -38,6 +39,16 @@ export default function Form({ handleClose }: Props) {
       handleClose();
     }
   }, []);
+
+  useEffect(() => {
+    let acumulator = 0;
+    for (const property in errors) {
+      if (errors[property as keyof typeof errors] !== "") {
+        acumulator++;
+      }
+    }
+    setErrorLength(acumulator);
+  }, [errors])
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -859,6 +870,7 @@ export default function Form({ handleClose }: Props) {
         <button type="submit" className="btn btn-success">
           {processesDetails ? "Guardar proceso" : "Agregar proceso"}
         </button>
+        {errorLength ? <small>Hay {errorLength} errores</small> : null}
       </div>
     </form>
   );

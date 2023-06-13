@@ -1,9 +1,12 @@
-                       import { IFrames } from "../../../../../interfaces/iframes";
+import { IFrames } from "../../../../../interfaces/iframes";
 
 import style from "./IFramesRow.module.css";
 import editSvg from "../../../../../assets/svg/edit.svg";
 import viewSvg from "../../../../../assets/svg/view.svg";
 import deleteSvg from "../../../../../assets/svg/delete.svg";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../../interfaces/RootState";
+import { UserRol } from "../../../../../interfaces/users";
 
 interface Props {
   iframe: IFrames;
@@ -13,16 +16,22 @@ interface Props {
 }
 
 export default function IFramesRow({ iframe, handleEdit, handleView, handleDelete }: Props) {
+  const user = useSelector((state: RootState) => state.user)
+
   return (
-    <tr className={style.row}>
+    <tr className={`${style.row} ${user.rol === UserRol.User ? style.user : ""}`}>
       <td>{iframe.name}</td>
-      <button
-        className="btn btn-outline-primary"
-        type="button"
-        onClick={() => handleEdit(iframe)}
-      >
-        <img src={editSvg} alt="edit" />
-      </button>
+      {
+        user.rol === UserRol.Admin ? (
+          <button
+            className="btn btn-outline-primary"
+            type="button"
+            onClick={() => handleEdit(iframe)}
+          >
+            <img src={editSvg} alt="edit" />
+          </button>
+        ) : null
+      }
       <button
         className="btn btn-outline-primary"
         type="button"
@@ -30,13 +39,17 @@ export default function IFramesRow({ iframe, handleEdit, handleView, handleDelet
       >
         <img src={viewSvg} alt="edit" />
       </button>
-      <button
-        className="btn btn-outline-danger"
-        type="button"
-        onClick={() => handleDelete(iframe.id!)}
-      >
-        <img src={deleteSvg} alt="delete" />
-      </button>
+      {
+        user.rol === UserRol.Admin ? (
+          <button
+            className="btn btn-outline-danger"
+            type="button"
+            onClick={() => handleDelete(iframe.id!)}
+          >
+            <img src={deleteSvg} alt="delete" />
+          </button>
+        ) : null
+      }
     </tr>
   );
 }

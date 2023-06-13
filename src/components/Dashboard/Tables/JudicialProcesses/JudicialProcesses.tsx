@@ -26,9 +26,11 @@ import styles from "./JudicialProcesses.module.css";
 import loadingSvg from "../../../../assets/img/loading.gif";
 import errorSvg from "../../../../assets/svg/error.svg";
 import listSvg from "../../../../assets/svg/list.svg";
+import { UserRol } from "../../../../interfaces/users";
 
 export default function JudicialProcessesTable() {
   const dispatch = useDispatch();
+  const user = useSelector((state: RootState) => state.user);
   const judicialProcesses = useSelector(
     (state: RootState) => state.processes.judicialProcesses
   );
@@ -177,14 +179,18 @@ export default function JudicialProcessesTable() {
       {list ? <Lists handleClose={handleShowList} /> : null}
       <div className={styles.controls}>
         <Filters filters={filters} handleSetFilter={handleFilter} />
-        <button
-          className="btn btn-outline-primary"
-          type="button"
-          onClick={handleShowList}
-        >
-          <img src={listSvg} alt="list" />
-          <span>Listas</span>
-        </button>
+        {
+          user.rol === UserRol.Admin ? (
+            <button
+              className="btn btn-outline-primary"
+              type="button"
+              onClick={handleShowList}
+            >
+              <img src={listSvg} alt="list" />
+              <span>Listas</span>
+            </button>
+          ) : null
+        }
         <div>
           <button
             className="btn btn-outline-primary"

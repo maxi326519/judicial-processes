@@ -213,8 +213,8 @@ export default function useJudicialProcesses() {
       value = false;
     }
     if (
-      judicialProcesses.estado === ProcessesState.Activo ||
-      judicialProcesses.estado === ProcessesState.Terminado
+      judicialProcesses.estado !== ProcessesState.Activo &&
+      judicialProcesses.estado !== ProcessesState.Terminado
     ) {
       error.estado = "Debes completar este campo";
       value = false;

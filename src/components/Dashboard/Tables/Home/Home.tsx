@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getProcessesData } from "../../../../redux/actions/judicialProcesses";
 
 import EntityChart from "./EntityChart/EntityChart";
@@ -12,9 +12,12 @@ import { getCharts, setCharts } from "../../../../redux/actions/charts";
 import { Charts } from "../../../../interfaces/charts";
 import { closeLoading, openLoading } from "../../../../redux/actions/loading";
 import swal from "sweetalert";
+import { RootState } from "../../../../interfaces/RootState";
+import { UserRol } from "../../../../interfaces/users";
 
 export default function Home() {
   const dispatch = useDispatch();
+  const user = useSelector((state: RootState) => state.user)
   const { chart, update } = useChart();
 
   useEffect(() => {
@@ -37,15 +40,19 @@ export default function Home() {
 
   return (
     <div className={styles.charts}>
-      <div className={styles.btnContainer}>
-        <button
-          className="btn btn-outline-success"
-          type="button"
-          onClick={handleUpdateCharts}
-        >
-          Actualizar
-        </button>
-      </div>
+      {
+        user.rol === UserRol.Admin ? (
+
+          <div className={styles.btnContainer}>
+            <button
+              className="btn btn-outline-success"
+              type="button"
+              onClick={handleUpdateCharts}
+            >
+              Actualizar
+            </button>
+          </div>
+        ) : null}
       <ProcessesChart />
       <EntityChart />
       <StageChart />

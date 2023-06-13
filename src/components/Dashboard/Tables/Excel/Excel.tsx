@@ -174,6 +174,8 @@ export default function Excel() {
             >
               Cancelar
             </button>
+
+            <span>Se importarán {rows.length}</span>
           </div>
         )}
         <div>

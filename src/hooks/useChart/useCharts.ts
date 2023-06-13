@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../interfaces/RootState";
 import {
@@ -11,6 +11,10 @@ import {
 } from "../../interfaces/charts";
 import { getCharts, setCharts } from "../../redux/actions/charts";
 import { getProcessesData } from "../../redux/actions/judicialProcesses";
+import { closeLoading, openLoading } from "../../redux/actions/loading";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../firebase";
+import { ProcessesDetails } from "../../interfaces/JudicialProcesses";
 
 export default function useChart() {
   const dispatch = useDispatch();
@@ -22,39 +26,46 @@ export default function useChart() {
   const [stageChart, setStageChart] = useState<StageChartData[]>([]);
   const [typeChart, setTypeChart] = useState<TypeChartData[]>([]);
 
-  function updateCharts() {
-    return dispatch<any>(getProcessesData())
+  async function updateCharts() {
+    dispatch(openLoading());
+    const colProcesses = collection(db, "Details");
+    const snapshot = await getDocs(colProcesses);
+    const details: any = [];
+
+    snapshot.forEach((doc) => {
+      details.push(doc.data());
+    });
+
+    console.log(details);
+    const data: Charts = {
+      entityChart: updateEntityChart(details),
+      processesChart: updateProcessesChart(details),
+      stageChart: updateStageChart(details),
+      typeChart: updateTypeChart(details),
+    };
+
+    setEntityChart(data.entityChart);
+    setProcessesChart(data.processesChart);
+    setStageChart(data.stageChart);
+    setTypeChart(data.typeChart);
+
+    return dispatch<any>(setCharts(data))
       .then(() => {
-        setTimeout(() => {
-          const data: Charts = {
-            entityChart: updateEntityChart(),
-            processesChart: updateProcessesChart(),
-            stageChart: updateStageChart(),
-            typeChart: updateTypeChart(),
-          };
-
-          setEntityChart(data.entityChart);
-          setProcessesChart(data.processesChart);
-          setStageChart(data.stageChart);
-          setTypeChart(data.typeChart);
-
-          return dispatch<any>(setCharts(data)).catch((error: any) => {
-            throw new Error("");
-          });
-        }, 100);
+        dispatch(closeLoading());
       })
       .catch((error: any) => {
-        throw new Error(error);
+        dispatch(closeLoading());
+        throw new Error("");
       });
   }
 
-  function updateEntityChart() {
+  function updateEntityChart(processes: ProcessesDetails[]) {
     let entityData = {
       demandante: 0,
       demandado: 0,
     };
 
-    processes.map((process) => {
+    processes.forEach((process) => {
       if (process.calidadActuacionEntidad === "DEMANDANTE") {
         entityData.demandante++;
       } else if (process.calidadActuacionEntidad === "DEMANDADO") {
@@ -65,7 +76,7 @@ export default function useChart() {
     return entityData;
   }
 
-  function updateProcessesChart() {
+  function updateProcessesChart(processes: ProcessesDetails[]) {
     let processesData: ProcessesChartData[] = [];
 
     processes.forEach((process) => {
@@ -74,13 +85,20 @@ export default function useChart() {
         processesData.some((data) => data.apoderado === process.apoderadoActual)
       ) {
         // Map and update data
-        processesData.map((data) => {
+        processesData = processesData.map((data) => {
           // If found the process, add one to type
           if (data.apoderado === process.apoderadoActual) {
-            let activos =
-              data.activos + (process.tipoProceso === "ACTIVO" ? 1 : 0);
-            let terminados =
-              data.terminados + (process.tipoProceso === "TERMINADO" ? 1 : 0);
+            let activos = Number(data.activos);
+            let terminados = Number(data.terminados);
+
+            if (process.estado === "ACTIVO") activos++;
+            if (process.estado === "TERMINADO") terminados++;
+            console.log(
+              process.apoderadoActual,
+              process.estado,
+              activos,
+              terminados
+            );
 
             return {
               apoderado: data.apoderado,
@@ -94,10 +112,15 @@ export default function useChart() {
         });
       } else {
         // If "apoderado" don't exist, create data
+        console.log("Nuevo", {
+          apoderado: process.apoderadoActual,
+          activos: process.estado === "ACTIVO" ? 1 : 0,
+          terminados: process.estado === "TERMINADO" ? 1 : 0,
+        });
         processesData.push({
           apoderado: process.apoderadoActual,
-          activos: process.tipoProceso === "ACTIVO" ? 1 : 0,
-          terminados: process.tipoProceso === "TERMINADO" ? 1 : 0,
+          activos: process.estado === "ACTIVO" ? 1 : 0,
+          terminados: process.estado === "TERMINADO" ? 1 : 0,
         });
       }
     });
@@ -105,14 +128,14 @@ export default function useChart() {
     return processesData;
   }
 
-  function updateStageChart() {
+  function updateStageChart(processes: ProcessesDetails[]) {
     let stageData: StageChartData[] = [];
 
     processes.forEach((process) => {
       // If "etapa" already exist
       if (stageData.some((stage) => stage.etapa === process.etapaProcesal)) {
         // Map and update data
-        stageData.map((data) => {
+        stageData = stageData.map((data) => {
           // If found the process, add one to type
           if (data.etapa === process.etapaProcesal) {
             let cantidad = data.cantidad + 1;
@@ -138,14 +161,14 @@ export default function useChart() {
     return stageData;
   }
 
-  function updateTypeChart() {
+  function updateTypeChart(processes: ProcessesDetails[]) {
     let typeData: TypeChartData[] = [];
 
     processes.forEach((process) => {
       // If "tipo" already exist
       if (typeData.some((type) => type.tipo === process.tipoProceso)) {
         // Map and update data
-        typeData.map((data) => {
+        typeData = typeData.map((data) => {
           // If found the process, add one to type
           if (data.tipo === process.tipoProceso) {
             let cantidad = data.cantidad + 1;

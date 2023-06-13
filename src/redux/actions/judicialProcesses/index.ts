@@ -11,9 +11,13 @@ import {
   doc,
   getDoc,
   getDocs,
+  query,
+  where,
   writeBatch,
 } from "firebase/firestore";
 import { db } from "../../../firebase";
+import { UserRol, Users } from "../../../interfaces/users";
+import { User } from "firebase/auth";
 
 export const SET_PROCESSES = "SET_PROCESSES";
 export const IMPORT_PROCESSES = "IMPORT_PROCESSES";
@@ -120,21 +124,27 @@ export function importProcesses(processesList: {
   };
 }
 
-export function getProcesses(): ThunkAction<
-  Promise<void>,
-  RootState,
-  null,
-  AnyAction
-> {
+export function getProcesses(
+  user: Users
+): ThunkAction<Promise<void>, RootState, null, AnyAction> {
   return async (dispatch: Dispatch<AnyAction>) => {
     const colProcesses = collection(db, "Processes");
-    /*     await getDocs(query(colProcesses, where("firma", "==", user.name))); */
-    const snapshot = await getDocs(colProcesses);
-
     let processes: any = [];
-    snapshot.forEach((doc: any) => {
-      processes.push(doc.data());
-    });
+    let snapshot;
+
+    if (user.rol === UserRol.Admin) {
+      snapshot = await getDocs(colProcesses);
+    } else if (user.rol === UserRol.User) {
+      snapshot = await getDocs(
+        query(colProcesses, where("apoderadoActual", "==", user.name))
+      );
+    }
+
+    if (snapshot) {
+      snapshot.forEach((doc: any) => {
+        processes.push(doc.data());
+      });
+    }
 
     try {
       dispatch({
@@ -199,10 +209,12 @@ export function updateProcesses(
   return async (dispatch: Dispatch<AnyAction>) => {
     const batch = writeBatch(db);
 
-    const head = {
+    const head: JudicialProcesses = {
       id: processes.idHead,
       idDetails: processes.id,
       idSiproj: processes.idSiproj,
+      estado: processes.estado,
+      apoderadoActual: processes.apoderadoActual,
       radRamaJudicialInicial: processes.radRamaJudicialInicial,
       radRamaJudicialActual: processes.radRamaJudicialActual,
       demandante: processes.demandante,
@@ -211,7 +223,7 @@ export function updateProcesses(
 
     const colProcesses = collection(db, "Processes");
     const colDetails = collection(db, "Details");
-    batch.update(doc(colProcesses, processes.idHead), head);
+    batch.update(doc(colProcesses, processes.idHead), { ...head });
     batch.update(doc(colDetails, processes.id), details);
 
     batch.commit();

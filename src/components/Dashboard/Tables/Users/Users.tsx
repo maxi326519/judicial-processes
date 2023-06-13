@@ -46,6 +46,7 @@ export default function UsersTable() {
     dispatch(openLoading());
     dispatch<any>(setUser(user))
       .then(() => {
+        handleClose();
         dispatch(closeLoading());
         swal("Guardado", "Se agrego el usuario", "success");
       })

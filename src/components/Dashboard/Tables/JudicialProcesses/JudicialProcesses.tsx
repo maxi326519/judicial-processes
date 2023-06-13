@@ -99,7 +99,7 @@ export default function JudicialProcessesTable() {
     setLoading(true);
     setError(false);
     dispatch<any>(getLists());
-    dispatch<any>(getProcesses())
+    dispatch<any>(getProcesses(user))
       .then(() => {
         setLoading(false);
       })

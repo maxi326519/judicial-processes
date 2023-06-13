@@ -40,60 +40,60 @@ export default function ImportExcel({ handleData, handleClose }: Props) {
 
     data.forEach((processes: any) => {
       newData.push({
-        apoderadoActual: processes[0]?.toUpperCase() || "",
-        apoderadoAnterior: processes[1]?.toUpperCase() || "",
+        apoderadoActual: textParser(processes[0]) || "",
+        apoderadoAnterior: textParser(processes[1]) || "",
         idSiproj: Number(processes[2]) || 0,
-        procesoAltoImpacto: processes[3]?.toUpperCase() || "",
+        procesoAltoImpacto: textParser(processes[3]) || "",
 
-        radRamaJudicialInicial: processes[4]?.toUpperCase() || "",
-        radRamaJudicialActual: processes[5]?.toUpperCase() || "",
+        radRamaJudicialInicial: textParser(processes[4]) || "",
+        radRamaJudicialActual: textParser(processes[5]) || "",
 
-        tipoProceso: processes[6]?.toUpperCase() || "",
+        tipoProceso: textParser(processes[6]) || "",
 
         diasTerminoContestacion: Number(processes[7]) || 0,
         fechaNotificacion: newDate(processes[8]),
         fechaAdmision: newDate(processes[9]),
         fechaContestacion: newDate(processes[10]),
         fechaLimiteProbContestacion: newDate(processes[11]),
-        validacionContestacion: processes[12]?.toUpperCase() || "",
+        validacionContestacion: textParser(processes[12]) || "",
 
-        calidadActuacionEntidad: processes[13]?.toUpperCase() || "",
+        calidadActuacionEntidad: textParser(processes[13]) || "",
 
-        demandados: processes[14]?.toUpperCase() || "",
+        demandados: textParser(processes[14]) || "",
         idDemanante: Number(processes[15]) || 0,
-        demandante: processes[16]?.toUpperCase() || "",
-        despachoInicial: processes[17]?.toUpperCase() || "",
-        despachoActual: processes[18]?.toUpperCase() || "",
+        demandante: textParser(processes[16]) || "",
+        despachoInicial: textParser(processes[17]) || "",
+        despachoActual: textParser(processes[18]) || "",
 
-        posicionSDP: processes[19]?.toUpperCase() || "",
-        temaGeneral: processes[20]?.toUpperCase() || "",
+        posicionSDP: textParser(processes[19]) || "",
+        temaGeneral: textParser(processes[20]) || "",
 
-        pretensionAsunto: processes[21]?.toUpperCase() || "",
+        pretensionAsunto: textParser(processes[21]) || "",
 
         cuantiaEstimada: Number(processes[22]) || 0,
         valorPretensionesSMLVM: Number(processes[23]) || 0,
 
-        instanciaProceso: processes[24]?.toUpperCase() || "",
+        instanciaProceso: textParser(processes[24]) || "",
         fechaProceso: newDate(processes[25]),
-        ultimoEstadoProceso: processes[26]?.toUpperCase() || "",
-        etapaProcesal: processes[27]?.toUpperCase() || "",
+        ultimoEstadoProceso: textParser(processes[26]) || "",
+        etapaProcesal: textParser(processes[27]) || "",
 
         fechaFalloPrimeraInstancia: newDate(processes[28]),
-        sentidoFalloPrimeraInstancia: processes[29]?.toUpperCase() || "",
-        resumenPrimeraInstancia: processes[30]?.toUpperCase() || "",
+        sentidoFalloPrimeraInstancia: textParser(processes[29]) || "",
+        resumenPrimeraInstancia: textParser(processes[30]) || "",
         fechaPresentacionRecurso: newDate(processes[31]),
         fechaFalloSegundaInstancia: newDate(processes[32]),
-        sentidoFalloSegundaInstancia: processes[33]?.toUpperCase() || "",
-        resumenSegundaInstancia: processes[34]?.toUpperCase() || "",
+        sentidoFalloSegundaInstancia: textParser(processes[33]) || "",
+        resumenSegundaInstancia: textParser(processes[34]) || "",
 
-        incidente: processes[35]?.toUpperCase() || "",
-        estadoIncidente: processes[36]?.toUpperCase() || "",
-        resumenIncidente: processes[37]?.toUpperCase() || "",
+        incidente: textParser(processes[35]) || "",
+        estadoIncidente: textParser(processes[36]) || "",
+        resumenIncidente: textParser(processes[37]) || "",
 
-        observaciones: processes[38]?.toUpperCase() || "",
+        observaciones: textParser(processes[38]) || "",
 
-        calificacionContingente: processes[39]?.toUpperCase() || "",
-        estado: processes[40]?.toUpperCase() || ProcessesState.Activo,
+        calificacionContingente: textParser(processes[39]) || "",
+        estado: textParser(processes[40]) as ProcessesState || ProcessesState.Activo,
         fechaTerminacion: newDate(processes[41]),
       });
     });
@@ -117,9 +117,7 @@ export default function ImportExcel({ handleData, handleClose }: Props) {
 
   function textParser(texto: string): string {
     const textoSinEspacios = texto.replace(/^\s+|\s+$/g, '');
-
     const textoEnMayusculas = textoSinEspacios.toUpperCase();
-
     return textoEnMayusculas;
   }
 

@@ -68,7 +68,7 @@ export default function Excel() {
   function handleGetProcesses() {
     setLoading(true);
     setError(false);
-    dispatch<any>(getProcesses())
+    dispatch<any>(getProcesses(user))
       .then(() => {
         setLoading(false);
       })

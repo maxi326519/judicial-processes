@@ -35,6 +35,16 @@ export function setProcesses(
     try {
       const batch = writeBatch(db);
 
+      const colProcesses = collection(db, "Processes");
+      const colDetails = collection(db, "Details");
+
+      const headDoc = doc(colProcesses, processes.idSiproj.toString());
+      const detailsDoc = doc(colDetails, processes.idSiproj.toString());
+
+      const data = await getDoc(headDoc);
+      if (data.exists())
+        throw new Error(`Ya existe el id ${processes.idSiproj}`);
+
       let head: JudicialProcesses = {
         idSiproj: processes.idSiproj,
         estado: processes.estado,
@@ -44,17 +54,6 @@ export function setProcesses(
         demandante: processes.demandante,
       };
       let details: ProcessesDetails = processes;
-
-      const colProcesses = collection(db, "Processes");
-      const colDetails = collection(db, "Details");
-
-      const headDoc = doc(colProcesses);
-      const detailsDoc = doc(colDetails);
-
-      head.id = headDoc.id;
-      head.idDetails = detailsDoc.id;
-      details.id = detailsDoc.id;
-      details.idHead = headDoc.id;
 
       batch.set(headDoc, head);
       batch.set(detailsDoc, details);
@@ -97,13 +96,8 @@ export function importProcesses(processesList: {
           const colProcesses = collection(db, "Processes");
           const colDetails = collection(db, "Details");
 
-          const headDoc = doc(colProcesses);
-          const detailsDoc = doc(colDetails);
-
-          head.id = headDoc.id;
-          head.idDetails = detailsDoc.id;
-          detailsData.id = detailsDoc.id;
-          detailsData.idHead = headDoc.id;
+          const headDoc = doc(colProcesses, details.idSiproj.toString());
+          const detailsDoc = doc(colDetails, details.idSiproj.toString());
 
           batch.set(headDoc, head);
           batch.set(detailsDoc, detailsData);
@@ -158,12 +152,12 @@ export function getProcesses(
 }
 
 export function getProcessesDetails(
-  idDetails: string
+  idSiproj: string
 ): ThunkAction<Promise<void>, RootState, null, AnyAction> {
   return async (dispatch: Dispatch<AnyAction>) => {
     try {
       const colProcesses = collection(db, "Details");
-      const snapshot = await getDoc(doc(colProcesses, idDetails));
+      const snapshot = await getDoc(doc(colProcesses, idSiproj));
 
       let details = snapshot.data();
 
@@ -210,8 +204,6 @@ export function updateProcesses(
     const batch = writeBatch(db);
 
     const head: JudicialProcesses = {
-      id: processes.idHead,
-      idDetails: processes.id,
       idSiproj: processes.idSiproj,
       estado: processes.estado,
       apoderadoActual: processes.apoderadoActual,
@@ -223,8 +215,8 @@ export function updateProcesses(
 
     const colProcesses = collection(db, "Processes");
     const colDetails = collection(db, "Details");
-    batch.update(doc(colProcesses, processes.idHead), { ...head });
-    batch.update(doc(colDetails, processes.id), details);
+    batch.update(doc(colProcesses, processes.idSiproj.toString()), { ...head });
+    batch.update(doc(colDetails, processes.idSiproj.toString()), details);
 
     batch.commit();
 
@@ -249,14 +241,14 @@ export function deleteProcesses(
       const colProcesses = collection(db, "Processes");
       const colDetails = collection(db, "Details");
 
-      batch.delete(doc(colProcesses, processes.id));
-      batch.delete(doc(colDetails, processes.idDetails));
+      batch.delete(doc(colProcesses, processes.idSiproj.toString()));
+      batch.delete(doc(colDetails, processes.idSiproj.toString()));
 
       await batch.commit();
 
       dispatch({
         type: DELETE_PROCESSES,
-        payload: processes.id,
+        payload: processes.idSiproj,
       });
     } catch (e: any) {
       throw new Error(e);

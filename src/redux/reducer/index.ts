@@ -145,7 +145,7 @@ export const rootReducer = (state = { ...initialState }, action: any) => {
           ...state.processes,
           judicialProcesses: state.processes.judicialProcesses.map(
             (processes) =>
-              processes.id === action.payload.id ? action.payload : processes
+              processes.idSiproj === action.payload.idSiproj ? action.payload : processes
           ),
         },
       };
@@ -155,7 +155,7 @@ export const rootReducer = (state = { ...initialState }, action: any) => {
         ...state,
         processes: {
           judicialProcesses: state.processes.judicialProcesses.filter(
-            (doc) => doc.id !== action.payload
+            (doc) => doc.idSiproj !== action.payload
           ),
           processesDetails: initProcessesDetails,
         },

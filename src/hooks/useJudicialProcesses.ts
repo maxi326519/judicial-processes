@@ -10,8 +10,10 @@ import { Timestamp } from "firebase/firestore";
 import { useSelector } from "react-redux";
 import { RootState } from "../interfaces/RootState";
 import getLimitDate from "../functions/getLimitDate";
+import { UserRol } from "../interfaces/users";
 
 export default function useJudicialProcesses() {
+  const user = useSelector((state: RootState) => state.user);
   const [judicialProcesses, setJudicialProcesses] =
     useState<ProcessesDetails>(initProcessesDetails);
   const [errors, setErrors] = useState<ErrorProcesses>(initErrorProcesses);
@@ -21,10 +23,13 @@ export default function useJudicialProcesses() {
   const lists = useSelector((state: RootState) => state.lists);
 
   useEffect(() => {
+    let data = { ...judicialProcesses };
+    if (user.rol === UserRol.User) data.apoderadoActual = user.name;
     if (processesDetails) {
-      setJudicialProcesses(processesDetails);
+      data = processesDetails;
     }
-  }, [processesDetails, setJudicialProcesses]);
+    setJudicialProcesses(data);
+  }, [user, processesDetails]);
 
   function handleChange(
     event: React.ChangeEvent<
@@ -220,6 +225,13 @@ export default function useJudicialProcesses() {
       value = false;
     }
 
+    if (
+      judicialProcesses.estado === ProcessesState.Terminado &&
+      judicialProcesses.fechaTerminacion === null
+    ) {
+      error.fechaTerminacion = "Debes completar este campo";
+    }
+
     setErrors(error);
     return value;
   }
@@ -230,5 +242,6 @@ export default function useJudicialProcesses() {
     validations,
     reset,
     setJudicialProcesses: handleChange,
+    setErrors,
   };
 }

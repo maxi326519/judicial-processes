@@ -1,8 +1,19 @@
 import * as XLSX from "xlsx";
 
 import styles from "./ImportExcel.module.css";
-import { JudicialProcesses, ProcessesDetails, ProcessesState } from "../../../../../interfaces/JudicialProcesses";
+import {
+  JudicialProcesses,
+  ProcessesDetails,
+  ProcessesState,
+} from "../../../../../interfaces/JudicialProcesses";
 import { Timestamp } from "firebase/firestore";
+import swal from "sweetalert";
+import { error } from "console";
+import { useDispatch } from "react-redux";
+import {
+  closeLoading,
+  openLoading,
+} from "../../../../../redux/actions/loading";
 
 interface Props {
   handleData: (data: any) => void;
@@ -10,90 +21,119 @@ interface Props {
 }
 
 export default function ImportExcel({ handleData, handleClose }: Props) {
+  const dispatch = useDispatch();
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    try {
-      if (event.target.files && event.target.files.length > 0) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
+    dispatch(openLoading());
+    if (event.target.files && event.target.files.length > 0) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        dispatch(openLoading());
+        try {
+          let data: any = [];
           const workbook = XLSX.read(e.target?.result, { type: "binary" });
           const worksheet = workbook.Sheets[workbook.SheetNames[0]];
           const worksheetData: any = XLSX.utils.sheet_to_json(worksheet, {
             header: 1,
           });
-          let data: any = [];
+
           worksheetData
-            .slice(2)
+            .slice(1)
             .forEach((item: any) => (item[2] ? data.push(item) : null));
 
-          handleData(dataConvert(data));
+          const convert = dataConvert(data);
+          handleData(convert);
           handleClose();
-        };
-        reader.readAsBinaryString(event.target.files[0]);
-      }
-    } catch (err: any) {
-      console.log(err);
+
+          dispatch(closeLoading());
+        } catch (err: any) {
+          console.log(err);
+          dispatch(closeLoading());
+
+          if (
+            err.message.includes("La fila") ||
+            err.message.includes("El id")
+          ) {
+            swal("Error", err.message, "error");
+          } else {
+            swal("Error", "No se pudo cargar el archivo", "error");
+          }
+        }
+      };
+      reader.readAsBinaryString(event.target.files[0]);
     }
   };
 
   function dataConvert(data: any) {
     let newData: ProcessesDetails[] = [];
+    let idList: number[] = [];
 
-    data.forEach((processes: any) => {
+    data.forEach((processes: any, i: number) => {
+      const idSiproj = Number(processes[2]);
+      if (!idSiproj)
+        throw new Error(
+          `La fila ${i} tiene problemas con el id: (${processes[2]})`
+        );
+      if (idList.some((id) => id === idSiproj))
+        throw new Error(`El id ${idSiproj} ya existe`);
+      idList.push(idSiproj);
+
       newData.push({
-        apoderadoActual: textParser(processes[0]) || "",
-        apoderadoAnterior: textParser(processes[1]) || "",
+        apoderadoActual: textParser(processes[0] || ""),
+        apoderadoAnterior: textParser(processes[1] || ""),
         idSiproj: Number(processes[2]) || 0,
-        procesoAltoImpacto: textParser(processes[3]) || "",
+        procesoAltoImpacto: textParser(processes[3] || ""),
 
-        radRamaJudicialInicial: textParser(processes[4]) || "",
-        radRamaJudicialActual: textParser(processes[5]) || "",
+        radRamaJudicialInicial: textParser(processes[4] || ""),
+        radRamaJudicialActual: textParser(processes[5] || ""),
 
-        tipoProceso: textParser(processes[6]) || "",
+        tipoProceso: textParser(processes[6] || ""),
 
         diasTerminoContestacion: Number(processes[7]) || 0,
         fechaNotificacion: newDate(processes[8]),
         fechaAdmision: newDate(processes[9]),
         fechaContestacion: newDate(processes[10]),
         fechaLimiteProbContestacion: newDate(processes[11]),
-        validacionContestacion: textParser(processes[12]) || "",
+        validacionContestacion: textParser(processes[12] || ""),
 
-        calidadActuacionEntidad: textParser(processes[13]) || "",
+        calidadActuacionEntidad: textParser(processes[13] || ""),
 
-        demandados: textParser(processes[14]) || "",
+        demandados: textParser(processes[14] || ""),
         idDemanante: Number(processes[15]) || 0,
-        demandante: textParser(processes[16]) || "",
-        despachoInicial: textParser(processes[17]) || "",
-        despachoActual: textParser(processes[18]) || "",
+        demandante: textParser(processes[16] || ""),
+        despachoInicial: textParser(processes[17] || ""),
+        despachoActual: textParser(processes[18] || ""),
 
-        posicionSDP: textParser(processes[19]) || "",
-        temaGeneral: textParser(processes[20]) || "",
+        posicionSDP: textParser(processes[19] || ""),
+        temaGeneral: textParser(processes[20] || ""),
 
-        pretensionAsunto: textParser(processes[21]) || "",
+        pretensionAsunto: textParser(processes[21] || ""),
 
         cuantiaEstimada: Number(processes[22]) || 0,
         valorPretensionesSMLVM: Number(processes[23]) || 0,
 
-        instanciaProceso: textParser(processes[24]) || "",
+        instanciaProceso: textParser(processes[24] || ""),
         fechaProceso: newDate(processes[25]),
-        ultimoEstadoProceso: textParser(processes[26]) || "",
-        etapaProcesal: textParser(processes[27]) || "",
+        ultimoEstadoProceso: textParser(processes[26] || ""),
+        etapaProcesal: textParser(processes[27] || ""),
 
         fechaFalloPrimeraInstancia: newDate(processes[28]),
-        sentidoFalloPrimeraInstancia: textParser(processes[29]) || "",
-        resumenPrimeraInstancia: textParser(processes[30]) || "",
+        sentidoFalloPrimeraInstancia: textParser(processes[29] || ""),
+        resumenPrimeraInstancia: textParser(processes[30] || ""),
         fechaPresentacionRecurso: newDate(processes[31]),
         fechaFalloSegundaInstancia: newDate(processes[32]),
-        sentidoFalloSegundaInstancia: textParser(processes[33]) || "",
-        resumenSegundaInstancia: textParser(processes[34]) || "",
+        sentidoFalloSegundaInstancia: textParser(processes[33] || ""),
+        resumenSegundaInstancia: textParser(processes[34] || ""),
 
-        incidente: textParser(processes[35]) || "",
-        estadoIncidente: textParser(processes[36]) || "",
-        resumenIncidente: textParser(processes[37]) || "",
+        incidente: textParser(processes[35] || ""),
+        estadoIncidente: textParser(processes[36] || ""),
+        resumenIncidente: textParser(processes[37] || ""),
 
-        observaciones: textParser(processes[38]) || "",
+        observaciones: textParser(processes[38] || ""),
 
-        calificacionContingente: textParser(processes[39]) || "",
-        estado: textParser(processes[40]) as ProcessesState || ProcessesState.Activo,
+        calificacionContingente: textParser(processes[39] || ""),
+        estado:
+          (textParser(processes[40]) as ProcessesState) ||
+          ProcessesState.Activo,
         fechaTerminacion: newDate(processes[41]),
       });
     });
@@ -116,7 +156,7 @@ export default function ImportExcel({ handleData, handleClose }: Props) {
   }
 
   function textParser(texto: string): string {
-    const textoSinEspacios = texto.replace(/^\s+|\s+$/g, '');
+    const textoSinEspacios = texto.replace(/^\s+|\s+$/g, "");
     const textoEnMayusculas = textoSinEspacios.toUpperCase();
     return textoEnMayusculas;
   }

@@ -200,9 +200,9 @@ export default function Excel() {
       <table className={styles.table}>
         <thead>
           <tr className={`${styles.row} ${styles.firstRow}`}>
-            <th>ID Ekogui</th>
-            <th>Nº Proceso Judicial (INICIAL)</th>
-            <th>Nº Proceso Judicial (ACTUAL)</th>
+            <th>ID idSiproj</th>
+            <th>Rad. Proceso Judicial (INICIAL)</th>
+            <th>Rad. Proceso Judicial (ACTUAL)</th>
             <th>Demandante Nombre</th>
           </tr>
         </thead>

@@ -1,8 +1,6 @@
 import { Timestamp } from "firebase/firestore";
 
 export interface JudicialProcesses {
-  id?: string;
-  idDetails?: string;
   idSiproj: number;
   estado: ProcessesState;
   apoderadoActual: string;
@@ -25,8 +23,6 @@ export interface ProcessesFilters {
 }
 
 export interface ProcessesDetails {
-  id?: string;
-  idHead?: string;
   apoderadoActual: string;
   apoderadoAnterior: string;
   idSiproj: number;
@@ -90,9 +86,10 @@ export interface ErrorProcesses {
   instanciaProceso: string;
   etapaProcesal: string;
   estado: string;
+  fechaTerminacion: string,
 }
 
-export const initErrorProcesses = {
+export const initErrorProcesses: ErrorProcesses = {
   apoderadoActual: "",
   idSiproj: "",
   radRamaJudicialInicial: "",
@@ -111,6 +108,7 @@ export const initErrorProcesses = {
   instanciaProceso: "",
   etapaProcesal: "",
   estado: "",
+  fechaTerminacion: "",
 };
 
 export interface Lists {

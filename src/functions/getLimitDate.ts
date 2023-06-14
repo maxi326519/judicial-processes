@@ -10,12 +10,17 @@ export default function getLimitDate(
 
   while (diasRestantes > 0) {
     fecha.setDate(fecha.getDate() + 1); // Sumar un día a la fecha inicial
+
     console.log(format(fecha.toISOString().split("T")[0]));
     console.log(
       !diasFestivos.includes(format(fecha.toISOString().split("T")[0]))
     );
+    console.log("Es sabado:", fecha.getDay() !== 5);
+    console.log("Es domingo:", fecha.getDay() !== 6);
+    console.log(diasRestantes);
+    console.log("------------------------------------");
     if (
-      fecha.getDay() !== 0 && // No es domingo
+      fecha.getDay() !== 5 && // No es domingo
       fecha.getDay() !== 6 && // No es sábado
       !diasFestivos.includes(format(fecha.toISOString().split("T")[0])) // No es un día festivo
     ) {

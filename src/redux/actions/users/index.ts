@@ -31,7 +31,7 @@ export function setUser(
     try {
       const batch = writeBatch(db);
       const userCol = collection(db, "Users");
-      const listCol = collection(db, "List");
+      const listCol = collection(db, "Lists");
       const listsDoc = doc(listCol, "lists");
 
       const userCredential = await createUserWithEmailAndPassword(

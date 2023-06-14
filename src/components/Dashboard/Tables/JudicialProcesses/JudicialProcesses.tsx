@@ -144,9 +144,9 @@ export default function JudicialProcessesTable() {
     setFilters(filters);
   }
 
-  function handleEdit(idDetails: string) {
+  function handleEdit(idSiproj: string) {
     dispatch(openLoading());
-    dispatch<any>(getProcessesDetails(idDetails))
+    dispatch<any>(getProcessesDetails(idSiproj))
       .then(() => {
         dispatch(closeLoading());
         setForm(true);

@@ -20,7 +20,7 @@ export default function JudicialProcessesRow({
 }: Props) {
   const user = useSelector((state: RootState) => state.user)
   return (
-    <tr className={`${style.row} ${user.rol === UserRol.Admin ? style.user : ""}`}>
+    <tr className={`${style.row} ${user.rol === UserRol.Admin ? "" : style.user}`}>
       <td>{judicialProcesses.idSiproj}</td>
       <td>{judicialProcesses.radRamaJudicialInicial}</td>
       <td>{judicialProcesses.radRamaJudicialActual}</td>
@@ -29,7 +29,7 @@ export default function JudicialProcessesRow({
       <button
         className="btn btn-outline-primary"
         type="button"
-        onClick={() => handleEdit(judicialProcesses.idDetails!)}
+        onClick={() => handleEdit(judicialProcesses.idSiproj.toString())}
       >
         <img src={editSvg} alt="edit" />
       </button>

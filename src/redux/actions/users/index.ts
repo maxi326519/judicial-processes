@@ -4,6 +4,7 @@ import { RootState } from "../../../interfaces/RootState";
 import { AnyAction, Dispatch } from "redux";
 import {
   createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
   updateEmail,
   updatePassword,
 } from "firebase/auth";
@@ -115,11 +116,14 @@ export function getUsers(): ThunkAction<
 }
 
 export function changePassword(
-  newPassword: string
+  newPassword: string,
+  curretnPassword: string,
+  user: Users
 ): ThunkAction<Promise<void>, RootState, null, AnyAction> {
   return async (dispatch: Dispatch<AnyAction>) => {
     try {
       if (!auth.currentUser) throw new Error("No existe el usuario");
+      await signInWithEmailAndPassword(auth, user.email, curretnPassword);
       await updatePassword(auth.currentUser, newPassword);
     } catch (e: any) {
       throw new Error(e);
@@ -128,11 +132,14 @@ export function changePassword(
 }
 
 export function changeEmail(
-  newEmail: string
+  newEmail: string,
+  curretnPassword: string,
+  user: Users
 ): ThunkAction<Promise<void>, RootState, null, AnyAction> {
   return async (dispatch: Dispatch<AnyAction>) => {
     try {
       if (!auth.currentUser) throw new Error("No existe el usuario");
+      await signInWithEmailAndPassword(auth, user.email, curretnPassword);
       await updateEmail(auth.currentUser, newEmail);
       const userCol = collection(db, "Users");
       const userDoc = doc(userCol, auth.currentUser.uid);

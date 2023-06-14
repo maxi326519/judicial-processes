@@ -19,6 +19,7 @@ import logoutSvg from "../../assets/svg/menu/logout.svg";
 import { UserRol } from "../../interfaces/users";
 import ResetPassword from "./ResetPassword/ResetPassword";
 import ResetEmail from "./ResetEmail/ResetEmail";
+import swal from "sweetalert";
 
 export default function Dashboard() {
   const dispatch = useDispatch();
@@ -33,8 +34,20 @@ export default function Dashboard() {
   }
 
   function handleLogout() {
-    dispatch<any>(logOut());
-    redirect("/login");
+    swal({
+      text: "¿Quiere cerrar sesión?",
+      icon: "info",
+      buttons: {
+        Si: true,
+        No: true,
+      },
+    }).then((response) => {
+      if (response === "Si") {
+        dispatch<any>(logOut()).then(() => {
+          redirect("/login");
+        });
+      }
+    });
   }
 
   function handleResetEmail() {

@@ -22,7 +22,6 @@ export const SET_USER = "SET_USER";
 export const GET_USER = "GET_USER";
 export const GET_USER_DATA = "GET_USER_DATA";
 export const UPDATE_EMAIL = "UPDATE_EMAIL";
-export const LOG_OUT = "LOG_OUT";
 
 export function setUser(
   user: Users

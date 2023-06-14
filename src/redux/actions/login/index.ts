@@ -5,7 +5,7 @@ import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { RootState } from "../../../interfaces/RootState";
 
 export const LOGIN = "LOGIN";
-export const LOGOUT = "LOGOUT";
+export const LOG_OUT = "LOG_OUT";
 
 export function logIn(
   user: any
@@ -33,7 +33,7 @@ export function logOut(): ThunkAction<
     try {
       await signOut(auth);
       dispatch({
-        type: LOGOUT,
+        type: LOG_OUT,
       });
     } catch (e: any) {
       throw new Error(e);

@@ -1,11 +1,13 @@
 .charts {
+  flex-grow: 1;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
+  grid-template-rows: min-content 1fr 1fr;
   padding: 30px;
   padding-top: 0;
-  height: calc(100vh - 88px);
-  overflow-y: auto;
+  width: 100%;
+  height: calc(100vh - 100px);
+  overflow: hidden;
 }
 
 .charts .btnContainer {

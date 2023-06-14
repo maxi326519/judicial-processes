@@ -23,7 +23,6 @@ import {
 import {
   GET_USER,
   GET_USER_DATA,
-  LOG_OUT,
   SET_USER,
   UPDATE_EMAIL,
 } from "../actions/users";
@@ -31,6 +30,7 @@ import { CLOSE_LOADING, LOADING } from "../actions/loading";
 import { DELETE_ITEM, GET_LIST, SET_ITEM } from "../actions/lists/lists";
 import { initCharts } from "../../interfaces/charts";
 import { GET_CHARTS, SET_CHARTS } from "../actions/charts";
+import { LOG_OUT } from "../actions/login";
 
 const initialState: RootState = {
   loading: false,

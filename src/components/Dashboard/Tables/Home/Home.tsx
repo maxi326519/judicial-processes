@@ -1,19 +1,18 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getProcessesData } from "../../../../redux/actions/judicialProcesses";
+import { getCharts } from "../../../../redux/actions/charts";
+import { closeLoading, openLoading } from "../../../../redux/actions/loading";
+import { RootState } from "../../../../interfaces/RootState";
+import { UserRol } from "../../../../interfaces/users";
+import useChart from "../../../../hooks/useChart/useCharts";
+import swal from "sweetalert";
 
 import EntityChart from "./EntityChart/EntityChart";
-import styles from "./Home.module.css";
 import ProcessesChart from "./ProcessesChart/ProcessesChart";
 import StageChart from "./StageChart/StageChart";
 import TypeChart from "./TypeChart/TypeChart";
-import useChart from "../../../../hooks/useChart/useCharts";
-import { getCharts, setCharts } from "../../../../redux/actions/charts";
-import { Charts } from "../../../../interfaces/charts";
-import { closeLoading, openLoading } from "../../../../redux/actions/loading";
-import swal from "sweetalert";
-import { RootState } from "../../../../interfaces/RootState";
-import { UserRol } from "../../../../interfaces/users";
+
+import styles from "./Home.module.css";
 
 export default function Home() {
   const dispatch = useDispatch();

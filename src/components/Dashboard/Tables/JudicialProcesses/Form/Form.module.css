@@ -116,8 +116,23 @@
 }
 
 /* TEMA GENERAL */
-.grid div:nth-child(18) {
-  grid-column: 3 / 5;
+.grid div:nth-child(19) {
+  grid-column: 2 / 4;
+}
+
+/* PRETENSION DE ASUNTO */
+.grid div:nth-child(22) {
+  grid-column: 1 / 6;
+}
+
+/* ETAPA PROCESAL */
+.grid div:nth-child(25) {
+  grid-column: 3 / 6;
+}
+
+/* ULTIMO ESTADO DEL PROCESO */
+.grid div:nth-child(26) {
+  grid-column: 1 / 6;
 }
 
 /* DEMANDANTE */
@@ -129,6 +144,16 @@
 .grid div:nth-child(13) {
   grid-column: 4 / 6;
   grid-row: 5 / 6;
+}
+
+/* DESPACHO INICIAL */
+.grid div:nth-child(16) {
+  grid-column: 1 / 3;
+}
+
+/* DESPACHO ACTUAL */
+.grid div:nth-child(17) {
+  grid-column: 3 / 6;
 }
 
 /* RESUMEN PRIMERA INSTANCIA */

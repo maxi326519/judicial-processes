@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../interfaces/RootState";
+import { useDispatch } from "react-redux";
 import {
   Charts,
   EntityChartData,
@@ -17,7 +16,6 @@ import { ProcessesDetails } from "../../interfaces/JudicialProcesses";
 
 export default function useChart() {
   const dispatch = useDispatch();
-  const processes = useSelector((state: RootState) => state.processes.data);
   const [entityChart, setEntityChart] = useState<EntityChartData>(initEntity);
   const [processesChart, setProcessesChart] = useState<ProcessesChartData[]>(
     []

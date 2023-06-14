@@ -4,10 +4,8 @@ import { RootState } from "../../../interfaces/RootState";
 import { AnyAction, Dispatch } from "redux";
 import {
   createUserWithEmailAndPassword,
-  sendEmailVerification,
-  sendPasswordResetEmail,
-  signOut,
   updateEmail,
+  updatePassword,
 } from "firebase/auth";
 import { auth, db } from "../../../firebase";
 import {
@@ -16,14 +14,14 @@ import {
   doc,
   getDoc,
   getDocs,
-  setDoc,
+  updateDoc,
   writeBatch,
 } from "firebase/firestore";
 
 export const SET_USER = "SET_USER";
 export const GET_USER = "GET_USER";
 export const GET_USER_DATA = "GET_USER_DATA";
-export const PERSISTENCE = "PERSISTENCE";
+export const UPDATE_EMAIL = "UPDATE_EMAIL";
 export const LOG_OUT = "LOG_OUT";
 
 export function setUser(
@@ -117,44 +115,37 @@ export function getUsers(): ThunkAction<
   };
 }
 
-/* export function changePassword(): ThunkAction<
-Promise<void>,
-RootState,
-null,
-AnyAction
-> {
+export function changePassword(
+  newPassword: string
+): ThunkAction<Promise<void>, RootState, null, AnyAction> {
   return async (dispatch: Dispatch<AnyAction>) => {
     try {
-      console.log(auth, auth.currentUser.email);
-      await sendPasswordResetEmail(auth, auth.currentUser.email);
-    } catch (err) {
-      throw new Error(err.message);
+      if (!auth.currentUser) throw new Error("No existe el usuario");
+      await updatePassword(auth.currentUser, newPassword);
+    } catch (e: any) {
+      throw new Error(e);
     }
   };
 }
 
-export function changeEmail(newEmail, ruc): ThunkAction<
-Promise<void>,
-RootState,
-null,
-AnyAction
-> {
+export function changeEmail(
+  newEmail: string
+): ThunkAction<Promise<void>, RootState, null, AnyAction> {
   return async (dispatch: Dispatch<AnyAction>) => {
     try {
+      if (!auth.currentUser) throw new Error("No existe el usuario");
       await updateEmail(auth.currentUser, newEmail);
-      await sendEmailVerification(auth.currentUser);
-      const userRef = ref(db, `users/${auth.currentUser.uid}/profile`);
-      const authRef = ref(db, `auth/${ruc}`);
-      await update(userRef, { EMP_EMAIL: newEmail });
-      await update(authRef, { EMAIL: newEmail });
+      const userCol = collection(db, "Users");
+      const userDoc = doc(userCol, auth.currentUser.uid);
+
+      updateDoc(userDoc, { email: newEmail });
 
       dispatch({
         type: UPDATE_EMAIL,
         payload: newEmail,
       });
-    } catch (err) {
-      throw new Error(err);
+    } catch (e: any) {
+      throw new Error(e);
     }
   };
 }
- */

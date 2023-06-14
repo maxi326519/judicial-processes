@@ -52,7 +52,7 @@ export default function Form({ handleClose }: Props) {
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (validations()) {
+    if (/* validations() */ true) {
       dispatch(openLoading());
       dispatch<any>(
         processesDetails
@@ -488,23 +488,6 @@ export default function Form({ handleClose }: Props) {
           <small>{errors.cuantiaEstimada}</small>
         </div>
 
-        {/* PRETENSION ASUNTO */}
-        <div className="form-floating">
-          <input
-            id="pretensionAsunto"
-            name="pretensionAsunto"
-            className={`form-control ${!errors.pretensionAsunto ? "" : "is-invalid"
-              }`}
-            type="text"
-            value={judicialProcesses.pretensionAsunto}
-            onChange={handleChange}
-          />
-          <label htmlFor="pretensionAsunto" className="form-label">
-            Pretension asunto:
-          </label>
-          <small>{errors.pretensionAsunto}</small>
-        </div>
-
         {/* VALOR DE LAS PRETENSIONES EN SMLVM */}
         <div className="form-floating">
           <input
@@ -518,6 +501,22 @@ export default function Form({ handleClose }: Props) {
           <label htmlFor="valorPretensionesSMLVM" className="form-label">
             Valor de las pretesiones en SMLVM:
           </label>
+        </div>
+
+        {/* PRETENSION ASUNTO */}
+        <div className="form-floating">
+          <textarea
+            id="pretensionAsunto"
+            name="pretensionAsunto"
+            className={`form-control ${!errors.pretensionAsunto ? "" : "is-invalid"
+              }`}
+            value={judicialProcesses.pretensionAsunto}
+            onChange={handleChange}
+          />
+          <label htmlFor="pretensionAsunto" className="form-label">
+            Pretension asunto:
+          </label>
+          <small>{errors.pretensionAsunto}</small>
         </div>
 
         {/* INSTANCIA DEL PROCESO */}
@@ -562,22 +561,7 @@ export default function Form({ handleClose }: Props) {
             Fecha del proceso:
           </label>
         </div>
-
-        {/* ULTIMO ESTADO DEL PROCESO */}
-        <div className="form-floating">
-          <input
-            id="ultimoEstadoProceso"
-            name="ultimoEstadoProceso"
-            className="form-control"
-            type="text"
-            value={judicialProcesses.ultimoEstadoProceso}
-            onChange={handleChange}
-          />
-          <label htmlFor="ultimoEstadoProceso" className="form-label">
-            último estado del proceso:
-          </label>
-        </div>
-
+        
         {/* ETAPA PROCESAL */}
         <div className="form-floating">
           <select
@@ -601,6 +585,20 @@ export default function Form({ handleClose }: Props) {
             Etapa procesal:
           </label>
           <small>{errors.etapaProcesal}</small>
+        </div>
+
+        {/* ULTIMO ESTADO DEL PROCESO */}
+        <div className="form-floating">
+          <textarea
+            id="ultimoEstadoProceso"
+            name="ultimoEstadoProceso"
+            className="form-control"
+            value={judicialProcesses.ultimoEstadoProceso}
+            onChange={handleChange}
+          />
+          <label htmlFor="ultimoEstadoProceso" className="form-label">
+            último estado del proceso:
+          </label>
         </div>
 
         {/* FECHA DE FALLO DE PRIMERA INSTANCIA */}

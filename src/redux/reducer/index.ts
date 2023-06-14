@@ -20,7 +20,13 @@ import {
   SET_PROCESSES,
   UPDATE_PROCESSES,
 } from "../actions/judicialProcesses";
-import { GET_USER, GET_USER_DATA, LOG_OUT, SET_USER } from "../actions/users";
+import {
+  GET_USER,
+  GET_USER_DATA,
+  LOG_OUT,
+  SET_USER,
+  UPDATE_EMAIL,
+} from "../actions/users";
 import { CLOSE_LOADING, LOADING } from "../actions/loading";
 import { DELETE_ITEM, GET_LIST, SET_ITEM } from "../actions/lists/lists";
 import { initCharts } from "../../interfaces/charts";
@@ -33,7 +39,6 @@ const initialState: RootState = {
   processes: {
     judicialProcesses: [],
     processesDetails: null,
-    data: [],
   },
   lists: initLists,
   charts: initCharts,
@@ -77,6 +82,15 @@ export const rootReducer = (state = { ...initialState }, action: any) => {
       return {
         ...state,
         user: action.payload,
+      };
+
+    case UPDATE_EMAIL:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          email: action.payload,
+        },
       };
 
     case LOG_OUT:
@@ -176,21 +190,36 @@ export const rootReducer = (state = { ...initialState }, action: any) => {
         },
       };
 
-    /*       case DELETE_ITEM:
-        return {
-          ...state,
-          lists: {
-            ...state.lists,
-            [action.payload.listName]: state.lists[
-              action.payload.listName as keyof typeof state.lists
-            ].filter((item: string | { tipo: string; dias: number; } | { fecha: string; salario: number; }) => {
+    case DELETE_ITEM:
+      const data: any[] =
+        state.lists[action.payload.listName as keyof typeof state.lists];
+      return {
+        ...state,
+        lists: {
+          ...state.lists,
+          [action.payload.listName as keyof typeof state.lists]: data.filter(
+            (item) => {
               if (typeof item === "string") {
-                return !action.payload.values.some((value: string) => value === item);
+                return !action.payload.values.some(
+                  (value: string) => value === item
+                );
+              } else if (item.fecha) {
+                return !action.payload.values.some(
+                  (value: { fecha: string; salario: number }) =>
+                    value.fecha === item.fecha
+                );
+              } else if (item.tipo) {
+                return !action.payload.values.some(
+                  (value: { tipo: string; dias: number }) =>
+                    value.tipo === item.tipo
+                );
+              } else {
+                return false;
               }
-              return false; // Opcional: Si deseas omitir los elementos no string
-            }),
-          },
-        }; */
+            }
+          ),
+        },
+      };
     /* LISTS */
 
     /* IFRAME */

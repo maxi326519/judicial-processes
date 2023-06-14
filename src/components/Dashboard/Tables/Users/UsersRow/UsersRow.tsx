@@ -17,7 +17,7 @@ export default function UsersRow({ user, handleEdit }: Props) {
       <button
         className="btn btn-outline-primary"
         type="button"
-        onClick={() => handleEdit(user.id)}
+        onClick={() => handleEdit(user.id!)}
       >
         <img src={editSvg} alt="edit" />
       </button>

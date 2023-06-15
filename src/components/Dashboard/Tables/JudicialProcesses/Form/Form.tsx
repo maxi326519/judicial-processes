@@ -263,10 +263,7 @@ export default function Form({ handleClose }: Props) {
             }`}
             type="date"
             value={
-              judicialProcesses.fechaNotificacion
-                ?.toDate()
-                .toISOString()
-                .split("T")[0]
+              judicialProcesses.fechaNotificacion?.toISOString()?.split("T")[0]
             }
             onChange={handleChange}
           />
@@ -284,10 +281,7 @@ export default function Form({ handleClose }: Props) {
             className="form-control"
             type="date"
             value={
-              judicialProcesses.fechaContestacion
-                ?.toDate()
-                .toISOString()
-                .split("T")[0]
+              judicialProcesses.fechaContestacion?.toISOString().split("T")[0]
             }
             onChange={handleChange}
           />
@@ -305,8 +299,7 @@ export default function Form({ handleClose }: Props) {
             type="date"
             value={
               judicialProcesses.fechaLimiteProbContestacion
-                ?.toDate()
-                .toISOString()
+                ?.toISOString()
                 .split("T")[0]
             }
             disabled={true}
@@ -577,12 +570,7 @@ export default function Form({ handleClose }: Props) {
             name="fechaProceso"
             className="form-control"
             type="date"
-            value={
-              judicialProcesses.fechaProceso
-                ?.toDate()
-                .toISOString()
-                .split("T")[0]
-            }
+            value={judicialProcesses.fechaProceso?.toISOString().split("T")[0]}
             onChange={handleChange}
           />
           <label htmlFor="fechaProceso" className="form-label">
@@ -637,8 +625,7 @@ export default function Form({ handleClose }: Props) {
             type="date"
             value={
               judicialProcesses.fechaFalloPrimeraInstancia
-                ?.toDate()
-                .toISOString()
+                ?.toISOString()
                 .split("T")[0]
             }
             onChange={handleChange}
@@ -678,8 +665,7 @@ export default function Form({ handleClose }: Props) {
             type="date"
             value={
               judicialProcesses.fechaPresentacionRecurso
-                ?.toDate()
-                .toISOString()
+                ?.toISOString()
                 .split("T")[0]
             }
             onChange={handleChange}
@@ -698,8 +684,7 @@ export default function Form({ handleClose }: Props) {
             type="date"
             value={
               judicialProcesses.fechaFalloSegundaInstancia
-                ?.toDate()
-                .toISOString()
+                ?.toISOString()
                 .split("T")[0]
             }
             onChange={handleChange}
@@ -881,10 +866,7 @@ export default function Form({ handleClose }: Props) {
             }`}
             type="date"
             value={
-              judicialProcesses.fechaTerminacion
-                ?.toDate()
-                .toISOString()
-                .split("T")[0]
+              judicialProcesses.fechaTerminacion?.toISOString().split("T")[0]
             }
             onChange={handleChange}
           />

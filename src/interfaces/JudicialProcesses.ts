@@ -1,5 +1,3 @@
-import { Timestamp } from "firebase/firestore";
-
 export interface JudicialProcesses {
   idSiproj: number;
   estado: ProcessesState;
@@ -31,10 +29,10 @@ export interface ProcessesDetails {
   radRamaJudicialActual: string;
   tipoProceso: string;
   diasTerminoContestacion: number;
-  fechaNotificacion: Timestamp | null;
-  fechaAdmision: Timestamp | null;
-  fechaContestacion: Timestamp | null;
-  fechaLimiteProbContestacion: Timestamp | null;
+  fechaNotificacion: Date | null;
+  fechaAdmision: Date | null;
+  fechaContestacion: Date | null;
+  fechaLimiteProbContestacion: Date | null;
   validacionContestacion: string;
   calidadActuacionEntidad: string;
   demandados: string;
@@ -48,14 +46,14 @@ export interface ProcessesDetails {
   cuantiaEstimada: number;
   valorPretensionesSMLVM: number;
   instanciaProceso: string;
-  fechaProceso: Timestamp | null;
+  fechaProceso: Date | null;
   ultimoEstadoProceso: string;
   etapaProcesal: string;
-  fechaFalloPrimeraInstancia: Timestamp | null;
+  fechaFalloPrimeraInstancia: Date | null;
   sentidoFalloPrimeraInstancia: string;
   resumenPrimeraInstancia: string;
-  fechaPresentacionRecurso: Timestamp | null;
-  fechaFalloSegundaInstancia: Timestamp | null;
+  fechaPresentacionRecurso: Date | null;
+  fechaFalloSegundaInstancia: Date | null;
   sentidoFalloSegundaInstancia: string;
   resumenSegundaInstancia: string;
   incidente: string;
@@ -64,7 +62,7 @@ export interface ProcessesDetails {
   observaciones: string;
   calificacionContingente: string;
   estado: ProcessesState;
-  fechaTerminacion: Timestamp | null;
+  fechaTerminacion: Date | null;
 }
 
 export interface ErrorProcesses {

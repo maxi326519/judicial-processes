@@ -43,11 +43,14 @@ export default function useJudicialProcesses() {
     const error: any = {};
 
     if (type === "date") {
-      // Convert date string to Timestamp
-      newJudicialProcesses = {
-        ...newJudicialProcesses,
-        [name]: Timestamp.fromDate(new Date(value)),
-      };
+      const dateValue = new Date(value);
+      // Only sabe if is valid date
+      if (!isNaN(dateValue.getTime())) {
+        newJudicialProcesses = {
+          ...judicialProcesses,
+          [name]: dateValue,
+        };
+      }
     } else {
       newJudicialProcesses = {
         ...judicialProcesses,
@@ -81,7 +84,7 @@ export default function useJudicialProcesses() {
         )?.dias || 0;
 
       newJudicialProcesses.fechaLimiteProbContestacion = getLimitDate(
-        Timestamp.fromDate(new Date(value)),
+        new Date(value),
         lists.diasFestivos,
         days
       );
@@ -91,10 +94,7 @@ export default function useJudicialProcesses() {
       name === "fechaContestacion" &&
       newJudicialProcesses.fechaLimiteProbContestacion !== null
     ) {
-      if (
-        Timestamp.fromDate(new Date(value)) <
-        newJudicialProcesses.fechaLimiteProbContestacion
-      ) {
+      if (new Date(value) < newJudicialProcesses.fechaLimiteProbContestacion) {
         newJudicialProcesses.validacionContestacion = "A TIEMPO";
       } else {
         newJudicialProcesses.validacionContestacion = "VENCIDO";
@@ -134,7 +134,7 @@ export default function useJudicialProcesses() {
 
     // Clean errors
     if (errors.hasOwnProperty(name)) {
-      setErrors({ ...errors, [name]: "", ...error });
+      setErrors({ ...errors, [name]: "" });
     }
 
     setJudicialProcesses(newJudicialProcesses);

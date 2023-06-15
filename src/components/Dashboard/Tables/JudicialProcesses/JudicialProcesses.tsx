@@ -82,11 +82,14 @@ export default function JudicialProcessesTable() {
           filters.radRamaJudicialActual !== data.radRamaJudicialActual
         )
           return false;
+
         console.log(
           filters.demandante,
           data.demandante,
-          filters.demandante !== data.demandante
+          filters.demandante !== data.demandante,
+          !data.demandante.includes(filters.demandante)
         );
+
         if (filters.demandante && !data.demandante.includes(filters.demandante))
           return false;
         return true;
@@ -179,18 +182,16 @@ export default function JudicialProcessesTable() {
       {list ? <Lists handleClose={handleShowList} /> : null}
       <div className={styles.controls}>
         <Filters filters={filters} handleSetFilter={handleFilter} />
-        {
-          user.rol === UserRol.Admin ? (
-            <button
-              className="btn btn-outline-primary"
-              type="button"
-              onClick={handleShowList}
-            >
-              <img src={listSvg} alt="list" />
-              <span>Listas</span>
-            </button>
-          ) : null
-        }
+        {user.rol === UserRol.Admin ? (
+          <button
+            className="btn btn-outline-primary"
+            type="button"
+            onClick={handleShowList}
+          >
+            <img src={listSvg} alt="list" />
+            <span>Listas</span>
+          </button>
+        ) : null}
         <div>
           <button
             className="btn btn-outline-primary"

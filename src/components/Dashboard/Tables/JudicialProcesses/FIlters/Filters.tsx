@@ -2,6 +2,9 @@ import style from "./Filter.module.css";
 import filterSvg from "../../../../../assets/svg/filter.svg";
 import { useState } from "react";
 import { ProcessesFilters } from "../../../../../interfaces/JudicialProcesses";
+import { UserRol } from "../../../../../interfaces/users";
+import { RootState } from "../../../../../interfaces/RootState";
+import { useSelector } from "react-redux";
 
 interface Props {
   filters: ProcessesFilters;
@@ -9,6 +12,8 @@ interface Props {
 }
 
 export default function Filters({ filters, handleSetFilter }: Props) {
+  const user = useSelector((state: RootState) => state.user);
+  const lists = useSelector((state: RootState) => state.lists);
   const [filter, setFilter] = useState(false);
   const [currentFilters, setFilters] = useState<ProcessesFilters>({
     apoderadoActual: "",
@@ -42,18 +47,23 @@ export default function Filters({ filters, handleSetFilter }: Props) {
       {filter ? (
         <form className={style.filterContainer} onSubmit={handleSubmit}>
           {/* APODERADO ACTUAL */}
-          <div className="form-floating">
-            <select
-              id="apoderadoActual"
-              className="form-control form-control-dark"
-              name="apoderadoActual"
-              value={currentFilters.apoderadoActual}
-              onChange={handleChange}
-            >
-              <option value="0">Seleccionar Apoderado</option>
-            </select>
-            <label htmlFor="apoderadoActual">Apoderado actual:</label>
-          </div>
+          {user.rol === UserRol.Admin ? (
+            <div className="form-floating">
+              <select
+                id="apoderadoActual"
+                className="form-control form-control-dark"
+                name="apoderadoActual"
+                value={currentFilters.apoderadoActual}
+                onChange={handleChange}
+              >
+                <option value="">Seleccionar Apoderado</option>
+                {lists.apoderados.map((item) => (
+                  <option key={item}>{item}</option>
+                ))}
+              </select>
+              <label htmlFor="apoderadoActual">Apoderado actual:</label>
+            </div>
+          ) : null}
 
           {/* ID SIPROJ */}
           <div className="form-floating form-floating-dark">

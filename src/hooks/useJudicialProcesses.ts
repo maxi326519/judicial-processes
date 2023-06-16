@@ -230,6 +230,7 @@ export default function useJudicialProcesses() {
       judicialProcesses.fechaTerminacion === null
     ) {
       error.fechaTerminacion = "Debes completar este campo";
+      value = false;
     }
 
     setErrors(error);

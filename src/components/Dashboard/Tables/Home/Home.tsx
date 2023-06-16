@@ -16,7 +16,7 @@ import styles from "./Home.module.css";
 
 export default function Home() {
   const dispatch = useDispatch();
-  const user = useSelector((state: RootState) => state.user)
+  const user = useSelector((state: RootState) => state.user);
   const { chart, update } = useChart();
 
   useEffect(() => {
@@ -25,7 +25,8 @@ export default function Home() {
 
   function handleUpdateCharts() {
     dispatch(openLoading());
-    update.charts()
+    update
+      .charts()
       .then(() => {
         dispatch(closeLoading());
         swal("Actualizado", "Se actualizaron los gráficos", "success");
@@ -33,25 +34,27 @@ export default function Home() {
       .catch((error: any) => {
         console.log(error);
         dispatch(closeLoading());
-        swal("Error", "No se pudieron actualizar los gráficos, inténtelo", "error");
-      })
+        swal(
+          "Error",
+          "No se pudieron actualizar los gráficos, inténtelo",
+          "error"
+        );
+      });
   }
 
   return (
     <div className={styles.charts}>
-      {
-        user.rol === UserRol.Admin ? (
-
-          <div className={styles.btnContainer}>
-            <button
-              className="btn btn-outline-success"
-              type="button"
-              onClick={handleUpdateCharts}
-            >
-              Actualizar
-            </button>
-          </div>
-        ) : null}
+      {user.rol === UserRol.User ? (
+        <div className={styles.btnContainer}>
+          <button
+            className="btn btn-outline-success"
+            type="button"
+            onClick={handleUpdateCharts}
+          >
+            Actualizar
+          </button>
+        </div>
+      ) : null}
       <ProcessesChart />
       <EntityChart />
       <StageChart />

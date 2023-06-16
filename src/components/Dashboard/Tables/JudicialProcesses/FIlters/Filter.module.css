@@ -14,7 +14,7 @@
 .filter .btnFilter img {
   width: 20px;
   height: 20px;
-  filter: brightness(0)
+  filter: brightness(0);
 }
 
 .filter .btnFilter:hover {
@@ -32,20 +32,24 @@
 
 .filterContainer {
   position: absolute;
-  top: 110px;
+  top: 38px;
   left: 20px;
-  display: flex;
+  display: none;
   gap: 10px;
   margin-top: 10px;
   padding: 10px;
   flex-direction: column;
   width: 350px;
-  border-radius: 5px;
-  box-shadow: 0px 0px 10px 10px #0006;
+  border-radius: 0 10px 10px 10px;
+  border: 1px solid var(--border);
   background-color: var(--background);
 }
 
 .filterContainer button {
   margin-top: 20px;
   margin-left: 0;
+}
+
+.filter:hover .filterContainer {
+  display: flex;
 }

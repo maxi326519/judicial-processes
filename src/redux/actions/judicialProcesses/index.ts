@@ -159,7 +159,39 @@ export function getProcessesDetails(
       const colProcesses = collection(db, "Details");
       const snapshot = await getDoc(doc(colProcesses, idSiproj));
 
-      let details = snapshot.data();
+      let details: any = snapshot.data();
+      details = {
+        ...details,
+        fechaNotificacion: details.fechaNotificacion
+          ? details.fechaNotificacion.toDate()
+          : null,
+        fechaAdmision: details.fechaAdmision
+          ? details.fechaAdmision.toDate()
+          : null,
+        fechaContestacion: details.fechaContestacion
+          ? details.fechaContestacion.toDate()
+          : null,
+        fechaLimiteProbContestacion: details.fechaLimiteProbContestacion
+          ? details.fechaLimiteProbContestacion.toDate()
+          : null,
+        fechaProceso: details.fechaProceso
+          ? details.fechaProceso.toDate()
+          : null,
+        fechaFalloPrimeraInstancia: details.fechaFalloPrimeraInstancia
+          ? details.fechaFalloPrimeraInstancia.toDate()
+          : null,
+        fechaPresentacionRecurso: details.fechaPresentacionRecurso
+          ? details.fechaPresentacionRecurso.toDate()
+          : null,
+        fechaFalloSegundaInstancia: details.fechaFalloSegundaInstancia
+          ? details.fechaFalloSegundaInstancia.toDate()
+          : null,
+        fechaTerminacion: details.fechaTerminacion
+          ? details.fechaTerminacion.toDate()
+          : null,
+      };
+
+      console.log(details);
 
       dispatch({
         type: GET_PROCESSES_DETAILS,

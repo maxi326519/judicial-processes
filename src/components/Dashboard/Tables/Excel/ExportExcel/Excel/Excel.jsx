@@ -1,14 +1,14 @@
 import ReactExport from "react-export-excel";
 import { useEffect, useState } from "react";
 
-import style from "./ExportExcel.module.css";
-import exportSvg from "../../../../../assets/svg/export.svg";
+import style from "./Excel.module.css";
+import exportSvg from "../../../../../../assets/svg/export.svg";
 
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
 const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
 
-export default function Excel(data, state) {
+export default function Excel({data, state, handleClose}) {
   const [filename, setFilename] = useState("");
 
   useEffect(() => {
@@ -17,12 +17,17 @@ export default function Excel(data, state) {
     if (state === "") setFilename("Procesos");
   }, [state]);
 
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
+
   return (
     <ExcelFile
       element={
         <button
           className={`btn btn-outline-primary ${style.export}`}
-          onClick={() => console.log("Data:", data)}
+          type="button"
+          onClick={handleClose}
         >
           <img src={exportSvg} alt="export" />
           <span>Export</span>

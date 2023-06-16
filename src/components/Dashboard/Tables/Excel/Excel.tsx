@@ -4,7 +4,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../interfaces/RootState";
 import { closeLoading, openLoading } from "../../../../redux/actions/loading";
 import { UserRol } from "../../../../interfaces/users";
-import swal from "sweetalert";
+import {
+  Query,
+  QuerySnapshot,
+  Timestamp,
+  collection,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
+import { db } from "../../../../firebase";
 import {
   getProcesses,
   importProcesses,
@@ -14,6 +23,7 @@ import {
   ProcessesDetails,
   ProcessesState,
 } from "../../../../interfaces/JudicialProcesses";
+import swal from "sweetalert";
 
 import ExcelRow from "./ExcelRow/ExcelRow";
 import ImportExcel from "./ImportExcel/ImportExcel";
@@ -135,6 +145,51 @@ export default function Excel() {
     });
   }
 
+  async function handleGetData() {
+    dispatch(openLoading());
+    try {
+      const colProcesses = collection(db, "Details");
+      const details: any = [];
+      let snapshot: QuerySnapshot;
+      let wheres = {
+        apoderado: where("apoderadoActual", "==", user.name),
+        estado: where("estado", "==", state),
+      };
+
+      if (user.rol === UserRol.Admin) {
+        let detailsQuery: Query;
+        if (state === "") {
+          snapshot = await getDocs(colProcesses);
+        } else {
+          detailsQuery = query(colProcesses, wheres.estado);
+          snapshot = await getDocs(detailsQuery);
+        }
+      } else {
+        let detailsQuery: Query;
+        if (state === "") {
+          detailsQuery = query(colProcesses, wheres.apoderado);
+          snapshot = await getDocs(detailsQuery);
+        } else {
+          detailsQuery = query(colProcesses, wheres.apoderado, wheres.estado);
+          snapshot = await getDocs(detailsQuery);
+        }
+      }
+
+      snapshot.forEach((doc) => {
+        details.push(convertirValoresATexto(doc.data()));
+      });
+
+      setExcelData(details);
+
+      handleCloseExport();
+      dispatch(closeLoading());
+    } catch (err: any) {
+      console.log(err);
+      dispatch(closeLoading());
+      swal("Error", "No se pudieron obtener los datos para exportar");
+    }
+  }
+
   function handleClose() {
     setForm(!form);
   }
@@ -143,13 +198,37 @@ export default function Excel() {
     setFormExport(!formExport);
   }
 
+  function convertirValoresATexto(objeto: any) {
+    const resultado: any = {};
+
+    for (const clave in objeto) {
+      if (objeto.hasOwnProperty(clave)) {
+        const valor = objeto[clave];
+
+        if (typeof valor === "number" || valor === null) {
+          resultado[clave] = String(valor);
+        } else if (valor instanceof Timestamp) {
+          resultado[clave] = valor.toDate().toISOString();
+        } else {
+          resultado[clave] = valor;
+        }
+      }
+    }
+
+    return resultado;
+  }
+
   return (
     <div className={`toLeft ${styles.dashboard}`}>
       {form ? (
         <ImportExcel handleData={handleData} handleClose={handleClose} />
       ) : null}
       {formExport ? (
-        <ExportExcel state={state} handleClose={handleCloseExport} />
+        <ExportExcel
+          data={excelData}
+          state={state}
+          handleClose={handleCloseExport}
+        />
       ) : null}
       <div className={styles.controls}>
         {action === actionType.export ? (
@@ -203,7 +282,7 @@ export default function Excel() {
           <button
             className="btn btn-outline-primary"
             type="button"
-            onClick={handleCloseExport}
+            onClick={handleGetData}
           >
             <img src={exportSvg} alt="exportar" />
             <span>Exportar</span>

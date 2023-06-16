@@ -62,7 +62,7 @@ export default function JudicialProcessesTable() {
           return false;
         if (
           filters.idSiproj !== 0 &&
-          Number(filters.idSiproj) !== data.idSiproj
+          Number(filters.idSiproj) !== Number(data.idSiproj)
         )
           return false;
         if (

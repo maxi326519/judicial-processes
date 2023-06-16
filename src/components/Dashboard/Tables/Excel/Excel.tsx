@@ -51,6 +51,7 @@ export default function Excel() {
   const [state, setState] = useState<ProcessesState | string>("");
   const [data, setData] = useState<Data>(initData);
   const [action, setAction] = useState<actionType>(actionType.export);
+  const [formExport, setFormExport] = useState(false);
 
   useEffect(() => {
     if (judicialProcesses.length === 0) handleGetProcesses();
@@ -138,10 +139,17 @@ export default function Excel() {
     setForm(!form);
   }
 
+  function handleCloseExport() {
+    setFormExport(!formExport);
+  }
+
   return (
     <div className={`toLeft ${styles.dashboard}`}>
       {form ? (
         <ImportExcel handleData={handleData} handleClose={handleClose} />
+      ) : null}
+      {formExport ? (
+        <ExportExcel state={state} handleClose={handleCloseExport} />
       ) : null}
       <div className={styles.controls}>
         {action === actionType.export ? (
@@ -182,19 +190,24 @@ export default function Excel() {
           </div>
         )}
         <div>
-          {
-            user.rol === UserRol.Admin ? (
-              <button
-                className="btn btn-outline-primary"
-                type="button"
-                onClick={handleClose}
-              >
-                <img src={importSvg} alt="import" />
-                <span>Importar</span>
-              </button>
-            ) : null
-          }
-          <ExportExcel data={rows} state={state} />
+          {user.rol === UserRol.Admin ? (
+            <button
+              className="btn btn-outline-primary"
+              type="button"
+              onClick={handleClose}
+            >
+              <img src={importSvg} alt="import" />
+              <span>Importar</span>
+            </button>
+          ) : null}
+          <button
+            className="btn btn-outline-primary"
+            type="button"
+            onClick={handleCloseExport}
+          >
+            <img src={exportSvg} alt="exportar" />
+            <span>Exportar</span>
+          </button>
         </div>
       </div>
       <table className={styles.table}>

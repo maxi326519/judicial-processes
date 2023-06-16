@@ -94,7 +94,7 @@ export default function useJudicialProcesses() {
       name === "fechaContestacion" &&
       newJudicialProcesses.fechaLimiteProbContestacion !== null
     ) {
-      if (new Date(value) < newJudicialProcesses.fechaLimiteProbContestacion) {
+      if (new Date(value) <= newJudicialProcesses.fechaLimiteProbContestacion) {
         newJudicialProcesses.validacionContestacion = "A TIEMPO";
       } else {
         newJudicialProcesses.validacionContestacion = "VENCIDO";

@@ -152,7 +152,7 @@ export default function ImportExcel({ handleData, handleClose }: Props) {
   }
 
   function newDate(date: string) {
-    return date ? Timestamp.fromDate(new Date(date)) : null;
+    return date ? new Date(date) : null;
   }
 
   function textParser(texto: string): string {

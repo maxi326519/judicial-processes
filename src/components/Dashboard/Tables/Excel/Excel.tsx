@@ -204,11 +204,10 @@ export default function Excel() {
     for (const clave in objeto) {
       if (objeto.hasOwnProperty(clave)) {
         const valor = objeto[clave];
-
         if (typeof valor === "number" || valor === null) {
           resultado[clave] = String(valor);
         } else if (valor instanceof Timestamp) {
-          resultado[clave] = valor.toDate().toISOString();
+          resultado[clave] = valor.toDate().toISOString().split("T")[0];
         } else {
           resultado[clave] = valor;
         }

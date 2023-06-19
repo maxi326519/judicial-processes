@@ -11,6 +11,7 @@ const options = {
   chart: {
     title: "Procesos por apoderado",
   },
+  bars: "horizontal",
 };
 
 export default function ProcessesChart() {
@@ -36,7 +37,7 @@ export default function ProcessesChart() {
     <Chart
       chartType="Bar"
       width="100%"
-      height="400px"
+      height="100%"
       data={data}
       options={options}
     />

@@ -43,8 +43,12 @@ export default function Home() {
   }
 
   return (
-    <div className={styles.charts}>
-      {user.rol === UserRol.User ? (
+    <div
+      className={`${styles.charts} ${
+        user.rol === UserRol.Admin ? styles.admin : ""
+      }`}
+    >
+      {user.rol === UserRol.Admin ? (
         <div className={styles.btnContainer}>
           <button
             className="btn btn-outline-success"
@@ -57,7 +61,6 @@ export default function Home() {
       ) : null}
       <ProcessesChart />
       <EntityChart />
-      <StageChart />
       <TypeChart />
     </div>
   );

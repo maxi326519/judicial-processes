@@ -2,13 +2,12 @@ import { useState, useEffect } from "react";
 import { Chart } from "react-google-charts";
 import { RootState } from "../../../../../interfaces/RootState";
 import { useSelector } from "react-redux";
-import { EntityChartData } from "../../../../../interfaces/charts";
 
-const header = ["Calidad", "Porcentaje"];
+const header = ["CALIDAD", "PORCENTAJE"];
 const example = [header, ["Demandados", 0], ["Demandantes", 0]];
 
 const options = {
-  title: "Calidad en la que actúa la entidad",
+  title: "CALIDAD EN LA QUE ATÚA LA ENTIDAD",
 };
 
 export default function EntityChart() {
@@ -16,11 +15,10 @@ export default function EntityChart() {
   const [data, setData] = useState<Array<Array<string | number>>>(example);
 
   useEffect(() => {
-    
     setData([
       header,
-      ["Demandante", chartData.demandante],
-      ["Demandado", chartData.demandado],
+      ["DEMANDANTE", chartData.demandante],
+      ["DEMANDADO", chartData.demandado],
     ]);
   }, [chartData]);
 

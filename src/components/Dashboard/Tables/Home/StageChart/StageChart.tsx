@@ -4,7 +4,7 @@ import { RootState } from "../../../../../interfaces/RootState";
 import { useSelector } from "react-redux";
 import { StageChartData } from "../../../../../interfaces/charts";
 
-const header = ["Etapa", "Etapa procesal", { role: "style" }];
+const header = ["ETAPA", "ETAPA PROCESAL", { role: "style" }];
 const exmaple = [header, ["Sin datos", 0, "#b87333"]];
 
 export default function StageChart() {

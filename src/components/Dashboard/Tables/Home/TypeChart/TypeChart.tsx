@@ -4,11 +4,11 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../../../interfaces/RootState";
 import { TypeChartData } from "../../../../../interfaces/charts";
 
-const header = ["Tipo", "Tipos"];
+const header = ["TIPO", "TIPOS"];
 const example = [header, ["Sin Datos", 0]];
 
 const options = {
-  title: "Tipos de procesos",
+  title: "TIPOS DE PROCESOS",
   hAxis: { title: "Year", titleTextStyle: { color: "#333" } },
   vAxis: { minValue: 0 },
   chartArea: { width: "50%", height: "70%" },

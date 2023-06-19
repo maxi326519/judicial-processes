@@ -9,7 +9,10 @@ const example = [header, ["Sin datos", 0, 0]];
 
 const options = {
   chart: {
-    title: "Procesos por apoderado",
+    title: "PROCESOS POR APODERADO",
+    titleStyle: {
+      bold: true, // Establece el estilo de negrita
+    },
   },
   bars: "horizontal",
 };

@@ -172,7 +172,7 @@ export const initProcessesDetails: ProcessesDetails = {
   fechaAdmision: null,
   fechaContestacion: null,
   fechaLimiteProbContestacion: null,
-  validacionContestacion: "",
+  validacionContestacion: "NO SE HA DILIGENCIADO FECHA DE CONTESTACION",
   calidadActuacionEntidad: "",
   demandados: "",
   idDemanante: 0,

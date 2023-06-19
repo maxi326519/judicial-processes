@@ -129,7 +129,8 @@ export default function useJudicialProcesses() {
       !newJudicialProcesses.fechaLimiteProbContestacion ||
       !newJudicialProcesses.fechaContestacion
     ) {
-      newJudicialProcesses.validacionContestacion = "";
+      newJudicialProcesses.validacionContestacion =
+        "NO SE HA DILIGENCIADO FECHA DE CONTESTACION";
     }
 
     // Clean errors

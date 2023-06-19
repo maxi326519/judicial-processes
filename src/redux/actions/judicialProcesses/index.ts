@@ -15,7 +15,7 @@ import {
   where,
   writeBatch,
 } from "firebase/firestore";
-import { db } from "../../../firebase";
+import { db } from "../../../firebase/config";
 import { UserRol, Users } from "../../../interfaces/users";
 import { User } from "firebase/auth";
 
@@ -103,6 +103,7 @@ export function importProcesses(processesList: {
           batch.set(detailsDoc, detailsData);
         });
       } catch (error) {
+        console.log(error);
         throw new Error(`Hubo un error en la fila ${row} `);
       }
 

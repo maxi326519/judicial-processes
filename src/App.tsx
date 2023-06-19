@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "./interfaces/RootState";
 import { getUserData } from "./redux/actions/users";
 import { closeLoading, openLoading } from "./redux/actions/loading";
-import { auth } from "./firebase";
+import { auth } from "./firebase/config";
 import swal from "sweetalert";
 
 import Loading from "./components/Loading/Loading";

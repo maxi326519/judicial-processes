@@ -11,7 +11,7 @@ import {
 import { setCharts } from "../../redux/actions/charts";
 import { closeLoading, openLoading } from "../../redux/actions/loading";
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "../../firebase";
+import { db } from "../../firebase/config";
 import { ProcessesDetails } from "../../interfaces/JudicialProcesses";
 
 export default function useChart() {

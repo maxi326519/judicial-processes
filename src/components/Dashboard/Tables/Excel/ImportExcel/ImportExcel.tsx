@@ -34,6 +34,7 @@ export default function ImportExcel({ handleData, handleClose }: Props) {
           const worksheet = workbook.Sheets[workbook.SheetNames[0]];
           const worksheetData: any = XLSX.utils.sheet_to_json(worksheet, {
             header: 1,
+            raw: false, // Mantener las fechas como objetos Date en lugar de números
           });
 
           worksheetData
@@ -77,7 +78,7 @@ export default function ImportExcel({ handleData, handleClose }: Props) {
         throw new Error(`El id ${idSiproj} ya existe`);
       idList.push(idSiproj);
 
-      newData.push({
+      const currentData = {
         apoderadoActual: textParser(processes[0] || ""),
         apoderadoAnterior: textParser(processes[1] || ""),
         idSiproj: Number(processes[2]) || 0,
@@ -135,7 +136,10 @@ export default function ImportExcel({ handleData, handleClose }: Props) {
           (textParser(processes[40]) as ProcessesState) ||
           ProcessesState.Activo,
         fechaTerminacion: newDate(processes[41]),
-      });
+      };
+      console.log(currentData);
+
+      newData.push(currentData);
     });
 
     return {
@@ -152,7 +156,18 @@ export default function ImportExcel({ handleData, handleClose }: Props) {
   }
 
   function newDate(date: string) {
-    return date ? new Date(date) : null;
+    if (date) {
+      let newDate = date;
+      const dateArray = newDate.split("/");
+      const day = dateArray[0];
+      const month = dateArray[1];
+      const year = dateArray[2];
+
+      newDate = `${year}-${month}-${day}`;
+
+      return new Date(newDate) ? new Date(newDate) : null;
+    }
+    return null;
   }
 
   function textParser(texto: string): string {

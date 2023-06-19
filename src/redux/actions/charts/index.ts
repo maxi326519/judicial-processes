@@ -4,7 +4,7 @@ import { RootState } from "../../../interfaces/RootState";
 import { AnyAction } from "redux";
 import { Dispatch } from "react";
 import { collection, doc, getDoc, setDoc } from "firebase/firestore";
-import { db } from "../../../firebase";
+import { db } from "../../../firebase/config";
 
 export const SET_CHARTS = "SET_CHARTS";
 export const GET_CHARTS = "GET_CHARTS";

@@ -13,7 +13,7 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import { db } from "../../../../firebase";
+import { db } from "../../../../firebase/config";
 import {
   getProcesses,
   importProcesses,
@@ -201,17 +201,27 @@ export default function Excel() {
   function convertirValoresATexto(objeto: any) {
     const resultado: any = {};
 
+    console.log("--------------------------------");
     for (const clave in objeto) {
       if (objeto.hasOwnProperty(clave)) {
         const valor = objeto[clave];
-        if (typeof valor === "number" || valor === null) {
+
+        if (typeof valor === "number") {
           resultado[clave] = String(valor);
+        } else if (valor === null || valor === undefined) {
+          resultado[clave] = "";
         } else if (valor instanceof Timestamp) {
-          resultado[clave] = valor.toDate().toISOString().split("T")[0];
+          const dateUTC = valor.toDate().toISOString().split("T")[0].split("-");
+          const year = dateUTC[0];
+          const month = dateUTC[1];
+          const day = dateUTC[2];
+
+          resultado[clave] = `${day}/${month}/${year}`;
         } else {
           resultado[clave] = valor;
         }
       }
+      console.log(clave, objeto[clave], "=>", resultado[clave]);
     }
 
     return resultado;

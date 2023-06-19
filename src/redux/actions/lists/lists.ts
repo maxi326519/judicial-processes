@@ -10,7 +10,7 @@ import {
   updateDoc,
   writeBatch,
 } from "firebase/firestore";
-import { db } from "../../../firebase";
+import { db } from "../../../firebase/config";
 
 export const GET_LIST = "GET_LIST";
 export const SET_ITEM = "SET_ITEM";

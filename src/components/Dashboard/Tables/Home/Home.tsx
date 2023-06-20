@@ -9,7 +9,6 @@ import swal from "sweetalert";
 
 import EntityChart from "./EntityChart/EntityChart";
 import ProcessesChart from "./ProcessesChart/ProcessesChart";
-import StageChart from "./StageChart/StageChart";
 import TypeChart from "./TypeChart/TypeChart";
 
 import styles from "./Home.module.css";

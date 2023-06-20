@@ -7,12 +7,18 @@
   padding-top: 0;
   width: 100%;
   height: calc(100vh - 100px);
-  overflow: hidden;
+  overflow-y: auto;
 }
 
 .charts div:first-child {
   grid-column: 1 / 2;
   grid-row: 1 / 4;
+}
+
+.charts div:first-child g text:nth-child(2) {
+  font-weight: bold;
+  font-size: 14px !important;
+  color: black !important;
 }
 
 .charts div:nth-child(2) .charts div:nth-child(3) {

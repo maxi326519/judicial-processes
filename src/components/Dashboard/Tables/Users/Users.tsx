@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../interfaces/RootState";
-import { getUsers, setUser } from "../../../../redux/actions/users";
+import {
+  deleteUser,
+  getUsers,
+  setUser,
+  updateUser,
+} from "../../../../redux/actions/users";
 import { Users } from "../../../../interfaces/users";
 import { closeLoading, openLoading } from "../../../../redux/actions/loading";
 import swal from "sweetalert";
@@ -12,6 +17,7 @@ import Form from "./Form/Form";
 import styles from "./Users.module.css";
 import loadingSvg from "../../../../assets/img/loading.gif";
 import errorSvg from "../../../../assets/svg/error.svg";
+import { updateIframe } from "../../../../redux/actions/iframe";
 
 export default function UsersTable() {
   const dispatch = useDispatch();
@@ -19,6 +25,7 @@ export default function UsersTable() {
   const [form, setForm] = useState<boolean>(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [editUser, setEditUser] = useState<Users | null>(null);
 
   useEffect(() => {
     if (users.length === 0) {
@@ -40,31 +47,69 @@ export default function UsersTable() {
       });
   }
 
-  function handleEdit(id: string) {}
+  function handleEdit(user: Users) {
+    setEditUser(user);
+    handleClose();
+  }
+
+  function handleDelete(id: string) {
+    swal({
+      title: "Error",
+      text: "No se pudo actualizar el usuario, inténtelo más tarde",
+      icon: "error",
+      buttons: {
+        Si: true,
+        No: true,
+      },
+    }).then((response) => {
+      if (response === "Si") {
+        dispatch(openLoading());
+        dispatch<any>(deleteUser(id))
+          .then(() => {
+            dispatch(closeLoading());
+            swal("Eliminado", "Se eliminó el usuario con exito", "success");
+          })
+          .catch((err: any) => {
+            console.log(err);
+            dispatch(closeLoading());
+            swal("Error", "No se pudo eliminar el usuario", "error");
+          });
+      }
+    });
+  }
 
   function handleSaveUser(user: Users) {
     dispatch(openLoading());
-    dispatch<any>(setUser(user))
+    dispatch<any>(editUser ? updateUser(user) : setUser(user))
       .then(() => {
         handleClose();
         dispatch(closeLoading());
-        swal("Guardado", "Se agrego el usuario", "success");
+        swal("Guardado", "Se guardo el usuario", "success");
       })
       .catch((err: any) => {
         console.log(err);
         dispatch(closeLoading());
-        swal("Error", "No se pudo guardar el usuario", "err");
+        swal(
+          "Error",
+          "No se pudo guardar el usuario, inténtelo más tarde",
+          "error"
+        );
       });
   }
 
   function handleClose() {
+    if (form) setEditUser(null);
     setForm(!form);
   }
 
   return (
     <div className={`toLeft ${styles.dashboard}`}>
       {form ? (
-        <Form handleClose={handleClose} handleSubmit={handleSaveUser} />
+        <Form
+          editUser={editUser}
+          handleClose={handleClose}
+          handleSubmit={handleSaveUser}
+        />
       ) : null}
       <header>
         <div className={styles.controls}>
@@ -119,7 +164,12 @@ export default function UsersTable() {
               </tr>
             ) : (
               users?.map((user: Users, i) => (
-                <UsersRow key={i} user={user} handleEdit={handleEdit} />
+                <UsersRow
+                  key={i}
+                  user={user}
+                  handleEdit={handleEdit}
+                  handleDelete={handleDelete}
+                />
               ))
             )}
           </div>

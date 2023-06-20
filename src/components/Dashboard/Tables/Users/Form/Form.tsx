@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   ErrorUser,
   UserRol,
@@ -10,13 +10,18 @@ import style from "./Form.module.css";
 import { generatePassword } from "../../../../../functions/generatePassword";
 
 interface Props {
+  editUser: Users | null;
   handleClose: () => void;
   handleSubmit: (user: Users) => void;
 }
 
-export default function Form({ handleClose, handleSubmit }: Props) {
+export default function Form({ editUser, handleClose, handleSubmit }: Props) {
   const [user, setUser] = useState<Users>(initUser);
   const [error, setError] = useState<ErrorUser>(initErrorUser);
+
+  useEffect(() => {
+    if (editUser) setUser(editUser);
+  }, [editUser]);
 
   function handlelocalSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -68,7 +73,7 @@ export default function Form({ handleClose, handleSubmit }: Props) {
     <div className={style.background}>
       <form className={`toTop ${style.form}`} onSubmit={handlelocalSubmit}>
         <div className={style.close}>
-          <h3>Agregar usuario</h3>
+          <h3>{editUser ? "Editar" : "Agregar"} usuario</h3>
           <div className="btn-close" onClick={handleLocalClose} />
         </div>
         <div className={style.flex}>
@@ -146,7 +151,7 @@ export default function Form({ handleClose, handleSubmit }: Props) {
           </div>
 
           <button type="submit" className="btn btn-success">
-            Agregar usuario
+            {editUser ? "Guardar" : "Agregar"} usuario
           </button>
         </div>
       </form>

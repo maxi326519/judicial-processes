@@ -21,10 +21,12 @@ import {
   UPDATE_PROCESSES,
 } from "../actions/judicialProcesses";
 import {
+  DELETE_USER,
   GET_USER,
   GET_USER_DATA,
   SET_USER,
   UPDATE_EMAIL,
+  UPDATE_USER,
 } from "../actions/users";
 import { CLOSE_LOADING, LOADING } from "../actions/loading";
 import { DELETE_ITEM, GET_LIST, SET_ITEM } from "../actions/lists/lists";
@@ -66,6 +68,20 @@ export const rootReducer = (state = { ...initialState }, action: any) => {
       return {
         ...state,
         users: [...state.users, action.payload],
+      };
+
+    case UPDATE_USER:
+      return {
+        ...state,
+        users: state.users.map((user) =>
+          user.id === action.payload.id ? action.payload : user
+        ),
+      };
+
+    case DELETE_USER:
+      return {
+        ...state,
+        users: state.users.filter((user) => user.id !== action.payload),
       };
 
     case GET_USER:
@@ -145,7 +161,9 @@ export const rootReducer = (state = { ...initialState }, action: any) => {
           ...state.processes,
           judicialProcesses: state.processes.judicialProcesses.map(
             (processes) =>
-              processes.idSiproj === action.payload.idSiproj ? action.payload : processes
+              processes.idSiproj === action.payload.idSiproj
+                ? action.payload
+                : processes
           ),
         },
       };

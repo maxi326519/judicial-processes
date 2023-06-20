@@ -1,6 +1,8 @@
 :root {
   --primary-color: #076bb3;
   --primary-color--transp: #076bb344;
+  --filter-primary: invert(21%) sepia(76%) saturate(2935%) hue-rotate(190deg)
+    brightness(98%) contrast(95%);
 
   --background: #fff;
   --panel: #ccc;

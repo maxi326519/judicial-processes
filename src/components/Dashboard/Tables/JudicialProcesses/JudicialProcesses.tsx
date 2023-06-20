@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../interfaces/RootState";
 import { closeLoading, openLoading } from "../../../../redux/actions/loading";
 import { getLists } from "../../../../redux/actions/lists/lists";
+import { UserRol } from "../../../../interfaces/users";
 import {
   deleteProcesses,
   deleteProcessesDetails,
@@ -26,7 +27,6 @@ import styles from "./JudicialProcesses.module.css";
 import loadingSvg from "../../../../assets/img/loading.gif";
 import errorSvg from "../../../../assets/svg/error.svg";
 import listSvg from "../../../../assets/svg/list.svg";
-import { UserRol } from "../../../../interfaces/users";
 
 export default function JudicialProcessesTable() {
   const dispatch = useDispatch();

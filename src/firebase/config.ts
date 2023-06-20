@@ -25,6 +25,9 @@ export const auth = getAuth(fs);
 export const functions = getFunctions(fs);
 
 // Emulator
-connectAuthEmulator(auth, "http://localhost:9099");
-connectFirestoreEmulator(db, "localhost", 8085);
-connectFunctionsEmulator(functions, "localhost", 5001);
+if (process.env.REACT_APP_EMULATOR) {
+  console.log("Emulator activated");
+  connectAuthEmulator(auth, "http://localhost:9099");
+  connectFirestoreEmulator(db, "localhost", 8085);
+  connectFunctionsEmulator(functions, "localhost", 5001);
+}

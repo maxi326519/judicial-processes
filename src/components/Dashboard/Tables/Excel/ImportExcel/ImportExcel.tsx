@@ -14,6 +14,7 @@ import {
   closeLoading,
   openLoading,
 } from "../../../../../redux/actions/loading";
+import moment from "moment";
 
 interface Props {
   handleData: (data: any) => void;
@@ -34,7 +35,7 @@ export default function ImportExcel({ handleData, handleClose }: Props) {
           const worksheet = workbook.Sheets[workbook.SheetNames[0]];
           const worksheetData: any = XLSX.utils.sheet_to_json(worksheet, {
             header: 1,
-            raw: false, // Mantener las fechas como objetos Date en lugar de números
+            raw: false,
           });
 
           worksheetData
@@ -155,19 +156,49 @@ export default function ImportExcel({ handleData, handleClose }: Props) {
     };
   }
 
-  function newDate(date: string) {
+  /*   function newDate(date: string) {
     if (date) {
       let newDate = date;
       const dateArray = newDate.split("/");
-      const day = dateArray[0];
-      const month = dateArray[1];
+      const day = dateArray[1];
+      const month = dateArray[0];
       const year = dateArray[2];
 
-      newDate = `${year}-${month}-${day}`;
+      newDate = `20${year.slice(-2)}-${("0" + month).slice(-2)}-${(
+        "0" + day
+      ).slice(-2)}`;
+      console.log(date);
+      console.log(dateArray);
+      console.log(newDate);
+      console.log(new Date(newDate));
 
       return new Date(newDate) ? new Date(newDate) : null;
     }
     return null;
+  } */
+
+  function newDate(fechaExcel: string) {
+    // Supongamos que 'fechaExcel' es la fecha leída del archivo Excel en formato '9/2/21'
+    let fechaFormateada = "";
+
+    // Verificar si el formato de fecha es mes/día/año o día/mes/año
+    if (/^\d{1,2}\/\d{1,2}\/\d{2}$/.test(fechaExcel)) {
+      fechaFormateada = moment(fechaExcel, "M/D/YY").format("MM/DD/YYYY");
+    } else if (/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(fechaExcel)) {
+      fechaFormateada = moment(fechaExcel, "D/M/YYYY").format("MM/DD/YYYY");
+    }
+
+    // Crear el objeto moment
+    const fechaMoment = moment(fechaFormateada, "MM/DD/YYYY");
+
+    // Verificar si la fecha es válida
+    if (fechaMoment.isValid()) {
+      // La fecha es válida, puedes utilizarla
+      return fechaMoment.toDate();
+    } else {
+      // La fecha es inválida, maneja el caso en consecuencia
+      return null;
+    }
   }
 
   function textParser(texto: string): string {

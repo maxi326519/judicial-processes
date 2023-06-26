@@ -205,7 +205,7 @@ export default function Form({ handleClose }: Props) {
       value: tutela.terminoCumplimiento1raInst,
       name: "terminoCumplimiento1raInst",
       label: "Término de cumplimiento de la 1ra instancia",
-      inputType: "text",
+      inputType: "number",
       error: errors.terminoCumplimiento1raInst,
     },
     {
@@ -220,13 +220,14 @@ export default function Form({ handleClose }: Props) {
       name: "fechaCumplimiento1raInst",
       label: "Fecha de cumplimiento de la 1ra instancia",
       inputType: "date",
+      formulated: true,
       error: errors.fechaCumplimiento1raInst,
     },
     {
       value: tutela.impugnacionSDP,
       name: "impugnacionSDP",
       label: "Impugnacion SDP",
-      inputType: "text",
+      inputType: "number",
       error: errors.impugnacionSDP,
     },
     {
@@ -262,7 +263,7 @@ export default function Form({ handleClose }: Props) {
       value: tutela.terminoCumplimiento2daInst,
       name: "terminoCumplimiento2daInst",
       label: "Término de cumplimiento de la 2da instancia",
-      inputType: "text",
+      inputType: "number",
       error: errors.terminoCumplimiento2daInst,
     },
     {
@@ -277,6 +278,7 @@ export default function Form({ handleClose }: Props) {
       name: "fechaCumplimiento2daInst",
       label: "Fecha cumplimiento de la 2da instancia",
       inputType: "date",
+      formulated: true,
       error: errors.fechaCumplimiento2daInst,
     },
     {
@@ -316,9 +318,7 @@ export default function Form({ handleClose }: Props) {
     event.preventDefault();
     if (validations()) {
       dispatch(openLoading());
-      dispatch<any>(
-        tutelaDetails ? updateTutelas(tutela) : setTutelas(tutela)
-      )
+      dispatch<any>(tutelaDetails ? updateTutelas(tutela) : setTutelas(tutela))
         .then(() => {
           dispatch(closeLoading());
           handleClose();
@@ -351,7 +351,7 @@ export default function Form({ handleClose }: Props) {
   return (
     <form className={`toTop ${styles.form}`} onSubmit={handleSubmit}>
       <div className={styles.close}>
-        <h3>Agregar proceso</h3>
+        <h3>Agregar tutela</h3>
         <div className="btn-close" onClick={handleLocalClose} />
       </div>
       <div className={styles.grid}>
@@ -382,6 +382,7 @@ export default function Form({ handleClose }: Props) {
               value={data.value}
               label={data.label}
               type={data.inputType}
+              formulated={data.formulated}
               error={data.error}
               handleChange={handleChange}
             />

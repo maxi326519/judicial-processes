@@ -12,7 +12,7 @@ import {
   deleteTutela,
   getTutelas,
   getTutelaDetails,
-  deleteTutelaDetails
+  deleteTutelaDetails,
 } from "../../../../../redux/actions/Tutelas/tutelas";
 import {
   TutelaHeads,
@@ -43,7 +43,7 @@ export default function TutelaTable() {
   const [list, setList] = useState(false);
 
   useEffect(() => {
-    if (tutela.length === 0) handleGetTutela();
+    if (tutela.length === 0) handleGetTutelas();
   }, []);
 
   useEffect(() => {
@@ -91,11 +91,10 @@ export default function TutelaTable() {
     setRows(filter);
   }, [tutela, filters]);
 
-  function handleGetTutela() {
+  function handleGetTutelas() {
     setLoading(true);
     setError(false);
-    dispatch<any>(getLists());
-    dispatch<any>(getTutelas(user))
+    Promise.all([dispatch<any>(getLists()), dispatch<any>(getTutelas(user))])
       .then(() => {
         setLoading(false);
       })
@@ -199,10 +198,10 @@ export default function TutelaTable() {
         <thead>
           <tr className={`${styles.row} ${styles.firstRow}`}>
             <th>ID Siproj</th>
-            <th>Rad. Proceso Judicial (INICIAL)</th>
-            <th>Rad. Proceso Judicial (ACTUAL)</th>
-            <th>Demandante Nombre</th>
-            <th>Apoderado Actual</th>
+            <th>Nro de tutela</th>
+            <th>abogado</th>
+            <th>ID Demandante</th>
+            <th>Demandante</th>
           </tr>
         </thead>
         <tbody className={styles.contentRows}>
@@ -215,12 +214,12 @@ export default function TutelaTable() {
             {error ? (
               <div className={styles.error}>
                 <img src={errorSvg} alt="error" />
-                <span>No se pudo cargar los procesos</span>
+                <span>No se pudo cargar las tutelas</span>
                 <div>
                   <button
                     className="btn btn-outline-primary"
                     type="button"
-                    onClick={handleGetTutela}
+                    onClick={handleGetTutelas}
                   >
                     Recargar
                   </button>
@@ -236,7 +235,7 @@ export default function TutelaTable() {
             ) : null}
             {rows.length <= 0 ? (
               <tr className={styles.emptyRows}>
-                <th>No hay procesos</th>
+                <th>No hay tutelas</th>
               </tr>
             ) : (
               rows?.map((tutela: TutelaHeads) => (

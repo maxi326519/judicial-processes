@@ -12,10 +12,10 @@ import {
   updateDoc,
 } from "firebase/firestore";
 
-export const SET_IFRAME = "SET_IFRAME";
-export const GET_IFRAMES = "GET_IFRAMES";
-export const UPDATE_IFRAME = "UPDATE_IFRAME";
-export const DELETE_IFRAME = "DELETE_IFRAME";
+export const SET_REQUIREMENTS_IFRAME = "SET_REQUIREMENTS_IFRAME";
+export const GET_REQUIREMENTS_IFRAMES = "GET_REQUIREMENTS_IFRAMES";
+export const UPDATE_REQUIREMENTS_IFRAME = "UPDATE_REQUIREMENTS_IFRAME";
+export const DELETE_REQUIREMENTS_IFRAME = "DELETE_REQUIREMENTS_IFRAME";
 
 const dataColl = collection(db, "Data");
 const requirementsDoc = doc(dataColl, "Requirements");
@@ -29,10 +29,10 @@ export function setIframe(
       const newIframe = await addDoc(iframesColl, { ...iframe });
 
       dispatch({
-        type: SET_IFRAME,
+        type: SET_REQUIREMENTS_IFRAME,
         payload: {
           id: newIframe.id,
-          iframe,
+          ...iframe,
         },
       });
     } catch (e: any) {
@@ -60,7 +60,7 @@ export function getIframes(): ThunkAction<
       });
 
       dispatch({
-        type: GET_IFRAMES,
+        type: GET_REQUIREMENTS_IFRAMES,
         payload: iframes,
       });
     } catch (e: any) {
@@ -79,7 +79,7 @@ export function updateIframe(
       });
 
       dispatch({
-        type: UPDATE_IFRAME,
+        type: UPDATE_REQUIREMENTS_IFRAME,
         payload: iframe,
       });
     } catch (e: any) {
@@ -96,7 +96,7 @@ export function deleteIframe(
       await deleteDoc(doc(iframesColl, idIframe));
 
       dispatch({
-        type: DELETE_IFRAME,
+        type: DELETE_REQUIREMENTS_IFRAME,
         payload: idIframe,
       });
     } catch (e: any) {

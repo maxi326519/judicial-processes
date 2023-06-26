@@ -1,5 +1,5 @@
 import { AnyAction } from "redux";
-import { TutelaDetail, TutelaHeads } from "../../../../interfaces/Tutelas/data";
+import { TutelaDetails, TutelaHeads } from "../../../../interfaces/Tutelas/data";
 import { RootState } from "../../../../interfaces/RootState";
 import { ThunkAction } from "redux-thunk";
 import { Dispatch } from "react";
@@ -31,7 +31,7 @@ const headColl = collection(tutelasDoc, "Head");
 const detailsColl = collection(tutelasDoc, "Details");
 
 export function setTutelas(
-  tutelas: TutelaDetail
+  tutelas: TutelaDetails
 ): ThunkAction<Promise<void>, RootState, null, AnyAction> {
   return async (dispatch: Dispatch<AnyAction>) => {
     try {
@@ -50,7 +50,7 @@ export function setTutelas(
         demandanteId: tutelas.demandanteId,
         demandante: tutelas.demandante,
       };
-      let details: TutelaDetail = tutelas;
+      let details: TutelaDetails = tutelas;
 
       batch.set(headDoc, head);
       batch.set(detailsDoc, details);
@@ -140,7 +140,7 @@ export function deleteTutelaDetails() {
 }
 
 export function updateTutelas(
-  details: TutelaDetail
+  details: TutelaDetails
 ): ThunkAction<Promise<void>, RootState, null, AnyAction> {
   return async (dispatch: Dispatch<AnyAction>) => {
     const batch = writeBatch(db);
@@ -192,7 +192,7 @@ export function deleteTutela(
 }
 
 export function importTutelas(
-  details: TutelaDetail[]
+  details: TutelaDetails[]
 ): ThunkAction<Promise<void>, RootState, null, AnyAction> {
   return async (dispatch: Dispatch<AnyAction>) => {
     try {
@@ -201,7 +201,7 @@ export function importTutelas(
       let heads: TutelaHeads[] = [];
 
       try {
-        details.forEach((details: TutelaDetail) => {
+        details.forEach((details: TutelaDetails) => {
           row++;
 
           let head: TutelaHeads = {

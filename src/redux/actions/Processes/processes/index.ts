@@ -29,7 +29,7 @@ export const IMPORT_PROCESSES = "IMPORT_PROCESSES";
 /* export const GET_PROCESSES_DATA = "GET_PROCESSES_DATA"; */
 
 const dataColl = collection(db, "Data");
-const requirementsDoc = doc(dataColl, "Requirements");
+const requirementsDoc = doc(dataColl, "Processes");
 const headColl = collection(requirementsDoc, "Head");
 const detailsColl = collection(requirementsDoc, "Details");
 
@@ -198,7 +198,7 @@ export function importProcesses(processesList: {
 
       dispatch({
         type: IMPORT_PROCESSES,
-        payload: processesList,
+        payload: processesList.head,
       });
     } catch (e: any) {
       throw new Error(e);

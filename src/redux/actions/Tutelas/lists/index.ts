@@ -9,13 +9,14 @@ import {
   collection,
   doc,
   getDoc,
+  setDoc,
   updateDoc,
   writeBatch,
 } from "firebase/firestore";
 
-export const GET_LISTS = "GET_LISTS";
-export const SET_ITEM = "SET_ITEM";
-export const DELETE_ITEM = "DELETE_ITEM";
+export const GET_TUTELAS_LISTS = "GET_TUTELAS_LISTS";
+export const SET_TUTELAS_ITEM_LISTS = "SET_TUTELAS_ITEM_LISTS";
+export const DELETE_TUTELAS_ITEM_LISTS = "DELETE_TUTELAS_ITEM_LISTS";
 
 const dataColl = collection(db, "Data");
 const tutelasDoc = doc(dataColl, "Tutelas");
@@ -28,18 +29,16 @@ export function setItem(
     try {
       const batch = writeBatch(db);
 
-      newValues.forEach((value: string) => {
+      newValues.forEach((value) => {
         batch.update(tutelasDoc, {
-          lists: {
-            [listName]: arrayUnion(value),
-          },
+          [`lists.${listName}`]: arrayUnion(value),
         });
       });
 
       await batch.commit();
 
       dispatch({
-        type: SET_ITEM,
+        type: SET_TUTELAS_ITEM_LISTS,
         payload: {
           listName,
           newValues,
@@ -55,16 +54,22 @@ export function getLists(): ThunkAction<Promise<void>, RootState, null, any> {
   return async (dispatch: Dispatch<any>) => {
     try {
       const snapshot = await getDoc(tutelasDoc);
-      let lists = snapshot.data()?.lists;
+      let doc = snapshot.data();
+      let lists = doc?.lists;
 
       // If lists don't existe, create it
-      if (!lists) {
+      if (!doc) {
+        lists = { ...initTutelaLists };
+        await setDoc(tutelasDoc, { lists });
+      } else if (!lists) {
         lists = { ...initTutelaLists };
         await updateDoc(tutelasDoc, { lists });
+      } else {
+        lists = doc.lists;
       }
 
       dispatch({
-        type: GET_LISTS,
+        type: GET_TUTELAS_LISTS,
         payload: lists,
       });
     } catch (e: any) {
@@ -90,7 +95,7 @@ export function deleteItem(
       await batch.commit();
 
       dispatch({
-        type: DELETE_ITEM,
+        type: DELETE_TUTELAS_ITEM_LISTS,
         payload: {
           listName,
           values,

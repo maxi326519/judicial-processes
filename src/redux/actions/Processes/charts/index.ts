@@ -6,8 +6,8 @@ import { Dispatch } from "react";
 import { collection, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "../../../../firebase/config";
 
-export const SET_CHARTS = "SET_CHARTS";
-export const GET_CHARTS = "GET_CHARTS";
+export const SET_PROCESS_CHARTS = "SET_PROCESS_CHARTS";
+export const GET_PROCESS_CHARTS = "GET_PROCESS_CHARTS";
 
 const dataColl = collection(db, "Data");
 const processesDoc = doc(dataColl, "Processes");
@@ -20,7 +20,7 @@ export function setCharts(
       await updateDoc(processesDoc, { charts });
 
       dispatch({
-        type: SET_CHARTS,
+        type: SET_PROCESS_CHARTS,
         payload: charts,
       });
     } catch (e: any) {
@@ -39,10 +39,9 @@ export function getCharts(): ThunkAction<
     try {
       const snapshot = await getDoc(processesDoc);
       let doc = snapshot.data();
-      let charts = {};
+      let charts = doc?.charts;
 
       // If lists don't existe, create it
-      console.log(doc);
       if (!doc) {
         charts = { ...initCharts };
         await setDoc(processesDoc, { charts });
@@ -54,7 +53,7 @@ export function getCharts(): ThunkAction<
       }
 
       dispatch({
-        type: GET_CHARTS,
+        type: GET_PROCESS_CHARTS,
         payload: charts,
       });
     } catch (e: any) {

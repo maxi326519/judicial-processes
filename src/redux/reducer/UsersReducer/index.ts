@@ -7,9 +7,10 @@ import {
   SET_USER,
   UPDATE_USER,
 } from "../../actions/users";
+import { LOGOUT } from "../../actions/sesion";
 
 export const usersReducer = (
-  state: Users[] = { ...initRootState.users },
+  state: Users[] = [...initRootState.users],
   action: AnyAction
 ) => {
   switch (action.type) {
@@ -26,6 +27,9 @@ export const usersReducer = (
 
     case GET_USERS:
       return action.payload;
+
+    case LOGOUT:
+      return [...initRootState.users];
 
     default:
       return state;

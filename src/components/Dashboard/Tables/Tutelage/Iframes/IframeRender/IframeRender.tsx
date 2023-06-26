@@ -1,4 +1,4 @@
-import { IFrames } from "../../../../../interfaces/iframes";
+import { IFrames } from "../../../../../../interfaces/iframes";
 
 import styles from "./IframeRender.module.css";
 

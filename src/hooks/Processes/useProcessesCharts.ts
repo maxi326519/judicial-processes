@@ -10,7 +10,7 @@ import {
 } from "../../interfaces/Processes/charts";
 import { setCharts } from "../../redux/actions/Processes/charts";
 import { closeLoading, openLoading } from "../../redux/actions/loading";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, doc, getDocs } from "firebase/firestore";
 import { db } from "../../firebase/config";
 import { ProcessDetails } from "../../interfaces/Processes/data";
 
@@ -25,8 +25,11 @@ export default function useProcessChart() {
 
   async function updateCharts() {
     dispatch(openLoading());
-    const colProcesses = collection(db, "Details");
-    const snapshot = await getDocs(colProcesses);
+    const dataColl = collection(db, "Data");
+    const processDoc = doc(dataColl, "Processes");
+    const detailsColl = collection(processDoc, "Details");
+
+    const snapshot = await getDocs(detailsColl);
     const details: any = [];
 
     snapshot.forEach((doc) => {

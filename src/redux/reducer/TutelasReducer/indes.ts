@@ -1,5 +1,6 @@
 import { AnyAction } from "redux";
 import { RootTutelas, initRootState } from "../../../interfaces/RootState";
+import { IFrames } from "../../../interfaces/iframes";
 import {
   DELETE_TUTELAS,
   GET_TUTELAS,
@@ -8,18 +9,21 @@ import {
   UPDATE_TUTELAS,
 } from "../../actions/Tutelas/tutelas";
 import {
-  DELETE_ITEM,
-  GET_LISTS,
-  SET_ITEM,
+  DELETE_TUTELAS_ITEM_LISTS,
+  GET_TUTELAS_LISTS,
+  SET_TUTELAS_ITEM_LISTS,
 } from "../../actions/Tutelas/lists";
 import {
-  DELETE_IFRAME,
-  SET_IFRAME,
-  UPDATE_IFRAME,
+  DELETE_TUTELAS_IFRAME,
+  SET_TUTELAS_IFRAME,
+  UPDATE_TUTELAS_IFRAME,
 } from "../../actions/Tutelas/iframe";
-import { GET_IFRAMES } from "../../actions/Tutelas/iframe";
-import { IFrames } from "../../../interfaces/iframes";
-import { GET_CHARTS, SET_CHARTS } from "../../actions/Tutelas/charts";
+import { GET_TUTELAS_IFRAMES } from "../../actions/Tutelas/iframe";
+import {
+  GET_TUTELAS_CHARTS,
+  SET_TUTELAS_CHARTS,
+} from "../../actions/Tutelas/charts";
+import { LOGOUT } from "../../actions/sesion";
 
 export const tutelasReducer = (
   state: RootTutelas = { ...initRootState.tutelas },
@@ -58,14 +62,14 @@ export const tutelasReducer = (
         heads: action.payload,
       };
 
-    /* LISTS */
-    case GET_LISTS:
+    /* TUTELAS_LISTS */
+    case GET_TUTELAS_LISTS:
       return {
         ...state,
         lists: action.payload,
       };
 
-    case SET_ITEM:
+    case SET_TUTELAS_ITEM_LISTS:
       return {
         ...state,
         lists: {
@@ -77,7 +81,7 @@ export const tutelasReducer = (
         },
       };
 
-    case DELETE_ITEM:
+    case DELETE_TUTELAS_ITEM_LISTS:
       const data: any[] =
         state.lists[action.payload.listName as keyof typeof state.lists];
       return {
@@ -107,22 +111,22 @@ export const tutelasReducer = (
           ),
         },
       };
-    /* LISTS */
+    /* TUTELAS_LISTS */
 
-    /* IFRAME */
-    case SET_IFRAME:
+    /* TUTELAS_IFRAME */
+    case SET_TUTELAS_IFRAME:
       return {
         ...state,
         iframes: [...state.iframes, action.payload],
       };
 
-    case GET_IFRAMES:
+    case GET_TUTELAS_IFRAMES:
       return {
         ...state,
         iframes: action.payload,
       };
 
-    case UPDATE_IFRAME:
+    case UPDATE_TUTELAS_IFRAME:
       return {
         ...state,
         iframes: state.iframes.map((iframe: IFrames) =>
@@ -130,28 +134,32 @@ export const tutelasReducer = (
         ),
       };
 
-    case DELETE_IFRAME:
+    case DELETE_TUTELAS_IFRAME:
       return {
         ...state,
         iframes: state.iframes.filter(
           (item: IFrames) => item.id !== action.payload
         ),
       };
-    /* IFRAME */
+    /* TUTELAS_IFRAME */
 
-    /* CHARTS */
-    case SET_CHARTS:
+    /* TUTELAS_CHARTS */
+    case SET_TUTELAS_CHARTS:
       return {
         ...state,
         charts: action.payload,
       };
 
-    case GET_CHARTS:
+    case GET_TUTELAS_CHARTS:
       return {
         ...state,
         charts: action.payload,
       };
-    /* CHARTS */
+
+    case LOGOUT:
+      return { ...initRootState.tutelas };
+
+    /* TUTELAS_CHARTS */
     default:
       return state;
   }

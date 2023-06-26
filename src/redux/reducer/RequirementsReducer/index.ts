@@ -8,18 +8,22 @@ import {
   UPDATE_REQUIREMENTS,
 } from "../../actions/Requirements/requirements";
 import {
-  DELETE_ITEM,
-  GET_LISTS,
-  SET_ITEM,
+  DELETE_REQUIREMENTS_ITEM,
+  GET_REQUIREMENTS_LISTS,
+  SET_REQUIREMENTS_ITEM,
 } from "../../actions/Requirements/lists";
 import {
-  DELETE_IFRAME,
-  SET_IFRAME,
-  UPDATE_IFRAME,
+  DELETE_REQUIREMENTS_IFRAME,
+  SET_REQUIREMENTS_IFRAME,
+  UPDATE_REQUIREMENTS_IFRAME,
 } from "../../actions/Requirements/iframe";
-import { GET_IFRAMES } from "../../actions/Requirements/iframe";
+import { GET_REQUIREMENTS_IFRAMES } from "../../actions/Requirements/iframe";
 import { IFrames } from "../../../interfaces/iframes";
-import { GET_CHARTS, SET_CHARTS } from "../../actions/Requirements/charts";
+import {
+  GET_REQUIREMENTS_CHARTS,
+  SET_REQUIREMENTS_CHARTS,
+} from "../../actions/Requirements/charts";
+import { LOGOUT } from "../../actions/sesion";
 
 export const requirementsReducer = (
   state: RootRequirements = { ...initRootState.requirements },
@@ -58,14 +62,14 @@ export const requirementsReducer = (
         heads: action.payload,
       };
 
-    /* LISTS */
-    case GET_LISTS:
+    /* REQUIREMENTS_LISTS */
+    case GET_REQUIREMENTS_LISTS:
       return {
         ...state,
         lists: action.payload,
       };
 
-    case SET_ITEM:
+    case SET_REQUIREMENTS_ITEM:
       return {
         ...state,
         lists: {
@@ -77,7 +81,7 @@ export const requirementsReducer = (
         },
       };
 
-    case DELETE_ITEM:
+    case DELETE_REQUIREMENTS_ITEM:
       const data: any[] =
         state.lists[action.payload.listName as keyof typeof state.lists];
       return {
@@ -107,22 +111,22 @@ export const requirementsReducer = (
           ),
         },
       };
-    /* LISTS */
+    /* REQUIREMENTS_LISTS */
 
-    /* IFRAME */
-    case SET_IFRAME:
+    /* REQUIREMENTS_IFRAME */
+    case SET_REQUIREMENTS_IFRAME:
       return {
         ...state,
         iframes: [...state.iframes, action.payload],
       };
 
-    case GET_IFRAMES:
+    case GET_REQUIREMENTS_IFRAMES:
       return {
         ...state,
         iframes: action.payload,
       };
 
-    case UPDATE_IFRAME:
+    case UPDATE_REQUIREMENTS_IFRAME:
       return {
         ...state,
         iframes: state.iframes.map((iframe: IFrames) =>
@@ -130,28 +134,32 @@ export const requirementsReducer = (
         ),
       };
 
-    case DELETE_IFRAME:
+    case DELETE_REQUIREMENTS_IFRAME:
       return {
         ...state,
         iframes: state.iframes.filter(
           (item: IFrames) => item.id !== action.payload
         ),
       };
-    /* IFRAME */
+    /* REQUIREMENTS_IFRAME */
 
-    /* CHARTS */
-    case SET_CHARTS:
+    /* REQUIREMENTS_CHARTS */
+    case SET_REQUIREMENTS_CHARTS:
       return {
         ...state,
         charts: action.payload,
       };
 
-    case GET_CHARTS:
+    case GET_REQUIREMENTS_CHARTS:
       return {
         ...state,
         charts: action.payload,
       };
-    /* CHARTS */
+
+    case LOGOUT:
+      return { ...initRootState.requirements };
+
+    /* REQUIREMENTS_CHARTS */
     default:
       return state;
   }

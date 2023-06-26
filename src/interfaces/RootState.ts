@@ -7,7 +7,7 @@ import { ProcessLists, initProcessLists } from "./Processes/lists";
 import { Charts as ProcessCharts, initCharts } from "./Processes/charts";
 
 // TUTELAS
-import { TutelaHeads, TutelaDetail } from "./Tutelas/data";
+import { TutelaHeads, TutelaDetails } from "./Tutelas/data";
 import { TutelaLists, initTutelaLists } from "./Tutelas/lists";
 import { TutelaCharts, initTutelaCharts } from "./Tutelas/charts";
 
@@ -28,7 +28,7 @@ export interface RootProcesses {
 }
 export interface RootTutelas {
   heads: TutelaHeads[];
-  details: TutelaDetail | null;
+  details: TutelaDetails | null;
   lists: TutelaLists;
   charts: TutelaCharts;
   iframes: IFrames[];

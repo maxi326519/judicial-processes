@@ -21,6 +21,7 @@ interface Props {
 
 export default function Form({ handleClose }: Props) {
   const user = useSelector((state: RootState) => state.sesion);
+  const users = useSelector((state: RootState) => state.users);
   const dispatch = useDispatch();
   const {
     judicialProcesses,
@@ -128,9 +129,9 @@ export default function Form({ handleClose }: Props) {
             disabled={user.rol === UserRol.User}
           >
             <option value="">Seleccionar</option>
-            {lists.apoderados.map((item, i) => (
-              <option key={i} value={item}>
-                {item}
+            {users.map((user) => (
+              <option key={user.id} value={user.name}>
+                {user.name}
               </option>
             ))}
           </select>

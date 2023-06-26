@@ -2,15 +2,15 @@ import { ThunkAction } from "redux-thunk";
 import { RootState } from "../../../../interfaces/RootState";
 import { AnyAction } from "redux";
 import { Dispatch } from "react";
-import { collection, doc, getDoc, updateDoc } from "firebase/firestore";
+import { collection, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "../../../../firebase/config";
 import {
   TutelaCharts,
   initTutelaCharts,
 } from "../../../../interfaces/Tutelas/charts";
 
-export const SET_CHARTS = "SET_CHARTS";
-export const GET_CHARTS = "GET_CHARTS";
+export const SET_TUTELAS_CHARTS = "SET_TUTELAS_CHARTS";
+export const GET_TUTELAS_CHARTS = "GET_TUTELAS_CHARTS";
 
 const dataColl = collection(db, "Data");
 const tutelasDoc = doc(dataColl, "Tutelas");
@@ -23,7 +23,7 @@ export function setCharts(
       await updateDoc(tutelasDoc, { charts });
 
       dispatch({
-        type: SET_CHARTS,
+        type: SET_TUTELAS_CHARTS,
         payload: charts,
       });
     } catch (e: any) {
@@ -41,16 +41,22 @@ export function getCharts(): ThunkAction<
   return async (dispatch: Dispatch<AnyAction>) => {
     try {
       const snapshot = await getDoc(tutelasDoc);
-      let charts = snapshot.data()?.charts;
+      let doc = snapshot.data();
+      let charts = doc?.charts;
 
       // If lists don't existe, create it
-      if (!charts) {
+      if (!doc) {
+        charts = { ...initTutelaCharts };
+        await setDoc(tutelasDoc, { charts });
+      } else if (!charts) {
         charts = { ...initTutelaCharts };
         await updateDoc(tutelasDoc, { charts });
+      } else {
+        charts = doc.charts;
       }
 
       dispatch({
-        type: GET_CHARTS,
+        type: GET_TUTELAS_CHARTS,
         payload: charts,
       });
     } catch (e: any) {

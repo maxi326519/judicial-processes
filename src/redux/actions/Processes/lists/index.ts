@@ -14,9 +14,9 @@ import {
   writeBatch,
 } from "firebase/firestore";
 
-export const GET_LISTS = "GET_LISTS";
-export const SET_ITEM = "SET_ITEM";
-export const DELETE_ITEM = "DELETE_ITEM";
+export const SET_PROCESS_LIST_ITEM = "SET_PROCESS_LIST_ITEM";
+export const GET_PROCESS_LISTS = "GET_PROCESS_LISTS";
+export const DELETE_PROCESS_LIST_ITEM = "DELETE_PROCESS_LIST_ITEM";
 
 const dataColl = collection(db, "Data");
 const processesDoc = doc(dataColl, "Processes");
@@ -31,16 +31,14 @@ export function setItem(
 
       newValues.forEach((value: string) => {
         batch.update(processesDoc, {
-          lists: {
-            [listName]: arrayUnion(value),
-          },
+          [`lists.${listName}`]: arrayUnion(value),
         });
       });
 
       await batch.commit();
 
       dispatch({
-        type: SET_ITEM,
+        type: SET_PROCESS_LIST_ITEM,
         payload: {
           listName,
           newValues,
@@ -71,7 +69,7 @@ export function getLists(): ThunkAction<Promise<void>, RootState, null, any> {
       }
 
       dispatch({
-        type: GET_LISTS,
+        type: GET_PROCESS_LISTS,
         payload: lists,
       });
     } catch (e: any) {
@@ -97,7 +95,7 @@ export function deleteItem(
       await batch.commit();
 
       dispatch({
-        type: DELETE_ITEM,
+        type: DELETE_PROCESS_LIST_ITEM,
         payload: {
           listName,
           values,

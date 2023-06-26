@@ -12,13 +12,13 @@ import {
   updateDoc,
 } from "firebase/firestore";
 
-export const SET_IFRAME = "SET_IFRAME";
-export const GET_IFRAMES = "GET_IFRAMES";
-export const UPDATE_IFRAME = "UPDATE_IFRAME";
-export const DELETE_IFRAME = "DELETE_IFRAME";
+export const SET_PROCESS_IFRAME = "SET_PROCESS_IFRAME";
+export const GET_PROCESS_IFRAMES = "GET_PROCESS_IFRAMES";
+export const UPDATE_PROCESS_IFRAME = "UPDATE_PROCESS_IFRAME";
+export const DELETE_PROCESS_IFRAME = "DELETE_PROCESS_IFRAME";
 
 const dataColl = collection(db, "Data");
-const processesDoc = doc(dataColl, "Requirements");
+const processesDoc = doc(dataColl, "Processes");
 const iframesColl = collection(processesDoc, "Iframes");
 
 export function setIframe(
@@ -29,10 +29,10 @@ export function setIframe(
       const newIframe = await addDoc(iframesColl, { ...iframe });
 
       dispatch({
-        type: SET_IFRAME,
+        type: SET_PROCESS_IFRAME,
         payload: {
           id: newIframe.id,
-          iframe,
+          ...iframe,
         },
       });
     } catch (e: any) {
@@ -60,7 +60,7 @@ export function getIframes(): ThunkAction<
       });
 
       dispatch({
-        type: GET_IFRAMES,
+        type: GET_PROCESS_IFRAMES,
         payload: iframes,
       });
     } catch (e: any) {
@@ -79,7 +79,7 @@ export function updateIframe(
       });
 
       dispatch({
-        type: UPDATE_IFRAME,
+        type: UPDATE_PROCESS_IFRAME,
         payload: iframe,
       });
     } catch (e: any) {
@@ -96,7 +96,7 @@ export function deleteIframe(
       await deleteDoc(doc(iframesColl, idIframe));
 
       dispatch({
-        type: DELETE_IFRAME,
+        type: DELETE_PROCESS_IFRAME,
         payload: idIframe,
       });
     } catch (e: any) {

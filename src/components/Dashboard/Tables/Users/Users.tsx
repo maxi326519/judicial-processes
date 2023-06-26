@@ -17,7 +17,6 @@ import Form from "./Form/Form";
 import styles from "./Users.module.css";
 import loadingSvg from "../../../../assets/img/loading.gif";
 import errorSvg from "../../../../assets/svg/error.svg";
-import { updateIframe } from "../../../../redux/actions/iframe";
 
 export default function UsersTable() {
   const dispatch = useDispatch();

@@ -9,13 +9,14 @@ import {
   collection,
   doc,
   getDoc,
+  setDoc,
   updateDoc,
   writeBatch,
 } from "firebase/firestore";
 
-export const GET_LISTS = "GET_LISTS";
-export const SET_ITEM = "SET_ITEM";
-export const DELETE_ITEM = "DELETE_ITEM";
+export const GET_REQUIREMENTS_LISTS = "GET_REQUIREMENTS_LISTS";
+export const SET_REQUIREMENTS_ITEM = "SET_REQUIREMENTS_ITEM";
+export const DELETE_REQUIREMENTS_ITEM = "DELETE_REQUIREMENTS_ITEM";
 
 const dataColl = collection(db, "Data");
 const requirementsDoc = doc(dataColl, "Requirements");
@@ -30,16 +31,14 @@ export function setItem(
 
       newValues.forEach((value: string) => {
         batch.update(requirementsDoc, {
-          lists: {
-            [listName]: arrayUnion(value),
-          },
+          [`lists.${listName}`]: arrayUnion(value),
         });
       });
 
       await batch.commit();
 
       dispatch({
-        type: SET_ITEM,
+        type: SET_REQUIREMENTS_ITEM,
         payload: {
           listName,
           newValues,
@@ -55,16 +54,22 @@ export function getLists(): ThunkAction<Promise<void>, RootState, null, any> {
   return async (dispatch: Dispatch<any>) => {
     try {
       const snapshot = await getDoc(requirementsDoc);
-      let lists = snapshot.data()?.lists;
+      let doc = snapshot.data();
+      let lists = doc?.list;
 
       // If lists don't existe, create it
-      if (!lists) {
+      if (!doc) {
+        lists = { ...initRequirementsLists };
+        await setDoc(requirementsDoc, { lists });
+      } else if (!lists) {
         lists = { ...initRequirementsLists };
         await updateDoc(requirementsDoc, { lists });
+      } else {
+        lists = doc.lists;
       }
 
       dispatch({
-        type: GET_LISTS,
+        type: GET_REQUIREMENTS_LISTS,
         payload: lists,
       });
     } catch (e: any) {
@@ -90,7 +95,7 @@ export function deleteItem(
       await batch.commit();
 
       dispatch({
-        type: DELETE_ITEM,
+        type: DELETE_REQUIREMENTS_ITEM,
         payload: {
           listName,
           values,

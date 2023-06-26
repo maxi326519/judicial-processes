@@ -2,12 +2,15 @@ import { RootProcesses, initRootState } from "../../../interfaces/RootState";
 import { initProcessDetails } from "../../../interfaces/Processes/data";
 import { AnyAction } from "redux";
 import { IFrames } from "../../../interfaces/iframes";
-import { GET_CHARTS, SET_CHARTS } from "../../actions/Processes/charts";
 import {
-  DELETE_IFRAME,
-  GET_IFRAMES,
-  SET_IFRAME,
-  UPDATE_IFRAME,
+  GET_PROCESS_CHARTS,
+  SET_PROCESS_CHARTS,
+} from "../../actions/Processes/charts";
+import {
+  DELETE_PROCESS_IFRAME,
+  GET_PROCESS_IFRAMES,
+  SET_PROCESS_IFRAME,
+  UPDATE_PROCESS_IFRAME,
 } from "../../actions/Processes/iframe";
 import {
   SET_PROCESS,
@@ -16,13 +19,15 @@ import {
   GET_PROCESS_DETAILS,
   UPDATE_PROCESS_DETAILS,
   DELETE_PROCESS_DETAILS,
+  IMPORT_PROCESSES,
 } from "../../actions/Processes/processes";
 
 import {
-  DELETE_ITEM,
-  GET_LISTS,
-  SET_ITEM,
+  SET_PROCESS_LIST_ITEM,
+  GET_PROCESS_LISTS,
+  DELETE_PROCESS_LIST_ITEM,
 } from "../../actions/Processes/lists";
+import { LOGOUT } from "../../actions/sesion";
 
 export const processesReducer = (
   state: RootProcesses = { ...initRootState.processes },
@@ -68,6 +73,12 @@ export const processesReducer = (
         processesDetails: initProcessDetails,
       };
 
+    case IMPORT_PROCESSES:
+      return {
+        ...state,
+        heads: action.payload,
+      };
+      
     /*       case GET_PROCESSES_DATA:
         return {
           ...state,
@@ -79,13 +90,7 @@ export const processesReducer = (
     /* PROCESSES */
 
     /* LISTS */
-    case GET_LISTS:
-      return {
-        ...state,
-        lists: action.payload,
-      };
-
-    case SET_ITEM:
+    case SET_PROCESS_LIST_ITEM:
       return {
         ...state,
         lists: {
@@ -97,7 +102,13 @@ export const processesReducer = (
         },
       };
 
-    case DELETE_ITEM:
+    case GET_PROCESS_LISTS:
+      return {
+        ...state,
+        lists: action.payload,
+      };
+
+    case DELETE_PROCESS_LIST_ITEM:
       const data: any[] =
         state.lists[action.payload.listName as keyof typeof state.lists];
       return {
@@ -129,20 +140,20 @@ export const processesReducer = (
       };
     /* LISTS */
 
-    /* IFRAME */
-    case SET_IFRAME:
+    /* IFRAMES */
+    case SET_PROCESS_IFRAME:
       return {
         ...state,
         iframes: [...state.iframes, action.payload],
       };
 
-    case GET_IFRAMES:
+    case GET_PROCESS_IFRAMES:
       return {
         ...state,
         iframes: action.payload,
       };
 
-    case UPDATE_IFRAME:
+    case UPDATE_PROCESS_IFRAME:
       return {
         ...state,
         iframes: state.iframes.map((iframe: IFrames) =>
@@ -150,28 +161,33 @@ export const processesReducer = (
         ),
       };
 
-    case DELETE_IFRAME:
+    case DELETE_PROCESS_IFRAME:
       return {
         ...state,
         iframes: state.iframes.filter(
           (item: IFrames) => item.id !== action.payload
         ),
       };
-    /* IFRAME */
+    /* IFRAMES */
 
     /* CHARTS */
-    case SET_CHARTS:
+    case SET_PROCESS_CHARTS:
       return {
         ...state,
         charts: action.payload,
       };
 
-    case GET_CHARTS:
+    case GET_PROCESS_CHARTS:
       return {
         ...state,
         charts: action.payload,
       };
     /* CHARTS */
+
+    case LOGOUT:
+      return { ...initRootState.processes };
+
+
     default:
       return state;
   }

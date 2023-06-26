@@ -11,14 +11,14 @@ export const sesionReducer = (
     case LOGIN:
       return action.payload;
 
-    case LOGOUT:
-      return { ...initRootState.sesion };
-
     case UPDATE_EMAIL:
       return {
         ...state,
         email: action.payload,
       };
+
+    case LOGOUT:
+      return { ...initRootState.sesion };
 
     default:
       return state;

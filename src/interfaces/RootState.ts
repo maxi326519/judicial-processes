@@ -2,13 +2,13 @@ import { Users, initUser } from "./users";
 import { IFrames } from "./iframes";
 
 // PROCESSES
-import { ProcessHeads, ProcessDetail } from "./Processes/data";
+import { ProcessHeads, ProcessDetails } from "./Processes/data";
 import { ProcessLists, initProcessLists } from "./Processes/lists";
 import { Charts as ProcessCharts, initCharts } from "./Processes/charts";
 
 // TUTELAS
 import { TutelaHeads, TutelaDetail } from "./Tutelas/data";
-import { TuletaLists, initTuletaLists } from "./Tutelas/lists";
+import { TutelaLists, initTutelaLists } from "./Tutelas/lists";
 import { TutelaCharts, initTutelaCharts } from "./Tutelas/charts";
 
 // REQUIREMENTS
@@ -21,7 +21,7 @@ import {
 
 export interface RootProcesses {
   heads: ProcessHeads[];
-  details: ProcessDetail | null;
+  details: ProcessDetails | null;
   lists: ProcessLists;
   charts: ProcessCharts;
   iframes: IFrames[];
@@ -29,7 +29,7 @@ export interface RootProcesses {
 export interface RootTutelas {
   heads: TutelaHeads[];
   details: TutelaDetail | null;
-  lists: TuletaLists;
+  lists: TutelaLists;
   charts: TutelaCharts;
   iframes: IFrames[];
 }
@@ -64,7 +64,7 @@ export const initRootState = {
   tutelas: {
     heads: [],
     details: null,
-    lists: initTuletaLists,
+    lists: initTutelaLists,
     charts: initTutelaCharts,
     iframes: [],
   },

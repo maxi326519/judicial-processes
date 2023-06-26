@@ -1,21 +1,22 @@
-import style from "./Filter.module.css";
-import filterSvg from "../../../../../assets/svg/filter.svg";
 import { useState } from "react";
-import { ProcessesFilters } from "../../../../../interfaces/JudicialProcesses";
-import { UserRol } from "../../../../../interfaces/users";
-import { RootState } from "../../../../../interfaces/RootState";
+import { ProcessFilters } from "../../../../../../interfaces/Processes/data";
+import { UserRol } from "../../../../../../interfaces/users";
+import { RootState } from "../../../../../../interfaces/RootState";
 import { useSelector } from "react-redux";
 
+import style from "./Filter.module.css";
+import filterSvg from "../../../../../../assets/svg/filter.svg";
+
 interface Props {
-  filters: ProcessesFilters;
-  handleSetFilter: (filters: ProcessesFilters) => void;
+  filters: ProcessFilters;
+  handleSetFilter: (filters: ProcessFilters) => void;
 }
 
 export default function Filters({ filters, handleSetFilter }: Props) {
-  const user = useSelector((state: RootState) => state.user);
-  const lists = useSelector((state: RootState) => state.lists);
+  const user = useSelector((state: RootState) => state.sesion);
+  const lists = useSelector((state: RootState) => state.processes.lists);
   const [filter, setFilter] = useState(false);
-  const [currentFilters, setFilters] = useState<ProcessesFilters>({
+  const [currentFilters, setFilters] = useState<ProcessFilters>({
     apoderadoActual: "",
     idSiproj: 0,
     radRamaJudicialInicial: "",

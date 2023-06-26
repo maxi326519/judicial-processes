@@ -1,108 +1,101 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../../interfaces/RootState";
-import { closeLoading, openLoading } from "../../../../redux/actions/loading";
-import { getLists } from "../../../../redux/actions/lists/lists";
-import { UserRol } from "../../../../interfaces/users";
+import { RootState } from "../../../../../interfaces/RootState";
 import {
-  deleteProcesses,
-  deleteProcessesDetails,
-  getProcesses,
-  getProcessesDetails,
-} from "../../../../redux/actions/judicialProcesses";
+  closeLoading,
+  openLoading,
+} from "../../../../../redux/actions/loading";
+import { getLists } from "../../../../../redux/actions/Tutelas/lists";
+import { UserRol } from "../../../../../interfaces/users";
 import {
-  JudicialProcesses,
-  ProcessesFilters,
-  initProcessesFilters,
-} from "../../../../interfaces/JudicialProcesses";
+  deleteTutela,
+  getTutelas,
+  getTutelaDetails,
+  deleteTutelaDetails
+} from "../../../../../redux/actions/Tutelas/tutelas";
+import {
+  TutelaHeads,
+  TutelaFilters,
+  initTutelaFilters,
+} from "../../../../../interfaces/Tutelas/data";
 import swal from "sweetalert";
 
-import JudicialProcessesRow from "./JudicialProcessesRow/JudicialProcessesRow";
+import TuelaRow from "./TutelaRow/TutelaRow";
 import Form from "./Form/Form";
 import Filters from "./FIlters/Filters";
-import Lists from "../../Lists/Lists";
+import Lists from "../Lists/Lists";
 
-import styles from "./JudicialProcesses.module.css";
-import loadingSvg from "../../../../assets/img/loading.gif";
-import errorSvg from "../../../../assets/svg/error.svg";
-import listSvg from "../../../../assets/svg/list.svg";
+import styles from "./TutelaTable.module.css";
+import loadingSvg from "../../../../../assets/img/loading.gif";
+import errorSvg from "../../../../../assets/svg/error.svg";
+import listSvg from "../../../../../assets/svg/list.svg";
 
-export default function JudicialProcessesTable() {
+export default function TutelaTable() {
   const dispatch = useDispatch();
-  const user = useSelector((state: RootState) => state.user);
-  const judicialProcesses = useSelector(
-    (state: RootState) => state.processes.judicialProcesses
-  );
-  const [filters, setFilters] =
-    useState<ProcessesFilters>(initProcessesFilters);
-  const [rows, setRows] = useState<JudicialProcesses[]>([]);
+  const user = useSelector((state: RootState) => state.sesion);
+  const tutela = useSelector((state: RootState) => state.tutelas.heads);
+  const [filters, setFilters] = useState<TutelaFilters>(initTutelaFilters);
+  const [rows, setRows] = useState<TutelaHeads[]>([]);
   const [form, setForm] = useState<boolean>(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [list, setList] = useState(false);
 
   useEffect(() => {
-    if (judicialProcesses.length === 0) handleGetProcesses();
+    if (tutela.length === 0) handleGetTutela();
   }, []);
 
   useEffect(() => {
-    const filter = judicialProcesses.filter((data: JudicialProcesses) => {
+    const filter = tutela.filter((data: TutelaHeads) => {
       if (
-        filters.apoderadoActual ||
         filters.idSiproj ||
-        filters.radRamaJudicialInicial ||
-        filters.radRamaJudicialActual ||
+        filters.nroTutela ||
+        filters.demandanteId ||
         filters.demandante
       ) {
         if (
-          filters.apoderadoActual &&
-          filters.apoderadoActual !== data.apoderadoActual
+          data.idSiproj
+            .toString()
+            .toLowerCase()
+            .includes(filters.idSiproj.toString())
         )
           return false;
         if (
-          filters.idSiproj !== 0 &&
-          Number(filters.idSiproj) !== Number(data.idSiproj)
+          data.nroTutela.toLowerCase().includes(filters.nroTutela.toLowerCase())
         )
           return false;
         if (
-          filters.radRamaJudicialInicial &&
-          filters.radRamaJudicialInicial !== data.radRamaJudicialInicial
+          data.demandanteId
+            .toLowerCase()
+            .includes(filters.demandanteId.toLowerCase())
         ) {
-          console.log(
-            filters.radRamaJudicialInicial,
-            data.radRamaJudicialInicial,
-            filters.radRamaJudicialInicial !== data.radRamaJudicialInicial
-          );
           return false;
         }
 
         if (
-          filters.radRamaJudicialActual &&
-          filters.radRamaJudicialActual !== data.radRamaJudicialActual
+          data.demandante
+            .toLowerCase()
+            .includes(filters.demandante.toLowerCase())
         )
           return false;
 
-        console.log(
-          filters.demandante,
-          data.demandante,
-          filters.demandante !== data.demandante,
-          !data.demandante.includes(filters.demandante)
-        );
-
-        if (filters.demandante && !data.demandante.includes(filters.demandante))
+        if (
+          filters.demandante &&
+          !data.demandante.includes(filters.demandante.toLowerCase())
+        )
           return false;
         return true;
       } else return true;
     });
     setRows(filter);
-  }, [judicialProcesses, filters]);
+  }, [tutela, filters]);
 
-  function handleGetProcesses() {
+  function handleGetTutela() {
     setLoading(true);
     setError(false);
     dispatch<any>(getLists());
-    dispatch<any>(getProcesses(user))
+    dispatch<any>(getTutelas(user))
       .then(() => {
         setLoading(false);
       })
@@ -113,7 +106,7 @@ export default function JudicialProcessesTable() {
       });
   }
 
-  function handleDelete(processes: JudicialProcesses) {
+  function handleDelete(processes: TutelaHeads) {
     swal({
       text: "¿Seguro que desea eliminar este proceso?",
       icon: "warning",
@@ -125,7 +118,7 @@ export default function JudicialProcessesTable() {
       console.log(response);
       if (response === "Aceptar") {
         dispatch(openLoading());
-        dispatch<any>(deleteProcesses(processes))
+        dispatch<any>(deleteTutela(processes.idSiproj))
           .then(() => {
             dispatch(closeLoading());
             swal("Eliminado", "Se eliminó correctamente el proceso", "success");
@@ -143,13 +136,13 @@ export default function JudicialProcessesTable() {
     });
   }
 
-  function handleFilter(filters: ProcessesFilters) {
+  function handleFilter(filters: TutelaFilters) {
     setFilters(filters);
   }
 
   function handleEdit(idSiproj: string) {
     dispatch(openLoading());
-    dispatch<any>(getProcessesDetails(idSiproj))
+    dispatch<any>(getTutelaDetails(idSiproj))
       .then(() => {
         dispatch(closeLoading());
         setForm(true);
@@ -168,7 +161,7 @@ export default function JudicialProcessesTable() {
   function handleClose() {
     setForm(!form);
     if (form) {
-      dispatch(deleteProcessesDetails());
+      dispatch(deleteTutelaDetails());
     }
   }
 
@@ -227,7 +220,7 @@ export default function JudicialProcessesTable() {
                   <button
                     className="btn btn-outline-primary"
                     type="button"
-                    onClick={handleGetProcesses}
+                    onClick={handleGetTutela}
                   >
                     Recargar
                   </button>
@@ -246,10 +239,10 @@ export default function JudicialProcessesTable() {
                 <th>No hay procesos</th>
               </tr>
             ) : (
-              rows?.map((judicialProcesses: JudicialProcesses) => (
-                <JudicialProcessesRow
-                  key={judicialProcesses.idSiproj}
-                  judicialProcesses={judicialProcesses}
+              rows?.map((tutela: TutelaHeads) => (
+                <TuelaRow
+                  key={tutela.idSiproj}
+                  tutela={tutela}
                   handleEdit={handleEdit}
                   handleDelete={handleDelete}
                 />

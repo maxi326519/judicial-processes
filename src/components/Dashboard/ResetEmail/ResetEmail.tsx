@@ -1,11 +1,11 @@
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { closeLoading, openLoading } from "../../../redux/actions/loading";
+import { changeEmail } from "../../../redux/actions/sesion";
+import { RootState } from "../../../interfaces/RootState";
+import swal from "sweetalert";
 
 import styles from "./ResetEmail.module.css";
-import { useDispatch, useSelector } from "react-redux";
-import swal from "sweetalert";
-import { closeLoading, openLoading } from "../../../redux/actions/loading";
-import { changeEmail } from "../../../redux/actions/users";
-import { RootState } from "../../../interfaces/RootState";
 
 interface NewEmail {
   currentPassword: string;
@@ -31,7 +31,7 @@ const initNewEmail = {
 
 export default function ResetEmail({ handleClose }: Props) {
   const dispatch = useDispatch();
-  const user = useSelector((state: RootState) => state.user);
+  const user = useSelector((state: RootState) => state.sesion);
   const [newEmail, setNewEmail] = useState<NewEmail>(initNewEmail);
   const [error, setError] = useState<ErrorEmail>(initNewEmail);
 

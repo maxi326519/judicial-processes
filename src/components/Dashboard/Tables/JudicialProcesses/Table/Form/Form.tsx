@@ -1,26 +1,26 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../../../interfaces/RootState";
-import useJudicialProcesses from "../../../../../hooks/useJudicialProcesses";
-import swal from "sweetalert";
+import { RootState } from "../../../../../../interfaces/RootState";
+import { UserRol } from "../../../../../../interfaces/users";
 import {
   setProcesses,
   updateProcesses,
-} from "../../../../../redux/actions/judicialProcesses";
+} from "../../../../../../redux/actions/Processes/processes";
 import {
   closeLoading,
   openLoading,
-} from "../../../../../redux/actions/loading";
+} from "../../../../../../redux/actions/loading";
+import useJudicialProcesses from "../../../../../../hooks/Processes/useProcesses";
+import swal from "sweetalert";
 
 import styles from "./Form.module.css";
-import { UserRol } from "../../../../../interfaces/users";
 
 interface Props {
   handleClose: () => void;
 }
 
 export default function Form({ handleClose }: Props) {
-  const user = useSelector((state: RootState) => state.user);
+  const user = useSelector((state: RootState) => state.sesion);
   const dispatch = useDispatch();
   const {
     judicialProcesses,
@@ -31,9 +31,9 @@ export default function Form({ handleClose }: Props) {
     setErrors,
   } = useJudicialProcesses();
   const processesDetails = useSelector(
-    (state: RootState) => state.processes.processesDetails
+    (state: RootState) => state.processes.details
   );
-  const lists = useSelector((state: RootState) => state.lists);
+  const lists = useSelector((state: RootState) => state.processes.lists);
   const [errorLength, setErrorLength] = useState<number>(0);
 
   useEffect(() => {

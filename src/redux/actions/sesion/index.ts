@@ -18,7 +18,7 @@ export const CHANGE_PASSWORD = "CHANGE_PASSWORD";
 export const UPDATE_EMAIL = "UPDATE_EMAIL";
 
 export function logIn(
-  user: Users
+  user: any
 ): ThunkAction<Promise<void>, RootState, null, AnyAction> {
   return async (dispatch: Dispatch<AnyAction>) => {
     try {
@@ -55,6 +55,28 @@ export function logOut(): ThunkAction<
       await signOut(auth);
       dispatch({
         type: LOGOUT,
+      });
+    } catch (e: any) {
+      throw new Error(e);
+    }
+  };
+}
+
+export function getUserData(
+): ThunkAction<Promise<void>, RootState, null, AnyAction> {
+  return async (dispatch: Dispatch<AnyAction>) => {
+    try {
+      const colUser = collection(db, "Users");
+      const snapshot = await getDoc(doc(colUser, auth.currentUser?.uid));
+
+      const currentUser = {
+        ...snapshot.data(),
+        id: snapshot.id,
+      };
+
+      dispatch({
+        type: LOGIN,
+        payload: currentUser,
       });
     } catch (e: any) {
       throw new Error(e);

@@ -9,6 +9,7 @@ import {
   collection,
   doc,
   getDoc,
+  setDoc,
   updateDoc,
   writeBatch,
 } from "firebase/firestore";
@@ -55,12 +56,18 @@ export function getLists(): ThunkAction<Promise<void>, RootState, null, any> {
   return async (dispatch: Dispatch<any>) => {
     try {
       const snapshot = await getDoc(processesDoc);
-      let lists = snapshot.data()?.lists;
+      let doc = snapshot.data();
+      let lists = doc?.list;
 
       // If lists don't existe, create it
-      if (!lists) {
+      if (!doc) {
+        lists = { ...initProcessLists };
+        await setDoc(processesDoc, { lists });
+      } else if (!lists) {
         lists = { ...initProcessLists };
         await updateDoc(processesDoc, { lists });
+      } else {
+        lists = doc.lists;
       }
 
       dispatch({

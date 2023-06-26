@@ -1,22 +1,27 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../interfaces/RootState";
-import { logOut } from "../../redux/actions/login";
 import { useNavigate } from "react-router-dom";
+import { RootState } from "../../interfaces/RootState";
+import { logOut } from "../../redux/actions/sesion";
+import { UserRol } from "../../interfaces/users";
 
 import SideBar from "./SideBar/SideBar";
-import JudicialProcessesTable from "./Tables/JudicialProcesses/JudicialProcesses";
-import UsersTable from "./Tables/Users/Users";
-import Iframe from "./Tables/Iframes/Iframes";
 import Home from "./Tables/Home/Home";
-import Excel from "./Tables/Excel/Excel";
+import UsersTable from "./Tables/Users/Users";
+
+import ProcessesTable from "./Tables/JudicialProcesses/Table/ProcessesTable";
+import ProcessesIframe from "./Tables/JudicialProcesses/Iframes/Iframes";
+import ProcessesExcel from "./Tables/JudicialProcesses/Excel/Excel";
+
+import TutelaTable from "./Tables/Tutelage/Table/TutelaTable";
+import TutelaIframe from "./Tables/Tutelage/Iframes/Iframes";
+import TutelaExcel from "./Tables/Tutelage/Excel/Excel";
 
 import styles from "./Dashboard.module.css";
 import userSvg from "../../assets/svg/user.svg";
 import emailSvg from "../../assets/svg/menu/email.svg";
 import passSvg from "../../assets/svg/menu/password.svg";
 import logoutSvg from "../../assets/svg/menu/logout.svg";
-import { UserRol } from "../../interfaces/users";
 import ResetPassword from "./ResetPassword/ResetPassword";
 import ResetEmail from "./ResetEmail/ResetEmail";
 import swal from "sweetalert";
@@ -24,7 +29,7 @@ import swal from "sweetalert";
 export default function Dashboard() {
   const dispatch = useDispatch();
   const redirect = useNavigate();
-  const user = useSelector((state: RootState) => state.user);
+  const user = useSelector((state: RootState) => state.sesion);
   const [table, setTable] = useState<number>(0);
   const [resetPassword, setResetPassword] = useState(false);
   const [resetEmail, setResetEmail] = useState(false);
@@ -111,20 +116,26 @@ export default function Dashboard() {
           ) : table === 1 ? (
             <UsersTable />
           ) : table === 2 ? (
-            <JudicialProcessesTable />
+            <ProcessesTable />
           ) : table === 3 ? (
-            <Iframe />
+            <ProcessesIframe />
           ) : table === 4 ? (
-            <Excel />
+            <ProcessesExcel />
+          ) : table === 5 ? (
+            <TutelaTable />
+          ) : table === 6 ? (
+            <TutelaIframe />
+          ) : table === 7 ? (
+            <TutelaExcel />
           ) : null
         ) : table === 0 ? (
           <Home />
         ) : table === 1 ? (
-          <JudicialProcessesTable />
+          <ProcessesTable />
         ) : table === 2 ? (
-          <Iframe />
+          <ProcessesIframe />
         ) : table === 3 ? (
-          <Excel />
+          <ProcessesExcel />
         ) : null}
       </div>
     </div>

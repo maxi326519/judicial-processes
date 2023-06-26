@@ -1,27 +1,30 @@
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../../interfaces/RootState";
+import { RootState } from "../../../../../interfaces/RootState";
 import { useEffect, useState } from "react";
+import { IFrames } from "../../../../../interfaces/iframes";
+import {
+  closeLoading,
+  openLoading,
+} from "../../../../../redux/actions/loading";
 import {
   deleteIframe,
-  getIframe,
+  getIframes,
   setIframe,
   updateIframe,
-} from "../../../../redux/actions/iframe";
+} from "../../../../../redux/actions/Processes/iframe";
+import swal from "sweetalert";
 
+import IFrameRenderer from "./IframeRender/IframeRender";
 import IFramesRow from "./IFramesRow/IFramesRow";
 import Form from "./Form/Form";
 
 import styles from "./Iframes.module.css";
-import loadingGif from "../../../../assets/img/loading.gif";
-import errorSvg from "../../../../assets/svg/error.svg";
-import swal from "sweetalert";
-import { IFrames } from "../../../../interfaces/iframes";
-import IFrameRenderer from "./IframeRender/IframeRender";
-import { closeLoading, openLoading } from "../../../../redux/actions/loading";
+import loadingGif from "../../../../../assets/img/loading.gif";
+import errorSvg from "../../../../../assets/svg/error.svg";
 
 const IFrameInput = () => {
   const dispatch = useDispatch();
-  const iframes = useSelector((state: RootState) => state.iframes);
+  const iframes = useSelector((state: RootState) => state.processes.iframes);
   const [dataEdit, setDataEdit] = useState<IFrames | undefined>();
   const [dataView, setDataView] = useState<IFrames | undefined>();
   const [form, setForm] = useState(false);
@@ -53,7 +56,7 @@ const IFrameInput = () => {
   function handleGetIFrames() {
     setLoading(true);
     setError(false);
-    dispatch<any>(getIframe())
+    dispatch<any>(getIframes())
       .then(() => {
         setLoading(false);
       })
@@ -166,9 +169,9 @@ const IFrameInput = () => {
                 <th>No hay iframes</th>
               </tr>
             ) : (
-              iframes?.map((iframe: IFrames, i) => (
+              iframes?.map((iframe: IFrames) => (
                 <IFramesRow
-                  key={i}
+                  key={iframe.id}
                   iframe={iframe}
                   handleEdit={handleEdit}
                   handleView={handleView}

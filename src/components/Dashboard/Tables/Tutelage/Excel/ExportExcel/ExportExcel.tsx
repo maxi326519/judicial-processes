@@ -1,19 +1,15 @@
-import {
-  ProcessesDetails,
-  ProcessesState,
-} from "../../../../../interfaces/JudicialProcesses";
+import { TutelaDetails } from "../../../../../../interfaces/Tutelas/data";
 
-  import Excel from "./Excel/Excel";
+import Excel from "./Excel/Excel";
 
 import styles from "./ExportExcel.module.css";
 
 interface Props {
-  data: ProcessesDetails[];
-  state: ProcessesState | string;
+  data: TutelaDetails[];
   handleClose: () => void;
 }
 
-export default function ExportExcel({ data, state, handleClose }: Props) {
+export default function ExportExcel({ data, handleClose }: Props) {
   return (
     <div className={styles.background}>
       <form>
@@ -22,7 +18,7 @@ export default function ExportExcel({ data, state, handleClose }: Props) {
           <div className="btn-close" onClick={handleClose} />
         </div>
         {data.length > 0 ? (
-          <Excel data={data} state={state} handleClose={handleClose} />
+          <Excel data={data} handleClose={handleClose} />
         ) : null}
       </form>
     </div>

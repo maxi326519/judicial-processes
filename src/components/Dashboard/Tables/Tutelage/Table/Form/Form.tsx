@@ -1,40 +1,292 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../../../interfaces/RootState";
-import useJudicialProcesses from "../../../../../hooks/useJudicialProcesses";
-import swal from "sweetalert";
+import { RootState } from "../../../../../../interfaces/RootState";
+import useTutelas from "../../../../../../hooks/Tutela/useTutelas";
 import {
-  setProcesses,
-  updateProcesses,
-} from "../../../../../redux/actions/judicialProcesses";
+  setTutelas,
+  updateTutelas,
+} from "../../../../../../redux/actions/Tutelas/tutelas";
 import {
   closeLoading,
   openLoading,
-} from "../../../../../redux/actions/loading";
+} from "../../../../../../redux/actions/loading";
+import swal from "sweetalert";
+
+import Input from "../../../../../../component/Input";
+import SelectInput from "../../../../../../component/SelectInput";
+import TextareaInput from "../../../../../../component/TextareaInput";
 
 import styles from "./Form.module.css";
-import { UserRol } from "../../../../../interfaces/users";
 
 interface Props {
   handleClose: () => void;
 }
 
 export default function Form({ handleClose }: Props) {
-  const user = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
-  const {
-    judicialProcesses,
-    errors,
-    validations,
-    reset,
-    setJudicialProcesses,
-    setErrors,
-  } = useJudicialProcesses();
+  const { tutela, errors, validations, reset, setTutela, setErrors } =
+    useTutelas();
   const processesDetails = useSelector(
-    (state: RootState) => state.processes.processesDetails
+    (state: RootState) => state.tutelas.details
   );
-  const lists = useSelector((state: RootState) => state.lists);
+  const lists = useSelector((state: RootState) => state.tutelas.lists);
   const [errorLength, setErrorLength] = useState<number>(0);
+
+  const inputs = [
+    {
+      value: tutela.idSiproj,
+      name: "idSiproj",
+      label: "ID Siproj",
+      inputType: "number",
+      error: errors.idSiproj,
+    },
+    {
+      value: tutela.nroTutela,
+      name: "nroTutela",
+      label: "Nro de tutela",
+      inputType: "text",
+      error: errors.nroTutela,
+    },
+    {
+      value: tutela.abogado,
+      name: "abogado",
+      label: "Abogado",
+      inputType: "select",
+      error: errors.abogado,
+    },
+    {
+      value: tutela.tipo,
+      name: "tipo",
+      label: "Tipo de tutela",
+      inputType: "selects",
+      error: errors.tipo,
+    },
+    {
+      value: tutela.fecha,
+      name: "fecha",
+      label: "Fecha",
+      inputType: "date",
+      error: errors.fecha,
+    },
+    {
+      value: tutela.radicado,
+      name: "radicado",
+      label: "Radicado",
+      inputType: "text",
+      error: errors.radicado,
+    },
+    {
+      value: tutela.demandanteId,
+      name: "demandanteId",
+      label: "Identificación del demandante",
+      inputType: "text",
+      error: errors.demandanteId,
+    },
+    {
+      value: tutela.demandante,
+      name: "demandante",
+      label: "Demandante",
+      inputType: "text",
+      error: errors.demandante,
+    },
+    {
+      value: tutela.demandado,
+      name: "demandado",
+      label: "Demandado",
+      inputType: "text",
+      error: errors.demandado,
+    },
+    {
+      value: tutela.temaTutela,
+      name: "temaTutela",
+      label: "Tema de la tutela",
+      inputType: "select",
+      list: lists.temaTutela,
+      error: errors.temaTutela,
+    },
+    {
+      value: tutela.derechoVulnerado,
+      name: "derechoVulnerado",
+      label: "Derecho vulnerado",
+      inputType: "select",
+      error: errors.derechoVulnerado,
+    },
+    {
+      value: tutela.extranjero,
+      name: "extranjero",
+      label: "Extranjero",
+      inputType: "checkbox",
+      error: errors.extranjero,
+    },
+    {
+      value: tutela.concepto,
+      name: "concepto",
+      label: "Concepto",
+      inputType: "text",
+      error: errors.concepto,
+    },
+    {
+      value: tutela.termino,
+      name: "termino",
+      label: "Término",
+      inputType: "text",
+      error: errors.termino,
+    },
+    {
+      value: tutela.remite,
+      name: "remite",
+      label: "Remite",
+      inputType: "select",
+      error: errors.remite,
+    },
+    {
+      value: tutela.fechaVencimiento,
+      name: "fechaVencimiento",
+      label: "Fecha de vencimiento",
+      inputType: "date",
+      error: errors.fechaVencimiento,
+    },
+    {
+      value: tutela.fechaRespuesta,
+      name: "fechaRespuesta",
+      label: "Fecha de respuesta",
+      inputType: "date",
+      error: errors.fechaRespuesta,
+    },
+    {
+      value: tutela.radicadoSalida,
+      name: "radicadoSalida",
+      label: "Radicado de salida",
+      inputType: "text",
+      error: errors.radicadoSalida,
+    },
+    {
+      value: tutela.validacionRespuesta,
+      name: "validacionRespuesta",
+      label: "Validacion de la respuesta",
+      inputType: "text",
+      error: errors.validacionRespuesta,
+    },
+    {
+      value: tutela.oficioAdicional,
+      name: "oficioAdicional",
+      label: "Oficio adicional",
+      inputType: "text",
+      error: errors.oficioAdicional,
+    },
+    {
+      value: tutela.fallo1raInst,
+      name: "fallo1raInst",
+      label: "Fallo de la 1ra instancia",
+      inputType: "select",
+      error: errors.fallo1raInst,
+    },
+    {
+      value: tutela.fechaFallo1raInst,
+      name: "fechaFallo1raInst",
+      label: "Fecha del fallo de la 1ra instancia",
+      inputType: "date",
+      error: errors.fechaFallo1raInst,
+    },
+    {
+      value: tutela.observacionFallo1raInst,
+      name: "observacionFallo1raInst",
+      label: "Observación del fallo de la 1ra instancia",
+      inputType: "textarea",
+      error: errors.observacionFallo1raInst,
+    },
+    {
+      value: tutela.terminoCumplimiento1raInst,
+      name: "terminoCumplimiento1raInst",
+      label: "Término de cumplimiento de la 1ra instancia",
+      inputType: "text",
+      error: errors.terminoCumplimiento1raInst,
+    },
+    {
+      value: tutela.cumplimiento1raInst,
+      name: "cumplimiento1raInst",
+      label: "Cumplimiento de la 1ra instancia",
+      inputType: "text",
+      error: errors.cumplimiento1raInst,
+    },
+    {
+      value: tutela.fechaCumplimiento1raInst,
+      name: "fechaCumplimiento1raInst",
+      label: "Fecha de cumplimiento de la 1ra instancia",
+      inputType: "date",
+      error: errors.fechaCumplimiento1raInst,
+    },
+    {
+      value: tutela.impugnacionSDP,
+      name: "impugnacionSDP",
+      label: "Impugnacion SDP",
+      inputType: "text",
+      error: errors.impugnacionSDP,
+    },
+    {
+      value: tutela.fechaImpugnacion,
+      name: "fechaImpugnacion",
+      label: "Fecha de impugnación",
+      inputType: "date",
+      error: errors.fechaImpugnacion,
+    },
+    {
+      value: tutela.fallo2daInst,
+      name: "fallo2daInst",
+      label: "Fallo de la 2da instancia",
+      inputType: "select",
+      error: errors.fallo2daInst,
+    },
+    {
+      value: tutela.fechaFallo2daInst,
+      name: "fechaFallo2daInst",
+      label: "Fecha de fallo de la 2da instancia",
+      inputType: "date",
+      error: errors.fechaFallo2daInst,
+    },
+    {
+      value: tutela.observacionFallo2daInst,
+      name: "observacionFallo2daInst",
+      label: "Observación fallo de la 2da instancia",
+      inputType: "textarea",
+      error: errors.observacionFallo2daInst,
+    },
+    {
+      value: tutela.terminoCumplimiento2daInst,
+      name: "terminoCumplimiento2daInst",
+      label: "Término de cumplimiento de la 2da instancia",
+      inputType: "text",
+      error: errors.terminoCumplimiento2daInst,
+    },
+    {
+      value: tutela.cumplimiento2daInst,
+      name: "cumplimiento2daInst",
+      label: "Cumplimiento de la 2da instancia",
+      inputType: "text",
+      error: errors.cumplimiento2daInst,
+    },
+    {
+      value: tutela.fechaCumplimiento2daInst,
+      name: "fechaCumplimiento2daInst",
+      label: "Fecha cumplimiento de la 2da instancia",
+      inputType: "date",
+      error: errors.fechaCumplimiento2daInst,
+    },
+    {
+      value: tutela.incidenteDesacato,
+      name: "incidenteDesacato",
+      label: "Incidente de desacato",
+      inputType: "text",
+      error: errors.incidenteDesacato,
+    },
+    {
+      value: tutela.observacionesGenerales,
+      name: "observacionesGenerales",
+      label: "Observaciones generales",
+      inputType: "textarea",
+      error: errors.observacionesGenerales,
+    },
+  ];
 
   useEffect(() => {
     return () => {
@@ -58,9 +310,7 @@ export default function Form({ handleClose }: Props) {
     if (validations()) {
       dispatch(openLoading());
       dispatch<any>(
-        processesDetails
-          ? updateProcesses(judicialProcesses)
-          : setProcesses(judicialProcesses)
+        processesDetails ? updateTutelas(tutela) : setTutelas(tutela)
       )
         .then(() => {
           dispatch(closeLoading());
@@ -84,7 +334,7 @@ export default function Form({ handleClose }: Props) {
       HTMLSelectElement | HTMLInputElement | HTMLTextAreaElement
     >
   ) {
-    setJudicialProcesses(event);
+    setTutela(event);
   }
 
   function handleLocalClose() {
@@ -98,796 +348,35 @@ export default function Form({ handleClose }: Props) {
         <div className="btn-close" onClick={handleLocalClose} />
       </div>
       <div className={styles.grid}>
-        {/* ID SIPROJ */}
-        <div className="form-floating">
-          <input
-            id="idSiproj"
-            name="idSiproj"
-            className={`form-control ${errors.idSiproj ? "is-invalid" : ""}`}
-            type="number"
-            value={judicialProcesses.idSiproj}
-            onChange={handleChange}
-            disabled={processesDetails ? true : false}
-          />
-          <label htmlFor="idSiproj" className="form-label">
-            ID Siproj:
-          </label>
-          <small>{errors.idSiproj}</small>
-        </div>
-
-        {/* APODERADO ACTUAL */}
-        <div className="form-floating">
-          <select
-            id="apoderadoActual"
-            name="apoderadoActual"
-            className={`form-select ${
-              !errors.apoderadoActual ? "" : "is-invalid"
-            }`}
-            value={judicialProcesses.apoderadoActual}
-            onChange={handleChange}
-            disabled={user.rol === UserRol.User}
-          >
-            <option value="">Seleccionar</option>
-            {lists.apoderados.map((item, i) => (
-              <option key={i} value={item}>
-                {item}
-              </option>
-            ))}
-          </select>
-          <label htmlFor="apoderadoActual" className="form-label">
-            Apoderado Actual:
-          </label>
-          <small>{errors.apoderadoActual}</small>
-        </div>
-
-        {/* APODERADO ANTERIOR */}
-        <div className="form-floating">
-          <input
-            id="apoderadoAnterior"
-            name="apoderadoAnterior"
-            className="form-control"
-            type="text"
-            value={judicialProcesses.apoderadoAnterior}
-            onChange={handleChange}
-          />
-          <label htmlFor="apoderadoAnterior" className="form-label">
-            Apoderado Anterior:
-          </label>
-        </div>
-
-        {/* PROCESO ALTO IMPACTO */}
-        <div className="form-floating">
-          <select
-            id="procesoAltoImpacto"
-            name="procesoAltoImpacto"
-            className="form-select"
-            value={judicialProcesses.procesoAltoImpacto}
-            onChange={handleChange}
-          >
-            <option value="">Seleccionar</option>
-            {lists.procesoAltoImpacto.map((item, i) => (
-              <option key={i} value={item}>
-                {item}
-              </option>
-            ))}
-          </select>
-          <label htmlFor="procesoAltoImpacto" className="form-label">
-            Proceso Alto Impacto:
-          </label>
-        </div>
-
-        {/* RAMA JUDICIAL INICIAL */}
-        <div className="form-floating">
-          <input
-            id="radRamaJudicialInicial"
-            name="radRamaJudicialInicial"
-            className={`form-control ${
-              !errors.radRamaJudicialInicial ? "" : "is-invalid"
-            }`}
-            type="text"
-            value={judicialProcesses.radRamaJudicialInicial}
-            onChange={handleChange}
-          />
-          <label htmlFor="radRamaJudicialInicial" className="form-label">
-            Rad. Rama Judicial Inicial:
-          </label>
-          <small>{errors.radRamaJudicialInicial}</small>
-        </div>
-
-        {/* RAMA JUDICIAL ACTUAL */}
-        <div className="form-floating">
-          <input
-            id="radRamaJudicialActual"
-            name="radRamaJudicialActual"
-            className={`form-control ${
-              !errors.radRamaJudicialActual ? "" : "is-invalid"
-            }`}
-            type="text"
-            value={judicialProcesses.radRamaJudicialActual}
-            onChange={handleChange}
-          />
-          <label htmlFor="radRamaJudicialActual" className="form-label">
-            Rad. Rama Judicial Actual:
-          </label>
-          <small>{errors.radRamaJudicialActual}</small>
-        </div>
-
-        <div className={styles.typesInputs}>
-          {/* TIPO DE PROCESO: */}
-          <div className="form-floating">
-            <select
-              id="tipoProceso"
-              name="tipoProceso"
-              className={`form-select ${
-                errors.tipoProceso ? "is-invalid" : ""
-              }`}
-              value={judicialProcesses.tipoProceso}
-              onChange={handleChange}
-            >
-              <option value="">Seleccionar</option>
-              {lists.tipoProceso.map((item, i) => (
-                <option key={i} value={item.tipo}>
-                  {item.tipo}
-                </option>
-              ))}
-            </select>
-            <label htmlFor="tipoProceso" className="form-label">
-              Tipo de proceso:
-            </label>
-            <small>{errors.tipoProceso}</small>
-          </div>
-
-          {/* DIAS TERMINOS DE CONTESTACION */}
-          <div className="form-floating">
-            <input
-              id="diasTerminoContestacion"
-              name="diasTerminoContestacion"
-              className={`form-control ${styles.formuladas}`}
-              type="number"
-              value={judicialProcesses.diasTerminoContestacion}
-              disabled={true}
+        {inputs.map((data) =>
+          data.inputType === "select" ? (
+            <SelectInput
+              name={data.name}
+              value={data.value}
+              label={data.label}
+              list={data.list!}
+              error={data.error}
+              handleChange={handleChange}
             />
-            <label htmlFor="diasTerminoContestacion" className="form-label">
-              Días términos de contestación:
-            </label>
-          </div>
-        </div>
-
-        {/* FECHA DE NOTIFICACION DE LA DEMANDA */}
-        <div className="form-floating">
-          <input
-            id="fechaNotificacion"
-            name="fechaNotificacion"
-            className={`form-control ${
-              !errors.fechaNotificacion ? "" : "is-invalid"
-            }`}
-            type="date"
-            value={
-              judicialProcesses.fechaNotificacion?.toISOString()?.split("T")[0]
-            }
-            onChange={handleChange}
-          />
-          <label htmlFor="fechaNotificacion" className="form-label">
-            Fecha de notificación de la demanda:
-          </label>
-          <small>{errors.fechaNotificacion}</small>
-        </div>
-
-        {/* FECHA DE CONTESTACION DE LA DEMANDA */}
-        <div className="form-floating">
-          <input
-            id="fechaContestacion"
-            name="fechaContestacion"
-            className="form-control"
-            type="date"
-            value={
-              judicialProcesses.fechaContestacion?.toISOString().split("T")[0]
-            }
-            onChange={handleChange}
-          />
-          <label htmlFor="fechaContestacion" className="form-label">
-            Fecha de contestación de la demanda:
-          </label>
-        </div>
-
-        {/* FECHA LIMITE PROBABLE DE CONTESTACION */}
-        <div className="form-floating">
-          <input
-            id="fechaLimiteProbContestacion"
-            name="fechaLimiteProbContestacion"
-            className={`form-control ${styles.formuladas}`}
-            type="date"
-            value={
-              judicialProcesses.fechaLimiteProbContestacion
-                ?.toISOString()
-                .split("T")[0]
-            }
-            disabled={true}
-          />
-          <label htmlFor="fechaLimiteProbContestacion" className="form-label">
-            Fecha límite de la contestación:
-          </label>
-        </div>
-
-        {/* VALIDACION DE CONTESTACION */}
-        <div className="form-floating">
-          <input
-            id="validacionContestacion"
-            name="validacionContestacion"
-            className={`form-control ${styles.formuladas}`}
-            type="text"
-            value={judicialProcesses.validacionContestacion}
-            disabled={true}
-          />
-          <label htmlFor="validacionContestacion" className="form-label">
-            Validación de la contestación:
-          </label>
-        </div>
-
-        {/* CALIDAD EN LA QUE ATÚA LA ENTIDAD */}
-        <div className="form-floating">
-          <select
-            id="calidadActuacionEntidad"
-            name="calidadActuacionEntidad"
-            className={`form-select ${
-              !errors.calidadActuacionEntidad ? "" : "is-invalid"
-            }`}
-            value={judicialProcesses.calidadActuacionEntidad}
-            onChange={handleChange}
-          >
-            <option value="">Seleccionar</option>
-            {lists.calidadActuacionEntidad.map((item, i) => (
-              <option key={i} value={item}>
-                {item}
-              </option>
-            ))}
-          </select>
-          <label htmlFor="calidadActuacionEntidad" className="form-label">
-            Calidad en al que actúa la entidad:
-          </label>
-          <small>{errors.calidadActuacionEntidad}</small>
-        </div>
-
-        {/* DEMANDADOS */}
-        <div className="form-floating">
-          <input
-            id="demandados"
-            name="demandados"
-            className={`form-control ${errors.demandados ? "is-invalid" : ""}`}
-            type="text"
-            value={judicialProcesses.demandados}
-            onChange={handleChange}
-          />
-          <label htmlFor="demandados" className="form-label">
-            Demandados:
-          </label>
-          <small>{errors.demandados}</small>
-        </div>
-
-        {/* ID DEL DEMANDANTE */}
-        <div className="form-floating">
-          <input
-            id="idDemanante"
-            name="idDemanante"
-            className={`form-control ${
-              !errors.idDemanante ? "" : "is-invalid"
-            }`}
-            type="text"
-            value={judicialProcesses.idDemanante}
-            onChange={handleChange}
-          />
-          <label htmlFor="idDemanante" className="form-label">
-            ID del demandante:
-          </label>
-          <small>{errors.idDemanante}</small>
-        </div>
-
-        {/* DEMANDANTE */}
-        <div className="form-floating">
-          <input
-            id="demandante"
-            name="demandante"
-            className={`form-control ${errors.demandante ? "is-invalid" : ""}`}
-            type="text"
-            value={judicialProcesses.demandante}
-            onChange={handleChange}
-          />
-          <label htmlFor="demandante" className="form-label">
-            Demandante:
-          </label>
-          <small>{errors.demandante}</small>
-        </div>
-
-        {/* DESPACHO INICIAL */}
-        <div className="form-floating">
-          <select
-            id="despachoInicial"
-            name="despachoInicial"
-            className={`form-select ${
-              !errors.despachoInicial ? "" : "is-invalid"
-            }`}
-            value={judicialProcesses.despachoInicial}
-            onChange={handleChange}
-          >
-            <option value="">Seleccionar</option>
-            {lists.despachoInicial.map((item, i) => (
-              <option key={i} value={item}>
-                {item}
-              </option>
-            ))}
-          </select>
-          <label htmlFor="despachoInicial" className="form-label">
-            Despacho inicial:
-          </label>
-          <small>{errors.despachoInicial}</small>
-        </div>
-
-        {/* DESPACHO ACTUAL */}
-        <div className="form-floating">
-          <select
-            id="despachoActual"
-            name="despachoActual"
-            className={`form-select ${
-              !errors.despachoActual ? "" : "is-invalid"
-            }`}
-            value={judicialProcesses.despachoActual}
-            onChange={handleChange}
-          >
-            <option value="">Seleccionar</option>
-            {lists.despachoActual.map((item, i) => (
-              <option key={i} value={item}>
-                {item}
-              </option>
-            ))}
-          </select>
-          <label htmlFor="despachoActual" className="form-label">
-            Despacho actual:
-          </label>
-          <small>{errors.despachoActual}</small>
-        </div>
-
-        {/* POSICION SDP */}
-        <div className="form-floating">
-          <select
-            id="posicionSDP"
-            name="posicionSDP"
-            className="form-select"
-            value={judicialProcesses.posicionSDP}
-            onChange={handleChange}
-          >
-            <option value="">Seleccionar</option>
-            {lists.posicionSDP.map((item, i) => (
-              <option key={i} value={item}>
-                {item}
-              </option>
-            ))}
-          </select>
-          <label htmlFor="posicionSDP" className="form-label">
-            Posicion SDP:
-          </label>
-        </div>
-
-        {/* TEMA GENERAL */}
-        <div className="form-floating">
-          <select
-            id="temaGeneral"
-            name="temaGeneral"
-            className={`form-select ${!errors.temaGeneral ? "" : "is-invalid"}`}
-            value={judicialProcesses.temaGeneral}
-            onChange={handleChange}
-          >
-            <option value="">Seleccionar</option>
-            {lists.temaGeneral.map((item, i) => (
-              <option key={i} value={item}>
-                {item}
-              </option>
-            ))}
-          </select>
-          <label htmlFor="temaGeneral" className="form-label">
-            Tema general:
-          </label>
-          <small>{errors.temaGeneral}</small>
-        </div>
-
-        {/* CUANTIA ESTIMADA */}
-        <div className="form-floating">
-          <input
-            id="cuantiaEstimada"
-            name="cuantiaEstimada"
-            className={`form-control ${
-              !errors.cuantiaEstimada ? "" : "is-invalid"
-            }`}
-            type="number"
-            value={judicialProcesses.cuantiaEstimada}
-            onChange={handleChange}
-          />
-          <label htmlFor="cuantiaEstimada" className="form-label">
-            Cuantia estimada:
-          </label>
-          <small>{errors.cuantiaEstimada}</small>
-        </div>
-
-        {/* VALOR DE LAS PRETENSIONES EN SMLVM */}
-        <div className="form-floating">
-          <input
-            id="valorPretensionesSMLVM"
-            name="valorPretensionesSMLVM"
-            className={`form-control ${styles.formuladas}`}
-            type="number"
-            value={judicialProcesses.valorPretensionesSMLVM}
-            disabled={true}
-          />
-          <label htmlFor="valorPretensionesSMLVM" className="form-label">
-            Valor de las pretesiones en SMLVM:
-          </label>
-        </div>
-
-        {/* PRETENSION ASUNTO */}
-        <div className="form-floating">
-          <textarea
-            id="pretensionAsunto"
-            name="pretensionAsunto"
-            className={`form-control ${
-              !errors.pretensionAsunto ? "" : "is-invalid"
-            }`}
-            value={judicialProcesses.pretensionAsunto}
-            onChange={handleChange}
-          />
-          <label htmlFor="pretensionAsunto" className="form-label">
-            Pretension asunto:
-          </label>
-          <small>{errors.pretensionAsunto}</small>
-        </div>
-
-        {/* INSTANCIA DEL PROCESO */}
-        <div className="form-floating">
-          <select
-            id="instanciaProceso"
-            name="instanciaProceso"
-            className={`form-select ${
-              !errors.instanciaProceso ? "" : "is-invalid"
-            }`}
-            value={judicialProcesses.instanciaProceso}
-            onChange={handleChange}
-          >
-            <option value="">Seleccionar</option>
-            {lists.instanciaProceso.map((item, i) => (
-              <option key={i} value={item}>
-                {item}
-              </option>
-            ))}
-          </select>
-          <label htmlFor="instanciaProceso" className="form-label">
-            Instancia del proceso:
-          </label>
-          <small>{errors.instanciaProceso}</small>
-        </div>
-
-        {/* FECHA DEL PROCESO */}
-        <div className="form-floating">
-          <input
-            id="fechaProceso"
-            name="fechaProceso"
-            className="form-control"
-            type="date"
-            value={judicialProcesses.fechaProceso?.toISOString().split("T")[0]}
-            onChange={handleChange}
-          />
-          <label htmlFor="fechaProceso" className="form-label">
-            Fecha del proceso:
-          </label>
-        </div>
-
-        {/* ETAPA PROCESAL */}
-        <div className="form-floating">
-          <select
-            id="etapaProcesal"
-            name="etapaProcesal"
-            className={`form-select ${
-              !errors.etapaProcesal ? "" : "is-invalid"
-            }`}
-            value={judicialProcesses.etapaProcesal}
-            onChange={handleChange}
-          >
-            <option value="">Seleccionar</option>
-            {lists.etapaProcesal.map((item, i) => (
-              <option key={i} value={item}>
-                {item}
-              </option>
-            ))}
-          </select>
-          <label htmlFor="etapaProcesal" className="form-label">
-            Etapa procesal:
-          </label>
-          <small>{errors.etapaProcesal}</small>
-        </div>
-
-        {/* ULTIMO ESTADO DEL PROCESO */}
-        <div className="form-floating">
-          <textarea
-            id="ultimoEstadoProceso"
-            name="ultimoEstadoProceso"
-            className="form-control"
-            value={judicialProcesses.ultimoEstadoProceso}
-            onChange={handleChange}
-          />
-          <label htmlFor="ultimoEstadoProceso" className="form-label">
-            último estado del proceso:
-          </label>
-        </div>
-
-        {/* FECHA DE FALLO DE PRIMERA INSTANCIA */}
-        <div className="form-floating">
-          <input
-            id="fechaFalloPrimeraInstancia"
-            name="fechaFalloPrimeraInstancia"
-            className="form-control"
-            type="date"
-            value={
-              judicialProcesses.fechaFalloPrimeraInstancia
-                ?.toISOString()
-                .split("T")[0]
-            }
-            onChange={handleChange}
-          />
-          <label htmlFor="fechaFalloPrimeraInstancia" className="form-label">
-            Fecha de fallo de primera instancia:
-          </label>
-        </div>
-
-        {/* SENTIDO DEL FALLO PRIMERA INSTANCIA */}
-        <div className="form-floating">
-          <select
-            id="sentidoFalloPrimeraInstancia"
-            name="sentidoFalloPrimeraInstancia"
-            className="form-select"
-            value={judicialProcesses.sentidoFalloPrimeraInstancia}
-            onChange={handleChange}
-          >
-            <option value="">Seleccionar</option>
-            {lists.sentidoFalloPrimeraInstancia.map((item, i) => (
-              <option key={i} value={item}>
-                {item}
-              </option>
-            ))}
-          </select>
-          <label htmlFor="sentidoFalloPrimeraInstancia" className="form-label">
-            Sentido del fallo primera instancia:
-          </label>
-        </div>
-
-        {/* FECHA DE PRESENTACION DE RECURSOS */}
-        <div className="form-floating">
-          <input
-            id="fechaPresentacionRecurso"
-            name="fechaPresentacionRecurso"
-            className="form-control"
-            type="date"
-            value={
-              judicialProcesses.fechaPresentacionRecurso
-                ?.toISOString()
-                .split("T")[0]
-            }
-            onChange={handleChange}
-          />
-          <label htmlFor="fechaPresentacionRecurso" className="form-label">
-            Fecha de presentacion de recursos:
-          </label>
-        </div>
-
-        {/* FECHA FALLO DE SEGUNDA INSTANCIA */}
-        <div className="form-floating">
-          <input
-            id="fechaFalloSegundaInstancia"
-            name="fechaFalloSegundaInstancia"
-            className="form-control"
-            type="date"
-            value={
-              judicialProcesses.fechaFalloSegundaInstancia
-                ?.toISOString()
-                .split("T")[0]
-            }
-            onChange={handleChange}
-          />
-          <label htmlFor="fechaFalloSegundaInstancia" className="form-label">
-            Fecha fallo de segunda instancia:
-          </label>
-        </div>
-
-        {/* SENTIDO DE FALLO DE SEGUNDA INSTANCIA */}
-        <div className="form-floating">
-          <select
-            id="sentidoFalloSegundaInstancia"
-            name="sentidoFalloSegundaInstancia"
-            className="form-select"
-            value={judicialProcesses.sentidoFalloSegundaInstancia}
-            onChange={handleChange}
-          >
-            <option value="">Seleccionar</option>
-            {lists.sentidoFalloSegundaInstancia.map((item, i) => (
-              <option key={i} value={item}>
-                {item}
-              </option>
-            ))}
-          </select>
-          <label htmlFor="sentidoFalloSegundaInstancia" className="form-label">
-            Sentido de fallo de segunda instancia:
-          </label>
-        </div>
-
-        {/* RESUMEN PRIMERA INSTANCIA */}
-        <div className="form-floating">
-          <textarea
-            id="resumenPrimeraInstancia"
-            name="resumenPrimeraInstancia"
-            className="form-control"
-            value={judicialProcesses.resumenPrimeraInstancia}
-            onChange={handleChange}
-          />
-          <label htmlFor="resumenPrimeraInstancia" className="form-label">
-            Resumen primera instancia:
-          </label>
-        </div>
-
-        {/* RESUMEN SEGUNDA INSTANCIA */}
-        <div className="form-floating">
-          <textarea
-            id="resumenSegundaInstancia"
-            name="resumenSegundaInstancia"
-            className="form-control"
-            value={judicialProcesses.resumenSegundaInstancia}
-            onChange={handleChange}
-          />
-          <label htmlFor="resumenSegundaInstancia" className="form-label">
-            Resumen segunda instancia:
-          </label>
-        </div>
-
-        {/* INCIDENTE */}
-        <div className="form-floating">
-          <select
-            id="incidente"
-            name="incidente"
-            className="form-select"
-            value={judicialProcesses.incidente}
-            onChange={handleChange}
-          >
-            <option value="">Seleccionar</option>
-            {lists.incidente.map((item, i) => (
-              <option key={i} value={item}>
-                {item}
-              </option>
-            ))}
-          </select>
-          <label htmlFor="incidente" className="form-label">
-            Incidente:
-          </label>
-        </div>
-
-        {/* ESTADO DEL INCIDENTE */}
-        <div className="form-floating">
-          <select
-            id="estadoIncidente"
-            name="estadoIncidente"
-            className="form-select"
-            value={judicialProcesses.estadoIncidente}
-            onChange={handleChange}
-          >
-            <option value="">Seleccionar</option>{" "}
-            {lists.estadoIncidente.map((item, i) => (
-              <option key={i} value={item}>
-                {item}
-              </option>
-            ))}
-          </select>
-          <label htmlFor="estadoIncidente" className="form-label">
-            Estado incidente:
-          </label>
-        </div>
-
-        {/* RESUMEN DEL INCIDENTE */}
-        <div className="form-floating">
-          <textarea
-            id="resumenIncidente"
-            name="resumenIncidente"
-            className="form-control"
-            value={judicialProcesses.resumenIncidente}
-            onChange={handleChange}
-          />
-          <label htmlFor="resumenIncidente" className="form-label">
-            Resumen incidente:
-          </label>
-        </div>
-
-        {/* OBSERVACIONES / COMENTARIOS */}
-        <div className="form-floating">
-          <textarea
-            id="observaciones"
-            name="observaciones"
-            className="form-control"
-            value={judicialProcesses.observaciones}
-            onChange={handleChange}
-          />
-          <label htmlFor="observaciones" className="form-label">
-            Observaciones:
-          </label>
-        </div>
-
-        {/* CALIFICACION CONTINGENTE */}
-        <div className="form-floating">
-          <select
-            id="calificacionContingente"
-            name="calificacionContingente"
-            className="form-select"
-            value={judicialProcesses.calificacionContingente}
-            onChange={handleChange}
-          >
-            <option value="">Seleccionar</option>
-            {lists.calificacionContingente.map((item, i) => (
-              <option key={i} value={item}>
-                {item}
-              </option>
-            ))}
-          </select>
-          <label htmlFor="calificacionContingente" className="form-label">
-            Calificacion contingente:
-          </label>
-        </div>
-
-        {/* ESTADO (ACTIVO O TERMINADO) */}
-        <div className="form-floating">
-          <select
-            id="estado"
-            name="estado"
-            className={`form-select ${errors.estado ? "is-invalid" : ""}`}
-            value={judicialProcesses.estado}
-            onChange={handleChange}
-          >
-            <option value="">Seleccionar</option>
-            {lists.estado.map((item, i) => (
-              <option key={i} value={item}>
-                {item}
-              </option>
-            ))}
-          </select>
-          <label htmlFor="estado" className="form-label">
-            Estado:
-          </label>
-          <small>{errors.estado}</small>
-        </div>
-
-        {/* FECHA DE TERMINACION */}
-        <div className="form-floating">
-          <input
-            id="fechaTerminacion"
-            name="fechaTerminacion"
-            className={`form-control ${
-              errors.fechaTerminacion ? "is-invalid" : ""
-            }`}
-            type="date"
-            value={
-              judicialProcesses.fechaTerminacion?.toISOString().split("T")[0]
-            }
-            onChange={handleChange}
-          />
-          <label htmlFor="fechaTerminacion" className="form-label">
-            Fecha terminación:
-          </label>
-          <small>{errors.fechaTerminacion}</small>
-        </div>
-      </div>
-      <div className={styles.btnContainer}>
-        <button type="submit" className="btn btn-success">
-          {processesDetails ? "Guardar proceso" : "Agregar proceso"}
-        </button>
-        {errorLength ? (
-          <small>
-            Hay{" "}
-            {errorLength === 1
-              ? `${errorLength} error`
-              : `${errorLength} errores`}
-          </small>
-        ) : null}
+          ) : data.inputType === "textArea" ? (
+            <TextareaInput
+              name={data.name}
+              value={data.value}
+              label={data.label}
+              error={data.error}
+              handleChange={handleChange}
+            />
+          ) : (
+            <Input
+              name={data.name}
+              value={data.value}
+              label={data.label}
+              type={data.inputType}
+              error={data.error}
+              handleChange={handleChange}
+            />
+          )
+        )}
       </div>
     </form>
   );

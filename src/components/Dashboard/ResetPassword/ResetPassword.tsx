@@ -1,11 +1,11 @@
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { closeLoading, openLoading } from "../../../redux/actions/loading";
+import { changePassword } from "../../../redux/actions/sesion";
+import { RootState } from "../../../interfaces/RootState";
+import swal from "sweetalert";
 
 import styles from "./ResetPassword.module.css";
-import { useDispatch, useSelector } from "react-redux";
-import swal from "sweetalert";
-import { closeLoading, openLoading } from "../../../redux/actions/loading";
-import { changePassword } from "../../../redux/actions/users";
-import { RootState } from "../../../interfaces/RootState";
 
 interface NewPassword {
   currentPassword: string;
@@ -31,7 +31,7 @@ const initNewPassword = {
 
 export default function ResetPassword({ handleClose }: Props) {
   const dispatch = useDispatch();
-  const user = useSelector((state: RootState) => state.user);
+  const user = useSelector((state: RootState) => state.sesion);
   const [newPassword, setNewPassword] = useState<NewPassword>(initNewPassword);
   const [error, setError] = useState<ErrorPassword>(initNewPassword);
 
@@ -42,7 +42,7 @@ export default function ResetPassword({ handleClose }: Props) {
       dispatch<any>(
         changePassword(newPassword.password, newPassword.currentPassword, user)
       )
-      .then(() => {
+        .then(() => {
           handleClose();
           dispatch(closeLoading());
           swal("Actualizado", "Se actualozó la contraseña", "success");

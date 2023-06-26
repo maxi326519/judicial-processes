@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import style from "./Form.module.css";
 import {
   ErrorIFrames,
   IFrames,
   initErrorIFrames,
   initIFrames,
-} from "../../../../../interfaces/iframes";
+} from "../../../../../../interfaces/iframes";
+
+import style from "./Form.module.css";
 
 interface Props {
   handleClose: () => void;

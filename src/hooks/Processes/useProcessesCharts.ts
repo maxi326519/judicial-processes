@@ -7,14 +7,14 @@ import {
   StageChartData,
   TypeChartData,
   initEntity,
-} from "../../interfaces/charts";
-import { setCharts } from "../../redux/actions/charts";
+} from "../../interfaces/Processes/charts";
+import { setCharts } from "../../redux/actions/Processes/charts";
 import { closeLoading, openLoading } from "../../redux/actions/loading";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebase/config";
-import { ProcessesDetails } from "../../interfaces/JudicialProcesses";
+import { ProcessDetails } from "../../interfaces/Processes/data";
 
-export default function useChart() {
+export default function useProcessChart() {
   const dispatch = useDispatch();
   const [entityChart, setEntityChart] = useState<EntityChartData>(initEntity);
   const [processesChart, setProcessesChart] = useState<ProcessesChartData[]>(
@@ -55,7 +55,7 @@ export default function useChart() {
       });
   }
 
-  function updateEntityChart(processes: ProcessesDetails[]) {
+  function updateEntityChart(processes: ProcessDetails[]) {
     let entityData = {
       demandante: 0,
       demandado: 0,
@@ -72,7 +72,7 @@ export default function useChart() {
     return entityData;
   }
 
-  function updateProcessesChart(processes: ProcessesDetails[]) {
+  function updateProcessesChart(processes: ProcessDetails[]) {
     let processesData: ProcessesChartData[] = [];
 
     processes.forEach((process) => {
@@ -119,7 +119,7 @@ export default function useChart() {
     return processesData;
   }
 
-  function updateStageChart(processes: ProcessesDetails[]) {
+  function updateStageChart(processes: ProcessDetails[]) {
     let stageData: StageChartData[] = [];
 
     processes.forEach((process) => {
@@ -152,7 +152,7 @@ export default function useChart() {
     return stageData;
   }
 
-  function updateTypeChart(processes: ProcessesDetails[]) {
+  function updateTypeChart(processes: ProcessDetails[]) {
     let typeData: TypeChartData[] = [];
 
     processes.forEach((process) => {
@@ -186,7 +186,7 @@ export default function useChart() {
   }
 
   return {
-    chart: {
+    processCharts: {
       entity: entityChart,
       processes: processesChart,
       stage: stageChart,

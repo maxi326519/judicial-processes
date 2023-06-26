@@ -1,20 +1,17 @@
 import * as XLSX from "xlsx";
-
-import styles from "./ImportExcel.module.css";
-import {
-  JudicialProcesses,
-  ProcessesDetails,
-  ProcessesState,
-} from "../../../../../interfaces/JudicialProcesses";
-import { Timestamp } from "firebase/firestore";
-import swal from "sweetalert";
-import { error } from "console";
 import { useDispatch } from "react-redux";
+import {
+  ProcessDetails,
+  ProcessState,
+} from "../../../../../../interfaces/Processes/data";
 import {
   closeLoading,
   openLoading,
-} from "../../../../../redux/actions/loading";
+} from "../../../../../../redux/actions/loading";
+import swal from "sweetalert";
 import moment from "moment";
+
+import styles from "./ImportExcel.module.css";
 
 interface Props {
   handleData: (data: any) => void;
@@ -66,7 +63,7 @@ export default function ImportExcel({ handleData, handleClose }: Props) {
   };
 
   function dataConvert(data: any) {
-    let newData: ProcessesDetails[] = [];
+    let newData: ProcessDetails[] = [];
     let idList: number[] = [];
 
     data.forEach((processes: any, i: number) => {
@@ -134,11 +131,10 @@ export default function ImportExcel({ handleData, handleClose }: Props) {
 
         calificacionContingente: textParser(processes[39] || ""),
         estado:
-          (textParser(processes[40]) as ProcessesState) ||
-          ProcessesState.Activo,
+          (textParser(processes[40]) as ProcessState) || ProcessState.Activo,
         fechaTerminacion: newDate(processes[41]),
       };
-      
+
       newData.push(currentData);
     });
 

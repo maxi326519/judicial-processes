@@ -11,7 +11,7 @@ const options = {
 };
 
 export default function EntityChart() {
-  const chartData = useSelector((state: RootState) => state.charts.entityChart);
+  const chartData = useSelector((state: RootState) => state.processes.charts.entityChart);
   const [data, setData] = useState<Array<Array<string | number>>>(example);
 
   useEffect(() => {

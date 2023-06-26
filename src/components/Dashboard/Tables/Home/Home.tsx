@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getCharts } from "../../../../redux/actions/charts";
+import { getCharts } from "../../../../redux/actions/Processes/charts";
 import { closeLoading, openLoading } from "../../../../redux/actions/loading";
 import { RootState } from "../../../../interfaces/RootState";
 import { UserRol } from "../../../../interfaces/users";
-import useChart from "../../../../hooks/useChart/useCharts";
+import useProcessCharts from "../../../../hooks/Processes/useProcessesCharts";
 import swal from "sweetalert";
 
 import EntityChart from "./EntityChart/EntityChart";
@@ -15,8 +15,8 @@ import styles from "./Home.module.css";
 
 export default function Home() {
   const dispatch = useDispatch();
-  const user = useSelector((state: RootState) => state.user);
-  const { chart, update } = useChart();
+  const user = useSelector((state: RootState) => state.sesion);
+  const { processCharts, update } = useProcessCharts();
 
   useEffect(() => {
     dispatch<any>(getCharts());

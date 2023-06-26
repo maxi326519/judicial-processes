@@ -1,12 +1,9 @@
 import { ThunkAction } from "redux-thunk";
-import {
-  Charts,
-  initCharts,
-} from "../../../../interfaces/Processes/charts";
+import { Charts, initCharts } from "../../../../interfaces/Processes/charts";
 import { RootState } from "../../../../interfaces/RootState";
 import { AnyAction } from "redux";
 import { Dispatch } from "react";
-import { collection, doc, getDoc, updateDoc } from "firebase/firestore";
+import { collection, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "../../../../firebase/config";
 
 export const SET_CHARTS = "SET_CHARTS";
@@ -41,12 +38,19 @@ export function getCharts(): ThunkAction<
   return async (dispatch: Dispatch<AnyAction>) => {
     try {
       const snapshot = await getDoc(processesDoc);
-      let charts = snapshot.data()?.charts;
+      let doc = snapshot.data();
+      let charts = {};
 
       // If lists don't existe, create it
-      if (!charts) {
+      console.log(doc);
+      if (!doc) {
+        charts = { ...initCharts };
+        await setDoc(processesDoc, { charts });
+      } else if (!charts) {
         charts = { ...initCharts };
         await updateDoc(processesDoc, { charts });
+      } else {
+        charts = doc.charts;
       }
 
       dispatch({

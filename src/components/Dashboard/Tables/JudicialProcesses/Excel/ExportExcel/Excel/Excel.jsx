@@ -2,7 +2,7 @@ import ReactExport from "react-export-excel";
 import { useEffect, useState } from "react";
 
 import style from "./Excel.module.css";
-import exportSvg from "../../../../../../assets/svg/export.svg";
+import exportSvg from "../../../../../../../assets/svg/export.svg";
 
 const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
@@ -16,10 +16,6 @@ export default function Excel({data, state, handleClose}) {
     if (state === "TERMINADO") setFilename("Procesos terminados");
     if (state === "") setFilename("Procesos");
   }, [state]);
-
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
 
   return (
     <ExcelFile

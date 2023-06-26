@@ -5,7 +5,7 @@ import {
   IFrames,
   initErrorIFrames,
   initIFrames,
-} from "../../../../../interfaces/iframes";
+} from "../../../../../../interfaces/iframes";
 
 interface Props {
   handleClose: () => void;

@@ -1,9 +1,13 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../../interfaces/RootState";
-import { closeLoading, openLoading } from "../../../../redux/actions/loading";
-import { UserRol } from "../../../../interfaces/users";
+import { RootState } from "../../../../../interfaces/RootState";
+import { UserRol } from "../../../../../interfaces/users";
+import { db } from "../../../../../firebase/config";
+import {
+  closeLoading,
+  openLoading,
+} from "../../../../../redux/actions/loading";
 import {
   Query,
   QuerySnapshot,
@@ -13,16 +17,15 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import { db } from "../../../../firebase/config";
 import {
   getProcesses,
   importProcesses,
-} from "../../../../redux/actions/judicialProcesses";
+} from "../../../../../redux/actions/Processes/processes";
 import {
-  JudicialProcesses,
-  ProcessesDetails,
-  ProcessesState,
-} from "../../../../interfaces/JudicialProcesses";
+  ProcessHeads,
+  ProcessDetails,
+  ProcessState,
+} from "../../../../../interfaces/Processes/data";
 import swal from "sweetalert";
 
 import ExcelRow from "./ExcelRow/ExcelRow";
@@ -30,10 +33,10 @@ import ImportExcel from "./ImportExcel/ImportExcel";
 import ExportExcel from "./ExportExcel/ExportExcel";
 
 import styles from "./Excel.module.css";
-import loadingSvg from "../../../../assets/img/loading.gif";
-import errorSvg from "../../../../assets/svg/error.svg";
-import importSvg from "../../../../assets/svg/import.svg";
-import exportSvg from "../../../../assets/svg/export.svg";
+import loadingSvg from "../../../../../assets/img/loading.gif";
+import errorSvg from "../../../../../assets/svg/error.svg";
+import importSvg from "../../../../../assets/svg/import.svg";
+import exportSvg from "../../../../../assets/svg/export.svg";
 
 enum actionType {
   import,
@@ -42,39 +45,37 @@ enum actionType {
 
 interface Data {
   head: [];
-  details: ProcessesDetails[];
+  details: ProcessDetails[];
 }
 
 const initData: Data = { head: [], details: [] };
 
 export default function Excel() {
   const dispatch = useDispatch();
-  const user = useSelector((state: RootState) => state.user);
-  const judicialProcesses = useSelector(
-    (state: RootState) => state.processes.judicialProcesses
-  );
-  const [rows, setRows] = useState<JudicialProcesses[]>([]);
+  const user = useSelector((state: RootState) => state.sesion);
+  const processes = useSelector((state: RootState) => state.processes.heads);
+  const [rows, setRows] = useState<ProcessHeads[]>([]);
   const [excelData, setExcelData] = useState([]);
   const [form, setForm] = useState<boolean>(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [state, setState] = useState<ProcessesState | string>("");
+  const [state, setState] = useState<ProcessState | string>("");
   const [data, setData] = useState<Data>(initData);
   const [action, setAction] = useState<actionType>(actionType.export);
   const [formExport, setFormExport] = useState(false);
 
   useEffect(() => {
-    if (judicialProcesses.length === 0) handleGetProcesses();
+    if (processes.length === 0) handleGetProcesses();
   }, []);
 
   useEffect(() => {
     setRows(
-      judicialProcesses.filter((processes) => {
+      processes.filter((processes) => {
         if (state !== "" && processes.estado !== state) return false;
         return true;
       })
     );
-  }, [judicialProcesses, state]);
+  }, [processes, state]);
 
   function handleGetProcesses() {
     setLoading(true);
@@ -93,10 +94,10 @@ export default function Excel() {
   function handleSelect(event: React.ChangeEvent<HTMLSelectElement>) {
     if (event.target.value === "") {
       setState("");
-    } else if (event.target.value === ProcessesState.Activo) {
-      setState(ProcessesState.Activo);
-    } else if (event.target.value === ProcessesState.Terminado) {
-      setState(ProcessesState.Terminado);
+    } else if (event.target.value === ProcessState.Activo) {
+      setState(ProcessState.Activo);
+    } else if (event.target.value === ProcessState.Terminado) {
+      setState(ProcessState.Terminado);
     }
   }
 
@@ -113,7 +114,7 @@ export default function Excel() {
         dispatch(closeLoading());
         setAction(actionType.export);
         setData(initData);
-        setRows(judicialProcesses);
+        setRows(processes);
 
         swal("Guardado", "Se guardaron todos los datos con exito", "success");
       })
@@ -250,8 +251,8 @@ export default function Excel() {
               onChange={handleSelect}
             >
               <option value="">Todos</option>
-              <option value={ProcessesState.Activo}>Activos</option>
-              <option value={ProcessesState.Terminado}>Terminados</option>
+              <option value={ProcessState.Activo}>Activos</option>
+              <option value={ProcessState.Terminado}>Terminados</option>
             </select>
             <span className={styles.counter}>
               {rows.length} procesos seleccionados
@@ -341,11 +342,8 @@ export default function Excel() {
                 <th>No hay procesos</th>
               </tr>
             ) : (
-              rows?.map((judicialProcesses: JudicialProcesses) => (
-                <ExcelRow
-                  key={judicialProcesses.idSiproj}
-                  judicialProcesses={judicialProcesses}
-                />
+              rows?.map((processes: ProcessHeads) => (
+                <ExcelRow key={processes.idSiproj} processes={processes} />
               ))
             )}
           </div>

@@ -22,6 +22,7 @@ export const UPDATE_TUTELAS = "UPDATE_TUTELAS";
 export const DELETE_TUTELAS = "DELETE_TUTELAS";
 
 export const GET_TUTELAS_DETAILS = "GET_TUTELAS_DETAILS";
+export const DELETE_TUTELA_DETAILS = "DELETE_TUTELA_DETAILS";
 export const IMPORT_TUTELAS = "IMPORT_TUTELAS";
 
 const dataColl = collection(db, "Data");
@@ -98,7 +99,7 @@ export function getTutelas(
   };
 }
 
-export function getDetails(
+export function getTutelaDetails(
   idSiproj: string
 ): ThunkAction<Promise<void>, RootState, null, AnyAction> {
   return async (dispatch: Dispatch<AnyAction>) => {
@@ -132,6 +133,12 @@ export function getDetails(
   };
 }
 
+export function deleteTutelaDetails() {
+  return {
+    type: DELETE_TUTELA_DETAILS,
+  };
+}
+
 export function updateTutelas(
   details: TutelaDetail
 ): ThunkAction<Promise<void>, RootState, null, AnyAction> {
@@ -162,7 +169,7 @@ export function updateTutelas(
   };
 }
 
-export function deleteTutelas(
+export function deleteTutela(
   tutelasId: number
 ): ThunkAction<Promise<void>, RootState, null, AnyAction> {
   return async (dispatch: Dispatch<AnyAction>) => {

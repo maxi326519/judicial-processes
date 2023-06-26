@@ -1,41 +1,41 @@
 import { useState, useEffect } from "react";
-import {
-  ErrorProcesses,
-  ProcessesDetails,
-  ProcessesState,
-  initErrorProcesses,
-  initProcessesDetails,
-} from "../../interfaces/JudicialProcesses";
 import { useSelector } from "react-redux";
 import { RootState } from "../../interfaces/RootState";
-import getLimitDate from "../../functions/getLimitDate";
 import { UserRol } from "../../interfaces/users";
+import getLimitDate from "../../functions/getLimitDate";
+import {
+  ProcessDetails,
+  ErrorProcesses,
+  initProcessDetails,
+  initErrorProcesses,
+  ProcessState,
+} from "../../interfaces/Processes/data";
 
 export default function useJudicialProcesses() {
-  const user = useSelector((state: RootState) => state.user);
+  const user = useSelector((state: RootState) => state.sesion);
   const [judicialProcesses, setJudicialProcesses] =
-    useState<ProcessesDetails>(initProcessesDetails);
+    useState<ProcessDetails>(initProcessDetails);
   const [errors, setErrors] = useState<ErrorProcesses>(initErrorProcesses);
-  const processesDetails = useSelector(
-    (state: RootState) => state.processes.processesDetails
+  const processDetails = useSelector(
+    (state: RootState) => state.processes.details
   );
-  const lists = useSelector((state: RootState) => state.lists);
+  const lists = useSelector((state: RootState) => state.processes.lists);
 
   useEffect(() => {
     let data = { ...judicialProcesses };
     if (user.rol === UserRol.User) data.apoderadoActual = user.name;
-    if (processesDetails) {
-      data = processesDetails;
+    if (processDetails) {
+      data = processDetails;
     }
     setJudicialProcesses(data);
-  }, [user, processesDetails]);
+  }, [user, processDetails]);
 
   function handleChange(
     event: React.ChangeEvent<
       HTMLSelectElement | HTMLInputElement | HTMLTextAreaElement
     >
   ) {
-    let newJudicialProcesses: ProcessesDetails = { ...judicialProcesses };
+    let newJudicialProcesses: ProcessDetails = { ...judicialProcesses };
     const value = event.target.value.toUpperCase();
     const name = event.target.name;
     const type = event.target.type;
@@ -141,7 +141,7 @@ export default function useJudicialProcesses() {
   }
 
   function reset() {
-    setJudicialProcesses(initProcessesDetails);
+    setJudicialProcesses(initProcessDetails);
     setErrors(initErrorProcesses);
   }
 
@@ -218,15 +218,15 @@ export default function useJudicialProcesses() {
       value = false;
     }
     if (
-      judicialProcesses.estado !== ProcessesState.Activo &&
-      judicialProcesses.estado !== ProcessesState.Terminado
+      judicialProcesses.estado !== ProcessState.Activo &&
+      judicialProcesses.estado !== ProcessState.Terminado
     ) {
       error.estado = "Debes completar este campo";
       value = false;
     }
 
     if (
-      judicialProcesses.estado === ProcessesState.Terminado &&
+      judicialProcesses.estado === ProcessState.Terminado &&
       judicialProcesses.fechaTerminacion === null
     ) {
       error.fechaTerminacion = "Debes completar este campo";

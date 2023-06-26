@@ -1,53 +1,55 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../../interfaces/RootState";
-import { closeLoading, openLoading } from "../../../../redux/actions/loading";
-import { getLists } from "../../../../redux/actions/lists/lists";
-import { UserRol } from "../../../../interfaces/users";
+import { RootState } from "../../../../../interfaces/RootState";
+import { getLists } from "../../../../../redux/actions/Processes/lists";
+import { UserRol } from "../../../../../interfaces/users";
 import {
   deleteProcesses,
-  deleteProcessesDetails,
+  deleteProcessDetails,
   getProcesses,
-  getProcessesDetails,
-} from "../../../../redux/actions/judicialProcesses";
+  getProcessDetails,
+} from "../../../../../redux/actions/Processes/processes";
 import {
-  JudicialProcesses,
-  ProcessesFilters,
-  initProcessesFilters,
-} from "../../../../interfaces/JudicialProcesses";
+  ProcessHeads,
+  ProcessFilters,
+  initProcessFilters,
+} from "../../../../../interfaces/Processes/data";
+import {
+  closeLoading,
+  openLoading,
+} from "../../../../../redux/actions/loading";
 import swal from "sweetalert";
 
-import JudicialProcessesRow from "./JudicialProcessesRow/JudicialProcessesRow";
+import ProcessesRow from "./ProcessesRow/ProcessesRow";
 import Form from "./Form/Form";
 import Filters from "./FIlters/Filters";
-import Lists from "../../Lists/Lists";
+import Lists from "../Lists/Lists";
 
-import styles from "./JudicialProcesses.module.css";
-import loadingSvg from "../../../../assets/img/loading.gif";
-import errorSvg from "../../../../assets/svg/error.svg";
-import listSvg from "../../../../assets/svg/list.svg";
+import styles from "./ProcessesTable.module.css";
+import loadingSvg from "../../../../../assets/img/loading.gif";
+import errorSvg from "../../../../../assets/svg/error.svg";
+import listSvg from "../../../../../assets/svg/list.svg";
 
-export default function JudicialProcessesTable() {
+export default function ProcessesTable() {
   const dispatch = useDispatch();
-  const user = useSelector((state: RootState) => state.user);
-  const judicialProcesses = useSelector(
-    (state: RootState) => state.processes.judicialProcesses
+  const user = useSelector((state: RootState) => state.sesion);
+  const processesHeads = useSelector(
+    (state: RootState) => state.processes.heads
   );
-  const [filters, setFilters] =
-    useState<ProcessesFilters>(initProcessesFilters);
-  const [rows, setRows] = useState<JudicialProcesses[]>([]);
+  const [filters, setFilters] = useState<ProcessFilters>(initProcessFilters);
+  const [rows, setRows] = useState<ProcessHeads[]>([]);
   const [form, setForm] = useState<boolean>(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [list, setList] = useState(false);
 
   useEffect(() => {
-    if (judicialProcesses.length === 0) handleGetProcesses();
+    if (processesHeads.length === 0) handleGetProcesses();
   }, []);
 
   useEffect(() => {
-    const filter = judicialProcesses.filter((data: JudicialProcesses) => {
+    const filter = processesHeads.filter((data: ProcessHeads) => {
       if (
         filters.apoderadoActual ||
         filters.idSiproj ||
@@ -96,7 +98,7 @@ export default function JudicialProcessesTable() {
       } else return true;
     });
     setRows(filter);
-  }, [judicialProcesses, filters]);
+  }, [processesHeads, filters]);
 
   function handleGetProcesses() {
     setLoading(true);
@@ -113,7 +115,7 @@ export default function JudicialProcessesTable() {
       });
   }
 
-  function handleDelete(processes: JudicialProcesses) {
+  function handleDelete(processes: ProcessHeads) {
     swal({
       text: "¿Seguro que desea eliminar este proceso?",
       icon: "warning",
@@ -143,13 +145,13 @@ export default function JudicialProcessesTable() {
     });
   }
 
-  function handleFilter(filters: ProcessesFilters) {
+  function handleFilter(filters: ProcessFilters) {
     setFilters(filters);
   }
 
   function handleEdit(idSiproj: string) {
     dispatch(openLoading());
-    dispatch<any>(getProcessesDetails(idSiproj))
+    dispatch<any>(getProcessDetails(idSiproj))
       .then(() => {
         dispatch(closeLoading());
         setForm(true);
@@ -168,7 +170,7 @@ export default function JudicialProcessesTable() {
   function handleClose() {
     setForm(!form);
     if (form) {
-      dispatch(deleteProcessesDetails());
+      dispatch(deleteProcessDetails());
     }
   }
 
@@ -246,10 +248,10 @@ export default function JudicialProcessesTable() {
                 <th>No hay procesos</th>
               </tr>
             ) : (
-              rows?.map((judicialProcesses: JudicialProcesses) => (
-                <JudicialProcessesRow
-                  key={judicialProcesses.idSiproj}
-                  judicialProcesses={judicialProcesses}
+              rows?.map((processesHeads: ProcessHeads) => (
+                <ProcessesRow
+                  key={processesHeads.idSiproj}
+                  processes={processesHeads}
                   handleEdit={handleEdit}
                   handleDelete={handleDelete}
                 />

@@ -10,12 +10,12 @@ import {
   UPDATE_IFRAME,
 } from "../../actions/Processes/iframe";
 import {
-  DELETE_PROCESSES,
-  DELETE_PROCESSES_DETAILS,
+  SET_PROCESS,
   GET_PROCESSES,
-  GET_PROCESSES_DETAILS,
-  SET_PROCESSES,
-  UPDATE_PROCESSES,
+  DELETE_PROCESS,
+  GET_PROCESS_DETAILS,
+  UPDATE_PROCESS_DETAILS,
+  DELETE_PROCESS_DETAILS,
 } from "../../actions/Processes/processes";
 
 import {
@@ -30,7 +30,7 @@ export const processesReducer = (
 ) => {
   switch (action.type) {
     /* PROCESSES */
-    case SET_PROCESSES:
+    case SET_PROCESS:
       return {
         ...state,
         heads: [...state.heads, action.payload],
@@ -42,7 +42,19 @@ export const processesReducer = (
         heads: action.payload,
       };
 
-    case UPDATE_PROCESSES:
+    case DELETE_PROCESS:
+      return {
+        ...state,
+        heads: state.heads.filter((head) => head.idSiproj !== action.payload),
+      };
+
+    case GET_PROCESS_DETAILS:
+      return {
+        ...state,
+        details: action.payload,
+      };
+
+    case UPDATE_PROCESS_DETAILS:
       return {
         ...state,
         heads: state.heads.map((head) =>
@@ -50,19 +62,7 @@ export const processesReducer = (
         ),
       };
 
-    case DELETE_PROCESSES:
-      return {
-        ...state,
-        heads: state.heads.filter((head) => head.idSiproj !== action.payload),
-      };
-
-    case GET_PROCESSES_DETAILS:
-      return {
-        ...state,
-        details: action.payload,
-      };
-
-    case DELETE_PROCESSES_DETAILS:
+    case DELETE_PROCESS_DETAILS:
       return {
         ...state,
         processesDetails: initProcessDetails,

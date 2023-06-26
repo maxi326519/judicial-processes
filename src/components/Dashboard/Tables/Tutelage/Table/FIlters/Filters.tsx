@@ -1,27 +1,21 @@
-import style from "./Filter.module.css";
-import filterSvg from "../../../../../assets/svg/filter.svg";
 import { useState } from "react";
-import { ProcessesFilters } from "../../../../../interfaces/JudicialProcesses";
-import { UserRol } from "../../../../../interfaces/users";
-import { RootState } from "../../../../../interfaces/RootState";
-import { useSelector } from "react-redux";
+import {
+  TutelaFilters,
+  initTutelaFilters,
+} from "../../../../../../interfaces/Tutelas/data";
+
+import style from "./Filter.module.css";
+import filterSvg from "../../../../../../assets/svg/filter.svg";
 
 interface Props {
-  filters: ProcessesFilters;
-  handleSetFilter: (filters: ProcessesFilters) => void;
+  filters: TutelaFilters;
+  handleSetFilter: (filters: TutelaFilters) => void;
 }
 
 export default function Filters({ filters, handleSetFilter }: Props) {
-  const user = useSelector((state: RootState) => state.user);
-  const lists = useSelector((state: RootState) => state.lists);
   const [filter, setFilter] = useState(false);
-  const [currentFilters, setFilters] = useState<ProcessesFilters>({
-    apoderadoActual: "",
-    idSiproj: 0,
-    radRamaJudicialInicial: "",
-    radRamaJudicialActual: "",
-    demandante: "",
-  });
+  const [currentFilters, setFilters] =
+    useState<TutelaFilters>(initTutelaFilters);
 
   function handleFilter() {
     setFilter(!filter);
@@ -45,25 +39,6 @@ export default function Filters({ filters, handleSetFilter }: Props) {
         <img src={filterSvg} alt="filtros" />
       </button>
       <form className={style.filterContainer} onSubmit={handleSubmit}>
-        {/* APODERADO ACTUAL */}
-        {user.rol === UserRol.Admin ? (
-          <div className="form-floating">
-            <select
-              id="apoderadoActual"
-              className="form-control form-control-dark"
-              name="apoderadoActual"
-              value={currentFilters.apoderadoActual}
-              onChange={handleChange}
-            >
-              <option value="">Seleccionar Apoderado</option>
-              {lists.apoderados.map((item) => (
-                <option key={item}>{item}</option>
-              ))}
-            </select>
-            <label htmlFor="apoderadoActual">Apoderado actual:</label>
-          </div>
-        ) : null}
-
         {/* ID SIPROJ */}
         <div className="form-floating form-floating-dark">
           <input
@@ -77,34 +52,30 @@ export default function Filters({ filters, handleSetFilter }: Props) {
           <label htmlFor="idSiproj">ID Siproj:</label>
         </div>
 
-        {/* RAD DE RAMA JUDICIAL INICIAL */}
-        <div className="form-floating">
+        {/* NRO TUTELA */}
+        <div className="form-floating form-floating-dark">
           <input
-            id="radRamaJudicialInicial"
-            className="form-control"
-            type="text"
-            name="radRamaJudicialInicial"
-            value={currentFilters.radRamaJudicialInicial}
+            id="nroTutela"
+            className="form-control form-control-dark"
+            name="nroTutela"
+            type="number"
+            value={currentFilters.nroTutela}
             onChange={handleChange}
           />
-          <label htmlFor="radRamaJudicialInicial">
-            Rad. de proceso rama judicial (INICIAL)
-          </label>
+          <label htmlFor="nroTutela">Nro de tutela:</label>
         </div>
 
-        {/* RUD DE RAMA JUDICIAL ACTUAL */}
-        <div className="form-floating">
+        {/* ID DEMANDANTE */}
+        <div className="form-floating form-floating-dark">
           <input
-            id="radRamaJudicialActual"
-            className="form-control"
-            name="radRamaJudicialActual"
-            type="text"
-            value={currentFilters.radRamaJudicialActual}
+            id="demandanteId"
+            className="form-control form-control-dark"
+            name="demandanteId"
+            type="number"
+            value={currentFilters.demandanteId}
             onChange={handleChange}
           />
-          <label htmlFor="radRamaJudicialActual">
-            Rad. de proceso rama judicial (ACTUAL)
-          </label>
+          <label htmlFor="demandanteId">ID Demandante:</label>
         </div>
 
         {/* DEMANDANTE */}

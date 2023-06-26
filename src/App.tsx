@@ -2,8 +2,8 @@ import { useEffect } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "./interfaces/RootState";
-import { getUserData } from "./redux/actions/users";
 import { closeLoading, openLoading } from "./redux/actions/loading";
+import { getUserData } from "./redux/actions/sesion";
 import { auth } from "./firebase/config";
 import swal from "sweetalert";
 
@@ -25,22 +25,8 @@ function App() {
       if (auth.currentUser) {
         dispatch<any>(getUserData())
           .then(() => {
-            dispatch<any>(getUserData())
-              .then(() => {
-                console.log("Termino de cargar");
-                redirect("/dashboard/");
-                dispatch(closeLoading());
-              })
-              .catch((err: any) => {
-                console.log(err);
-                redirect("/dashboard/");
-                dispatch(closeLoading());
-                swal(
-                  "Error",
-                  "Error al cargar los datos del usuario, intentelo mas tarde",
-                  "error"
-                );
-              });
+            redirect("/dashboard/");
+            dispatch(closeLoading());
           })
           .catch((err: any) => {
             console.log(err);

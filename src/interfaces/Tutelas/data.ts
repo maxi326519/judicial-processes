@@ -6,7 +6,14 @@ export interface TutelaHeads {
   demandante: string;
 }
 
-export interface TutelaDetail {
+export interface TutelaFilters {
+  idSiproj: number;
+  nroTutela: string;
+  demandanteId: string;
+  demandante: string;
+}
+
+export interface TutelaDetails {
   idSiproj: number;
   nroTutela: string;
   tipo: string;
@@ -45,7 +52,7 @@ export interface TutelaDetail {
   observacionesGenerales: string;
 }
 
-export interface ErrorTutelaDetail {
+export interface ErrorTutelaDetails {
   idSiproj: string;
   nroTutela: string;
   tipo: string;
@@ -56,7 +63,7 @@ export interface ErrorTutelaDetail {
   demandado: string;
   temaTutela: string;
   derechoVulnerado: string;
-  extranjero: boolean;
+  extranjero: string;
   concepto: string;
   termino: string;
   remite: string;
@@ -84,7 +91,14 @@ export interface ErrorTutelaDetail {
   observacionesGenerales: string;
 }
 
-export const initTutelaDetail: TutelaDetail = {
+export const initTutelaFilters: TutelaFilters = {
+  idSiproj: 0,
+  nroTutela: "",
+  demandanteId: "",
+  demandante: "",
+};
+
+export const initTutelaDetails: TutelaDetails = {
   idSiproj: 0,
   nroTutela: "",
   tipo: "",
@@ -123,7 +137,7 @@ export const initTutelaDetail: TutelaDetail = {
   observacionesGenerales: "",
 };
 
-export const initErrorTutelaDetail: ErrorTutelaDetail = {
+export const initErrorTutelaDetails: ErrorTutelaDetails = {
   idSiproj: "",
   nroTutela: "",
   tipo: "",
@@ -134,7 +148,7 @@ export const initErrorTutelaDetail: ErrorTutelaDetail = {
   demandado: "",
   temaTutela: "",
   derechoVulnerado: "",
-  extranjero: false,
+  extranjero: "",
   concepto: "",
   termino: "",
   remite: "",

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Chart } from "react-google-charts";
 import { RootState } from "../../../../../interfaces/RootState";
-import { ProcessesChartData } from "../../../../../interfaces/charts";
+import { ProcessesChartData } from "../../../../../interfaces/Processes/charts";
 import { useSelector } from "react-redux";
 
 const header = ["Apoderados", "Activos", "Terminados"];
@@ -19,7 +19,7 @@ const options = {
 
 export default function ProcessesChart() {
   const chartData = useSelector(
-    (state: RootState) => state.charts.processesChart
+    (state: RootState) => state.processes.charts.processesChart
   );
   const [data, setData] = useState<Array<Array<string | number>>>(example);
 

@@ -1,9 +1,13 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../../interfaces/RootState";
-import { closeLoading, openLoading } from "../../../../redux/actions/loading";
-import { UserRol } from "../../../../interfaces/users";
+import { RootState } from "../../../../../interfaces/RootState";
+import {
+  closeLoading,
+  openLoading,
+} from "../../../../../redux/actions/loading";
+import { UserRol } from "../../../../../interfaces/users";
+import { db } from "../../../../../firebase/config";
 import {
   Query,
   QuerySnapshot,
@@ -13,16 +17,14 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import { db } from "../../../../firebase/config";
 import {
-  getProcesses,
-  importProcesses,
-} from "../../../../redux/actions/judicialProcesses";
+  getTutelas,
+  importTutelas,
+} from "../../../../../redux/actions/Tutelas/tutelas";
 import {
-  JudicialProcesses,
-  ProcessesDetails,
-  ProcessesState,
-} from "../../../../interfaces/JudicialProcesses";
+  TutelaHeads,
+  TutelaDetails,
+} from "../../../../../interfaces/Tutelas/data";
 import swal from "sweetalert";
 
 import ExcelRow from "./ExcelRow/ExcelRow";
@@ -30,10 +32,10 @@ import ImportExcel from "./ImportExcel/ImportExcel";
 import ExportExcel from "./ExportExcel/ExportExcel";
 
 import styles from "./Excel.module.css";
-import loadingSvg from "../../../../assets/img/loading.gif";
-import errorSvg from "../../../../assets/svg/error.svg";
-import importSvg from "../../../../assets/svg/import.svg";
-import exportSvg from "../../../../assets/svg/export.svg";
+import loadingSvg from "../../../../../assets/img/loading.gif";
+import errorSvg from "../../../../../assets/svg/error.svg";
+import importSvg from "../../../../../assets/svg/import.svg";
+import exportSvg from "../../../../../assets/svg/export.svg";
 
 enum actionType {
   import,
@@ -41,45 +43,33 @@ enum actionType {
 }
 
 interface Data {
-  head: [];
-  details: ProcessesDetails[];
+  head: TutelaHeads[];
+  details: TutelaDetails[];
 }
 
 const initData: Data = { head: [], details: [] };
 
 export default function Excel() {
   const dispatch = useDispatch();
-  const user = useSelector((state: RootState) => state.user);
-  const judicialProcesses = useSelector(
-    (state: RootState) => state.processes.judicialProcesses
-  );
-  const [rows, setRows] = useState<JudicialProcesses[]>([]);
+  const user = useSelector((state: RootState) => state.sesion);
+  const tutelas = useSelector((state: RootState) => state.tutelas.heads);
+  const [rows, setRows] = useState<TutelaHeads[]>([]);
   const [excelData, setExcelData] = useState([]);
   const [form, setForm] = useState<boolean>(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [state, setState] = useState<ProcessesState | string>("");
   const [data, setData] = useState<Data>(initData);
   const [action, setAction] = useState<actionType>(actionType.export);
   const [formExport, setFormExport] = useState(false);
 
   useEffect(() => {
-    if (judicialProcesses.length === 0) handleGetProcesses();
+    if (tutelas.length === 0) handleGetTutelas();
   }, []);
 
-  useEffect(() => {
-    setRows(
-      judicialProcesses.filter((processes) => {
-        if (state !== "" && processes.estado !== state) return false;
-        return true;
-      })
-    );
-  }, [judicialProcesses, state]);
-
-  function handleGetProcesses() {
+  function handleGetTutelas() {
     setLoading(true);
     setError(false);
-    dispatch<any>(getProcesses(user))
+    dispatch<any>(getTutelas(user))
       .then(() => {
         setLoading(false);
       })
@@ -90,16 +80,6 @@ export default function Excel() {
       });
   }
 
-  function handleSelect(event: React.ChangeEvent<HTMLSelectElement>) {
-    if (event.target.value === "") {
-      setState("");
-    } else if (event.target.value === ProcessesState.Activo) {
-      setState(ProcessesState.Activo);
-    } else if (event.target.value === ProcessesState.Terminado) {
-      setState(ProcessesState.Terminado);
-    }
-  }
-
   function handleData(data: Data) {
     setData(data);
     setRows(data.head);
@@ -108,12 +88,12 @@ export default function Excel() {
 
   function handleConfirmImport() {
     dispatch(openLoading());
-    dispatch<any>(importProcesses(data))
+    dispatch<any>(importTutelas(data.details))
       .then(() => {
         dispatch(closeLoading());
         setAction(actionType.export);
         setData(initData);
-        setRows(judicialProcesses);
+        setRows(tutelas);
 
         swal("Guardado", "Se guardaron todos los datos con exito", "success");
       })
@@ -148,9 +128,9 @@ export default function Excel() {
   async function handleGetData() {
     dispatch(openLoading());
     try {
-      const colProcesses = collection(db, "Details");
+      const colTutelas = collection(db, "Details");
       const details: any = [];
-      let snapshot: QuerySnapshot;
+      /*       let snapshot: QuerySnapshot;
       let wheres = {
         apoderado: where("apoderadoActual", "==", user.name),
         estado: where("estado", "==", state),
@@ -159,25 +139,25 @@ export default function Excel() {
       if (user.rol === UserRol.Admin) {
         let detailsQuery: Query;
         if (state === "") {
-          snapshot = await getDocs(colProcesses);
+          snapshot = await getDocs(colTutelas);
         } else {
-          detailsQuery = query(colProcesses, wheres.estado);
+          detailsQuery = query(colTutelas, wheres.estado);
           snapshot = await getDocs(detailsQuery);
         }
       } else {
         let detailsQuery: Query;
         if (state === "") {
-          detailsQuery = query(colProcesses, wheres.apoderado);
+          detailsQuery = query(colTutelas, wheres.apoderado);
           snapshot = await getDocs(detailsQuery);
         } else {
-          detailsQuery = query(colProcesses, wheres.apoderado, wheres.estado);
+          detailsQuery = query(colTutelas, wheres.apoderado, wheres.estado);
           snapshot = await getDocs(detailsQuery);
         }
       }
 
       snapshot.forEach((doc) => {
         details.push(convertirValoresATexto(doc.data()));
-      });
+      }); */
 
       setExcelData(details);
 
@@ -233,16 +213,12 @@ export default function Excel() {
         <ImportExcel handleData={handleData} handleClose={handleClose} />
       ) : null}
       {formExport ? (
-        <ExportExcel
-          data={excelData}
-          state={state}
-          handleClose={handleCloseExport}
-        />
+        <ExportExcel data={excelData} handleClose={handleCloseExport} />
       ) : null}
       <div className={styles.controls}>
         {action === actionType.export ? (
           <div className={styles.filter}>
-            <label htmlFor="state">Tipo: </label>
+            {/*             <label htmlFor="state">Tipo: </label>
             <select
               id="state"
               className="form-select"
@@ -250,12 +226,12 @@ export default function Excel() {
               onChange={handleSelect}
             >
               <option value="">Todos</option>
-              <option value={ProcessesState.Activo}>Activos</option>
-              <option value={ProcessesState.Terminado}>Terminados</option>
+              <option value={TutelasState.Activo}>Activos</option>
+              <option value={TutelasState.Terminado}>Terminados</option>
             </select>
             <span className={styles.counter}>
               {rows.length} procesos seleccionados
-            </span>
+            </span> */}
           </div>
         ) : (
           <div>
@@ -302,9 +278,10 @@ export default function Excel() {
         <thead>
           <tr className={`${styles.row} ${styles.firstRow}`}>
             <th>ID idSiproj</th>
-            <th>Rad. Proceso Judicial (INICIAL)</th>
-            <th>Rad. Proceso Judicial (ACTUAL)</th>
-            <th>Demandante Nombre</th>
+            <th>Nro de Tutela</th>
+            <th>Abogado</th>
+            <th>ID del demandante</th>
+            <th>Demandante</th>
           </tr>
         </thead>
         <tbody className={styles.contentRows}>
@@ -322,7 +299,7 @@ export default function Excel() {
                   <button
                     className="btn btn-outline-primary"
                     type="button"
-                    onClick={handleGetProcesses}
+                    onClick={handleGetTutelas}
                   >
                     Recargar
                   </button>
@@ -341,11 +318,8 @@ export default function Excel() {
                 <th>No hay procesos</th>
               </tr>
             ) : (
-              rows?.map((judicialProcesses: JudicialProcesses) => (
-                <ExcelRow
-                  key={judicialProcesses.idSiproj}
-                  judicialProcesses={judicialProcesses}
-                />
+              rows?.map((tutela: TutelaHeads) => (
+                <ExcelRow key={tutela.idSiproj} tutela={tutela} />
               ))
             )}
           </div>

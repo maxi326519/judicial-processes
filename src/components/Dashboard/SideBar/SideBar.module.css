@@ -60,3 +60,7 @@
   filter: invert(21%) sepia(76%) saturate(2935%) hue-rotate(190deg)
     brightness(98%) contrast(95%);
 }
+
+.sideBar h5 {
+  color: white;
+}

@@ -1,15 +1,15 @@
 import {
-  ProcessesDetails,
-  ProcessesState,
-} from "../../../../../interfaces/JudicialProcesses";
+  ProcessDetails,
+  ProcessState,
+} from "../../../../../../interfaces/Processes/data";
 
-  import Excel from "./Excel/Excel";
+import Excel from "./Excel/Excel";
 
 import styles from "./ExportExcel.module.css";
 
 interface Props {
-  data: ProcessesDetails[];
-  state: ProcessesState | string;
+  data: ProcessDetails[];
+  state: ProcessState | string;
   handleClose: () => void;
 }
 

@@ -18,14 +18,15 @@ import {
 import { db } from "../../../../firebase/config";
 import { UserRol, Users } from "../../../../interfaces/users";
 
-export const SET_PROCESSES = "SET_PROCESSES";
-export const IMPORT_PROCESSES = "IMPORT_PROCESSES";
+export const SET_PROCESS = "SET_PROCESS";
 export const GET_PROCESSES = "GET_PROCESSES";
-export const GET_PROCESSES_DETAILS = "GET_PROCESSES_DETAILS";
-export const GET_PROCESSES_DATA = "GET_PROCESSES_DATA";
-export const UPDATE_PROCESSES = "UPDATE_PROCESSES";
-export const DELETE_PROCESSES = "DELETE_PROCESSES";
-export const DELETE_PROCESSES_DETAILS = "DELETE_PROCESSES_DETAILS";
+export const DELETE_PROCESS = "DELETE_PROCESS";
+
+export const GET_PROCESS_DETAILS = "GET_PROCESSES_DETAILS";
+export const UPDATE_PROCESS_DETAILS = "UPDATE_PROCESSES_DETAILS";
+export const DELETE_PROCESS_DETAILS = "DELETE_PROCESS_DETAILS";
+export const IMPORT_PROCESSES = "IMPORT_PROCESSES";
+/* export const GET_PROCESSES_DATA = "GET_PROCESSES_DATA"; */
 
 const dataColl = collection(db, "Data");
 const requirementsDoc = doc(dataColl, "Requirements");
@@ -62,7 +63,7 @@ export function setProcesses(
       await batch.commit();
 
       dispatch({
-        type: SET_PROCESSES,
+        type: SET_PROCESS,
         payload: head,
       });
     } catch (e: any) {
@@ -125,7 +126,7 @@ export function updateProcesses(
 
     try {
       dispatch({
-        type: UPDATE_PROCESSES,
+        type: UPDATE_PROCESS_DETAILS,
         payload: head,
       });
     } catch (e: any) {
@@ -150,7 +151,7 @@ export function deleteProcesses(
       await batch.commit();
 
       dispatch({
-        type: DELETE_PROCESSES,
+        type: DELETE_PROCESS,
         payload: processes.idSiproj,
       });
     } catch (e: any) {
@@ -247,13 +248,19 @@ export function getProcessDetails(
       console.log(details);
 
       dispatch({
-        type: GET_PROCESSES_DETAILS,
+        type: GET_PROCESS_DETAILS,
         payload: details,
       });
     } catch (e: any) {
       throw new Error(e);
     }
   };
+}
+
+export function deleteProcessDetails(){
+  return {
+    type: DELETE_PROCESS_DETAILS
+  }
 }
 /* 
 export function getProcessesData(): ThunkAction<

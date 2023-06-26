@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Chart } from "react-google-charts";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../../interfaces/RootState";
-import { TypeChartData } from "../../../../../interfaces/charts";
+import { TypeChartData } from "../../../../../interfaces/Processes/charts";
 
 const header = ["TIPO", "TIPOS"];
 const example = [header, ["Sin Datos", 0]];
@@ -15,7 +15,7 @@ const options = {
 };
 
 export default function TypeChart() {
-  const chartData = useSelector((state: RootState) => state.charts.typeChart);
+  const chartData = useSelector((state: RootState) => state.processes.charts.typeChart);
   const [data, setData] = useState<Array<Array<string | number>>>(example);
 
   useEffect(() => {

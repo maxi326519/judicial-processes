@@ -30,10 +30,12 @@ import styles from "./ProcessesTable.module.css";
 import loadingSvg from "../../../../../assets/img/loading.gif";
 import errorSvg from "../../../../../assets/svg/error.svg";
 import listSvg from "../../../../../assets/svg/list.svg";
+import { getUsers } from "../../../../../redux/actions/users";
 
 export default function ProcessesTable() {
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.sesion);
+  const users = useSelector((state: RootState) => state.users);
   const processesHeads = useSelector(
     (state: RootState) => state.processes.heads
   );
@@ -46,6 +48,7 @@ export default function ProcessesTable() {
 
   useEffect(() => {
     if (processesHeads.length === 0) handleGetProcesses();
+    if (users.length === 0) handleGetUsers();
   }, []);
 
   useEffect(() => {
@@ -105,6 +108,20 @@ export default function ProcessesTable() {
     setError(false);
     dispatch<any>(getLists());
     dispatch<any>(getProcesses(user))
+      .then(() => {
+        setLoading(false);
+      })
+      .catch((err: any) => {
+        console.log(err);
+        setLoading(false);
+        setError(true);
+      });
+  }
+
+  function handleGetUsers() {
+    setLoading(true);
+    setError(false);
+    dispatch<any>(getUsers())
       .then(() => {
         setLoading(false);
       })

@@ -26,9 +26,10 @@ export default function Form({ handleClose }: Props) {
   const dispatch = useDispatch();
   const { tutela, errors, validations, reset, setTutela, setErrors } =
     useTutelas();
-  const processesDetails = useSelector(
+  const tutelaDetails = useSelector(
     (state: RootState) => state.tutelas.details
   );
+  const users = useSelector((state: RootState) => state.users);
   const lists = useSelector((state: RootState) => state.tutelas.lists);
   const [errorLength, setErrorLength] = useState<number>(0);
 
@@ -52,13 +53,15 @@ export default function Form({ handleClose }: Props) {
       name: "abogado",
       label: "Abogado",
       inputType: "select",
+      list: users.map((user) => user.name),
       error: errors.abogado,
     },
     {
       value: tutela.tipo,
       name: "tipo",
       label: "Tipo de tutela",
-      inputType: "selects",
+      inputType: "select",
+      list: lists.tipo,
       error: errors.tipo,
     },
     {
@@ -109,6 +112,7 @@ export default function Form({ handleClose }: Props) {
       name: "derechoVulnerado",
       label: "Derecho vulnerado",
       inputType: "select",
+      list: lists.derechoVulnerado,
       error: errors.derechoVulnerado,
     },
     {
@@ -137,6 +141,7 @@ export default function Form({ handleClose }: Props) {
       name: "remite",
       label: "Remite",
       inputType: "select",
+      list: lists.remite,
       error: errors.remite,
     },
     {
@@ -179,6 +184,7 @@ export default function Form({ handleClose }: Props) {
       name: "fallo1raInst",
       label: "Fallo de la 1ra instancia",
       inputType: "select",
+      list: lists.fallo1raInst,
       error: errors.fallo1raInst,
     },
     {
@@ -235,6 +241,7 @@ export default function Form({ handleClose }: Props) {
       name: "fallo2daInst",
       label: "Fallo de la 2da instancia",
       inputType: "select",
+      list: lists.fallo2daInst,
       error: errors.fallo2daInst,
     },
     {
@@ -310,12 +317,12 @@ export default function Form({ handleClose }: Props) {
     if (validations()) {
       dispatch(openLoading());
       dispatch<any>(
-        processesDetails ? updateTutelas(tutela) : setTutelas(tutela)
+        tutelaDetails ? updateTutelas(tutela) : setTutelas(tutela)
       )
         .then(() => {
           dispatch(closeLoading());
           handleClose();
-          swal("Guardado", "Se guardo el proceso judicial", "success");
+          swal("Guardado", "Se guardo la tutela", "success");
         })
         .catch((error: any) => {
           console.log(error);
@@ -323,7 +330,7 @@ export default function Form({ handleClose }: Props) {
           if (error.message.includes("Ya existe el id")) {
             setErrors({ ...errors, idSiproj: "Ya existe este id" });
           } else {
-            swal("Error", "No se pudo guardar el proceso judicial", "error");
+            swal("Error", "No se pudo guardar la tutela", "error");
           }
         });
     }
@@ -348,9 +355,10 @@ export default function Form({ handleClose }: Props) {
         <div className="btn-close" onClick={handleLocalClose} />
       </div>
       <div className={styles.grid}>
-        {inputs.map((data) =>
+        {inputs.map((data, i) =>
           data.inputType === "select" ? (
             <SelectInput
+              key={i}
               name={data.name}
               value={data.value}
               label={data.label}
@@ -360,6 +368,7 @@ export default function Form({ handleClose }: Props) {
             />
           ) : data.inputType === "textArea" ? (
             <TextareaInput
+              key={i}
               name={data.name}
               value={data.value}
               label={data.label}
@@ -368,6 +377,7 @@ export default function Form({ handleClose }: Props) {
             />
           ) : (
             <Input
+              key={i}
               name={data.name}
               value={data.value}
               label={data.label}
@@ -377,6 +387,19 @@ export default function Form({ handleClose }: Props) {
             />
           )
         )}
+      </div>
+      <div className={styles.btnContainer}>
+        <button type="submit" className="btn btn-success">
+          {tutelaDetails ? "Guardar proceso" : "Agregar proceso"}
+        </button>
+        {errorLength ? (
+          <small>
+            Hay{" "}
+            {errorLength === 1
+              ? `${errorLength} error`
+              : `${errorLength} errores`}
+          </small>
+        ) : null}
       </div>
     </form>
   );

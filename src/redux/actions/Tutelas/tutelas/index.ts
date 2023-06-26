@@ -1,5 +1,8 @@
 import { AnyAction } from "redux";
-import { TutelaDetails, TutelaHeads } from "../../../../interfaces/Tutelas/data";
+import {
+  TutelaDetails,
+  TutelaHeads,
+} from "../../../../interfaces/Tutelas/data";
 import { RootState } from "../../../../interfaces/RootState";
 import { ThunkAction } from "redux-thunk";
 import { Dispatch } from "react";

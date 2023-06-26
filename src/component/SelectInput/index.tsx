@@ -24,11 +24,12 @@ export default function SelectInput({
         onChange={handleChange}
       >
         <option value="">Seleccionar</option>
-        {list.map((item, i) => (
-          <option key={i} value={item}>
-            {item}
-          </option>
-        ))}
+        {list &&
+          list.map((item, i) => (
+            <option key={i} value={item}>
+              {item}
+            </option>
+          ))}
       </select>
       <label htmlFor="tipo" className="form-label">
         {label}

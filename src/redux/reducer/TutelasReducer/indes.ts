@@ -3,7 +3,9 @@ import { RootTutelas, initRootState } from "../../../interfaces/RootState";
 import { IFrames } from "../../../interfaces/iframes";
 import {
   DELETE_TUTELAS,
+  DELETE_TUTELA_DETAILS,
   GET_TUTELAS,
+  GET_TUTELAS_DETAILS,
   IMPORT_TUTELAS,
   SET_TUTELAS,
   UPDATE_TUTELAS,
@@ -33,7 +35,7 @@ export const tutelasReducer = (
     case SET_TUTELAS:
       return {
         ...state,
-        heads: action.payload.head,
+        heads: [...state.heads, action.payload],
       };
 
     case GET_TUTELAS:
@@ -60,6 +62,18 @@ export const tutelasReducer = (
       return {
         ...state,
         heads: action.payload,
+      };
+
+    case GET_TUTELAS_DETAILS:
+      return {
+        ...state,
+        details: action.payload,
+      };
+
+    case DELETE_TUTELA_DETAILS:
+      return {
+        ...state,
+        details: null,
       };
 
     /* TUTELAS_LISTS */

@@ -30,10 +30,12 @@ import styles from "./TutelaTable.module.css";
 import loadingSvg from "../../../../../assets/img/loading.gif";
 import errorSvg from "../../../../../assets/svg/error.svg";
 import listSvg from "../../../../../assets/svg/list.svg";
+import { getUsers } from "../../../../../redux/actions/users";
 
 export default function TutelaTable() {
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.sesion);
+  const users = useSelector((state: RootState) => state.users);
   const tutela = useSelector((state: RootState) => state.tutelas.heads);
   const [filters, setFilters] = useState<TutelaFilters>(initTutelaFilters);
   const [rows, setRows] = useState<TutelaHeads[]>([]);
@@ -44,6 +46,7 @@ export default function TutelaTable() {
 
   useEffect(() => {
     if (tutela.length === 0) handleGetTutelas();
+    if (users.length === 0) handleGetUsers();
   }, []);
 
   useEffect(() => {
@@ -105,9 +108,23 @@ export default function TutelaTable() {
       });
   }
 
+  function handleGetUsers() {
+    setLoading(true);
+    setError(false);
+    dispatch<any>(getUsers())
+      .then(() => {
+        setLoading(false);
+      })
+      .catch((err: any) => {
+        console.log(err);
+        setLoading(false);
+        setError(true);
+      });
+  }
+
   function handleDelete(processes: TutelaHeads) {
     swal({
-      text: "¿Seguro que desea eliminar este proceso?",
+      text: "¿Seguro que desea eliminar esta tutela?",
       icon: "warning",
       buttons: {
         Aceptar: true,
@@ -120,14 +137,14 @@ export default function TutelaTable() {
         dispatch<any>(deleteTutela(processes.idSiproj))
           .then(() => {
             dispatch(closeLoading());
-            swal("Eliminado", "Se eliminó correctamente el proceso", "success");
+            swal("Eliminado", "Se eliminó correctamente la tutela", "success");
           })
           .catch((err: any) => {
             dispatch(closeLoading());
             console.log(err);
             swal(
               "Error",
-              "No se pudo eliminar este proceso, intentelo más tarde",
+              "No se pudo eliminar este tutela, intentelo más tarde",
               "error"
             );
           });
@@ -151,7 +168,7 @@ export default function TutelaTable() {
         console.log(error);
         swal(
           "Error",
-          "Hubo un error al cargar el proceso, intentelo mas tarde",
+          "Hubo un error al cargar la tutela, intentelo mas tarde",
           "error"
         );
       });
@@ -190,7 +207,7 @@ export default function TutelaTable() {
             type="button"
             onClick={handleClose}
           >
-            + Nuevo Proceso
+            + Nueva tutela
           </button>
         </div>
       </div>

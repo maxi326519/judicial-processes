@@ -20,7 +20,9 @@ export default function Input({
         id={name}
         name={name}
         className={`form-control ${error ? "is-invalid" : ""}`}
-        value={value}
+        value={
+          type === "date" && value ? value.toISOString().split("T")[0] : value
+        }
         type={type}
         onChange={handleChange}
       />

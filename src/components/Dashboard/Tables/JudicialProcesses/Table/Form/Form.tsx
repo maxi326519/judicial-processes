@@ -273,6 +273,21 @@ export default function Form({ handleClose }: Props) {
           </label>
           <small>{errors.fechaNotificacion}</small>
         </div>
+        
+        {/* FECHA DE ADMISION */}
+        <div className="form-floating">
+          <input
+            id="fechaAdmision"
+            name="fechaAdmision"
+            className="form-control"
+            type="date"
+            value={judicialProcesses.fechaAdmision?.toISOString().split("T")[0]}
+            onChange={handleChange}
+          />
+          <label htmlFor="fechaAdmision" className="form-label">
+            Fecha de admision:
+          </label>
+        </div>
 
         {/* FECHA DE CONTESTACION DE LA DEMANDA */}
         <div className="form-floating">
@@ -575,7 +590,7 @@ export default function Form({ handleClose }: Props) {
             onChange={handleChange}
           />
           <label htmlFor="fechaProceso" className="form-label">
-            Fecha del proceso:
+            Fecha del ultimo estado:
           </label>
         </div>
 

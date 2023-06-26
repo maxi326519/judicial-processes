@@ -92,6 +92,7 @@
 }
 
 /* TEXTAREA */
+.grid div:nth-child(13),
 .grid div:nth-child(23),
 .grid div:nth-child(31),
 .grid div:nth-child(36) {

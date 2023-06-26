@@ -126,7 +126,7 @@ export default function Form({ handleClose }: Props) {
       value: tutela.concepto,
       name: "concepto",
       label: "Concepto",
-      inputType: "text",
+      inputType: "textarea",
       error: errors.concepto,
     },
     {

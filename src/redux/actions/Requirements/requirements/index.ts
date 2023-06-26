@@ -25,6 +25,7 @@ export const DELETE_REQUIREMENTS = "DELETE_REQUIREMENTS";
 
 export const GET_REQUIREMENTS_DETAILS = "GET_REQUIREMENTS_DETAILS";
 export const IMPORT_REQUIREMENTS = "IMPORT_REQUIREMENTS";
+export const CLEAR_ALL_REQUIREMENTS = "CLEAR_ALL_REQUIREMENTS";
 
 const dataColl = collection(db, "Data");
 const requirementsDoc = doc(dataColl, "Requirements");
@@ -194,6 +195,33 @@ export function importRequirements(
       dispatch({
         type: IMPORT_REQUIREMENTS,
         payload: heads,
+      });
+    } catch (e: any) {
+      throw new Error(e);
+    }
+  };
+}
+
+export function clearAllRequirements(): ThunkAction<
+  Promise<void>,
+  RootState,
+  null,
+  AnyAction
+> {
+  return async (dispatch: Dispatch<AnyAction>) => {
+    try {
+      const batch = writeBatch(db);
+      const snapshot = await getDocs(headColl);
+
+      snapshot.forEach((head) => {
+        batch.delete(doc(headColl, head.id));
+        batch.delete(doc(detailsColl, head.id));
+      });
+
+      await batch.commit();
+
+      dispatch({
+        type: CLEAR_ALL_REQUIREMENTS,
       });
     } catch (e: any) {
       throw new Error(e);

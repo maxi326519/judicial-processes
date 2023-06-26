@@ -13,6 +13,7 @@ import {
   getTutelas,
   getTutelaDetails,
   deleteTutelaDetails,
+  clearAllTutelas,
 } from "../../../../../redux/actions/Tutelas/tutelas";
 import {
   TutelaHeads,
@@ -152,6 +153,28 @@ export default function TutelaTable() {
     });
   }
 
+  function handleClearTutelas() {
+    dispatch(openLoading());
+    dispatch<any>(clearAllTutelas())
+      .then(() => {
+        dispatch(closeLoading());
+        swal(
+          "Eliminados",
+          "Se eliminaron todas las tutelas existentes",
+          "success"
+        );
+      })
+      .catch((error: any) => {
+        console.log(error);
+        dispatch(closeLoading());
+        swal(
+          "Error",
+          "No se pudieron eliminar las tutelas, inténtelo más tarde",
+          "error"
+        );
+      });
+  }
+
   function handleFilter(filters: TutelaFilters) {
     setFilters(filters);
   }
@@ -208,6 +231,13 @@ export default function TutelaTable() {
             onClick={handleClose}
           >
             + Nueva tutela
+          </button>
+          <button
+            className="btn btn-outline-danger"
+            type="button"
+            onClick={handleClearTutelas}
+          >
+            X Eliminar todas las tutelas
           </button>
         </div>
       </div>

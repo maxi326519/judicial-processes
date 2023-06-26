@@ -2,6 +2,7 @@ import { AnyAction } from "redux";
 import { RootTutelas, initRootState } from "../../../interfaces/RootState";
 import { IFrames } from "../../../interfaces/iframes";
 import {
+  CLEAR_ALL_TUTELAS,
   DELETE_TUTELAS,
   DELETE_TUTELA_DETAILS,
   GET_TUTELAS,
@@ -74,6 +75,12 @@ export const tutelasReducer = (
       return {
         ...state,
         details: null,
+      };
+
+    case CLEAR_ALL_TUTELAS:
+      return {
+        ...state,
+        heads: [],
       };
 
     /* TUTELAS_LISTS */

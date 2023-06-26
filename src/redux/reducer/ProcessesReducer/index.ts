@@ -20,6 +20,7 @@ import {
   UPDATE_PROCESS_DETAILS,
   DELETE_PROCESS_DETAILS,
   IMPORT_PROCESSES,
+  CLEAR_ALL_PROCESSES,
 } from "../../actions/Processes/processes";
 
 import {
@@ -78,7 +79,13 @@ export const processesReducer = (
         ...state,
         heads: action.payload,
       };
-      
+
+    case CLEAR_ALL_PROCESSES:
+      return {
+        ...state,
+        heads: [],
+      };
+
     /*       case GET_PROCESSES_DATA:
         return {
           ...state,
@@ -186,7 +193,6 @@ export const processesReducer = (
 
     case LOGOUT:
       return { ...initRootState.processes };
-
 
     default:
       return state;

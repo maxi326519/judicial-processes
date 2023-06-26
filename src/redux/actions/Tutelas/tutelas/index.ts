@@ -1,11 +1,9 @@
 import { AnyAction } from "redux";
-import {
-  TutelaDetails,
-  TutelaHeads,
-} from "../../../../interfaces/Tutelas/data";
+import { UserRol, Users } from "../../../../interfaces/users";
 import { RootState } from "../../../../interfaces/RootState";
 import { ThunkAction } from "redux-thunk";
 import { Dispatch } from "react";
+import { db } from "../../../../firebase/config";
 import {
   collection,
   doc,
@@ -15,14 +13,17 @@ import {
   where,
   writeBatch,
 } from "firebase/firestore";
-import { db } from "../../../../firebase/config";
-import { UserRol, Users } from "../../../../interfaces/users";
+import {
+  TutelaDetails,
+  TutelaHeads,
+} from "../../../../interfaces/Tutelas/data";
 import getDateOrNull from "../../../../functions/getDateOrNull";
 
 export const SET_TUTELAS = "SET_TUTELAS";
 export const GET_TUTELAS = "GET_TUTELAS";
 export const UPDATE_TUTELAS = "UPDATE_TUTELAS";
 export const DELETE_TUTELAS = "DELETE_TUTELAS";
+export const CLEAR_ALL_TUTELAS = "CLEAR_ALL_TUTELAS";
 
 export const GET_TUTELAS_DETAILS = "GET_TUTELAS_DETAILS";
 export const DELETE_TUTELA_DETAILS = "DELETE_TUTELA_DETAILS";
@@ -232,6 +233,33 @@ export function importTutelas(
       dispatch({
         type: IMPORT_TUTELAS,
         payload: heads,
+      });
+    } catch (e: any) {
+      throw new Error(e);
+    }
+  };
+}
+
+export function clearAllTutelas(): ThunkAction<
+  Promise<void>,
+  RootState,
+  null,
+  AnyAction
+> {
+  return async (dispatch: Dispatch<AnyAction>) => {
+    try {
+      const batch = writeBatch(db);
+      const snapshot = await getDocs(headColl);
+
+      snapshot.forEach((head) => {
+        batch.delete(doc(headColl, head.id));
+        batch.delete(doc(detailsColl, head.id));
+      });
+      
+      await batch.commit();
+
+      dispatch({
+        type: CLEAR_ALL_TUTELAS,
       });
     } catch (e: any) {
       throw new Error(e);

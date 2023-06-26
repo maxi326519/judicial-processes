@@ -26,6 +26,7 @@ export const GET_PROCESS_DETAILS = "GET_PROCESSES_DETAILS";
 export const UPDATE_PROCESS_DETAILS = "UPDATE_PROCESSES_DETAILS";
 export const DELETE_PROCESS_DETAILS = "DELETE_PROCESS_DETAILS";
 export const IMPORT_PROCESSES = "IMPORT_PROCESSES";
+export const CLEAR_ALL_PROCESSES = "CLEAR_ALL_PROCESSES";
 /* export const GET_PROCESSES_DATA = "GET_PROCESSES_DATA"; */
 
 const dataColl = collection(db, "Data");
@@ -257,10 +258,37 @@ export function getProcessDetails(
   };
 }
 
-export function deleteProcessDetails(){
+export function deleteProcessDetails() {
   return {
-    type: DELETE_PROCESS_DETAILS
-  }
+    type: DELETE_PROCESS_DETAILS,
+  };
+}
+
+export function clearAllProcesses(): ThunkAction<
+  Promise<void>,
+  RootState,
+  null,
+  AnyAction
+> {
+  return async (dispatch: Dispatch<AnyAction>) => {
+    try {
+      const batch = writeBatch(db);
+      const snapshot = await getDocs(headColl);
+
+      snapshot.forEach((head) => {
+        batch.delete(doc(headColl, head.id));
+        batch.delete(doc(detailsColl, head.id));
+      });
+
+      await batch.commit();
+
+      dispatch({
+        type: CLEAR_ALL_PROCESSES,
+      });
+    } catch (e: any) {
+      throw new Error(e);
+    }
+  };
 }
 /* 
 export function getProcessesData(): ThunkAction<

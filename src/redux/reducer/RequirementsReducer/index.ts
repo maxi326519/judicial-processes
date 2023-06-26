@@ -1,6 +1,7 @@
 import { AnyAction } from "redux";
 import { RootRequirements, initRootState } from "../../../interfaces/RootState";
 import {
+  CLEAR_ALL_REQUIREMENTS,
   DELETE_REQUIREMENTS,
   GET_REQUIREMENTS,
   IMPORT_REQUIREMENTS,
@@ -60,6 +61,12 @@ export const requirementsReducer = (
       return {
         ...state,
         heads: action.payload,
+      };
+
+    case CLEAR_ALL_REQUIREMENTS:
+      return {
+        ...state,
+        heads: [],
       };
 
     /* REQUIREMENTS_LISTS */

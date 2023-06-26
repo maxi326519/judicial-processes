@@ -9,6 +9,7 @@ import {
   deleteProcessDetails,
   getProcesses,
   getProcessDetails,
+  clearAllProcesses,
 } from "../../../../../redux/actions/Processes/processes";
 import {
   ProcessHeads,
@@ -162,6 +163,28 @@ export default function ProcessesTable() {
     });
   }
 
+  function handleClearProcesses() {
+    dispatch(openLoading());
+    dispatch<any>(clearAllProcesses())
+      .then(() => {
+        dispatch(closeLoading());
+        swal(
+          "Eliminados",
+          "Se eliminaron todas las tutelas existentes",
+          "success"
+        );
+      })
+      .catch((error: any) => {
+        console.log(error);
+        dispatch(closeLoading());
+        swal(
+          "Error",
+          "No se pudieron eliminar las tutelas, inténtelo más tarde",
+          "error"
+        );
+      });
+  }
+
   function handleFilter(filters: ProcessFilters) {
     setFilters(filters);
   }
@@ -218,6 +241,13 @@ export default function ProcessesTable() {
             onClick={handleClose}
           >
             + Nuevo Proceso
+          </button>
+          <button
+            className="btn btn-outline-danger"
+            type="button"
+            onClick={handleClearProcesses}
+          >
+            X Eliminar todos los procesos
           </button>
         </div>
       </div>

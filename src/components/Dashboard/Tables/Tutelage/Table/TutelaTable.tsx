@@ -154,25 +154,36 @@ export default function TutelaTable() {
   }
 
   function handleClearTutelas() {
-    dispatch(openLoading());
-    dispatch<any>(clearAllTutelas())
-      .then(() => {
-        dispatch(closeLoading());
-        swal(
-          "Eliminados",
-          "Se eliminaron todas las tutelas existentes",
-          "success"
-        );
-      })
-      .catch((error: any) => {
-        console.log(error);
-        dispatch(closeLoading());
-        swal(
-          "Error",
-          "No se pudieron eliminar las tutelas, inténtelo más tarde",
-          "error"
-        );
-      });
+    swal({
+      text: "¿Seguro que desea eliminar toda la base de datos de tutelas?",
+      icon: "warning",
+      buttons: {
+        Si: true,
+        No: true,
+      },
+    }).then((response) => {
+      if ((response === "Si")) {
+        dispatch(openLoading());
+        dispatch<any>(clearAllTutelas())
+          .then(() => {
+            dispatch(closeLoading());
+            swal(
+              "Eliminados",
+              "Se eliminaron todas las tutelas existentes",
+              "success"
+            );
+          })
+          .catch((error: any) => {
+            console.log(error);
+            dispatch(closeLoading());
+            swal(
+              "Error",
+              "No se pudieron eliminar las tutelas, inténtelo más tarde",
+              "error"
+            );
+          });
+      }
+    });
   }
 
   function handleFilter(filters: TutelaFilters) {
@@ -237,7 +248,7 @@ export default function TutelaTable() {
             type="button"
             onClick={handleClearTutelas}
           >
-            X Eliminar todas las tutelas
+            X <span>Eliminar todas las tutelas</span>
           </button>
         </div>
       </div>

@@ -170,3 +170,24 @@
   gap: 10px;
   margin-top: 10px;
 }
+
+.controls button:last-child {
+  margin-left: 10px;
+}
+
+.controls button:last-child span {
+  width: min-content;
+  margin-left: 10px;
+  white-space: nowrap;
+}
+
+.controls button:last-child {
+  width: 35px;
+  overflow: hidden;
+  transition: 0.2s;
+}
+
+.controls button:last-child:hover {
+  width: 240px;
+  transition: 0.2s;
+}

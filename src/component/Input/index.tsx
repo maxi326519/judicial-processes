@@ -24,7 +24,11 @@ export default function Input({
         className={`form-control ${error ? "is-invalid" : ""}`}
         style={formulated ? { backgroundColor: "#f944" } : {}}
         value={
-          type === "date" && value ? value.toISOString().split("T")[0] : value
+          type === "date"
+            ? value
+              ? value.toISOString().split("T")[0]
+              : null
+            : value
         }
         type={type}
         onChange={handleChange}

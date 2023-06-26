@@ -8,6 +8,7 @@ import {
   initTutelaDetails,
   initErrorTutelaDetails,
 } from "../../interfaces/Tutelas/data";
+import getLimitDate from "../../functions/getLimitDate";
 
 export default function useTutelas() {
   const user = useSelector((state: RootState) => state.sesion);
@@ -54,6 +55,56 @@ export default function useTutelas() {
         ...tutela,
         [name]: value,
       };
+    }
+
+    // FUNCTIONS
+
+    // TERMINO DE CUMPLIMIENTO PRIMERA INSTANCIA
+    if (
+      (name === "fechaFallo1raInst" ||
+        name === "fallo1raInst" ||
+        name === "terminoCumplimiento1raInst") &&
+      newTutela.fallo1raInst === "DESFAVORABLE" &&
+      newTutela.fechaFallo1raInst &&
+      newTutela.terminoCumplimiento1raInst
+    ) {
+      newTutela.fechaCumplimiento1raInst = getLimitDate(
+        newTutela.fechaFallo1raInst,
+        [],
+        newTutela.terminoCumplimiento1raInst
+      );
+    }
+
+    if (
+      newTutela.fallo1raInst !== "DESFAVORABLE" ||
+      !newTutela.fechaFallo1raInst ||
+      !newTutela.terminoCumplimiento1raInst
+    ) {
+      newTutela.fechaCumplimiento1raInst = null;
+    }
+
+    // TERMINO DE CUMPLIMIENTO SEGUNDA INSTANCIA
+    if (
+      (name === "fechaFallo2daInst" ||
+        name === "fallo2daInst" ||
+        name === "terminoCumplimiento2daInst") &&
+      newTutela.fallo2daInst === "DESFAVORABLE" &&
+      newTutela.fechaFallo2daInst &&
+      newTutela.terminoCumplimiento2daInst
+    ) {
+      newTutela.fechaCumplimiento2daInst = getLimitDate(
+        newTutela.fechaFallo2daInst,
+        [],
+        newTutela.terminoCumplimiento2daInst
+      );
+    }
+
+    if (
+      newTutela.fallo2daInst !== "DESFAVORABLE" ||
+      !newTutela.fechaFallo2daInst ||
+      !newTutela.terminoCumplimiento2daInst
+    ) {
+      newTutela.fechaCumplimiento2daInst = null;
     }
 
     // Clean errors

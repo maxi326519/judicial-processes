@@ -31,9 +31,9 @@ exports.setNewUser = onCall(async (data, context) => {
       throw new HttpsError("invalid-argument", "missing parameter: password");
     if (
       !permissions ||
-      !permissions.processes ||
-      !permissions.tutelas ||
-      !permissions.requirements
+      typeof permissions.processes != "boolean" ||
+      typeof permissions.tutelas != "boolean" ||
+      typeof permissions.requirements != "boolean"
     )
       throw new HttpsError(
         "invalid-argument",
@@ -41,19 +41,27 @@ exports.setNewUser = onCall(async (data, context) => {
       );
 
     // Create user
-    const newUser = await admin.auth().createUser({ email, password });
+    const newUser = await admin
+      .auth()
+      .createUser({ email, password })
+      .catch(() => {
+        throw new HttpsError("internal", "Error to create user");
+      });
 
     // Add user to database
     await firestore
       .collection("Users")
       .doc(newUser.uid)
-      .set({ rol, name, email, permissions });
+      .set({ rol, name, email, permissions })
+      .catch(() => {
+        throw new HttpsError("internal", "Error to create user in database");
+      });
 
     return {
       uid: newUser.uid,
     };
-  } catch (error) {
-    throw new HttpsError("internal", "Error to create user");
+  } catch (error: any) {
+    throw new HttpsError("internal", error.message);
   }
 });
 
@@ -110,10 +118,10 @@ exports.updateUser = onCall(async (data, context) => {
       .doc(newUser.uid)
       .update({ rol, name, email, permissions })
       .catch(() => {
-        throw new HttpsError("internal", "Error to update user to database");
+        throw new HttpsError("internal", "Error to update user in database");
       });
-  } catch (error) {
-    throw new HttpsError("internal", "Error to update user");
+  } catch (error: any) {
+    throw new HttpsError("internal", error.message);
   }
 });
 
@@ -153,7 +161,7 @@ exports.deleteUser = onCall(async (data, context) => {
       .doc(uid)
       .delete()
       .catch(() => {
-        throw new HttpsError("internal", "Error to delete user to database");
+        throw new HttpsError("internal", "Error to delete user in database");
       });
   } catch (error: any) {
     throw new HttpsError("internal", error.message);

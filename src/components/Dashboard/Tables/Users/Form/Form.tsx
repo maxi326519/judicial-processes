@@ -38,6 +38,7 @@ export default function Form({ editUser, handleClose }: Props) {
   function handlelocalSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (handleValidations()) {
+      console.log(user);
       dispatch(openLoading());
       dispatch<any>(editUser ? updateUser(user) : setUser(user))
         .then(() => {

@@ -1,3 +1,6 @@
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../../../interfaces/RootState";
+import { UserRol } from "../../../../../../interfaces/users";
 import { useState } from "react";
 import {
   TutelaFilters,
@@ -9,13 +12,13 @@ import filterSvg from "../../../../../../assets/svg/filter.svg";
 
 interface Props {
   filters: TutelaFilters;
-  handleSetFilter: (filters: TutelaFilters) => void;
+  setFilters: (filters: TutelaFilters) => void;
 }
 
-export default function Filters({ filters, handleSetFilter }: Props) {
+export default function Filters({ filters, setFilters }: Props) {
+  const user = useSelector((state: RootState) => state.sesion);
+  const users = useSelector((state: RootState) => state.users);
   const [filter, setFilter] = useState(false);
-  const [currentFilters, setFilters] =
-    useState<TutelaFilters>(initTutelaFilters);
 
   function handleFilter() {
     setFilter(!filter);
@@ -24,12 +27,11 @@ export default function Filters({ filters, handleSetFilter }: Props) {
   function handleChange(
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) {
-    setFilters({ ...currentFilters, [event.target.name]: event.target.value });
+    setFilters({ ...filters, [event.target.name]: event.target.value });
   }
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    handleSetFilter(currentFilters);
+  function handleReset() {
+    setFilters(initTutelaFilters);
   }
 
   return (
@@ -38,7 +40,26 @@ export default function Filters({ filters, handleSetFilter }: Props) {
         <span>Filtros</span>
         <img src={filterSvg} alt="filtros" />
       </button>
-      <form className={style.filterContainer} onSubmit={handleSubmit}>
+      <form className={style.filterContainer}>
+        {/* ABOGADO */}
+        {user.rol === UserRol.Admin ? (
+          <div className="form-floating">
+            <select
+              id="abogado"
+              className="form-select form-control-dark"
+              name="abogado"
+              value={filters.abogado}
+              onChange={handleChange}
+            >
+              <option value="">Seleccionar abogado</option>
+              {users.map((user) => (
+                <option key={user.name}>{user.name}</option>
+              ))}
+            </select>
+            <label htmlFor="abogado">Abogado:</label>
+          </div>
+        ) : null}
+
         {/* ID SIPROJ */}
         <div className="form-floating form-floating-dark">
           <input
@@ -46,7 +67,7 @@ export default function Filters({ filters, handleSetFilter }: Props) {
             className="form-control form-control-dark"
             name="idSiproj"
             type="number"
-            value={currentFilters.idSiproj}
+            value={filters.idSiproj}
             onChange={handleChange}
           />
           <label htmlFor="idSiproj">ID Siproj:</label>
@@ -58,8 +79,8 @@ export default function Filters({ filters, handleSetFilter }: Props) {
             id="nroTutela"
             className="form-control form-control-dark"
             name="nroTutela"
-            type="number"
-            value={currentFilters.nroTutela}
+            type="text"
+            value={filters.nroTutela}
             onChange={handleChange}
           />
           <label htmlFor="nroTutela">Nro de tutela:</label>
@@ -71,8 +92,8 @@ export default function Filters({ filters, handleSetFilter }: Props) {
             id="demandanteId"
             className="form-control form-control-dark"
             name="demandanteId"
-            type="number"
-            value={currentFilters.demandanteId}
+            type="text"
+            value={filters.demandanteId}
             onChange={handleChange}
           />
           <label htmlFor="demandanteId">ID Demandante:</label>
@@ -85,14 +106,18 @@ export default function Filters({ filters, handleSetFilter }: Props) {
             className="form-control"
             name="demandante"
             type="text"
-            value={currentFilters.demandante}
+            value={filters.demandante}
             onChange={handleChange}
           />
           <label htmlFor="demandante">Nombre del demandante</label>
         </div>
 
-        <button className="btn btn-success" type="submit">
-          Aplicar
+        <button
+          className="btn btn-outline-success"
+          onClick={handleReset}
+          type="button"
+        >
+          Borrar
         </button>
       </form>
     </div>

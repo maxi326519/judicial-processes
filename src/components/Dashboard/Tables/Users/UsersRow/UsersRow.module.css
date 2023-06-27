@@ -29,3 +29,8 @@
   filter: invert(100%);
   transition: 0.2s;
 }
+
+.row button:last-child img {
+  filter: invert(28%) sepia(73%) saturate(7153%) hue-rotate(353deg)
+  brightness(94%) contrast(125%);
+}

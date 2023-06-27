@@ -53,9 +53,8 @@ export default function UsersTable() {
 
   function handleDelete(id: string) {
     swal({
-      title: "Error",
-      text: "No se pudo actualizar el usuario, inténtelo más tarde",
-      icon: "error",
+      text: "¿Seguro que desea eliminar a este usuario?",
+      icon: "warning",
       buttons: {
         Si: true,
         No: true,

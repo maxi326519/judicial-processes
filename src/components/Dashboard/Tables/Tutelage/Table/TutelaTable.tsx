@@ -55,38 +55,37 @@ export default function TutelaTable() {
       if (
         filters.idSiproj ||
         filters.nroTutela ||
+        filters.abogado ||
         filters.demandanteId ||
         filters.demandante
       ) {
+        /* ABOGADO */
+        if (filters.abogado && filters.abogado !== data.abogado) return false;
+        /* ID SIPROJ */
         if (
-          data.idSiproj
+          filters.idSiproj &&
+          !data.idSiproj.toString().startsWith(filters.idSiproj.toString())
+        )
+          return false;
+        /* NRO TUTELA */
+        if (
+          filters.nroTutela &&
+          !data.nroTutela.toString().startsWith(filters.nroTutela.toString())
+        )
+          return false;
+        /* DEMANDANTE ID */
+        if (
+          filters.demandanteId &&
+          !data.demandanteId
             .toString()
-            .toLowerCase()
-            .includes(filters.idSiproj.toString())
-        )
-          return false;
-        if (
-          data.nroTutela.toLowerCase().includes(filters.nroTutela.toLowerCase())
-        )
-          return false;
-        if (
-          data.demandanteId
-            .toLowerCase()
-            .includes(filters.demandanteId.toLowerCase())
+            .startsWith(filters.demandanteId.toString())
         ) {
           return false;
         }
-
-        if (
-          data.demandante
-            .toLowerCase()
-            .includes(filters.demandante.toLowerCase())
-        )
-          return false;
-
+        /* DEMANDANTE */
         if (
           filters.demandante &&
-          !data.demandante.includes(filters.demandante.toLowerCase())
+          !data.demandante.includes(filters.demandante.toUpperCase())
         )
           return false;
         return true;
@@ -162,7 +161,7 @@ export default function TutelaTable() {
         No: true,
       },
     }).then((response) => {
-      if ((response === "Si")) {
+      if (response === "Si") {
         dispatch(openLoading());
         dispatch<any>(clearAllTutelas())
           .then(() => {
@@ -184,10 +183,6 @@ export default function TutelaTable() {
           });
       }
     });
-  }
-
-  function handleFilter(filters: TutelaFilters) {
-    setFilters(filters);
   }
 
   function handleEdit(idSiproj: string) {
@@ -224,16 +219,25 @@ export default function TutelaTable() {
       {form ? <Form handleClose={handleClose} /> : null}
       {list ? <Lists handleClose={handleShowList} /> : null}
       <div className={styles.controls}>
-        <Filters filters={filters} handleSetFilter={handleFilter} />
+        <Filters filters={filters} setFilters={setFilters} />
         {user.rol === UserRol.Admin ? (
-          <button
-            className="btn btn-outline-primary"
-            type="button"
-            onClick={handleShowList}
-          >
-            <img src={listSvg} alt="list" />
-            <span>Listas</span>
-          </button>
+          <div>
+            <button
+              className="btn btn-outline-primary"
+              type="button"
+              onClick={handleShowList}
+            >
+              <img src={listSvg} alt="list" />
+              <span>Listas</span>
+            </button>
+            <button
+              className={`btn btn-outline-danger ${styles.clear}`}
+              type="button"
+              onClick={handleClearTutelas}
+            >
+              X <span>Eliminar todas las tutelas</span>
+            </button>
+          </div>
         ) : null}
         <div>
           <button
@@ -242,13 +246,6 @@ export default function TutelaTable() {
             onClick={handleClose}
           >
             + Nueva tutela
-          </button>
-          <button
-            className="btn btn-outline-danger"
-            type="button"
-            onClick={handleClearTutelas}
-          >
-            X <span>Eliminar todas las tutelas</span>
           </button>
         </div>
       </div>
@@ -307,6 +304,9 @@ export default function TutelaTable() {
             )}
           </div>
         </tbody>
+        <div className={styles.footer}>
+          <span>{rows.length} Documentos</span>
+        </div>
       </table>
     </div>
   );

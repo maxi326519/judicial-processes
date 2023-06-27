@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../../../interfaces/RootState";
 import { UserRol } from "../../../../../../interfaces/users";
 import {
+  deleteProcessDetails,
   setProcesses,
   updateProcesses,
 } from "../../../../../../redux/actions/Processes/processes";
@@ -273,7 +274,7 @@ export default function Form({ handleClose }: Props) {
           </label>
           <small>{errors.fechaNotificacion}</small>
         </div>
-        
+
         {/* FECHA DE ADMISION */}
         <div className="form-floating">
           <input

@@ -80,7 +80,7 @@
   transition: 0.2s;
 }
 
-.row button:nth-child(6) img {
+.row button:last-child img {
   filter: invert(28%) sepia(73%) saturate(7153%) hue-rotate(353deg)
     brightness(94%) contrast(125%);
 }
@@ -91,6 +91,6 @@
   transition: 0.2s;
 }
 
-.user{
+.user {
   grid-template-columns: 100px repeat(4, 1fr) 50px;
 }

@@ -1,5 +1,8 @@
 import { useState } from "react";
-import { ProcessFilters } from "../../../../../../interfaces/Processes/data";
+import {
+  ProcessFilters,
+  initProcessFilters,
+} from "../../../../../../interfaces/Processes/data";
 import { UserRol } from "../../../../../../interfaces/users";
 import { RootState } from "../../../../../../interfaces/RootState";
 import { useSelector } from "react-redux";
@@ -9,20 +12,13 @@ import filterSvg from "../../../../../../assets/svg/filter.svg";
 
 interface Props {
   filters: ProcessFilters;
-  handleSetFilter: (filters: ProcessFilters) => void;
+  setFilters: (filters: ProcessFilters) => void;
 }
 
-export default function Filters({ filters, handleSetFilter }: Props) {
+export default function Filters({ filters, setFilters }: Props) {
   const user = useSelector((state: RootState) => state.sesion);
-  const lists = useSelector((state: RootState) => state.processes.lists);
+  const users = useSelector((state: RootState) => state.users);
   const [filter, setFilter] = useState(false);
-  const [currentFilters, setFilters] = useState<ProcessFilters>({
-    apoderadoActual: "",
-    idSiproj: 0,
-    radRamaJudicialInicial: "",
-    radRamaJudicialActual: "",
-    demandante: "",
-  });
 
   function handleFilter() {
     setFilter(!filter);
@@ -31,12 +27,11 @@ export default function Filters({ filters, handleSetFilter }: Props) {
   function handleChange(
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) {
-    setFilters({ ...currentFilters, [event.target.name]: event.target.value });
+    setFilters({ ...filters, [event.target.name]: event.target.value });
   }
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    handleSetFilter(currentFilters);
+  function handleReset() {
+    setFilters(initProcessFilters);
   }
 
   return (
@@ -45,20 +40,20 @@ export default function Filters({ filters, handleSetFilter }: Props) {
         <span>Filtros</span>
         <img src={filterSvg} alt="filtros" />
       </button>
-      <form className={style.filterContainer} onSubmit={handleSubmit}>
+      <form className={style.filterContainer}>
         {/* APODERADO ACTUAL */}
         {user.rol === UserRol.Admin ? (
           <div className="form-floating">
             <select
               id="apoderadoActual"
-              className="form-control form-control-dark"
+              className="form-select form-control-dark"
               name="apoderadoActual"
-              value={currentFilters.apoderadoActual}
+              value={filters.apoderadoActual}
               onChange={handleChange}
             >
               <option value="">Seleccionar Apoderado</option>
-              {lists.apoderados.map((item) => (
-                <option key={item}>{item}</option>
+              {users.map((user) => (
+                <option key={user.name}>{user.name}</option>
               ))}
             </select>
             <label htmlFor="apoderadoActual">Apoderado actual:</label>
@@ -72,7 +67,7 @@ export default function Filters({ filters, handleSetFilter }: Props) {
             className="form-control form-control-dark"
             name="idSiproj"
             type="number"
-            value={currentFilters.idSiproj}
+            value={filters.idSiproj}
             onChange={handleChange}
           />
           <label htmlFor="idSiproj">ID Siproj:</label>
@@ -85,7 +80,7 @@ export default function Filters({ filters, handleSetFilter }: Props) {
             className="form-control"
             type="text"
             name="radRamaJudicialInicial"
-            value={currentFilters.radRamaJudicialInicial}
+            value={filters.radRamaJudicialInicial}
             onChange={handleChange}
           />
           <label htmlFor="radRamaJudicialInicial">
@@ -100,7 +95,7 @@ export default function Filters({ filters, handleSetFilter }: Props) {
             className="form-control"
             name="radRamaJudicialActual"
             type="text"
-            value={currentFilters.radRamaJudicialActual}
+            value={filters.radRamaJudicialActual}
             onChange={handleChange}
           />
           <label htmlFor="radRamaJudicialActual">
@@ -115,14 +110,18 @@ export default function Filters({ filters, handleSetFilter }: Props) {
             className="form-control"
             name="demandante"
             type="text"
-            value={currentFilters.demandante}
+            value={filters.demandante}
             onChange={handleChange}
           />
           <label htmlFor="demandante">Nombre del demandante</label>
         </div>
 
-        <button className="btn btn-success" type="submit">
-          Aplicar
+        <button
+          className="btn btn-outline-success"
+          onClick={handleReset}
+          type="button"
+        >
+          Borrar
         </button>
       </form>
     </div>

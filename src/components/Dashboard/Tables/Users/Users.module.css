@@ -23,8 +23,7 @@
 
 .table {
   flex-grow: 1;
-  outline: 1px solid var(--border);
-  outline: 1px solid var(--border);
+  outline: 1px solid var(--dark-panel);
   overflow: hidden;
   table-layout: fixed;
   border-radius: 5px;

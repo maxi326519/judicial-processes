@@ -9,6 +9,7 @@ export interface TutelaHeads {
 export interface TutelaFilters {
   idSiproj: number;
   nroTutela: string;
+  abogado: string;
   demandanteId: string;
   demandante: string;
 }
@@ -94,6 +95,7 @@ export interface ErrorTutelaDetails {
 export const initTutelaFilters: TutelaFilters = {
   idSiproj: 0,
   nroTutela: "",
+  abogado: "",
   demandanteId: "",
   demandante: "",
 };

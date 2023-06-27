@@ -254,9 +254,6 @@ export default function Excel() {
               <option value={ProcessState.Activo}>Activos</option>
               <option value={ProcessState.Terminado}>Terminados</option>
             </select>
-            <span className={styles.counter}>
-              {rows.length} procesos seleccionados
-            </span>
           </div>
         ) : (
           <div>
@@ -348,6 +345,9 @@ export default function Excel() {
             )}
           </div>
         </tbody>
+        <div className={styles.footer}>
+          <span>{rows.length} Documentos</span>
+        </div>
       </table>
     </div>
   );

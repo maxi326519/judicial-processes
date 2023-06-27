@@ -71,7 +71,7 @@ export const processesReducer = (
     case DELETE_PROCESS_DETAILS:
       return {
         ...state,
-        processesDetails: initProcessDetails,
+        details: null,
       };
 
     case IMPORT_PROCESSES:

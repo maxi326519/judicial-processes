@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../../interfaces/RootState";
 import { getLists } from "../../../../../redux/actions/Processes/lists";
 import { UserRol } from "../../../../../interfaces/users";
+import { getUsers } from "../../../../../redux/actions/users";
 import {
   deleteProcesses,
   deleteProcessDetails,
@@ -31,7 +32,6 @@ import styles from "./ProcessesTable.module.css";
 import loadingSvg from "../../../../../assets/img/loading.gif";
 import errorSvg from "../../../../../assets/svg/error.svg";
 import listSvg from "../../../../../assets/svg/list.svg";
-import { getUsers } from "../../../../../redux/actions/users";
 
 export default function ProcessesTable() {
   const dispatch = useDispatch();
@@ -67,36 +67,31 @@ export default function ProcessesTable() {
         )
           return false;
         if (
-          filters.idSiproj !== 0 &&
-          Number(filters.idSiproj) !== Number(data.idSiproj)
+          filters.idSiproj &&
+          !data.idSiproj.toString().startsWith(filters.idSiproj.toString())
         )
           return false;
         if (
           filters.radRamaJudicialInicial &&
-          filters.radRamaJudicialInicial !== data.radRamaJudicialInicial
+          !data.radRamaJudicialInicial
+            .toString()
+            .startsWith(filters.radRamaJudicialInicial.toString())
         ) {
-          console.log(
-            filters.radRamaJudicialInicial,
-            data.radRamaJudicialInicial,
-            filters.radRamaJudicialInicial !== data.radRamaJudicialInicial
-          );
           return false;
         }
 
         if (
           filters.radRamaJudicialActual &&
-          filters.radRamaJudicialActual !== data.radRamaJudicialActual
+          !data.radRamaJudicialActual
+            .toString()
+            .startsWith(filters.radRamaJudicialActual.toString())
         )
           return false;
 
-        console.log(
-          filters.demandante,
-          data.demandante,
-          filters.demandante !== data.demandante,
-          !data.demandante.includes(filters.demandante)
-        );
-
-        if (filters.demandante && !data.demandante.includes(filters.demandante))
+        if (
+          filters.demandante &&
+          !data.demandante.includes(filters.demandante.toUpperCase())
+        )
           return false;
         return true;
       } else return true;
@@ -172,7 +167,7 @@ export default function ProcessesTable() {
         No: true,
       },
     }).then((response) => {
-      if ((response === "Si")) {
+      if (response === "Si") {
         dispatch(openLoading());
         dispatch<any>(clearAllProcesses())
           .then(() => {
@@ -194,10 +189,6 @@ export default function ProcessesTable() {
           });
       }
     });
-  }
-
-  function handleFilter(filters: ProcessFilters) {
-    setFilters(filters);
   }
 
   function handleEdit(idSiproj: string) {
@@ -234,16 +225,25 @@ export default function ProcessesTable() {
       {form ? <Form handleClose={handleClose} /> : null}
       {list ? <Lists handleClose={handleShowList} /> : null}
       <div className={styles.controls}>
-        <Filters filters={filters} handleSetFilter={handleFilter} />
+        <Filters filters={filters} setFilters={setFilters} />
         {user.rol === UserRol.Admin ? (
-          <button
-            className="btn btn-outline-primary"
-            type="button"
-            onClick={handleShowList}
-          >
-            <img src={listSvg} alt="list" />
-            <span>Listas</span>
-          </button>
+          <div>
+            <button
+              className="btn btn-outline-primary"
+              type="button"
+              onClick={handleShowList}
+            >
+              <img src={listSvg} alt="list" />
+              <span>Listas</span>
+            </button>
+            <button
+              className={`btn btn-outline-danger ${styles.clear}`}
+              type="button"
+              onClick={handleClearProcesses}
+            >
+              X <span>Eliminar todos los procesos</span>
+            </button>
+          </div>
         ) : null}
         <div>
           <button
@@ -252,13 +252,6 @@ export default function ProcessesTable() {
             onClick={handleClose}
           >
             + Nuevo Proceso
-          </button>
-          <button
-            className="btn btn-outline-danger"
-            type="button"
-            onClick={handleClearProcesses}
-          >
-            X <span>Eliminar todos los procesos</span>
           </button>
         </div>
       </div>
@@ -317,6 +310,9 @@ export default function ProcessesTable() {
             )}
           </div>
         </tbody>
+        <div className={styles.footer}>
+          <span>{rows.length} Documentos</span>
+        </div>
       </table>
     </div>
   );

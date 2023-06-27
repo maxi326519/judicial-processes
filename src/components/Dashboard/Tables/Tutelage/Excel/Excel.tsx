@@ -324,6 +324,9 @@ export default function Excel() {
             )}
           </div>
         </tbody>
+        <div className={styles.footer}>
+          <span>{rows.length} Documentos</span>
+        </div>
       </table>
     </div>
   );

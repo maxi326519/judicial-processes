@@ -41,8 +41,7 @@
 
 .table {
   flex-grow: 1;
-  outline: 1px solid var(--border);
-  outline: 1px solid var(--border);
+  outline: 1px solid var(--dark-panel);
   overflow: hidden;
   table-layout: fixed;
   border-radius: 5px;
@@ -81,6 +80,14 @@
 
 .table tbody div {
   overflow-y: scroll;
+}
+
+.table .footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 5px;
+  background-color: var(--dark-panel);
+  color: grey;
 }
 
 .contentRows {
@@ -171,23 +178,23 @@
   margin-top: 10px;
 }
 
-.controls button:last-child {
+.controls .clear {
   margin-left: 10px;
 }
 
-.controls button:last-child span {
+.controls .clear span {
   width: min-content;
   margin-left: 10px;
   white-space: nowrap;
 }
 
-.controls button:last-child {
+.controls .clear {
   width: 35px;
   overflow: hidden;
   transition: 0.2s;
 }
 
-.controls button:last-child:hover {
+.controls .clear:hover {
   width: 220px;
   transition: 0.2s;
 }

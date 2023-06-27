@@ -28,10 +28,6 @@
   padding-left: 10px;
 }
 
-.controls .filter .counter{
-  width: 410px;;
-}
-
 .controls div {
   gap: 10px;
 }
@@ -55,8 +51,7 @@
 
 .table {
   flex-grow: 1;
-  outline: 1px solid var(--border);
-  outline: 1px solid var(--border);
+  outline: 1px solid var(--dark-panel);
   overflow: hidden;
   table-layout: fixed;
   border-radius: 5px;
@@ -67,7 +62,7 @@
 }
 
 .table div {
-  max-height: calc(100vh - 90px - 58px - 56px);
+  max-height: calc(100vh - 90px - 58px - 56px - 25px);
   overflow-y: scroll;
 }
 
@@ -95,6 +90,14 @@
 
 .table tbody div {
   overflow-y: scroll;
+}
+
+.table .footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 5px;
+  background-color: var(--dark-panel);
+  color: grey;
 }
 
 .contentRows {

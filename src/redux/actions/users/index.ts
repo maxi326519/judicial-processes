@@ -23,9 +23,10 @@ export function setUser(
         .then((result: any) => {
           newUser = {
             id: result.data.uid,
-            ...user,
+            name: user.name,
+            email: user.email,
+            rol: user.rol,
           };
-          console.log(newUser);
         })
         .catch((error: any) => {
           const message = error.message;

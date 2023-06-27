@@ -79,3 +79,22 @@
   background-color: grey;
   color: white;
 }
+
+.permissions {
+  height: 0px;
+  opacity: 0;
+  overflow: hidden;
+  transition: 0.4s;
+}
+
+.permissions h5 {
+  margin-top: 0px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.showPermissions {
+  height: 115px;
+  opacity: 1;
+  transition: 0.4s;
+}

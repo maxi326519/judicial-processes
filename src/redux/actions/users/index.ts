@@ -26,6 +26,7 @@ export function setUser(
             name: user.name,
             email: user.email,
             rol: user.rol,
+            permissions: user.permissions,
           };
         })
         .catch((error: any) => {

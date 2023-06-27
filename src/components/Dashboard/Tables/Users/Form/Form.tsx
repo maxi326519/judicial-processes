@@ -1,4 +1,7 @@
 import { useState, useEffect } from "react";
+import { generatePassword } from "../../../../../functions/generatePassword";
+import { setUser, updateUser } from "../../../../../redux/actions/users";
+import { useDispatch } from "react-redux";
 import {
   ErrorUser,
   UserRol,
@@ -6,34 +9,68 @@ import {
   initErrorUser,
   initUser,
 } from "../../../../../interfaces/users";
+import {
+  closeLoading,
+  openLoading,
+} from "../../../../../redux/actions/loading";
+import swal from "sweetalert";
+
+import Input from "../../../../../component/Input";
+import SelectInput from "../../../../../component/SelectInput";
+import Checkbox from "../../../../../component/Checkbox";
+
 import style from "./Form.module.css";
-import { generatePassword } from "../../../../../functions/generatePassword";
 
 interface Props {
   editUser: Users | null;
   handleClose: () => void;
-  handleSubmit: (user: Users) => void;
 }
 
-export default function Form({ editUser, handleClose, handleSubmit }: Props) {
-  const [user, setUser] = useState<Users>(initUser);
-  const [error, setError] = useState<ErrorUser>(initErrorUser);
+export default function Form({ editUser, handleClose }: Props) {
+  const dispatch = useDispatch();
+  const [user, setUserData] = useState<Users>({ ...initUser });
+  const [error, setError] = useState<ErrorUser>({ ...initErrorUser });
 
   useEffect(() => {
-    if (editUser) setUser(editUser);
+    if (editUser) setUserData(editUser);
   }, [editUser]);
 
   function handlelocalSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (validations()) {
-      handleSubmit(user);
+    if (handleValidations()) {
+      dispatch(openLoading());
+      dispatch<any>(editUser ? updateUser(user) : setUser(user))
+        .then(() => {
+          handleClose();
+          dispatch(closeLoading());
+          swal("Guardado", "Se guardo el usuario", "success");
+        })
+        .catch((err: any) => {
+          console.log(err);
+          dispatch(closeLoading());
+          swal(
+            "Error",
+            "No se pudo guardar el usuario, inténtelo más tarde",
+            "error"
+          );
+        });
     }
   }
 
   function handleChange(
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) {
-    setUser({ ...user, [event.target.name]: event.target.value });
+    setUserData({ ...user, [event.target.name]: event.target.value });
+  }
+
+  function handlePermissions(event: React.ChangeEvent<HTMLInputElement>) {
+    setUserData({
+      ...user,
+      permissions: {
+        ...user.permissions,
+        [event.target.name]: event.target.checked,
+      },
+    });
   }
 
   function handleLocalClose() {
@@ -41,12 +78,18 @@ export default function Form({ editUser, handleClose, handleSubmit }: Props) {
   }
 
   function handleGeneratePassword() {
-    setUser({ ...user, password: generatePassword() });
+    setUserData({ ...user, password: generatePassword() });
   }
 
-  function validations() {
+  function handleValidations() {
     let errors: ErrorUser = initErrorUser;
     let value = true;
+
+    /* ROL */
+    if (user.rol === UserRol.Any) {
+      errors.rol = "Debes seleccionar un rol";
+      value = false;
+    }
 
     /* NAME */
     if (user.name === "") {
@@ -77,54 +120,29 @@ export default function Form({ editUser, handleClose, handleSubmit }: Props) {
           <div className="btn-close" onClick={handleLocalClose} />
         </div>
         <div className={style.flex}>
-          {/* ROL */}
-          <div className="form-floating">
-            <select
-              id="rol"
-              name="rol"
-              className="form-control"
-              value={user.rol}
-              onChange={handleChange}
-            >
-              <option value={UserRol.Admin}>Admin</option>
-              <option value={UserRol.User}>User</option>
-            </select>
-            <label htmlFor="rol" className="form-label">
-              Rol:
-            </label>
-          </div>
-
-          {/* NAME: */}
-          <div className="form-floating">
-            <input
-              type="text"
-              id="name"
-              name="name"
-              className={`form-control ${!error.name ? "" : "is-invalid"}`}
-              value={user.name}
-              onChange={handleChange}
-            />
-            <label htmlFor="name" className="form-label">
-              Nombre:
-            </label>
-            {error.name ? <small>{error.name}</small> : null}
-          </div>
-
-          {/* E-MAIL */}
-          <div className="form-floating">
-            <input
-              type="text"
-              id="email"
-              name="email"
-              className={`form-control ${!error.email ? "" : "is-invalid"}`}
-              value={user.email}
-              onChange={handleChange}
-            />
-            <label htmlFor="email" className="form-label">
-              Email:
-            </label>
-            {error.email ? <small>{error.email}</small> : null}
-          </div>
+          <SelectInput
+            name={"rol"}
+            value={user.rol}
+            label={"Rol"}
+            error={error.rol}
+            list={[UserRol.Admin, UserRol.User]}
+            handleChange={handleChange}
+          />
+          <Input
+            name={"name"}
+            value={user.name}
+            label={"Nombre"}
+            error={error.name}
+            handleChange={handleChange}
+          />
+          <Input
+            name={"email"}
+            value={user.email}
+            label={"Email"}
+            type={"email"}
+            error={error.email}
+            handleChange={handleChange}
+          />
 
           {/* PASSWORD */}
           <div className="form-floating">
@@ -149,7 +167,31 @@ export default function Form({ editUser, handleClose, handleSubmit }: Props) {
               Generar
             </button>
           </div>
-
+          <div
+            className={`${style.permissions} ${
+              user.rol === UserRol.User && style.showPermissions
+            }`}
+          >
+            <h5>Permisos</h5>
+            <Checkbox
+              name={"processes"}
+              value={user.permissions.processes}
+              label={"Procesos"}
+              handleCheck={handlePermissions}
+            />
+            <Checkbox
+              name={"tutelas"}
+              value={user.permissions.tutelas}
+              label={"Tutelas"}
+              handleCheck={handlePermissions}
+            />
+            <Checkbox
+              name={"requirements"}
+              value={user.permissions.requirements}
+              label={"Requerimientos"}
+              handleCheck={handlePermissions}
+            />
+          </div>
           <button type="submit" className="btn btn-success">
             {editUser ? "Guardar" : "Agregar"} usuario
           </button>

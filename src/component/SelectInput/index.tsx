@@ -1,11 +1,20 @@
-interface SelectInputData {
+interface SelectProps {
   name: string;
   value: any;
   label: string;
   list: Array<any>;
-  error: string;
+  error?: string;
   handleChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 }
+
+/**
+ * @prop { string } name - Input name and id
+ * @prop { any } value - Input value
+ * @prop { string } label - Input label
+ * @prop { Array<string> } list - Items to drop down list
+ * @prop { string | undefined} error - Error message to display
+ * @prop { () => void } handleChange - Function for onChange input
+ */
 export default function SelectInput({
   name,
   value,
@@ -13,7 +22,7 @@ export default function SelectInput({
   list,
   error,
   handleChange,
-}: SelectInputData) {
+}: SelectProps) {
   return (
     <div className="form-floating">
       <select

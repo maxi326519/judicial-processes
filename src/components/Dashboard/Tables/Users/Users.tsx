@@ -76,25 +76,6 @@ export default function UsersTable() {
     });
   }
 
-  function handleSaveUser(user: Users) {
-    dispatch(openLoading());
-    dispatch<any>(editUser ? updateUser(user) : setUser(user))
-      .then(() => {
-        handleClose();
-        dispatch(closeLoading());
-        swal("Guardado", "Se guardo el usuario", "success");
-      })
-      .catch((err: any) => {
-        console.log(err);
-        dispatch(closeLoading());
-        swal(
-          "Error",
-          "No se pudo guardar el usuario, inténtelo más tarde",
-          "error"
-        );
-      });
-  }
-
   function handleClose() {
     if (form) setEditUser(null);
     setForm(!form);
@@ -106,7 +87,6 @@ export default function UsersTable() {
         <Form
           editUser={editUser}
           handleClose={handleClose}
-          handleSubmit={handleSaveUser}
         />
       ) : null}
       <header>

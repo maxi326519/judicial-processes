@@ -5,7 +5,7 @@ import SideBar from "../SideBar/SideBar";
 import styles from "./Dashboard.module.css";
 
 interface Props {
-  element: () => JSX.Element;
+  element: JSX.Element;
   title: string;
 }
 
@@ -14,7 +14,7 @@ export default function Dashboard({ element, title }: Props) {
     <div className={styles.background}>
       <Navbar title={title} />
       <SideBar />
-      {element()}
+      {element}
     </div>
   );
 }

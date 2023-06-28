@@ -27,7 +27,7 @@ export default function Checkbox({
         checked={value}
         onChange={handleCheck}
       />
-      <label htmlFor="tipo" className="form-check-label">
+      <label htmlFor={name} className="form-check-label">
         {label}
       </label>
     </div>

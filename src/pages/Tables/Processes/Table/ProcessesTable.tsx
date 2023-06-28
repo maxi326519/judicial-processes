@@ -29,8 +29,6 @@ import styles from "./ProcessesTable.module.css";
 import loadingSvg from "../../../../assets/img/loading.gif";
 import errorSvg from "../../../../assets/svg/error.svg";
 import listSvg from "../../../../assets/svg/list.svg";
-import SideBar from "../../../../components/SideBar/SideBar";
-import Navbar from "../../../../components/Navbar/Navbar";
 
 export default function ProcessesTable() {
   const dispatch = useDispatch();

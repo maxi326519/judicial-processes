@@ -40,7 +40,7 @@ export default function SelectInput({
             </option>
           ))}
       </select>
-      <label htmlFor="tipo" className="form-label">
+      <label htmlFor={name} className="form-label">
         {label}
       </label>
       <small>{error}</small>

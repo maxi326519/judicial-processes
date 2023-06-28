@@ -25,6 +25,7 @@ import TutelasTable from "./pages/Tables/Tutelage/Table/TutelaTable";
 import TutelasIframe from "./pages/Tables/Tutelage/Iframes/Iframes";
 import TutelasExcel from "./pages/Tables/Tutelage/Excel/Excel";
 import Dashboard from "./components/Dashboard/Dashboard";
+import PageNotFound from "./components/PageNotFound/PageNotFound";
 
 /* import RequirementsTable from "./pages/Tables/Requirements/Table/RequirementsTables";
 import RequirementsIframe from "./pages/Tables/Requirements/Iframes/Iframes";
@@ -69,12 +70,12 @@ function App() {
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route
           path="/dashboard/home"
-          element={<Dashboard element={Home} title={"Home"} />}
+          element={<Dashboard element={Home()} title={"Home"} />}
         />
         <Route
           path="/dashboard/usuarios"
           element={
-            <Dashboard element={UsersTable} title={"Listado de users"} />
+            <Dashboard element={UsersTable()} title={"Listado de users"} />
           }
         />
 
@@ -82,7 +83,7 @@ function App() {
           path="/dashboard/procesos"
           element={
             <Dashboard
-              element={ProcessesTable}
+              element={ProcessesTable()}
               title={"Listado de processes"}
             />
           }
@@ -91,7 +92,7 @@ function App() {
           path="/dashboard/procesos/graficos"
           element={
             <Dashboard
-              element={ProcessesIframe}
+              element={ProcessesIframe()}
               title={"Procesos - Gráficos"}
             />
           }
@@ -99,27 +100,39 @@ function App() {
         <Route
           path="/dashboard/procesos/excel"
           element={
-            <Dashboard element={ProcessesExcel} title={"Procesos - Excel"} />
+            <Dashboard element={ProcessesExcel()} title={"Procesos - Excel"} />
           }
         />
 
+        {/* TUTELAS */}
         <Route
           path="/dashboard/tutelas"
           element={
-            <Dashboard element={TutelasTable} title={"Listado de Tutelas"} />
+            <Dashboard element={TutelasTable()} title={"Listado de Tutelas"} />
           }
         />
         <Route
           path="/dashboard/tutelas/graficos"
           element={
-            <Dashboard element={TutelasIframe} title={"Tutelas - Gráficos"} />
+            <Dashboard element={TutelasIframe()} title={"Tutelas - Gráficos"} />
           }
         />
         <Route
           path="/dashboard/tutelas/excel"
           element={
-            <Dashboard element={TutelasExcel} title={"Tutelas - Excel"} />
+            <Dashboard element={TutelasExcel()} title={"Tutelas - Excel"} />
           }
+        />
+
+        {/* REQUIREMENTS */}
+        <Route path="/dashboard/requerimientos" element={<PageNotFound />} />
+        <Route
+          path="/dashboard/requerimientos/graficos"
+          element={<PageNotFound />}
+        />
+        <Route
+          path="/dashboard/requerimientos/excel"
+          element={<PageNotFound />}
         />
       </Routes>
     </div>

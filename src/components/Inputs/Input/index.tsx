@@ -44,7 +44,7 @@ export default function Input({
         onChange={handleChange}
         disabled={formulated}
       />
-      <label htmlFor="tipo" className="form-label">
+      <label htmlFor={name} className="form-label">
         {label}
       </label>
       <small>{error}</small>

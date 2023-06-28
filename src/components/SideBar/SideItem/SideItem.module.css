@@ -1,0 +1,27 @@
+.item {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  text-decoration: none;
+  color: white;
+}
+
+.item img {
+  width: 25px;
+  margin-right: 10px;
+  filter: invert(100%);
+}
+
+.item:hover {
+  background-color: #0002;
+}
+
+.item:hover img {
+  filter: var(--filter-primary);
+}
+
+.itemSelected {
+  color: var(--primary-color);
+  border-left: 5px solid var(--primary-color);
+  background-color: var(--dark-background);
+}

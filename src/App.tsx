@@ -26,6 +26,7 @@ import TutelasIframe from "./pages/Tables/Tutelage/Iframes/Iframes";
 import TutelasExcel from "./pages/Tables/Tutelage/Excel/Excel";
 import Dashboard from "./components/Dashboard/Dashboard";
 import PageNotFound from "./components/PageNotFound/PageNotFound";
+import { UserRol } from "./interfaces/users";
 
 /* import RequirementsTable from "./pages/Tables/Requirements/Table/RequirementsTables";
 import RequirementsIframe from "./pages/Tables/Requirements/Iframes/Iframes";
@@ -34,9 +35,11 @@ import RequirementsExcel from "./pages/Tables/Requirements/Excel/Excel"; */
 function App() {
   const redirect = useNavigate();
   const dispatch = useDispatch();
+  const user = useSelector((state: RootState) => state.sesion);
   const loading = useSelector((state: RootState) => state.loading);
 
   useEffect(() => {
+    redirect("/login");
     dispatch(openLoading());
     setTimeout(() => {
       if (auth.currentUser) {
@@ -70,37 +73,56 @@ function App() {
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route
           path="/dashboard/home"
-          element={<Dashboard element={Home()} title={"Home"} />}
+          element={<Dashboard element={<Home/>} title={"Home"} />}
         />
         <Route
           path="/dashboard/usuarios"
           element={
-            <Dashboard element={UsersTable()} title={"Listado de users"} />
+            user.rol === UserRol.Admin ? (
+              <Dashboard element={<UsersTable />} title={"Listado de users"} />
+            ) : (
+              <PageNotFound />
+            )
           }
         />
 
         <Route
           path="/dashboard/procesos"
           element={
-            <Dashboard
-              element={ProcessesTable()}
-              title={"Listado de processes"}
-            />
+            user.rol === UserRol.Admin || user.permissions.processes ? (
+              <Dashboard
+                element={<ProcessesTable />}
+                title={"Listado de processes"}
+              />
+            ) : (
+              <PageNotFound />
+            )
           }
         />
         <Route
           path="/dashboard/procesos/graficos"
           element={
-            <Dashboard
-              element={ProcessesIframe()}
-              title={"Procesos - Gráficos"}
-            />
+            user.rol === UserRol.Admin || user.permissions.processes ? (
+              <Dashboard
+                element={<ProcessesIframe />}
+                title={"Procesos - Gráficos"}
+              />
+            ) : (
+              <PageNotFound />
+            )
           }
         />
         <Route
           path="/dashboard/procesos/excel"
           element={
-            <Dashboard element={ProcessesExcel()} title={"Procesos - Excel"} />
+            user.rol === UserRol.Admin || user.permissions.processes ? (
+              <Dashboard
+                element={<ProcessesExcel />}
+                title={"Procesos - Excel"}
+              />
+            ) : (
+              <PageNotFound />
+            )
           }
         />
 
@@ -108,19 +130,37 @@ function App() {
         <Route
           path="/dashboard/tutelas"
           element={
-            <Dashboard element={TutelasTable()} title={"Listado de Tutelas"} />
+            user.rol === UserRol.Admin || user.permissions.tutelas ? (
+              <Dashboard
+                element={<TutelasTable />}
+                title={"Listado de Tutelas"}
+              />
+            ) : (
+              <PageNotFound />
+            )
           }
         />
         <Route
           path="/dashboard/tutelas/graficos"
           element={
-            <Dashboard element={TutelasIframe()} title={"Tutelas - Gráficos"} />
+            user.rol === UserRol.Admin || user.permissions.tutelas ? (
+              <Dashboard
+                element={<TutelasIframe />}
+                title={"Tutelas - Gráficos"}
+              />
+            ) : (
+              <PageNotFound />
+            )
           }
         />
         <Route
           path="/dashboard/tutelas/excel"
           element={
-            <Dashboard element={TutelasExcel()} title={"Tutelas - Excel"} />
+            user.rol === UserRol.Admin || user.permissions.tutelas ? (
+              <Dashboard element={<TutelasExcel />} title={"Tutelas - Excel"} />
+            ) : (
+              <PageNotFound />
+            )
           }
         />
 

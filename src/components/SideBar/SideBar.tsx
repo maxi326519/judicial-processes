@@ -14,7 +14,12 @@ import SideDropDown from "./SideDropDown/SideDropDown";
 import SideItem from "./SideItem/SideItem";
 
 const sideList = [
-  { label: "Home", icon: home, path: "/dashboard/home" },
+  {
+    label: "Home",
+    icon: home,
+    path: "/dashboard/home",
+    permissions: UserPermissions.Any,
+  },
   {
     label: "Users",
     icon: users,
@@ -69,17 +74,19 @@ export default function SideBar() {
       {sideList.map((item) =>
         // If user is admin
         user.rol === UserRol.Admin ||
-        // if not a protected route
-        !item.permissions ||
-        // If is'nt admin, but has permission "processes"
-        (item.permissions === UserPermissions.Processes &&
-          user.permissions.processes) ||
-        // If is'nt admin, but has permission "tutelas"
-        (item.permissions === UserPermissions.Tutelas &&
-          user.permissions.tutelas) ||
-        // If is'nt admin, but has permission "requirements"
-        (item.permissions === UserPermissions.Requirements &&
-          user.permissions.requirements) ? (
+        // If permissions is any
+        item.permissions === UserPermissions.Any ||
+        // Filter items with 'Admin' permission
+        (item.permissions !== UserPermissions.Admin &&
+          // If is'nt admin, but has permission "processes"
+          ((item.permissions === UserPermissions.Processes &&
+            user.permissions.processes) ||
+            // If is'nt admin, but has permission "tutelas"
+            (item.permissions === UserPermissions.Tutelas &&
+              user.permissions.tutelas) ||
+            // If is'nt admin, but has permission "requirements"
+            (item.permissions === UserPermissions.Requirements &&
+              user.permissions.requirements))) ? (
           // If item has sublist
           item.subList ? (
             <SideDropDown

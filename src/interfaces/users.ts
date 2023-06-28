@@ -18,10 +18,11 @@ export enum UserRol {
 }
 
 export enum UserPermissions {
-  Admin,
+  Admin = "Admin",
   Processes = "processes",
   Tutelas = "tutelas",
   Requirements = "requirements",
+  Any = "Any"
 }
 
 export interface ErrorUser {

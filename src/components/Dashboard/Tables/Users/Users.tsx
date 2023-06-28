@@ -1,12 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../interfaces/RootState";
-import {
-  deleteUser,
-  getUsers,
-  setUser,
-  updateUser,
-} from "../../../../redux/actions/users";
+import { deleteUser, getUsers } from "../../../../redux/actions/users";
 import { Users } from "../../../../interfaces/users";
 import { closeLoading, openLoading } from "../../../../redux/actions/loading";
 import swal from "sweetalert";
@@ -83,12 +78,7 @@ export default function UsersTable() {
 
   return (
     <div className={`toLeft ${styles.dashboard}`}>
-      {form ? (
-        <Form
-          editUser={editUser}
-          handleClose={handleClose}
-        />
-      ) : null}
+      {form ? <Form editUser={editUser} handleClose={handleClose} /> : null}
       <header>
         <div className={styles.controls}>
           <button
@@ -106,6 +96,10 @@ export default function UsersTable() {
             <th>Nombre</th>
             <th>E-mail</th>
             <th>Rol</th>
+            <th>Processos</th>
+            <th>Tutelas</th>
+            <th>Requerimientos</th>
+            <th>Acciones</th>
           </tr>
         </thead>
         <tbody className={styles.contentRows}>

@@ -61,6 +61,7 @@ export default function Form({ editUser, handleClose }: Props) {
   function handleChange(
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) {
+    console.log(user);
     setUserData({ ...user, [event.target.name]: event.target.value });
   }
 
@@ -176,19 +177,19 @@ export default function Form({ editUser, handleClose }: Props) {
             <h5>Permisos</h5>
             <Checkbox
               name={"processes"}
-              value={user.permissions.processes}
+              value={user.permissions?.processes}
               label={"Procesos"}
               handleCheck={handlePermissions}
             />
             <Checkbox
               name={"tutelas"}
-              value={user.permissions.tutelas}
+              value={user.permissions?.tutelas}
               label={"Tutelas"}
               handleCheck={handlePermissions}
             />
             <Checkbox
               name={"requirements"}
-              value={user.permissions.requirements}
+              value={user.permissions?.requirements}
               label={"Requerimientos"}
               handleCheck={handlePermissions}
             />

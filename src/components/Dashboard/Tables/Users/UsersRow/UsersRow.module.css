@@ -1,6 +1,6 @@
 .row {
   display: grid;
-  grid-template-columns: 1fr 1fr 100px 50px 50px;
+  grid-template-columns: 1fr 1fr 100px 90px 90px 130px 50px 50px;
   gap: 10px;
   padding: 10px;
   border-bottom: 1px solid var(--border);
@@ -32,5 +32,32 @@
 
 .row button:last-child img {
   filter: invert(28%) sepia(73%) saturate(7153%) hue-rotate(353deg)
-  brightness(94%) contrast(125%);
+    brightness(94%) contrast(125%);
+}
+
+.row .permissions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 13px;
+  font-weight: bold;
+  border-radius: 20px;
+  opacity: 0.8;
+  color: white;
+  border: 1px solid grey;
+}
+
+.row .access {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+.row .denegated {
+  color: #9c9c9c;
+  border-color: #9c9c9c;
+}
+
+.row .avaible {
+  border-color: #389138;
+  color: #389138;
 }

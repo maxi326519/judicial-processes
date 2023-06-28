@@ -91,8 +91,6 @@ exports.updateUser = onCall(async (data, context) => {
       throw new HttpsError("invalid-argument", "missing parameter: name");
     if (!email)
       throw new HttpsError("invalid-argument", "missing parameter: email");
-    if (!password)
-      throw new HttpsError("invalid-argument", "missing parameter: password");
     if (
       !permissions ||
       !permissions.processes ||

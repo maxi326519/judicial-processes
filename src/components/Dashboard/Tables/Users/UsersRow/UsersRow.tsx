@@ -1,4 +1,4 @@
-import { Users } from "../../../../../interfaces/users";
+import { UserRol, Users } from "../../../../../interfaces/users";
 
 import style from "./UsersRow.module.css";
 import editSvg from "../../../../../assets/svg/edit.svg";
@@ -16,6 +16,33 @@ export default function UsersRow({ user, handleEdit, handleDelete }: Props) {
       <td>{user.name}</td>
       <td>{user.email}</td>
       <td>{user.rol}</td>
+      {user.rol === UserRol.Admin || user.permissions?.processes ? (
+        <td className={`${style.permissions} ${style.access}`}>
+          <span>Habilitado</span>
+        </td>
+      ) : (
+        <td className={`${style.permissions} ${style.denegated}`}>
+          <span>Denegado</span>
+        </td>
+      )}
+      {user.rol === UserRol.Admin || user.permissions?.tutelas ? (
+        <td className={`${style.permissions} ${style.access}`}>
+          <span>Habilitado</span>
+        </td>
+      ) : (
+        <td className={`${style.permissions} ${style.denegated}`}>
+          <span>Denegado</span>
+        </td>
+      )}
+      {user.rol === UserRol.Admin || user.permissions?.requirements ? (
+        <td className={`${style.permissions} ${style.access}`}>
+          <span>Habilitado</span>
+        </td>
+      ) : (
+        <td className={`${style.permissions} ${style.denegated}`}>
+          <span>Denegado</span>
+        </td>
+      )}
       <button
         className="btn btn-outline-primary"
         type="button"

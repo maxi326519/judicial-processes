@@ -17,6 +17,8 @@ import SelectInput from "../../../../../components/Inputs/SelectInput";
 import TextareaInput from "../../../../../components/Inputs/TextareaInput";
 
 import styles from "./Form.module.css";
+import { dateToTime } from "../../../../../functions/dateToTime";
+import Checkbox from "../../../../../components/Inputs/Checkbox";
 
 interface Props {
   handleClose: () => void;
@@ -57,14 +59,6 @@ export default function Form({ handleClose }: Props) {
       error: errors.abogado,
     },
     {
-      value: tutela.tipo,
-      name: "tipo",
-      label: "Tipo de tutela",
-      inputType: "select",
-      list: lists.tipo,
-      error: errors.tipo,
-    },
-    {
       value: tutela.fecha,
       name: "fecha",
       label: "Fecha",
@@ -72,11 +66,11 @@ export default function Form({ handleClose }: Props) {
       error: errors.fecha,
     },
     {
-      value: tutela.radicado,
-      name: "radicado",
-      label: "Radicado",
-      inputType: "text",
-      error: errors.radicado,
+      value: dateToTime(tutela.fecha),
+      name: "fecha",
+      label: "Hora",
+      inputType: "time",
+      error: errors.fecha,
     },
     {
       value: tutela.demandanteId,
@@ -98,6 +92,21 @@ export default function Form({ handleClose }: Props) {
       label: "Demandado",
       inputType: "text",
       error: errors.demandado,
+    },
+    {
+      value: tutela.radicado,
+      name: "radicado",
+      label: "Radicado",
+      inputType: "text",
+      error: errors.radicado,
+    },
+    {
+      value: tutela.tipo,
+      name: "tipo",
+      label: "Tipo de tutela",
+      inputType: "select",
+      list: lists.tipo,
+      error: errors.tipo,
     },
     {
       value: tutela.temaTutela,
@@ -149,6 +158,15 @@ export default function Form({ handleClose }: Props) {
       name: "fechaVencimiento",
       label: "Fecha de vencimiento",
       inputType: "date",
+      formulated: true,
+      error: errors.fechaVencimiento,
+    },
+    {
+      value: dateToTime(tutela.fechaVencimiento),
+      name: "fechaVencimiento",
+      label: "Hora de vencimiento",
+      inputType: "time",
+      formulated: true,
       error: errors.fechaVencimiento,
     },
     {
@@ -156,6 +174,13 @@ export default function Form({ handleClose }: Props) {
       name: "fechaRespuesta",
       label: "Fecha de respuesta",
       inputType: "date",
+      error: errors.fechaRespuesta,
+    },
+    {
+      value: dateToTime(tutela.fechaRespuesta),
+      name: "fechaRespuesta",
+      label: "Hora de respuesta",
+      inputType: "time",
       error: errors.fechaRespuesta,
     },
     {
@@ -170,6 +195,7 @@ export default function Form({ handleClose }: Props) {
       name: "validacionRespuesta",
       label: "Validacion de la respuesta",
       inputType: "text",
+      formulated: true,
       error: errors.validacionRespuesta,
     },
     {
@@ -366,7 +392,7 @@ export default function Form({ handleClose }: Props) {
               error={data.error}
               handleChange={handleChange}
             />
-          ) : data.inputType === "textArea" ? (
+          ) : data.inputType === "textarea" ? (
             <TextareaInput
               key={i}
               name={data.name}
@@ -374,6 +400,13 @@ export default function Form({ handleClose }: Props) {
               label={data.label}
               error={data.error}
               handleChange={handleChange}
+            />
+          ) : data.inputType === "checkbox" ? (
+            <Checkbox
+              name={data.name}
+              value={data.value}
+              label={data.label}
+              handleCheck={handleChange}
             />
           ) : (
             <Input

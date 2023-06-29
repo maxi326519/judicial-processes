@@ -119,7 +119,7 @@ export const initTutelaDetails: TutelaDetails = {
   fechaVencimiento: null,
   fechaRespuesta: null,
   radicadoSalida: "",
-  validacionRespuesta: "",
+  validacionRespuesta: "NO SE DILIGENCIO",
   oficioAdicional: "",
   fallo1raInst: "",
   fechaFallo1raInst: null,

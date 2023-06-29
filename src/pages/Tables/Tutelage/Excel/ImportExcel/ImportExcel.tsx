@@ -37,7 +37,7 @@ export default function ImportExcel({ handleData, handleClose }: Props) {
 
           worksheetData
             .slice(1)
-            .forEach((item: any) => (item[2] ? data.push(item) : null));
+            .forEach((item: any) => (item[21] ? data.push(item) : null));
 
           const convert = dataConvert(data);
           handleData(convert);
@@ -66,55 +66,61 @@ export default function ImportExcel({ handleData, handleClose }: Props) {
     let newData: TutelaDetails[] = [];
     let idList: number[] = [];
 
+    console.log("asdasd", data);
+
     data.forEach((processes: any, i: number) => {
-      const idSiproj = Number(processes[2]);
+      const idSiproj = Number(processes[21]);
       if (!idSiproj)
         throw new Error(
-          `La fila ${i} tiene problemas con el id: (${processes[2]})`
+          `La fila ${i} tiene problemas con el id: (${processes[21]})`
         );
       if (idList.some((id) => id === idSiproj))
         throw new Error(`El id ${idSiproj} ya existe`);
       idList.push(idSiproj);
 
+      /*       console.log(processes[16]);
+      console.log(processes[2]); */
+
       const currentData: TutelaDetails = {
-        idSiproj: Number(processes[2]) || 0,
-        nroTutela: textParser(processes[0] || ""),
         tipo: textParser(processes[0] || ""),
-        fecha: newDate(processes[25]),
-        radicado: textParser(processes[0] || ""),
-        demandanteId: textParser(processes[0] || ""),
-        demandante: textParser(processes[0] || ""),
-        demandado: textParser(processes[0] || ""),
-        temaTutela: textParser(processes[0] || ""),
-        derechoVulnerado: textParser(processes[0] || ""),
-        extranjero: false,
-        concepto: textParser(processes[0] || ""),
-        termino: textParser(processes[0] || ""),
-        remite: textParser(processes[0] || ""),
-        abogado: textParser(processes[0] || ""),
-        fechaVencimiento: newDate(processes[25]),
-        fechaRespuesta: newDate(processes[25]),
-        radicadoSalida: textParser(processes[0] || ""),
-        validacionRespuesta: textParser(processes[0] || ""),
-        oficioAdicional: textParser(processes[0] || ""),
-        fallo1raInst: textParser(processes[0] || ""),
-        fechaFallo1raInst: newDate(processes[25]),
-        observacionFallo1raInst: textParser(processes[0] || ""),
-        terminoCumplimiento1raInst: Number(processes[2]) || 0,
-        cumplimiento1raInst: textParser(processes[0] || ""),
-        fechaCumplimiento1raInst: newDate(processes[25]),
-        impugnacionSDP: Number(processes[2]) || 0,
-        fechaImpugnacion: newDate(processes[25]),
-        fallo2daInst: textParser(processes[0] || ""),
-        fechaFallo2daInst: newDate(processes[25]),
-        observacionFallo2daInst: textParser(processes[0] || ""),
-        terminoCumplimiento2daInst: Number(processes[2]) || 0,
-        cumplimiento2daInst: textParser(processes[0] || ""),
-        fechaCumplimiento2daInst: newDate(processes[25]),
-        incidenteDesacato: textParser(processes[0] || ""),
-        observacionesGenerales: textParser(processes[0] || ""),
+        fecha: combineDateAndTime(processes[1], processes[2]),
+        radicado: textParser(processes[3] || ""),
+        demandanteId: textParser(processes[4] || ""),
+        demandante: textParser(processes[5] || ""),
+        demandado: textParser(processes[6] || ""),
+        temaTutela: textParser(processes[7] || ""),
+        derechoVulnerado: textParser(processes[8] || ""),
+        extranjero: processes[9] || false, // Revisar booleanos
+        concepto: textParser(processes[10] || ""),
+        nroTutela: textParser(processes[11] || ""),
+        termino: textParser(processes[12] || ""),
+        remite: textParser(processes[13] || ""),
+        abogado: textParser(processes[14] || ""),
+        fechaVencimiento: combineDateAndTime(processes[15], processes[16]),
+        fechaRespuesta: newDate(processes[17]), // Revisar boleanos
+        radicadoSalida: textParser(processes[19] || ""),
+        validacionRespuesta: textParser(processes[20] || ""),
+        idSiproj: Number(processes[21]) || 0,
+        oficioAdicional: textParser(processes[22] || ""),
+        fallo1raInst: textParser(processes[23] || ""),
+        fechaFallo1raInst: newDate(processes[24]),
+        observacionFallo1raInst: textParser(processes[25] || ""),
+        terminoCumplimiento1raInst: Number(processes[26]) || 0,
+        cumplimiento1raInst: textParser(processes[27] || ""),
+        fechaCumplimiento1raInst: newDate(processes[28]),
+        impugnacionSDP: Number(processes[29]) || 0,
+        fechaImpugnacion: newDate(processes[30]),
+        fallo2daInst: textParser(processes[31] || ""),
+        fechaFallo2daInst: newDate(processes[32]),
+        observacionFallo2daInst: textParser(processes[33] || ""),
+        terminoCumplimiento2daInst: Number(processes[34]) || 0,
+        cumplimiento2daInst: textParser(processes[35] || ""),
+        fechaCumplimiento2daInst: newDate(processes[36]),
+        incidenteDesacato: textParser(processes[37] || ""),
+        observacionesGenerales: textParser(processes[38] || ""),
       };
 
+      console.log(currentData);
       newData.push(currentData);
     });
 
@@ -131,7 +137,7 @@ export default function ImportExcel({ handleData, handleClose }: Props) {
       details: newData,
     };
   }
-
+  
   function newDate(fechaExcel: string) {
     // Supongamos que 'fechaExcel' es la fecha leída del archivo Excel en formato '9/2/21'
     let fechaFormateada = "";
@@ -154,6 +160,24 @@ export default function ImportExcel({ handleData, handleClose }: Props) {
       // La fecha es inválida, maneja el caso en consecuencia
       return null;
     }
+  }
+
+  function combineDateAndTime(date: string, time: string): Date | null {
+    // Check date
+    const combinedDate = newDate(date);
+    if (combinedDate === null) return null;
+
+    // Check teim format HH:MM:SS
+    const timeRegex = /^([01]\d|2[0-3]):([0-5]\d):([0-5]\d)$/;
+    if (!timeRegex.test(time)) return combinedDate;
+
+    // Time destructuring
+    const [hours, minutes, seconds] = time.split(":");
+
+    // Set hours
+    combinedDate.setHours(Number(hours), Number(minutes), Number(seconds));
+
+    return combinedDate;
   }
 
   function textParser(texto: string): string {

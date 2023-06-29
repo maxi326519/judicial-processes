@@ -92,9 +92,18 @@
 }
 
 /* TEXTAREA */
-.grid div:nth-child(13),
-.grid div:nth-child(23),
-.grid div:nth-child(31),
-.grid div:nth-child(36) {
+.grid div:nth-child(14),
+.grid div:nth-child(26),
+.grid div:nth-child(34),
+.grid div:nth-child(39) {
   grid-column: 1 / 6;
+}
+/* DEMANDANTE */
+.grid div:nth-child(7) {
+  grid-column: 2 / 4;
+}
+
+/* DEMANDADO */
+.grid div:nth-child(8) {
+  grid-column: 4 / 6;
 }

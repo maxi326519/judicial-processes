@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 interface InputProps {
   name: string;
   value: any;
@@ -36,7 +38,7 @@ export default function Input({
         value={
           type === "date"
             ? value
-              ? value.toISOString().split("T")[0]
+              ? value?.toISOString()?.split("T")[0]
               : null
             : value
         }

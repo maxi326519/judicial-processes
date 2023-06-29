@@ -18,6 +18,7 @@ export default function TextAreaInput({
         id={name}
         name={name}
         className={`form-control ${error ? "is-invalid" : ""}`}
+        style={{ height: "200px"}}
         value={value}
         onChange={handleChange}
       />

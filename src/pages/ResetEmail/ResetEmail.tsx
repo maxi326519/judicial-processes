@@ -39,7 +39,7 @@ export default function ResetEmail() {
       dispatch(openLoading());
       dispatch<any>(changeEmail(newEmail.email, newEmail.currentPassword, user))
         .then(() => {
-          redirect("/dashboard/home");
+          redirect("/dashboard/home/procesos");
           dispatch(closeLoading());
           swal("Actualizado", "Se actualozó la contraseña", "success");
         })

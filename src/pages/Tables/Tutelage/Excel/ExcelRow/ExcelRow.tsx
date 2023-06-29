@@ -1,4 +1,4 @@
-import { TutelaHeads } from "../../../../../../interfaces/Tutelas/data";
+import { TutelaHeads } from "../../../../../interfaces/Tutelas/data";
 
 import style from "./ExcelRow.module.css";
 

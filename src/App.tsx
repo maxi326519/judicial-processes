@@ -5,28 +5,30 @@ import { closeLoading, openLoading } from "./redux/actions/loading";
 import { getUserData } from "./redux/actions/sesion";
 import { auth } from "./firebase/config";
 import { useEffect } from "react";
+import { UserRol } from "./interfaces/users";
 import swal from "sweetalert";
 
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import Home from "./pages/Home/Home";
-import Login from "./pages/Login/Login";
+import Dashboard from "./components/Dashboard/Dashboard";
+import PageNotFound from "./components/PageNotFound/PageNotFound";
 import Loading from "./components/Loading/Loading";
+
+import Login from "./pages/Login/Login";
 import ResetEmail from "./pages/ResetEmail/ResetEmail";
 import ResetPassword from "./pages/ResetPassword/ResetPassword";
 import UsersTable from "./pages/Tables/Users/Users";
 
+import ProcessesHome from "./pages/Home/Processes/Home";
 import ProcessesTable from "./pages/Tables/Processes/Table/ProcessesTable";
 import ProcessesIframe from "./pages/Tables/Processes/Iframes/Iframes";
 import ProcessesExcel from "./pages/Tables/Processes/Excel/Excel";
 
+import TutelasHome from "./pages/Home/Tutelas/Home";
 import TutelasTable from "./pages/Tables/Tutelage/Table/TutelaTable";
 import TutelasIframe from "./pages/Tables/Tutelage/Iframes/Iframes";
 import TutelasExcel from "./pages/Tables/Tutelage/Excel/Excel";
-import Dashboard from "./components/Dashboard/Dashboard";
-import PageNotFound from "./components/PageNotFound/PageNotFound";
-import { UserRol } from "./interfaces/users";
 
 /* import RequirementsTable from "./pages/Tables/Requirements/Table/RequirementsTables";
 import RequirementsIframe from "./pages/Tables/Requirements/Iframes/Iframes";
@@ -45,7 +47,7 @@ function App() {
       if (auth.currentUser) {
         dispatch<any>(getUserData())
           .then(() => {
-            redirect("/dashboard/home");
+            redirect("/dashboard/home/procesos");
             dispatch(closeLoading());
           })
           .catch((err: any) => {
@@ -72,8 +74,23 @@ function App() {
         <Route path="/reset-email" element={<ResetEmail />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route
-          path="/dashboard/home"
-          element={<Dashboard element={<Home/>} title={"Home"} />}
+          path="/dashboard/home/procesos"
+          element={
+            <Dashboard
+              element={<ProcessesHome />}
+              title={"Procesos judiciales"}
+            />
+          }
+        />
+
+        <Route
+          path="/dashboard/home/tutelas"
+          element={
+            <Dashboard
+              element={<TutelasHome />}
+              title={"Procesos judiciales"}
+            />
+          }
         />
         <Route
           path="/dashboard/usuarios"

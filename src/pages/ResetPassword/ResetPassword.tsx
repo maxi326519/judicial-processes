@@ -41,7 +41,7 @@ export default function ResetPassword() {
         changePassword(newPassword.password, newPassword.currentPassword, user)
       )
         .then(() => {
-          redirect("/dashboard/home");
+          redirect("/dashboard/home/procesos");
           dispatch(closeLoading());
           swal("Actualizado", "Se actualozó la contraseña", "success");
         })

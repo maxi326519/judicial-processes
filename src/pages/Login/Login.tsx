@@ -57,7 +57,7 @@ export default function Signin() {
       dispatch(openLoading());
       dispatch<any>(logIn(user))
         .then(() => {
-          redirect("/dashboard/home");
+          redirect("/dashboard/home/procesos");
           dispatch(closeLoading());
         })
         .catch((e: any) => {

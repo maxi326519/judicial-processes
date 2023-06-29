@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { Chart } from "react-google-charts";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../../../interfaces/RootState";
-import { TypeChartData } from "../../../../../interfaces/Processes/charts";
+import { RootState } from "../../../../interfaces/RootState";
+import { TypeChartData } from "../../../../interfaces/Processes/charts";
 
 const header = ["TIPO", "TIPOS"];
 const example = [header, ["Sin Datos", 0]];

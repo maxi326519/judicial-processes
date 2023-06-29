@@ -17,7 +17,7 @@ const sideList = [
   {
     label: "Home",
     icon: home,
-    path: "/dashboard/home",
+    path: "/dashboard/home/procesos",
     permissions: UserPermissions.Any,
   },
   {

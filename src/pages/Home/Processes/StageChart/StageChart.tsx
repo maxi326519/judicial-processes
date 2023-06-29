@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Chart } from "react-google-charts";
-import { RootState } from "../../../../../interfaces/RootState";
+import { RootState } from "../../../../interfaces/RootState";
 import { useSelector } from "react-redux";
-import { StageChartData } from "../../../../../interfaces/Processes/charts";
+import { StageChartData } from "../../../../interfaces/Processes/charts";
 
 const header = ["ETAPA", "ETAPA PROCESAL", { role: "style" }];
 const exmaple = [header, ["Sin datos", 0, "#b87333"]];

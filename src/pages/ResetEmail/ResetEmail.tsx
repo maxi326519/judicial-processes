@@ -63,7 +63,7 @@ export default function ResetEmail() {
   }
 
   function handleGoToDasboard() {
-    redirect("/dashboard/home");
+    redirect("/dashboard/home/procesos");
   }
 
   function validations() {

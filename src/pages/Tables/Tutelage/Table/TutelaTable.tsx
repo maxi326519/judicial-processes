@@ -37,7 +37,7 @@ export default function TutelaTable() {
   const tutela = useSelector((state: RootState) => state.tutelas.heads);
   const [filters, setFilters] = useState<TutelaFilters>(initTutelaFilters);
   const [rows, setRows] = useState<TutelaHeads[]>([]);
-  const [form, setForm] = useState<boolean>(true);
+  const [form, setForm] = useState<boolean>(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [list, setList] = useState(false);
@@ -213,7 +213,7 @@ export default function TutelaTable() {
 
   return (
     <div className={`toLeft ${styles.dashboard}`}>
-      {true ? <Form handleClose={handleClose} /> : null}
+      {form ? <Form handleClose={handleClose} /> : null}
       {list ? <Lists handleClose={handleShowList} /> : null}
       <div className={styles.controls}>
         <Filters filters={filters} setFilters={setFilters} />

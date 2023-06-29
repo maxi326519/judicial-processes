@@ -3,7 +3,7 @@ import { RootState } from "./interfaces/RootState";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { closeLoading, openLoading } from "./redux/actions/loading";
 import { getUserData } from "./redux/actions/sesion";
-import { auth } from "./firebase/config";
+import { auth, db } from "./firebase/config";
 import { useEffect } from "react";
 import { UserRol } from "./interfaces/users";
 import swal from "sweetalert";
@@ -29,6 +29,7 @@ import TutelasHome from "./pages/Home/Tutelas/Home";
 import TutelasTable from "./pages/Tables/Tutelage/Table/TutelaTable";
 import TutelasIframe from "./pages/Tables/Tutelage/Iframes/Iframes";
 import TutelasExcel from "./pages/Tables/Tutelage/Excel/Excel";
+import { collection, doc, getDoc, updateDoc } from "firebase/firestore";
 
 /* import RequirementsTable from "./pages/Tables/Requirements/Table/RequirementsTables";
 import RequirementsIframe from "./pages/Tables/Requirements/Iframes/Iframes";
@@ -41,6 +42,15 @@ function App() {
   const loading = useSelector((state: RootState) => state.loading);
 
   useEffect(() => {
+
+/*     const listDoc = doc(collection(db, "Lists"), "list");
+    getDoc(listDoc).then((response) =>{
+      const listData = response.data();
+      console.log(listData);
+      const newListDoc = doc(collection(db, "Data"), "Processes");
+      updateDoc(newListDoc, { lists: listData });
+    }) */
+
     redirect("/login");
     dispatch(openLoading());
     setTimeout(() => {

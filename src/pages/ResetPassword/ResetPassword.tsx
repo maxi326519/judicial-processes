@@ -63,7 +63,7 @@ export default function ResetPassword() {
   }
 
   function handleGoToDasboard() {
-    redirect("/dashboard/home");
+    redirect("/dashboard/home/procesos");
   }
 
   function validations() {

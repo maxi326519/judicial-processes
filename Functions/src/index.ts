@@ -93,9 +93,9 @@ exports.updateUser = onCall(async (data, context) => {
       throw new HttpsError("invalid-argument", "missing parameter: email");
     if (
       !permissions ||
-      !permissions.processes ||
-      !permissions.tutelas ||
-      !permissions.requirements
+      typeof permissions.processes != "boolean" ||
+      typeof permissions.tutelas != "boolean" ||
+      typeof permissions.requirements!= "boolean" 
     )
       throw new HttpsError(
         "invalid-argument",

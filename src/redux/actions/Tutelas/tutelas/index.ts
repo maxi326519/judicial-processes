@@ -200,29 +200,37 @@ export function importTutelas(
 ): ThunkAction<Promise<void>, RootState, null, AnyAction> {
   return async (dispatch: Dispatch<AnyAction>) => {
     try {
-      const batch = writeBatch(db);
+      let batch = writeBatch(db);
       let row = 0;
+      let length = 0;
       let heads: TutelaHeads[] = [];
 
       try {
-        details.forEach((details: TutelaDetails) => {
+        for (const detail of details) {
           row++;
+          length++;
 
           let head: TutelaHeads = {
-            idSiproj: details.idSiproj,
-            nroTutela: details.nroTutela,
-            abogado: details.abogado,
-            demandanteId: details.demandanteId,
-            demandante: details.demandante,
+            idSiproj: detail.idSiproj,
+            nroTutela: detail.nroTutela,
+            abogado: detail.abogado,
+            demandanteId: detail.demandanteId,
+            demandante: detail.demandante,
           };
           heads.push(head);
 
-          const headDoc = doc(headColl, details.idSiproj.toString());
-          const detailsDoc = doc(detailsColl, details.idSiproj.toString());
+          const headDoc = doc(headColl, detail.idSiproj.toString());
+          const detailsDoc = doc(detailsColl, detail.idSiproj.toString());
 
           batch.set(headDoc, head);
-          batch.set(detailsDoc, details);
-        });
+          batch.set(detailsDoc, detail);
+
+          if (length >= 240) {
+            await batch.commit();
+            batch = writeBatch(db);
+            length = 0;
+          }
+        }
       } catch (error) {
         console.log(error);
         throw new Error(`Hubo un error en la fila ${row} `);
@@ -255,7 +263,7 @@ export function clearAllTutelas(): ThunkAction<
         batch.delete(doc(headColl, head.id));
         batch.delete(doc(detailsColl, head.id));
       });
-      
+
       await batch.commit();
 
       dispatch({

@@ -55,17 +55,19 @@ export function getLists(): ThunkAction<Promise<void>, RootState, null, any> {
     try {
       const snapshot = await getDoc(processesDoc);
       let doc = snapshot.data();
-      let lists = doc?.list;
+      let lists = doc?.lists;
+
+      console.log(snapshot.exists());
 
       // If lists don't existe, create it
-      if (!doc) {
+      if (!snapshot.exists()) {
         lists = { ...initProcessLists };
         await setDoc(processesDoc, { lists });
       } else if (!lists) {
         lists = { ...initProcessLists };
         await updateDoc(processesDoc, { lists });
       } else {
-        lists = doc.lists;
+        lists = doc!.lists;
       }
 
       dispatch({

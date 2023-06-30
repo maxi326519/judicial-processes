@@ -21,13 +21,13 @@ const sideList = [
     permissions: UserPermissions.Any,
   },
   {
-    label: "Users",
+    label: "Usuarios",
     icon: users,
     permissions: UserPermissions.Admin,
     path: "/dashboard/usuarios",
   },
   {
-    label: "Processes",
+    label: "Prosesos",
     icon: document,
     permissions: UserPermissions.Processes,
     subList: [

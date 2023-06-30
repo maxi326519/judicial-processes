@@ -98,6 +98,7 @@
 .grid div:nth-child(39) {
   grid-column: 1 / 6;
 }
+
 /* DEMANDANTE */
 .grid div:nth-child(7) {
   grid-column: 2 / 4;
@@ -106,4 +107,9 @@
 /* DEMANDADO */
 .grid div:nth-child(8) {
   grid-column: 4 / 6;
+}
+
+/* REMITE */
+.grid div:nth-child(15) {
+  grid-column: 2 / 6;
 }

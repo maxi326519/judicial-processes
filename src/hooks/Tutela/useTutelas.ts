@@ -92,12 +92,12 @@ export default function useTutelas() {
 
     // VALIDACION RESPUESTA
     if (
-      (name === "fecha" || name === "termino" || name === "fechaRespuesta") &&
-      newTutela.fecha !== null &&
+      (name === "fechaVencimiento" || name === "termino" || name === "fechaRespuesta") &&
+      newTutela.fechaVencimiento !== null &&
       newTutela.fechaRespuesta !== null &&
       newTutela.termino !== ""
     ) {
-      if (newTutela.fecha <= newTutela.fechaRespuesta) {
+      if (newTutela.fechaVencimiento >= newTutela.fechaRespuesta) {
         newTutela.validacionRespuesta = "A TIEMPO";
       } else {
         newTutela.validacionRespuesta = "VENCIDO";

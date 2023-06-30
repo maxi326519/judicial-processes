@@ -63,7 +63,7 @@ export default function Home() {
           >
             Actualizar
           </button>
-        </div>
+        </div>     
       ) : null}
       <button className={styles.prev} type="button" onClick={handlePrev}>{`<`}</button>
       <button className={styles.next} type="button" onClick={handlePrev}>{`>`}</button>

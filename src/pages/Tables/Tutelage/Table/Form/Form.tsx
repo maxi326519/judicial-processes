@@ -148,7 +148,7 @@ export default function Form({ handleClose }: Props) {
     {
       value: tutela.remite,
       name: "remite",
-      label: "Remite",
+      label: "Remite o despacho judicial",
       inputType: "select",
       list: lists.remite,
       error: errors.remite,
@@ -184,19 +184,19 @@ export default function Form({ handleClose }: Props) {
       error: errors.fechaRespuesta,
     },
     {
-      value: tutela.radicadoSalida,
-      name: "radicadoSalida",
-      label: "Radicado de salida",
-      inputType: "text",
-      error: errors.radicadoSalida,
-    },
-    {
       value: tutela.validacionRespuesta,
       name: "validacionRespuesta",
       label: "Validacion de la respuesta",
       inputType: "text",
       formulated: true,
       error: errors.validacionRespuesta,
+    },
+    {
+      value: tutela.radicadoSalida,
+      name: "radicadoSalida",
+      label: "Radicado de salida",
+      inputType: "text",
+      error: errors.radicadoSalida,
     },
     {
       value: tutela.oficioAdicional,

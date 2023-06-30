@@ -1,6 +1,6 @@
 export interface TutelaCharts {
   abogadosChart: AbogadosCharts[];
-  TemaTutelaChart: TemaTutelaChart[];
+  temaTutelaChart: TemaTutelaChart[];
   fallo1RaInstChart: Fallo1RaInstChart[];
   fallo2DaInstChart: Fallo1RaInstChart[];
 }
@@ -28,9 +28,14 @@ export interface Fallo2DaInstChart {
   quantity: number;
 }
 
+export const initAbogadosCharts: AbogadosCharts = {
+  name: "",
+  types: [],
+};
+
 export const initTutelaCharts: TutelaCharts = {
   abogadosChart: [],
-  TemaTutelaChart: [],
+  temaTutelaChart: [],
   fallo1RaInstChart: [],
   fallo2DaInstChart: [],
 };

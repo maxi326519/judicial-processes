@@ -1,10 +1,11 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getCharts } from "../../../redux/actions/Processes/charts";
+import { getCharts } from "../../../redux/actions/Tutelas/charts";
 import { closeLoading, openLoading } from "../../../redux/actions/loading";
 import { RootState } from "../../../interfaces/RootState";
 import { UserRol } from "../../../interfaces/users";
-import useProcessCharts from "../../../hooks/Processes/useProcessesCharts";
+import { useNavigate } from "react-router-dom";
+import useTutelaChart from "../../../hooks/Tutela/useTutelaChart";
 import swal from "sweetalert";
 
 import TutelasChart from "./TutelasChart/TutelasChart";
@@ -13,13 +14,12 @@ import Fallo2Chart from "./Fallo2Chart/Fallo2Chart";
 import ThemeChart from "./ThemeChart/ThemeChart";
 
 import styles from "./Home.module.css";
-import { useNavigate } from "react-router-dom";
 
 export default function Home() {
   const redirect = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.sesion);
-  const { processCharts, update } = useProcessCharts();
+  const { charts, updateCharts } = useTutelaChart();
 
   useEffect(() => {
     dispatch<any>(getCharts());
@@ -27,8 +27,7 @@ export default function Home() {
 
   function handleUpdateCharts() {
     dispatch(openLoading());
-    update
-      .charts()
+    updateCharts()
       .then(() => {
         dispatch(closeLoading());
         swal("Actualizado", "Se actualizaron los gráficos", "success");
@@ -43,7 +42,7 @@ export default function Home() {
         );
       });
   }
-  
+
   function handlePrev() {
     redirect("/dashboard/home/procesos");
   }
@@ -63,14 +62,22 @@ export default function Home() {
           >
             Actualizar
           </button>
-        </div>     
+        </div>
       ) : null}
-      <button className={styles.prev} type="button" onClick={handlePrev}>{`<`}</button>
-      <button className={styles.next} type="button" onClick={handlePrev}>{`>`}</button>
+      <button
+        className={styles.prev}
+        type="button"
+        onClick={handlePrev}
+      >{`<`}</button>
+      <button
+        className={styles.next}
+        type="button"
+        onClick={handlePrev}
+      >{`>`}</button>
       <TutelasChart />
+      <ThemeChart />
       <Fallo1Chart />
       <Fallo2Chart />
-      <ThemeChart />
     </div>
   );
 }

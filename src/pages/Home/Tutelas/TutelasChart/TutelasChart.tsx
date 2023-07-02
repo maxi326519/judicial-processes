@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { Chart } from "react-google-charts";
 import { RootState } from "../../../../interfaces/RootState";
-import { ProcessesChartData } from "../../../../interfaces/Processes/charts";
 import { useSelector } from "react-redux";
+import { AbogadosCharts } from "../../../../interfaces/Tutelas/charts";
 
 const header = ["Apoderados", "Activos", "Terminados"];
 const example = [header, ["Sin datos", 0, 0]];
@@ -19,7 +19,7 @@ const options = {
 
 export default function TutelasChart() {
   const chartData = useSelector(
-    (state: RootState) => state.processes.charts.processesChart
+    (state: RootState) => state.tutelas.charts.abogadosChart
   );
   const [data, setData] = useState<Array<Array<string | number>>>(example);
 
@@ -27,10 +27,13 @@ export default function TutelasChart() {
     if (chartData.length > 0) {
       setData([
         header,
-        ...chartData.map((data: ProcessesChartData) => [
-          data.apoderado,
-          data.activos,
-          data.terminados,
+        ...chartData.map((data: AbogadosCharts) => [
+          data.name,
+          data.types.reduce(
+            (acumulator, data) => acumulator + data.quantity,
+            0
+          ),
+          0
         ]),
       ]);
     }

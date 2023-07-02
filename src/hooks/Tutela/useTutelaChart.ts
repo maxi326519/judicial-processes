@@ -17,8 +17,8 @@ export default function useCharts() {
 
   async function update() {
     // Fireastore Ref's
-    const processesDoc = doc(collection(db, "Data"), "Processes");
-    const detailsColl = collection(processesDoc, "Details");
+    const tutelasDoc = doc(collection(db, "Data"), "Tutelas");
+    const detailsColl = collection(tutelasDoc, "Details");
 
     // Array for dato to filter
     const tutelas: TutelaDetails[] = [];

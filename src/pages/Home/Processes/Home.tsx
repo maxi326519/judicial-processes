@@ -20,6 +20,8 @@ export default function Home() {
   const user = useSelector((state: RootState) => state.sesion);
   const { processCharts, update } = useProcessCharts();
 
+  const chartData = useSelector((state: RootState) => state.processes.charts);
+
   useEffect(() => {
     dispatch<any>(getCharts());
   }, []);
@@ -44,7 +46,7 @@ export default function Home() {
   }
 
   function handleNext() {
-/*     redirect("/dashboard/home/tutelas"); */
+    redirect("/dashboard/home/tutelas");
   }
 
   return (

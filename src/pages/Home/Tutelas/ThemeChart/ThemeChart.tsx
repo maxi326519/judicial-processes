@@ -3,25 +3,21 @@ import { Chart } from "react-google-charts";
 import { RootState } from "../../../../interfaces/RootState";
 import { useSelector } from "react-redux";
 
-const header = ["CALIDAD", "PORCENTAJE"];
-const example = [header, ["Demandados", 0], ["Demandantes", 0]];
+const header = ["TIPO", "CANTIDAD"];
+const example = [header, ["Dato", 0], ["Dato", 0]];
 
 const options = {
-  title: "CALIDAD EN LA QUE ATÚA LA ENTIDAD",
+  title: "TIPOS DE TUTELAS",
 };
 
 export default function ThemeChart() {
   const chartData = useSelector(
-    (state: RootState) => state.processes.charts.entityChart
+    (state: RootState) => state.tutelas.charts.temaTutelaChart
   );
   const [data, setData] = useState<Array<Array<string | number>>>(example);
 
   useEffect(() => {
-    setData([
-      header,
-      ["DEMANDANTE", chartData.demandante],
-      ["DEMANDADO", chartData.demandado],
-    ]);
+    setData([header, ...chartData.map((data) => [data.type, data.quantity])]);
   }, [chartData]);
 
   return (

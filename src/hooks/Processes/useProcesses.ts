@@ -136,7 +136,7 @@ export default function useJudicialProcesses() {
     if (errors.hasOwnProperty(name)) {
       setErrors({ ...errors, [name]: "" });
     }
-
+    
     setJudicialProcesses(newJudicialProcesses);
   }
 

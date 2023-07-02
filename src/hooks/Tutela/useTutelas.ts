@@ -10,6 +10,9 @@ import {
 } from "../../interfaces/Tutelas/data";
 import getLimitDate from "../../functions/getLimitDate";
 import getDateLimitTutelas from "../../functions/getDateLimitTutelas";
+import { dateToTime } from "../../functions/dateToTime";
+import dateUTCToLocalDateYYYYMMDD from "../../functions/dateToStringInput";
+import moment from "moment";
 
 export default function useTutelas() {
   const user = useSelector((state: RootState) => state.sesion);
@@ -43,14 +46,20 @@ export default function useTutelas() {
     const error: any = {};
 
     if (type === "date") {
-      const dateValue = new Date(value);
+      const dateValue = new Date(`${value} 08:00:00`);
       // Only sabe if is valid date
       if (!isNaN(dateValue.getTime())) {
-        dateValue.setHours(0);
         newTutela = {
           ...tutela,
           [name]: dateValue,
         };
+
+        console.log("Fecha: ", newTutela.fecha);
+
+        console.log(
+          "Fehcha del input: ",
+          dateUTCToLocalDateYYYYMMDD(newTutela.fecha)
+        );
       }
     } else if (event.target.type === "checkbox") {
       newTutela = {
@@ -59,13 +68,18 @@ export default function useTutelas() {
       };
     } else if (event.target.type === "time") {
       const timeArray = event.target.value.split(":");
-      console.log(event.target.value);
+      const currentDate = (
+        newTutela[event.target.name as keyof typeof newTutela] as Date
+      ).getDate();
       (
         newTutela[event.target.name as keyof typeof newTutela] as Date
       )?.setHours(Number(timeArray[0]));
       (
         newTutela[event.target.name as keyof typeof newTutela] as Date
       )?.setMinutes(Number(timeArray[1]));
+
+      console.log("Hora de la fecha: ", newTutela.fecha);
+      console.log("Hora del input: ", dateToTime(newTutela.fecha));
     } else {
       newTutela = {
         ...tutela,
@@ -92,7 +106,9 @@ export default function useTutelas() {
 
     // VALIDACION RESPUESTA
     if (
-      (name === "fechaVencimiento" || name === "termino" || name === "fechaRespuesta") &&
+      (name === "fechaVencimiento" ||
+        name === "termino" ||
+        name === "fechaRespuesta") &&
       newTutela.fechaVencimiento !== null &&
       newTutela.fechaRespuesta !== null &&
       newTutela.termino !== ""
@@ -158,6 +174,8 @@ export default function useTutelas() {
     if (errors.hasOwnProperty(name)) {
       setErrors({ ...errors, [name]: "" });
     }
+
+    console.log(newTutela);
 
     setTutela(newTutela);
   }

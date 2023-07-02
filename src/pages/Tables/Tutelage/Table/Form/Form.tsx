@@ -19,6 +19,7 @@ import TextareaInput from "../../../../../components/Inputs/TextareaInput";
 import styles from "./Form.module.css";
 import { dateToTime } from "../../../../../functions/dateToTime";
 import Checkbox from "../../../../../components/Inputs/Checkbox";
+import dateUTCToLocalDateYYYYMMDD from "../../../../../functions/dateToStringInput";
 
 interface Props {
   handleClose: () => void;
@@ -59,7 +60,7 @@ export default function Form({ handleClose }: Props) {
       error: errors.abogado,
     },
     {
-      value: tutela.fecha,
+      value: dateUTCToLocalDateYYYYMMDD(tutela.fecha),
       name: "fecha",
       label: "Fecha",
       inputType: "date",
@@ -154,7 +155,7 @@ export default function Form({ handleClose }: Props) {
       error: errors.remite,
     },
     {
-      value: tutela.fechaVencimiento,
+      value: dateUTCToLocalDateYYYYMMDD(tutela.fechaVencimiento),
       name: "fechaVencimiento",
       label: "Fecha de vencimiento",
       inputType: "date",
@@ -170,7 +171,7 @@ export default function Form({ handleClose }: Props) {
       error: errors.fechaVencimiento,
     },
     {
-      value: tutela.fechaRespuesta,
+      value: dateUTCToLocalDateYYYYMMDD(tutela.fechaRespuesta),
       name: "fechaRespuesta",
       label: "Fecha de respuesta",
       inputType: "date",
@@ -214,7 +215,7 @@ export default function Form({ handleClose }: Props) {
       error: errors.fallo1raInst,
     },
     {
-      value: tutela.fechaFallo1raInst,
+      value: dateUTCToLocalDateYYYYMMDD(tutela.fechaFallo1raInst),
       name: "fechaFallo1raInst",
       label: "Fecha del fallo de la 1ra instancia",
       inputType: "date",
@@ -242,7 +243,7 @@ export default function Form({ handleClose }: Props) {
       error: errors.cumplimiento1raInst,
     },
     {
-      value: tutela.fechaCumplimiento1raInst,
+      value: dateUTCToLocalDateYYYYMMDD(tutela.fechaCumplimiento1raInst),
       name: "fechaCumplimiento1raInst",
       label: "Fecha de cumplimiento de la 1ra instancia",
       inputType: "date",
@@ -257,7 +258,7 @@ export default function Form({ handleClose }: Props) {
       error: errors.impugnacionSDP,
     },
     {
-      value: tutela.fechaImpugnacion,
+      value: dateUTCToLocalDateYYYYMMDD(tutela.fechaImpugnacion),
       name: "fechaImpugnacion",
       label: "Fecha de impugnación",
       inputType: "date",
@@ -272,7 +273,7 @@ export default function Form({ handleClose }: Props) {
       error: errors.fallo2daInst,
     },
     {
-      value: tutela.fechaFallo2daInst,
+      value: dateUTCToLocalDateYYYYMMDD(tutela.fechaFallo2daInst),
       name: "fechaFallo2daInst",
       label: "Fecha de fallo de la 2da instancia",
       inputType: "date",
@@ -300,7 +301,7 @@ export default function Form({ handleClose }: Props) {
       error: errors.cumplimiento2daInst,
     },
     {
-      value: tutela.fechaCumplimiento2daInst,
+      value: dateUTCToLocalDateYYYYMMDD(tutela.fechaCumplimiento2daInst),
       name: "fechaCumplimiento2daInst",
       label: "Fecha cumplimiento de la 2da instancia",
       inputType: "date",
@@ -409,16 +410,18 @@ export default function Form({ handleClose }: Props) {
               handleCheck={handleChange}
             />
           ) : (
-            <Input
-              key={i}
-              name={data.name}
-              value={data.value}
-              label={data.label}
-              type={data.inputType}
-              formulated={data.formulated}
-              error={data.error}
-              handleChange={handleChange}
-            />
+            typeof data.value !== "boolean" && (
+              <Input
+                key={i}
+                name={data.name}
+                value={data.value}
+                label={data.label}
+                type={data.inputType}
+                formulated={data.formulated}
+                error={data.error}
+                handleChange={handleChange}
+              />
+            )
           )
         )}
       </div>

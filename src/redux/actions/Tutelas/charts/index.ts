@@ -20,6 +20,7 @@ export function setCharts(
 ): ThunkAction<Promise<void>, RootState, null, AnyAction> {
   return async (dispatch: Dispatch<AnyAction>) => {
     try {
+      console.log("details", charts);
       await updateDoc(tutelasDoc, { charts });
 
       dispatch({

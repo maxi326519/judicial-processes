@@ -30,6 +30,9 @@ import TutelasTable from "./pages/Tables/Tutelage/Table/TutelaTable";
 import TutelasIframe from "./pages/Tables/Tutelage/Iframes/Iframes";
 import TutelasExcel from "./pages/Tables/Tutelage/Excel/Excel";
 import { collection, doc, getDoc, updateDoc } from "firebase/firestore";
+import ProcessesChart from "./pages/Home/Processes/ProcessesChart/ProcessesChart";
+import TutelasChart from "./pages/Home/Tutelas/TutelasChart/TutelasChart";
+import ThemeChart from "./pages/Home/Tutelas/ThemeChart/ThemeChart";
 
 /* import RequirementsTable from "./pages/Tables/Requirements/Table/RequirementsTables";
 import RequirementsIframe from "./pages/Tables/Requirements/Iframes/Iframes";
@@ -42,8 +45,7 @@ function App() {
   const loading = useSelector((state: RootState) => state.loading);
 
   useEffect(() => {
-
-/*     const listDoc = doc(collection(db, "Lists"), "list");
+    /*     const listDoc = doc(collection(db, "Lists"), "list");
     getDoc(listDoc).then((response) =>{
       const listData = response.data();
       console.log(listData);
@@ -79,6 +81,7 @@ function App() {
   return (
     <div className="App">
       {loading && <Loading />}
+      <ThemeChart />
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/reset-email" element={<ResetEmail />} />
@@ -95,13 +98,9 @@ function App() {
 
         <Route
           path="/dashboard/home/tutelas"
-          element={
-            <Dashboard
-              element={<TutelasHome />}
-              title={"Procesos judiciales"}
-            />
-          }
+          element={<Dashboard element={<TutelasHome />} title={"Tutelas"} />}
         />
+
         <Route
           path="/dashboard/usuarios"
           element={

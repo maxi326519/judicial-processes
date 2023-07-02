@@ -92,12 +92,6 @@ export default function useProcessChart() {
 
             if (process.estado === "ACTIVO") activos++;
             if (process.estado === "TERMINADO") terminados++;
-            console.log(
-              process.apoderadoActual,
-              process.estado,
-              activos,
-              terminados
-            );
 
             return {
               apoderado: data.apoderado,

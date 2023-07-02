@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../interfaces/RootState";
 import { UserRol } from "../../interfaces/users";
+import { dateToTime } from "../../functions/dateToTime";
 import {
   TutelaDetails,
   ErrorTutelaDetails,
@@ -10,12 +11,11 @@ import {
 } from "../../interfaces/Tutelas/data";
 import getLimitDate from "../../functions/getLimitDate";
 import getDateLimitTutelas from "../../functions/getDateLimitTutelas";
-import { dateToTime } from "../../functions/dateToTime";
 import dateUTCToLocalDateYYYYMMDD from "../../functions/dateToStringInput";
-import moment from "moment";
 
 export default function useTutelas() {
   const user = useSelector((state: RootState) => state.sesion);
+  const list = useSelector((state: RootState) => state.processes.lists);
   const [tutela, setTutela] = useState<TutelaDetails>(initTutelaDetails);
   const [errors, setErrors] = useState<ErrorTutelaDetails>(
     initErrorTutelaDetails
@@ -23,7 +23,7 @@ export default function useTutelas() {
   const tutelaDetails = useSelector(
     (state: RootState) => state.tutelas.details
   );
-  const lists = useSelector((state: RootState) => state.tutelas.lists);
+  const lists = useSelector((state: RootState) => state.processes.lists);
 
   useEffect(() => {
     let data = { ...tutela };
@@ -68,9 +68,6 @@ export default function useTutelas() {
       };
     } else if (event.target.type === "time") {
       const timeArray = event.target.value.split(":");
-      const currentDate = (
-        newTutela[event.target.name as keyof typeof newTutela] as Date
-      ).getDate();
       (
         newTutela[event.target.name as keyof typeof newTutela] as Date
       )?.setHours(Number(timeArray[0]));
@@ -98,7 +95,7 @@ export default function useTutelas() {
       newTutela.fechaVencimiento = getDateLimitTutelas(
         newTutela.fecha,
         newTutela.termino,
-        [],
+        list.diasFestivos,
         8,
         17
       );
@@ -174,8 +171,6 @@ export default function useTutelas() {
     if (errors.hasOwnProperty(name)) {
       setErrors({ ...errors, [name]: "" });
     }
-
-    console.log(newTutela);
 
     setTutela(newTutela);
   }

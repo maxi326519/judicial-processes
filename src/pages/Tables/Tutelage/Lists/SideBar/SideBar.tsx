@@ -6,12 +6,12 @@ interface Props {
 }
 
 const lists = [
-  ["tipo", "Tipo"],
-  ["temaTutela", "Tema de la tutela"],
-  ["derechoVulnerado", "Derecho vulnerado"],
-  ["remite", "Remite"],
-  ["fallo1raInst", "Fallo primera instancia"],
-  ["fallo2daInst", "Fallo segunda instancia"],
+  ["Tipo", "tipo"],
+  ["Tema de la tutela", "temaTutela"],
+  ["Derecho vulnerado", "derechoVulnerado"],
+  ["Remite", "remite"],
+  ["Fallo primera instancia", "fallo1raInst"],
+  ["Fallo segunda instancia", "fallo2daInst"],
 ];
 
 export default function SideBar({ name, handleSelect }: Props) {

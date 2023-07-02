@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../interfaces/RootState";
 import { getLists } from "../../../../redux/actions/Tutelas/lists";
+import { getLists as getProsesLists } from "../../../../redux/actions/Processes/lists";
 import { UserRol } from "../../../../interfaces/users";
 import { getUsers } from "../../../../redux/actions/users";
 import { closeLoading, openLoading } from "../../../../redux/actions/loading";
@@ -94,7 +95,12 @@ export default function TutelaTable() {
   function handleGetTutelas() {
     setLoading(true);
     setError(false);
-    Promise.all([dispatch<any>(getLists()), dispatch<any>(getTutelas(user))])
+
+    Promise.all([
+      dispatch<any>(getProsesLists()),
+      dispatch<any>(getLists()),
+      dispatch<any>(getTutelas(user)),
+    ])
       .then(() => {
         setLoading(false);
       })

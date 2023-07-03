@@ -4,10 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../interfaces/RootState";
 import { UserRol } from "../../../../interfaces/users";
 import { db } from "../../../../firebase/config";
-import {
-  closeLoading,
-  openLoading,
-} from "../../../../redux/actions/loading";
+import { closeLoading, openLoading } from "../../../../redux/actions/loading";
 import {
   Query,
   QuerySnapshot,
@@ -202,7 +199,6 @@ export default function Excel() {
   function convertirValoresATexto(objeto: any) {
     const resultado: any = {};
 
-    console.log("--------------------------------");
     for (const clave in objeto) {
       if (objeto.hasOwnProperty(clave)) {
         const valor = objeto[clave];

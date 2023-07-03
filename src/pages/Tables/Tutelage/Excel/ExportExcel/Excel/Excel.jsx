@@ -1,5 +1,5 @@
-import ReactExport from "react-export-excel";
 import { useState } from "react";
+import ReactExport from "react-export-excel";
 
 import style from "./Excel.module.css";
 import exportSvg from "../../../../../../assets/svg/export.svg";
@@ -10,159 +10,165 @@ const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
 
 const dataLabels = [
   {
-    name: "idSiproj",
-    label: "ID Siproj",
-  },
-  {
-    name: "nroTutela",
-    label: "Nro de tutela",
-  },
-  {
-    name: "abogado",
-    label: "Abogado",
-  },
-  {
-    name: "tipo",
+    value: "tipo",
     label: "Tipo de tutela",
   },
   {
-    name: "fecha",
+    value: "fecha",
     label: "Fecha",
   },
   {
-    name: "radicado",
+    value: "fechaHora",
+    label: "Hora",
+  },
+  {
+    value: "radicado",
     label: "Radicado",
   },
   {
-    name: "demandanteId",
+    value: "demandanteId",
     label: "Identificación del demandante",
   },
   {
-    name: "demandante",
+    value: "demandante",
     label: "Demandante",
   },
   {
-    name: "demandado",
+    value: "demandado",
     label: "Demandado",
   },
   {
+    value: "temaTutela",
     label: "Tema de la tutela",
-    inputType: "select",
   },
   {
-    name: "derechoVulnerado",
+    value: "derechoVulnerado",
     label: "Derecho vulnerado",
   },
   {
-    name: "extranjero",
+    value: "extranjero",
     label: "Extranjero",
   },
   {
-    name: "concepto",
+    value: "concepto",
     label: "Concepto",
   },
   {
-    name: "termino",
+    value: "nroTutela",
+    label: "Nro de tutela",
+  },
+  {
+    value: "termino",
     label: "Término",
   },
   {
-    name: "remite",
+    value: "remite",
     label: "Remite",
   },
   {
-    name: "fechaVencimiento",
+    value: "abogado",
+    label: "Abogado",
+  },
+  {
+    value: "fechaVencimiento",
     label: "Fecha de vencimiento",
   },
   {
-    name: "fechaRespuesta",
+    value: "fechaVencimientoHora",
+    label: "Hora de vencimiento",
+  },
+  {
+    value: "fechaRespuesta",
     label: "Fecha de respuesta",
   },
   {
-    name: "radicadoSalida",
+    value: "fechaRespuestaHora",
+    label: "Hora de respuesta",
+  },
+  {
+    value: "radicadoSalida",
     label: "Radicado de salida",
   },
   {
-    name: "validacionRespuesta",
+    value: "validacionRespuesta",
     label: "Validacion de la respuesta",
   },
   {
-    name: "oficioAdicional",
+    value: "idSiproj",
+    label: "ID Siproj",
+  },
+  {
+    value: "oficioAdicional",
     label: "Oficio adicional",
   },
   {
-    name: "fallo1raInst",
+    value: "fallo1raInst",
     label: "Fallo de la 1ra instancia",
   },
   {
-    name: "fechaFallo1raInst",
+    value: "fechaFallo1raInst",
     label: "Fecha del fallo de la 1ra instancia",
   },
   {
-    name: "observacionFallo1raInst",
+    value: "observacionFallo1raInst",
     label: "Observación del fallo de la 1ra instancia",
   },
   {
-    name: "terminoCumplimiento1raInst",
+    value: "terminoCumplimiento1raInst",
     label: "Término de cumplimiento de la 1ra instancia",
   },
   {
-    name: "cumplimiento1raInst",
+    value: "cumplimiento1raInst",
     label: "Cumplimiento de la 1ra instancia",
   },
   {
-    name: "fechaCumplimiento1raInst",
+    value: "fechaCumplimiento1raInst",
     label: "Fecha de cumplimiento de la 1ra instancia",
   },
   {
-    name: "impugnacionSDP",
+    value: "impugnacionSDP",
     label: "Impugnacion SDP",
   },
   {
-    name: "fechaImpugnacion",
+    value: "fechaImpugnacion",
     label: "Fecha de impugnación",
   },
   {
-    name: "fallo2daInst",
+    value: "fallo2daInst",
     label: "Fallo de la 2da instancia",
   },
   {
-    name: "fechaFallo2daInst",
+    value: "fechaFallo2daInst",
     label: "Fecha de fallo de la 2da instancia",
   },
   {
-    name: "observacionFallo2daInst",
+    value: "observacionFallo2daInst",
     label: "Observación fallo de la 2da instancia",
   },
   {
-    name: "terminoCumplimiento2daInst",
+    value: "terminoCumplimiento2daInst",
     label: "Término de cumplimiento de la 2da instancia",
   },
   {
-    name: "cumplimiento2daInst",
+    value: "cumplimiento2daInst",
     label: "Cumplimiento de la 2da instancia",
   },
   {
-    name: "fechaCumplimiento2daInst",
+    value: "fechaCumplimiento2daInst",
     label: "Fecha cumplimiento de la 2da instancia",
   },
   {
-    name: "incidenteDesacato",
+    value: "incidenteDesacato",
     label: "Incidente de desacato",
   },
   {
-    name: "observacionesGenerales",
+    value: "observacionesGenerales",
     label: "Observaciones generales",
   },
 ];
 
 export default function Excel({ data, handleClose }) {
   const [filename, setFilename] = useState("Tutelas");
-
-  /*   useEffect(() => {
-    if (state === "ACTIVO") setFilename("Procesos activos");
-    if (state === "TERMINADO") setFilename("Procesos terminados");
-    if (state === "") setFilename("Procesos");
-  }, [state]); */
 
   return (
     <ExcelFile
@@ -180,7 +186,7 @@ export default function Excel({ data, handleClose }) {
     >
       <ExcelSheet data={data} name="Employees">
         {dataLabels.map((data) => (
-          <ExcelColumn label={data.name} value={data.values} />
+          <ExcelColumn label={data.label} value={data.value} />
         ))}
       </ExcelSheet>
     </ExcelFile>

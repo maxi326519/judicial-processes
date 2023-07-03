@@ -5,7 +5,16 @@ import { RootState } from "../../../../interfaces/RootState";
 import { closeLoading, openLoading } from "../../../../redux/actions/loading";
 import { UserRol } from "../../../../interfaces/users";
 import { db } from "../../../../firebase/config";
-import { Timestamp, collection } from "firebase/firestore";
+import {
+  Query,
+  QuerySnapshot,
+  Timestamp,
+  collection,
+  doc,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
 import {
   getTutelas,
   importTutelas,
@@ -54,6 +63,10 @@ export default function Excel() {
   useEffect(() => {
     if (tutelas.length === 0) handleGetTutelas();
   }, []);
+
+  useEffect(() => {
+    setRows(tutelas);
+  }, [tutelas]);
 
   function handleGetTutelas() {
     setLoading(true);
@@ -117,39 +130,37 @@ export default function Excel() {
   async function handleGetData() {
     dispatch(openLoading());
     try {
-      const colTutelas = collection(db, "Details");
+      // Firestore collections
+      const tutelasDoc = doc(collection(db, "Data"), "Tutelas");
+      const tutelasColl = collection(tutelasDoc, "Details");
       const details: any = [];
-      /*       let snapshot: QuerySnapshot;
+
+      // Query variables
+      let snapshot: QuerySnapshot;
       let wheres = {
         apoderado: where("apoderadoActual", "==", user.name),
-        estado: where("estado", "==", state),
       };
 
+      // IF the user is admin, get all data, else just their data
       if (user.rol === UserRol.Admin) {
-        let detailsQuery: Query;
-        if (state === "") {
-          snapshot = await getDocs(colTutelas);
-        } else {
-          detailsQuery = query(colTutelas, wheres.estado);
-          snapshot = await getDocs(detailsQuery);
-        }
+        // Get all data
+        snapshot = await getDocs(tutelasColl);
       } else {
+        // Get just user data
         let detailsQuery: Query;
-        if (state === "") {
-          detailsQuery = query(colTutelas, wheres.apoderado);
-          snapshot = await getDocs(detailsQuery);
-        } else {
-          detailsQuery = query(colTutelas, wheres.apoderado, wheres.estado);
-          snapshot = await getDocs(detailsQuery);
-        }
+        detailsQuery = query(tutelasColl, wheres.apoderado);
+        snapshot = await getDocs(detailsQuery);
       }
 
-      snapshot.forEach((doc) => {
-        details.push(convertirValoresATexto(doc.data()));
-      }); */
+      // Convert data
+      snapshot.forEach((doc) =>
+        details.push(convertirValoresATexto(doc.data()))
+      );
 
+      // Save data to export
       setExcelData(details);
 
+      // CLose
       handleCloseExport();
       dispatch(closeLoading());
     } catch (err: any) {
@@ -173,26 +184,46 @@ export default function Excel() {
     console.log("--------------------------------");
     for (const clave in objeto) {
       if (objeto.hasOwnProperty(clave)) {
+        // Get property data
         const valor = objeto[clave];
 
         if (typeof valor === "number") {
+          // If is number conver to string
           resultado[clave] = String(valor);
         } else if (valor === null || valor === undefined) {
+          // If is null or undefined, save empty string
           resultado[clave] = "";
+        } else if (typeof valor === "boolean") {
+          resultado[clave] = valor ? " SI" : "NO";
         } else if (valor instanceof Timestamp) {
-          const dateUTC = valor.toDate().toISOString().split("T")[0].split("-");
-          const year = dateUTC[0];
-          const month = dateUTC[1];
-          const day = dateUTC[2];
+          // If is Date, convert to string and add time if necessary
+          const date = valor.toDate();
 
-          resultado[clave] = `${day}/${month}/${year}`;
+          // Get date data
+          const year = date.getFullYear();
+          const month = date.getMonth() + 1;
+          const day = date.getDay();
+
+          // Get time data
+          const hour = date.getHours();
+          const minutes = date.getMinutes();
+          const seconds = date.getSeconds();
+
+          // Set date
+          resultado[clave] = `${`0${day}`.slice(-2)}/${`0${month}`.slice(
+            -2
+          )}/${year}`;
+
+          // Set time
+          resultado[`${clave}Hora`] = `${`0${hour}`.slice(
+            -2
+          )}:${`0${minutes}`.slice(-2)}:${`0${seconds}`.slice(-2)}`;
         } else {
           resultado[clave] = valor;
         }
       }
-      console.log(clave, objeto[clave], "=>", resultado[clave]);
     }
-
+    console.log(resultado);
     return resultado;
   }
 

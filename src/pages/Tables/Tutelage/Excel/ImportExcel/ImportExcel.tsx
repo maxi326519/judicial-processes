@@ -50,7 +50,8 @@ export default function ImportExcel({ handleData, handleClose }: Props) {
 
           if (
             err.message.includes("La fila") ||
-            err.message.includes("El id")
+            err.message.includes("El id") ||
+            err.message.includes("El numero")
           ) {
             swal("Error", err.message, "error");
           } else {
@@ -65,21 +66,26 @@ export default function ImportExcel({ handleData, handleClose }: Props) {
   function dataConvert(data: any) {
     let newData: TutelaDetails[] = [];
     let idList: number[] = [];
-
-    console.log("asdasd", data);
+    let nroList: string[] = [];
 
     data.forEach((processes: any, i: number) => {
+      // Save data to check
       const idSiproj = Number(processes[21]);
+      const nroTutela = processes[11];
+
+      // Check if idSiproj already exist
       if (!idSiproj)
         throw new Error(
           `La fila ${i} tiene problemas con el id: (${processes[21]})`
         );
-      if (idList.some((id) => id === idSiproj))
-        throw new Error(`El id ${idSiproj} ya existe`);
-      idList.push(idSiproj);
 
-      /*       console.log(processes[16]);
-      console.log(processes[2]); */
+      // Check if nroTutela already exist
+      /*       if (nroList.some((nro) => nro === nroTutela))
+        throw new Error(`El numero ${nroTutela} ya existe`); */
+
+      // Add idSiproj and nroTutela to list
+      idList.push(idSiproj);
+      nroList.push(nroTutela);
 
       const currentData: TutelaDetails = {
         tipo: textParser(processes[0] || ""),
@@ -90,14 +96,14 @@ export default function ImportExcel({ handleData, handleClose }: Props) {
         demandado: textParser(processes[6] || ""),
         temaTutela: textParser(processes[7] || ""),
         derechoVulnerado: textParser(processes[8] || ""),
-        extranjero: processes[9] || false, // Revisar booleanos
+        extranjero: processes[9] === "SI" ? true : false,
         concepto: textParser(processes[10] || ""),
         nroTutela: textParser(processes[11] || ""),
         termino: textParser(processes[12] || ""),
         remite: textParser(processes[13] || ""),
         abogado: textParser(processes[14] || ""),
         fechaVencimiento: combineDateAndTime(processes[15], processes[16]),
-        fechaRespuesta: newDate(processes[17]), // Revisar boleanos
+        fechaRespuesta: newDate(processes[17]),
         radicadoSalida: textParser(processes[19] || ""),
         validacionRespuesta: textParser(processes[20] || ""),
         idSiproj: Number(processes[21]) || 0,
@@ -137,7 +143,7 @@ export default function ImportExcel({ handleData, handleClose }: Props) {
       details: newData,
     };
   }
-  
+
   function newDate(fechaExcel: string) {
     // Supongamos que 'fechaExcel' es la fecha leída del archivo Excel en formato '9/2/21'
     let fechaFormateada = "";

@@ -53,13 +53,6 @@ export default function useTutelas() {
           ...tutela,
           [name]: dateValue,
         };
-
-        console.log("Fecha: ", newTutela.fecha);
-
-        console.log(
-          "Fehcha del input: ",
-          dateUTCToLocalDateYYYYMMDD(newTutela.fecha)
-        );
       }
     } else if (event.target.type === "checkbox") {
       newTutela = {
@@ -74,9 +67,6 @@ export default function useTutelas() {
       (
         newTutela[event.target.name as keyof typeof newTutela] as Date
       )?.setMinutes(Number(timeArray[1]));
-
-      console.log("Hora de la fecha: ", newTutela.fecha);
-      console.log("Hora del input: ", dateToTime(newTutela.fecha));
     } else {
       newTutela = {
         ...tutela,
@@ -103,20 +93,26 @@ export default function useTutelas() {
 
     // VALIDACION RESPUESTA
     if (
-      (name === "fechaVencimiento" ||
-        name === "termino" ||
-        name === "fechaRespuesta") &&
-      newTutela.fechaVencimiento !== null &&
-      newTutela.fechaRespuesta !== null &&
-      newTutela.termino !== ""
+      name === "fecha" ||
+      name === "hora" ||
+      name === "fechaVencimiento" ||
+      name === "fechaVencimiento" ||
+      name === "termino" ||
+      name === "fechaRespuesta"
     ) {
-      if (newTutela.fechaVencimiento >= newTutela.fechaRespuesta) {
-        newTutela.validacionRespuesta = "A TIEMPO";
+      if (
+        newTutela.fechaVencimiento !== null &&
+        newTutela.fechaRespuesta !== null &&
+        newTutela.termino !== ""
+      ) {
+        if (newTutela.fechaVencimiento >= newTutela.fechaRespuesta) {
+          newTutela.validacionRespuesta = "A TIEMPO";
+        } else {
+          newTutela.validacionRespuesta = "VENCIDO";
+        }
       } else {
-        newTutela.validacionRespuesta = "VENCIDO";
+        newTutela.validacionRespuesta = "NO SE DILIGENCIO";
       }
-    } else {
-      newTutela.validacionRespuesta = "NO SE DILIGENCIO";
     }
 
     // TERMINO DE CUMPLIMIENTO PRIMERA INSTANCIA

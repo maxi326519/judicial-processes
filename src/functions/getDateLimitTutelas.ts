@@ -6,7 +6,7 @@ export default function getDateLimitTutelas(
   endHour: number
 ): Date | null {
   // Validar el formato del término
-  const formatoTermino = /^(\d+)\s+(DIA|HORA|DIAS|HORAS)$/i;
+  const formatoTermino = /^(\d+)\s+(DIA|DÍA|HORA|DIAS|DÍAS|HORAS)$/i;
   if (!formatoTermino.test(termino)) return null;
 
   console.log("Formato correcto", termino);
@@ -14,7 +14,11 @@ export default function getDateLimitTutelas(
   // Convertir el término a números y unidades
   const [cantidad, unidad] = termino.split(" ");
   const cantidadNum = parseInt(cantidad);
-  const esDias = unidad === "DIAS" || unidad === "DIA";
+  const esDias =
+    unidad === "DIAS" ||
+    unidad === "DIA" ||
+    unidad === "DÍAS" ||
+    unidad === "DÍA";
   const esHoras = unidad === "HORAS" || unidad === "HORA";
 
   // Inicializar la fecha y hora

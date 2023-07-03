@@ -27,7 +27,7 @@ export default function TutelaRow({ tutela, handleEdit, handleDelete }: Props) {
       <button
         className="btn btn-outline-primary"
         type="button"
-        onClick={() => handleEdit(tutela.idSiproj.toString())}
+        onClick={() => handleEdit(tutela.id!)}
       >
         <img src={editSvg} alt="edit" />
       </button>

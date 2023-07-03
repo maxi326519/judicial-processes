@@ -4,7 +4,7 @@ import { RootState } from "../../../../interfaces/RootState";
 import { useSelector } from "react-redux";
 import { AbogadosCharts } from "../../../../interfaces/Tutelas/charts";
 
-const header = ["Apoderados", "Activos", "Terminados"];
+const header = ["Apoderados", "Totales", "."];
 const example = [header, ["Sin datos", 0, 0]];
 
 const options = {
@@ -33,7 +33,7 @@ export default function TutelasChart() {
             (acumulator, data) => acumulator + data.quantity,
             0
           ),
-          0
+          0,
         ]),
       ]);
     }

@@ -12,6 +12,7 @@ const lists = [
   ["Remite", "remite"],
   ["Fallo primera instancia", "fallo1raInst"],
   ["Fallo segunda instancia", "fallo2daInst"],
+  ["Incidente de desacato", "incidenteDesacato"],
 ];
 
 export default function SideBar({ name, handleSelect }: Props) {

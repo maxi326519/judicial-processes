@@ -2,7 +2,10 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../../interfaces/RootState";
 import { TutelaLists } from "../../../../../interfaces/Tutelas/lists";
-import { deleteItem, setItem } from "../../../../../redux/actions/Tutelas/lists";
+import {
+  deleteItem,
+  setItem,
+} from "../../../../../redux/actions/Tutelas/lists";
 import swal from "sweetalert";
 
 import styles from "./Tables.module.css";
@@ -26,10 +29,12 @@ const initCache: Cache = {
 export default function Tables({
   name,
   handleOpenLoading,
-  handleCloseLoading
-}: Props,) {
+  handleCloseLoading,
+}: Props) {
   const dispatch = useDispatch();
-  const lists: TutelaLists = useSelector((state: RootState) => state.tutelas.lists);
+  const lists: TutelaLists = useSelector(
+    (state: RootState) => state.tutelas.lists
+  );
   const [newData, setNewData] = useState<any>("");
   const [cache, setCache] = useState<Cache>(initCache);
   const [data, setData] = useState<any[]>([]);
@@ -50,7 +55,7 @@ export default function Tables({
       handleOpenLoading();
       dispatch<any>(setItem(name, cache.new))
         .then(() => {
-          swal("Actualizado", "Datos Actualizados", "success")
+          swal("Actualizado", "Datos Actualizados", "success");
           handleCloseLoading();
         })
         .catch((error: any) => {
@@ -63,7 +68,7 @@ export default function Tables({
       handleOpenLoading();
       dispatch<any>(deleteItem(name, cache.deleted))
         .then(() => {
-          swal("Actualizado", "Datos Actualizados", "success")
+          swal("Actualizado", "Datos Actualizados", "success");
           handleCloseLoading();
         })
         .catch((error: any) => {

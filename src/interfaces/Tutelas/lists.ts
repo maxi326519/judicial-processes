@@ -5,6 +5,7 @@ export interface TutelaLists {
   remite: string[];
   fallo1raInst: string[];
   fallo2daInst: string[];
+  incidenteDesacato: string[];
 }
 
 export const initTutelaLists: TutelaLists = {
@@ -14,4 +15,5 @@ export const initTutelaLists: TutelaLists = {
   remite: [],
   fallo1raInst: [],
   fallo2daInst: [],
+  incidenteDesacato: [],
 };

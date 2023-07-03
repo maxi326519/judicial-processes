@@ -17,6 +17,7 @@ const lists = [
   "remite",
   "fallo1raInst",
   "fallo2daInst",
+  "incidenteDesacato",
 ];
 
 export default function Lists({ handleClose }: Props) {

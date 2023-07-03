@@ -27,7 +27,7 @@ const sideList = [
     path: "/dashboard/usuarios",
   },
   {
-    label: "Prosesos",
+    label: "Procesos",
     icon: document,
     permissions: UserPermissions.Processes,
     subList: [

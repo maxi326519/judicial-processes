@@ -86,9 +86,11 @@ export function deleteItem(
     try {
       const batch = writeBatch(db);
 
+      console.log(listName, values);
+
       values.forEach((value: string) => {
         batch.update(tutelasDoc, {
-          [listName]: arrayRemove(value),
+          [`lists.${listName}`]: arrayRemove(value),
         });
       });
 

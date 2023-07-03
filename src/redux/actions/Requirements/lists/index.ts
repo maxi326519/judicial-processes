@@ -88,7 +88,7 @@ export function deleteItem(
 
       values.forEach((value: string) => {
         batch.update(requirementsDoc, {
-          [listName]: arrayRemove(value),
+          [`lists.${listName}`]: arrayRemove(value),
         });
       });
 

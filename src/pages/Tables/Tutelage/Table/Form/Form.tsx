@@ -314,7 +314,8 @@ export default function Form({ handleClose }: Props) {
       value: tutela.incidenteDesacato,
       name: "incidenteDesacato",
       label: "Incidente de desacato",
-      inputType: "text",
+      inputType: "select",
+      list: lists.incidenteDesacato,
       error: errors.incidenteDesacato,
     },
     {
@@ -342,6 +343,8 @@ export default function Form({ handleClose }: Props) {
     }
     setErrorLength(acumulator);
   }, [errors]);
+
+  
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -429,7 +432,7 @@ export default function Form({ handleClose }: Props) {
       </div>
       <div className={styles.btnContainer}>
         <button type="submit" className="btn btn-success">
-          {tutelaDetails ? "Guardar proceso" : "Agregar proceso"}
+          {tutelaDetails ? "Guardar" : "Agregar"} tutela
         </button>
         {errorLength ? (
           <small>

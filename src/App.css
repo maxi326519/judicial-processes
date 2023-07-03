@@ -44,3 +44,8 @@
 small {
   color: red;
 }
+
+.deleteComponent {
+  height: 0;
+  overflow: hidden;
+}

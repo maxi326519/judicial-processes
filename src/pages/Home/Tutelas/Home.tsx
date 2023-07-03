@@ -14,6 +14,8 @@ import Fallo2Chart from "./Fallo2Chart/Fallo2Chart";
 import ThemeChart from "./ThemeChart/ThemeChart";
 
 import styles from "./Home.module.css";
+import Navbar from "../../../components/Navbar/Navbar";
+import SideBar from "../../../components/SideBar/SideBar";
 
 export default function Home() {
   const redirect = useNavigate();
@@ -48,36 +50,40 @@ export default function Home() {
   }
 
   return (
-    <div
-      className={`${styles.charts} ${
-        user.rol === UserRol.Admin ? styles.admin : ""
-      }`}
-    >
-      {user.rol === UserRol.Admin ? (
-        <div className={styles.btnContainer}>
-          <button
-            className="btn btn-outline-success"
-            type="button"
-            onClick={handleUpdateCharts}
-          >
-            Actualizar
-          </button>
-        </div>
-      ) : null}
-      <button
-        className={styles.prev}
-        type="button"
-        onClick={handlePrev}
-      >{`<`}</button>
-      <button
-        className={styles.next}
-        type="button"
-        onClick={handlePrev}
-      >{`>`}</button>
-      <TutelasChart />
-      <ThemeChart />
-      <Fallo1Chart />
-      <Fallo2Chart />
+    <div className={styles.background}>
+      <Navbar title="Home- Tutelas" />
+      <SideBar />
+      <div
+        className={`${styles.charts} ${
+          user.rol === UserRol.Admin ? styles.admin : ""
+        }`}
+      >
+        {user.rol === UserRol.Admin ? (
+          <div className={styles.btnContainer}>
+            <button
+              className="btn btn-outline-success"
+              type="button"
+              onClick={handleUpdateCharts}
+            >
+              Actualizar
+            </button>
+          </div>
+        ) : null}
+        <button
+          className={styles.prev}
+          type="button"
+          onClick={handlePrev}
+        >{`<`}</button>
+        <button
+          className={styles.next}
+          type="button"
+          onClick={handlePrev}
+        >{`>`}</button>
+        <TutelasChart />
+        <ThemeChart />
+        <Fallo1Chart />
+        <Fallo2Chart />
+      </div>
     </div>
   );
 }

@@ -4,6 +4,7 @@ import { getCharts } from "../../../redux/actions/Processes/charts";
 import { closeLoading, openLoading } from "../../../redux/actions/loading";
 import { RootState } from "../../../interfaces/RootState";
 import { UserRol } from "../../../interfaces/users";
+import { useNavigate } from "react-router-dom";
 import useProcessCharts from "../../../hooks/Processes/useProcessesCharts";
 import swal from "sweetalert";
 
@@ -12,7 +13,8 @@ import ProcessesChart from "./ProcessesChart/ProcessesChart";
 import TypeChart from "./TypeChart/TypeChart";
 
 import styles from "./Home.module.css";
-import { useNavigate } from "react-router-dom";
+import Navbar from "../../../components/Navbar/Navbar";
+import SideBar from "../../../components/SideBar/SideBar";
 
 export default function Home() {
   const redirect = useNavigate();
@@ -50,35 +52,41 @@ export default function Home() {
   }
 
   return (
-    <div
-      className={`${styles.charts} ${
-        user.rol === UserRol.Admin ? styles.admin : ""
-      }`}
-    >
-      {user.rol === UserRol.Admin ? (
-        <div className={styles.btnContainer}>
+    <div className={styles.background}>
+      <Navbar title="Home - Procesos" />
+      <SideBar />
+      {processCharts && (
+        <div
+          className={`${styles.charts} ${
+            user.rol === UserRol.Admin ? styles.admin : ""
+          }`}
+        >
+          {user.rol === UserRol.Admin ? (
+            <div className={styles.btnContainer}>
+              <button
+                className="btn btn-outline-success"
+                type="button"
+                onClick={handleUpdateCharts}
+              >
+                Actualizar
+              </button>
+            </div>
+          ) : null}
           <button
-            className="btn btn-outline-success"
+            className={styles.prev}
             type="button"
-            onClick={handleUpdateCharts}
-          >
-            Actualizar
-          </button>
+            onClick={handleNext}
+          >{`<`}</button>
+          <button
+            className={styles.next}
+            type="button"
+            onClick={handleNext}
+          >{`>`}</button>
+          <ProcessesChart />
+          <EntityChart />
+          <TypeChart />
         </div>
-      ) : null}
-      <button
-        className={styles.prev}
-        type="button"
-        onClick={handleNext}
-      >{`<`}</button>
-      <button
-        className={styles.next}
-        type="button"
-        onClick={handleNext}
-      >{`>`}</button>
-      <ProcessesChart />
-      <EntityChart />
-      <TypeChart />
+      )}
     </div>
   );
 }

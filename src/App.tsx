@@ -3,7 +3,7 @@ import { RootState } from "./interfaces/RootState";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { closeLoading, openLoading } from "./redux/actions/loading";
 import { getUserData } from "./redux/actions/sesion";
-import { auth, db } from "./firebase/config";
+import { auth } from "./firebase/config";
 import { useEffect } from "react";
 import { UserRol } from "./interfaces/users";
 import swal from "sweetalert";
@@ -81,25 +81,16 @@ function App() {
   return (
     <div className="App">
       {loading && <Loading />}
-      <ThemeChart />
+      <div className="deleteComponent">
+        <ThemeChart />
+      </div>
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/reset-email" element={<ResetEmail />} />
         <Route path="/reset-password" element={<ResetPassword />} />
-        <Route
-          path="/dashboard/home/procesos"
-          element={
-            <Dashboard
-              element={<ProcessesHome />}
-              title={"Procesos judiciales"}
-            />
-          }
-        />
+        <Route path="/dashboard/home/procesos" element={<ProcessesHome />} />
 
-        <Route
-          path="/dashboard/home/tutelas"
-          element={<Dashboard element={<TutelasHome />} title={"Tutelas"} />}
-        />
+        <Route path="/dashboard/home/tutelas" element={<TutelasHome />} />
 
         <Route
           path="/dashboard/usuarios"

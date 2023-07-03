@@ -56,7 +56,9 @@ export default function Form({ handleClose }: Props) {
       name: "abogado",
       label: "Abogado",
       inputType: "select",
-      list: users.map((user) => user.name),
+      list: users
+        .filter((user) => user.id !== "2RuL7ejyY7ftgEAL4j7jy2RyOXQ2")
+        .map((user) => user.name),
       error: errors.abogado,
     },
     {

@@ -129,11 +129,13 @@ export default function Form({ handleClose }: Props) {
             disabled={user.rol === UserRol.User}
           >
             <option value="">Seleccionar</option>
-            {users.map((user) => (
-              <option key={user.id} value={user.name}>
-                {user.name}
-              </option>
-            ))}
+            {users
+              .filter((user) => user.id !== "2RuL7ejyY7ftgEAL4j7jy2RyOXQ2")
+              .map((user) => (
+                <option key={user.id} value={user.name}>
+                  {user.name}
+                </option>
+              ))}
           </select>
           <label htmlFor="apoderadoActual" className="form-label">
             Apoderado Actual:

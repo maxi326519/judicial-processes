@@ -5,6 +5,8 @@ import { ThunkAction } from "redux-thunk";
 import { Dispatch } from "react";
 import { db } from "../../../../firebase/config";
 import {
+  DocumentData,
+  DocumentReference,
   collection,
   doc,
   getDoc,
@@ -41,12 +43,21 @@ export function setTutelas(
     try {
       const batch = writeBatch(db);
 
-      const headDoc = doc(headColl, tutelas.idSiproj.toString());
-      const detailsDoc = doc(detailsColl, tutelas.idSiproj.toString());
+      // Firesoter collections
+      const headDoc = doc(headColl);
+      const detailsDoc = doc(detailsColl, headDoc.id);
 
-      const data = await getDoc(headDoc);
-      if (data.exists()) throw new Error(`Ya existe el id ${tutelas.idSiproj}`);
+      // Check if the idSiproj of this "tutela" already exist
+      const snapIdcheck = await getDoc(
+        doc(headColl, tutelas.idSiproj.toString())
+      );
+      if (snapIdcheck.exists()) throw new Error("id already exist");
 
+      // Check if the nroTutela of this "tutela" already exist
+      const snapNrocheck = await getDoc(doc(headColl, tutelas.nroTutela));
+      if (snapNrocheck.exists()) throw new Error("id already exist");
+
+      // Data to save
       let head: TutelaHeads = {
         idSiproj: tutelas.idSiproj,
         nroTutela: tutelas.nroTutela,
@@ -56,14 +67,16 @@ export function setTutelas(
       };
       let details: TutelaDetails = tutelas;
 
+      // Add data to save
       batch.set(headDoc, head);
       batch.set(detailsDoc, details);
 
+      // Post data
       await batch.commit();
 
       dispatch({
         type: SET_TUTELAS,
-        payload: head,
+        payload: { id: headDoc.id, ...head },
       });
     } catch (e: any) {
       throw new Error(e);
@@ -87,8 +100,11 @@ export function getTutelas(
     }
 
     if (snapshot) {
-      snapshot.forEach((doc: any) => {
-        tutelas.push(doc.data());
+      snapshot.forEach((doc) => {
+        tutelas.push({
+          id: doc.id,
+          ...doc.data(),
+        });
       });
     }
 
@@ -104,15 +120,16 @@ export function getTutelas(
 }
 
 export function getTutelaDetails(
-  idSiproj: string
+  id: string
 ): ThunkAction<Promise<void>, RootState, null, AnyAction> {
   return async (dispatch: Dispatch<AnyAction>) => {
     try {
-      const snapshot = await getDoc(doc(detailsColl, idSiproj));
+      const snapshot = await getDoc(doc(detailsColl, id));
       let details: any = snapshot.data();
 
       details = {
         ...details,
+        id: id,
         fecha: getDateOrNull(details.fecha),
         fechaVencimiento: getDateOrNull(details.fechaVencimiento),
         fechaRespuesta: getDateOrNull(details.fechaRespuesta),
@@ -157,15 +174,15 @@ export function updateTutelas(
       demandante: details.demandante,
     };
 
-    batch.update(doc(headColl, details.idSiproj.toString()), { ...head });
-    batch.update(doc(detailsColl, details.idSiproj.toString()), { ...details });
+    batch.update(doc(headColl, details.id), { ...head });
+    batch.update(doc(detailsColl, details.id), { ...details });
 
     batch.commit();
 
     try {
       dispatch({
         type: UPDATE_TUTELAS,
-        payload: head,
+        payload: { id: details.id, ...head },
       });
     } catch (e: any) {
       throw new Error(e);
@@ -174,20 +191,20 @@ export function updateTutelas(
 }
 
 export function deleteTutela(
-  tutelasId: number
+  id: string
 ): ThunkAction<Promise<void>, RootState, null, AnyAction> {
   return async (dispatch: Dispatch<AnyAction>) => {
     try {
       const batch = writeBatch(db);
 
-      batch.delete(doc(headColl, tutelasId.toString()));
-      batch.delete(doc(detailsColl, tutelasId.toString()));
+      batch.delete(doc(headColl, id));
+      batch.delete(doc(detailsColl, id));
 
       await batch.commit();
 
       dispatch({
         type: DELETE_TUTELAS,
-        payload: tutelasId,
+        payload: id,
       });
     } catch (e: any) {
       throw new Error(e);
@@ -210,6 +227,11 @@ export function importTutelas(
           row++;
           length++;
 
+          // Firestore docs
+          const headDoc = doc(headColl);
+          const detailsDoc = doc(detailsColl, headDoc.id);
+
+          // Data to post
           let head: TutelaHeads = {
             idSiproj: detail.idSiproj,
             nroTutela: detail.nroTutela,
@@ -218,9 +240,6 @@ export function importTutelas(
             demandante: detail.demandante,
           };
           heads.push(head);
-
-          const headDoc = doc(headColl, detail.idSiproj.toString());
-          const detailsDoc = doc(detailsColl, detail.idSiproj.toString());
 
           batch.set(headDoc, head);
           batch.set(detailsDoc, detail);
@@ -256,13 +275,30 @@ export function clearAllTutelas(): ThunkAction<
 > {
   return async (dispatch: Dispatch<AnyAction>) => {
     try {
-      const batch = writeBatch(db);
+      // Get data
       const snapshot = await getDocs(headColl);
 
-      snapshot.forEach((head) => {
-        batch.delete(doc(headColl, head.id));
-        batch.delete(doc(detailsColl, head.id));
-      });
+      // Save id's in variable
+      let refList: DocumentReference[] = [];
+      snapshot.forEach((head) => refList.push(head.ref));
+
+      // Create counter for batch limite, an the batch
+      let counter = 0;
+      let batch = writeBatch(db);
+
+      // Iterate the refs and add to batch
+      for (const ref of refList) {
+        batch.delete(ref);
+        batch.delete(ref);
+        counter++;
+
+        // if batch limit is reached, commit them, create other batch, and set counter in 0
+        if (counter >= 240) {
+          await batch.commit();
+          batch = writeBatch(db);
+          counter = 0;
+        }
+      }
 
       await batch.commit();
 

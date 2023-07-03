@@ -49,14 +49,14 @@ export const tutelasReducer = (
       return {
         ...state,
         heads: state.heads.map((head) =>
-          head.idSiproj === action.payload.idSiproj ? action.payload : head
+          head.id === action.payload.id ? action.payload : head
         ),
       };
 
     case DELETE_TUTELAS:
       return {
         ...state,
-        heads: state.heads.filter((head) => head.idSiproj !== action.payload),
+        heads: state.heads.filter((head) => head.id !== action.payload),
       };
 
     case IMPORT_TUTELAS:

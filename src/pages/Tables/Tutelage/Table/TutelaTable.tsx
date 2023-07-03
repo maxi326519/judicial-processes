@@ -125,7 +125,7 @@ export default function TutelaTable() {
       });
   }
 
-  function handleDelete(processes: TutelaHeads) {
+  function handleDelete(tutela: TutelaHeads) {
     swal({
       text: "¿Seguro que desea eliminar esta tutela?",
       icon: "warning",
@@ -137,7 +137,7 @@ export default function TutelaTable() {
       console.log(response);
       if (response === "Aceptar") {
         dispatch(openLoading());
-        dispatch<any>(deleteTutela(processes.idSiproj))
+        dispatch<any>(deleteTutela(tutela.id!))
           .then(() => {
             dispatch(closeLoading());
             swal("Eliminado", "Se eliminó correctamente la tutela", "success");

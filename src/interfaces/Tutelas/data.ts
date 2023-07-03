@@ -1,4 +1,5 @@
 export interface TutelaHeads {
+  id?: string;
   idSiproj: number;
   nroTutela: string;
   abogado: string;
@@ -15,6 +16,7 @@ export interface TutelaFilters {
 }
 
 export interface TutelaDetails {
+  id?: string;
   idSiproj: number;
   nroTutela: string;
   tipo: string;

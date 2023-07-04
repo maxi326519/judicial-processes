@@ -7,6 +7,7 @@ import {
   ProcessDetails,
 } from "../../../../interfaces/Processes/data";
 import {
+  DocumentReference,
   collection,
   doc,
   getDoc,
@@ -272,13 +273,32 @@ export function clearAllProcesses(): ThunkAction<
 > {
   return async (dispatch: Dispatch<AnyAction>) => {
     try {
-      const batch = writeBatch(db);
-      const snapshot = await getDocs(headColl);
+      // Get data
+      const headSnap = await getDocs(headColl);
+      const detailSnap = await getDocs(detailsColl);
 
-      snapshot.forEach((head) => {
-        batch.delete(doc(headColl, head.id));
-        batch.delete(doc(detailsColl, head.id));
-      });
+      // Save id's in variable
+      let refList: DocumentReference[] = [];
+      headSnap.forEach((head) => refList.push(head.ref));
+      detailSnap.forEach((detail) => refList.push(detail.ref));
+
+      // Create counter for batch limite, an the batch
+      let counter = 0;
+      let batch = writeBatch(db);
+
+      // Iterate the refs and add to batch
+      for (const ref of refList) {
+        batch.delete(ref);
+        batch.delete(ref);
+        counter++;
+
+        // if batch limit is reached, commit them, create other batch, and set counter in 0
+        if (counter >= 240) {
+          await batch.commit();
+          batch = writeBatch(db);
+          counter = 0;
+        }
+      }
 
       await batch.commit();
 

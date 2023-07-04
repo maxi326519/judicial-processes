@@ -344,11 +344,9 @@ export default function Form({ handleClose }: Props) {
     setErrorLength(acumulator);
   }, [errors]);
 
-  
-
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (validations()) {
+    if (/* validations() */ true) {
       dispatch(openLoading());
       dispatch<any>(tutelaDetails ? updateTutelas(tutela) : setTutelas(tutela))
         .then(() => {

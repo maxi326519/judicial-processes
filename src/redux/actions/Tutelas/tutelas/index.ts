@@ -47,15 +47,15 @@ export function setTutelas(
       const headDoc = doc(headColl);
       const detailsDoc = doc(detailsColl, headDoc.id);
 
+      console.log(1);
+
       // Check if the idSiproj of this "tutela" already exist
       const snapIdcheck = await getDoc(
         doc(headColl, tutelas.idSiproj.toString())
       );
       if (snapIdcheck.exists()) throw new Error("id already exist");
 
-      // Check if the nroTutela of this "tutela" already exist
-      const snapNrocheck = await getDoc(doc(headColl, tutelas.nroTutela));
-      if (snapNrocheck.exists()) throw new Error("id already exist");
+      console.log(3);
 
       // Data to save
       let head: TutelaHeads = {
@@ -66,6 +66,8 @@ export function setTutelas(
         demandante: tutelas.demandante,
       };
       let details: TutelaDetails = tutelas;
+
+      console.log(4);
 
       // Add data to save
       batch.set(headDoc, head);
@@ -276,11 +278,13 @@ export function clearAllTutelas(): ThunkAction<
   return async (dispatch: Dispatch<AnyAction>) => {
     try {
       // Get data
-      const snapshot = await getDocs(headColl);
+      const headSnap = await getDocs(headColl);
+      const detailSnap = await getDocs(detailsColl);
 
       // Save id's in variable
       let refList: DocumentReference[] = [];
-      snapshot.forEach((head) => refList.push(head.ref));
+      headSnap.forEach((head) => refList.push(head.ref));
+      detailSnap.forEach((detail) => refList.push(detail.ref));
 
       // Create counter for batch limite, an the batch
       let counter = 0;

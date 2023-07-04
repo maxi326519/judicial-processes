@@ -157,6 +157,8 @@ export default function Excel() {
         details.push(convertirValoresATexto(doc.data()))
       );
 
+      console.log(details);
+
       // Save data to export
       setExcelData(details);
 
@@ -180,8 +182,6 @@ export default function Excel() {
 
   function convertirValoresATexto(objeto: any) {
     const resultado: any = {};
-
-    console.log("--------------------------------");
     for (const clave in objeto) {
       if (objeto.hasOwnProperty(clave)) {
         // Get property data
@@ -223,7 +223,6 @@ export default function Excel() {
         }
       }
     }
-    console.log(resultado);
     return resultado;
   }
 

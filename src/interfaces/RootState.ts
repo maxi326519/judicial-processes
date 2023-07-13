@@ -11,7 +11,7 @@ import {
 } from "./configuraiton/processes";
 
 // TUTELAS
-import { TutelaHeads, TutelaDetails } from "./Tutelas/data";
+import { TutelaHeads, TutelaDetails, UserSelected } from "./Tutelas/data";
 import { TutelaLists, initTutelaLists } from "./Tutelas/lists";
 import { TutelaCharts, initTutelaCharts } from "./Tutelas/charts";
 import { TutelasConfig, initTutelasConfig } from "./configuraiton/tutelas";
@@ -37,6 +37,7 @@ export interface RootProcesses {
 }
 export interface RootTutelas {
   heads: TutelaHeads[];
+  users: UserSelected[];
   details: TutelaDetails | null;
   lists: TutelaLists;
   charts: TutelaCharts;
@@ -49,7 +50,6 @@ export interface RootRequirements {
   charts: RequirementsCharts;
   iframes: IFrames[];
 }
-
 export interface RootConfig {
   processes: ProcessesConfig;
   tutelas: TutelasConfig;
@@ -79,6 +79,7 @@ export const initRootState = {
   },
   tutelas: {
     heads: [],
+    users: [],
     details: null,
     lists: initTutelaLists,
     charts: initTutelaCharts,

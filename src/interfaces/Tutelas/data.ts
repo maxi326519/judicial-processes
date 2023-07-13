@@ -15,6 +15,11 @@ export interface TutelaFilters {
   demandante: string;
 }
 
+export interface UserSelected {
+  user: string;
+  available: boolean;
+}
+
 export interface TutelaDetails {
   id?: string;
   idSiproj: number;

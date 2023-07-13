@@ -13,6 +13,7 @@ import {
   getTutelaDetails,
   deleteTutelaDetails,
   clearAllTutelas,
+  getUserDisabled,
 } from "../../../../redux/actions/Tutelas/tutelas";
 import {
   TutelaHeads,
@@ -100,6 +101,7 @@ export default function TutelaTable() {
       dispatch<any>(getProsesLists()),
       dispatch<any>(getLists()),
       dispatch<any>(getTutelas(user)),
+      dispatch<any>(getUserDisabled()),
     ])
       .then(() => {
         setLoading(false);
@@ -223,7 +225,7 @@ export default function TutelaTable() {
       {list ? <Lists handleClose={handleShowList} /> : null}
       <div className={styles.controls}>
         <Filters filters={filters} setFilters={setFilters} />
-        {user.rol === UserRol.Admin ? (
+        {user.rol === UserRol.Admin && (
           <div>
             <button
               className="btn btn-outline-primary"
@@ -241,16 +243,18 @@ export default function TutelaTable() {
               X <span>Eliminar todas las tutelas</span>
             </button>
           </div>
-        ) : null}
-        <div>
-          <button
-            className="btn btn-outline-primary"
-            type="button"
-            onClick={handleClose}
-          >
-            + Nueva tutela
-          </button>
-        </div>
+        )}
+        {user.rol === UserRol.Admin && (
+          <div>
+            <button
+              className="btn btn-outline-primary"
+              type="button"
+              onClick={handleClose}
+            >
+              + Nueva tutela
+            </button>
+          </div>
+        )}
       </div>
       <table className={styles.table}>
         <thead>

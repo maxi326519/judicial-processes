@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../interfaces/RootState";
 import { UserRol } from "../../interfaces/users";
-import { dateToTime } from "../../functions/dateToTime";
+import { closeLoading, openLoading } from "../../redux/actions/loading";
+import { updateUserDisabled } from "../../redux/actions/Tutelas/tutelas";
 import {
   TutelaDetails,
   ErrorTutelaDetails,
@@ -11,29 +12,34 @@ import {
 } from "../../interfaces/Tutelas/data";
 import getLimitDate from "../../functions/getLimitDate";
 import getDateLimitTutelas from "../../functions/getDateLimitTutelas";
-import dateUTCToLocalDateYYYYMMDD from "../../functions/dateToStringInput";
 
 export default function useTutelas() {
+  const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.sesion);
+  const users = useSelector((state: RootState) => state.users);
   const list = useSelector((state: RootState) => state.processes.lists);
-  const config = useSelector((state: RootState) => state.config.tutelas)
-  const [tutela, setTutela] = useState<TutelaDetails>(initTutelaDetails);
-  const [errors, setErrors] = useState<ErrorTutelaDetails>(
-    initErrorTutelaDetails
-  );
+  const config = useSelector((state: RootState) => state.config.tutelas);
+  const usersSelected = useSelector((state: RootState) => state.tutelas.users);
+  const [tutela, setTutela] = useState<TutelaDetails>({ ...initTutelaDetails });
+  const [errors, setErrors] = useState<ErrorTutelaDetails>({
+    ...initErrorTutelaDetails,
+  });
   const tutelaDetails = useSelector(
     (state: RootState) => state.tutelas.details
   );
   const lists = useSelector((state: RootState) => state.processes.lists);
 
   useEffect(() => {
-    let data = { ...tutela };
-    if (user.rol === UserRol.User) data.abogado = user.name;
-    if (tutelaDetails) {
-      data = tutelaDetails;
-    }
-    setTutela(data);
-  }, [user, tutelaDetails]);
+    checkTutelasPerUser();
+  }, []);
+
+  useEffect(() => {
+    if (tutelaDetails) setTutela(tutelaDetails);
+  }, [tutelaDetails]);
+
+  useEffect(() => {
+    console.log(tutela);
+  }, [tutela]);
 
   function handleChange(
     event: React.ChangeEvent<
@@ -172,21 +178,96 @@ export default function useTutelas() {
     setTutela(newTutela);
   }
 
+  function checkTutelasPerUser() {
+    let change = false;
+    let usersSelectedLocal = [...usersSelected];
+    const availableUsers = users.filter((user) => {
+      if (!user.available) return false;
+      if (!user.permissions?.tutelas) return false;
+      if (user.email === "maxi.326519@gmail.com") return false;
+      return true;
+    });
+
+    dispatch(openLoading());
+
+    console.log("All users", users);
+    console.log("Checking users", availableUsers);
+    console.log("Selected: ", usersSelectedLocal);
+
+    // Check if the users already exist, otherwise create it
+    availableUsers.forEach((user) => {
+      // If don't exist, add the user
+      if (!usersSelectedLocal.some((selected) => selected.user === user.name)) {
+        change = true;
+        console.log("Check true 1");
+        console.log(
+          usersSelectedLocal.length,
+          usersSelectedLocal.find((selected) => selected.user === user.name)
+            ?.user,
+          user.name
+        );
+        usersSelectedLocal.push({
+          user: user.name,
+          available: true,
+        });
+      }
+    });
+
+    console.log("Checking availables");
+
+    // Check if some users have 'available' property in true, otherwise set all 'availabel' property in true
+    if (!usersSelectedLocal.some((selected) => selected.available)) {
+      change = true;
+      console.log(usersSelectedLocal.some((selected) => selected.available));
+      console.log("Check true 2");
+      usersSelectedLocal = usersSelectedLocal.map((selected) => ({
+        user: selected.user,
+        available: true,
+      }));
+    }
+
+    console.log("Changes: ", change);
+
+    // If set some change, save the data
+    if (change) {
+      dispatch<any>(updateUserDisabled(usersSelectedLocal))
+        .then(() => {
+          dispatch(closeLoading());
+        })
+        .catch((error: Error) => {
+          console.log(error.message);
+          dispatch(closeLoading());
+        });
+    } else {
+      dispatch(closeLoading());
+    }
+
+    // Set in 'abogado' property the first user availabel
+    for (const selected of usersSelectedLocal) {
+      if (selected.available) {
+        const newTutela = { ...tutela, abogado: selected.user };
+        console.log("selected: ", newTutela);
+        setTutela(newTutela);
+        break;
+      }
+    }
+  }
+
   function reset() {
-    setTutela(initTutelaDetails);
-    setErrors(initErrorTutelaDetails);
+    setTutela({ ...initTutelaDetails });
+    setErrors({ ...initErrorTutelaDetails });
   }
 
   function validations() {
     let error: ErrorTutelaDetails = { ...initErrorTutelaDetails };
     let value = true;
 
-    if (config.idSiproj  && config.idSiproj && tutela.idSiproj === 0) {
+    if (config.idSiproj && config.idSiproj && tutela.idSiproj === 0) {
       error.idSiproj = "Debes completar este campo";
       value = false;
     }
 
-    if (config.nroTutela && tutela.nroTutela  === "") {
+    if (config.nroTutela && tutela.nroTutela === "") {
       error.nroTutela = "Debes completar este campo";
       value = false;
     }
@@ -251,7 +332,7 @@ export default function useTutelas() {
       value = false;
     }
 
-        if (config.abogado && tutela.abogado === "") {
+    if (config.abogado && tutela.abogado === "") {
       error.abogado = "Debes completar este campo";
       value = false;
     }
@@ -264,8 +345,8 @@ export default function useTutelas() {
     if (config.radicadoSalida && tutela.radicadoSalida === "") {
       error.radicadoSalida = "Debes completar este campo";
       value = false;
-    } 
-    
+    }
+
     if (config.oficioAdicional && tutela.oficioAdicional === "") {
       error.oficioAdicional = "Debes completar este campo";
       value = false;
@@ -281,12 +362,18 @@ export default function useTutelas() {
       value = false;
     }
 
-    if (config.observacionFallo1raInst && tutela.observacionFallo1raInst === "") {
+    if (
+      config.observacionFallo1raInst &&
+      tutela.observacionFallo1raInst === ""
+    ) {
       error.observacionFallo1raInst = "Debes completar este campo";
       value = false;
     }
 
-    if (config.terminoCumplimiento1raInst && tutela.terminoCumplimiento1raInst === 0) {
+    if (
+      config.terminoCumplimiento1raInst &&
+      tutela.terminoCumplimiento1raInst === 0
+    ) {
       error.terminoCumplimiento1raInst = "Debes completar este campo";
       value = false;
     }
@@ -316,12 +403,18 @@ export default function useTutelas() {
       value = false;
     }
 
-    if (config.observacionFallo2daInst && tutela.observacionFallo2daInst === "") {
+    if (
+      config.observacionFallo2daInst &&
+      tutela.observacionFallo2daInst === ""
+    ) {
       error.observacionFallo2daInst = "Debes completar este campo";
       value = false;
     }
 
-    if (config.terminoCumplimiento2daInst && tutela.terminoCumplimiento2daInst === 0) {
+    if (
+      config.terminoCumplimiento2daInst &&
+      tutela.terminoCumplimiento2daInst === 0
+    ) {
       error.terminoCumplimiento2daInst = "Debes completar este campo";
       value = false;
     }

@@ -12,12 +12,15 @@ import {
   getDoc,
   getDocs,
   query,
+  setDoc,
+  updateDoc,
   where,
   writeBatch,
 } from "firebase/firestore";
 import {
   TutelaDetails,
   TutelaHeads,
+  UserSelected,
 } from "../../../../interfaces/Tutelas/data";
 import getDateOrNull from "../../../../functions/getDateOrNull";
 
@@ -31,13 +34,17 @@ export const GET_TUTELAS_DETAILS = "GET_TUTELAS_DETAILS";
 export const DELETE_TUTELA_DETAILS = "DELETE_TUTELA_DETAILS";
 export const IMPORT_TUTELAS = "IMPORT_TUTELAS";
 
+export const SET_TUTELAS_USERS = "SET_TUTELAS_USERS";
+export const GET_TUTELAS_USERS = "GET_TUTELAS_USERS";
+
 const dataColl = collection(db, "Data");
 const tutelasDoc = doc(dataColl, "Tutelas");
 const headColl = collection(tutelasDoc, "Head");
 const detailsColl = collection(tutelasDoc, "Details");
 
 export function setTutelas(
-  tutelas: TutelaDetails
+  tutelas: TutelaDetails,
+  users: UserSelected[]
 ): ThunkAction<Promise<void>, RootState, null, AnyAction> {
   return async (dispatch: Dispatch<AnyAction>) => {
     try {
@@ -47,15 +54,11 @@ export function setTutelas(
       const headDoc = doc(headColl);
       const detailsDoc = doc(detailsColl, headDoc.id);
 
-      console.log(1);
-
       // Check if the idSiproj of this "tutela" already exist
       const snapIdcheck = await getDoc(
         doc(headColl, tutelas.idSiproj.toString())
       );
       if (snapIdcheck.exists()) throw new Error("id already exist");
-
-      console.log(3);
 
       // Data to save
       let head: TutelaHeads = {
@@ -67,11 +70,16 @@ export function setTutelas(
       };
       let details: TutelaDetails = tutelas;
 
-      console.log(4);
-
       // Add data to save
       batch.set(headDoc, head);
       batch.set(detailsDoc, details);
+      batch.update(tutelasDoc, {
+        users: users.map((selected: UserSelected) =>
+          selected.user === head.abogado
+            ? { ...selected, available: false }
+            : selected
+        ),
+      });
 
       // Post data
       await batch.commit();
@@ -308,6 +316,58 @@ export function clearAllTutelas(): ThunkAction<
 
       dispatch({
         type: CLEAR_ALL_TUTELAS,
+      });
+    } catch (e: any) {
+      throw new Error(e);
+    }
+  };
+}
+
+export function updateUserDisabled(
+  users: UserSelected[]
+): ThunkAction<Promise<void>, RootState, null, any> {
+  return async (dispatch: Dispatch<any>) => {
+    try {
+      updateDoc(tutelasDoc, {
+        users: users,
+      });
+
+      dispatch({
+        type: SET_TUTELAS_USERS,
+        payload: users,
+      });
+    } catch (e: any) {
+      throw new Error(e);
+    }
+  };
+}
+
+export function getUserDisabled(): ThunkAction<
+  Promise<void>,
+  RootState,
+  null,
+  any
+> {
+  return async (dispatch: Dispatch<any>) => {
+    try {
+      const snapshot = await getDoc(tutelasDoc);
+      let doc = snapshot.data();
+      let users = doc?.users;
+
+      // If users are not exist, create them
+      if (!doc) {
+        await setDoc(tutelasDoc, { users: [] });
+        users = [];
+      } else if (!users) {
+        await updateDoc(tutelasDoc, { users: [] });
+        users = [];
+      } else {
+        users = doc.users;
+      }
+
+      dispatch({
+        type: GET_TUTELAS_USERS,
+        payload: users,
       });
     } catch (e: any) {
       throw new Error(e);

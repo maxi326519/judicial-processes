@@ -34,6 +34,7 @@ export default function Form({ handleClose }: Props) {
   );
   const users = useSelector((state: RootState) => state.users);
   const lists = useSelector((state: RootState) => state.tutelas.lists);
+  const usersSelected = useSelector((state: RootState) => state.tutelas.users);
   const [errorLength, setErrorLength] = useState<number>(0);
 
   const inputs = [
@@ -73,6 +74,7 @@ export default function Form({ handleClose }: Props) {
       inputType: "select",
       list: users
         .filter((user) => user.id !== "2RuL7ejyY7ftgEAL4j7jy2RyOXQ2")
+        .filter((user) => user.permissions?.tutelas)
         .map((user) => user.name),
       error: errors.abogado,
     },
@@ -328,6 +330,7 @@ export default function Form({ handleClose }: Props) {
   ];
 
   useEffect(() => {
+
     return () => {
       reset();
       handleClose();
@@ -348,7 +351,7 @@ export default function Form({ handleClose }: Props) {
     event.preventDefault();
     if (/* validations() */ true) {
       dispatch(openLoading());
-      dispatch<any>(tutelaDetails ? updateTutelas(tutela) : setTutelas(tutela))
+      dispatch<any>(tutelaDetails ? updateTutelas(tutela) : setTutelas(tutela, usersSelected))
         .then(() => {
           dispatch(closeLoading());
           handleClose();

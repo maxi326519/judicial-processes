@@ -111,5 +111,5 @@
 
 /* REMITE */
 .grid div:nth-child(15) {
-  grid-column: 2 / 6;
+  grid-column: 1 / 6;
 }

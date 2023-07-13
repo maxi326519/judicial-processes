@@ -15,11 +15,11 @@ const dataLabels = [
   },
   {
     value: "fecha",
-    label: "Fecha",
+    label: "Fecha de notificacion",
   },
   {
     value: "fechaHora",
-    label: "Hora",
+    label: "Hora de notificacion",
   },
   {
     value: "radicado",

@@ -40,6 +40,9 @@ export default function Navbar({ title }: Props) {
         <img src={logo} alt="logo" />
       </div>
       <h5>{title}</h5>
+      <div className={styles.userImg}>
+        <img src={userSvg} alt="user" />
+      </div>
       <div className={styles.profile}>
         <div className={styles.userImg}>
           <img src={userSvg} alt="user" />

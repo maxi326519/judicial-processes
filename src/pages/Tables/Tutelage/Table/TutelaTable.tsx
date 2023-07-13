@@ -298,7 +298,7 @@ export default function TutelaTable() {
             ) : (
               rows?.map((tutela: TutelaHeads) => (
                 <TuelaRow
-                  key={tutela.idSiproj}
+                  key={tutela.id}
                   tutela={tutela}
                   handleEdit={handleEdit}
                   handleDelete={handleDelete}

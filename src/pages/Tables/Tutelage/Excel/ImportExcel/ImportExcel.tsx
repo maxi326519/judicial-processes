@@ -37,7 +37,7 @@ export default function ImportExcel({ handleData, handleClose }: Props) {
 
           worksheetData
             .slice(1)
-            .forEach((item: any) => (item[21] ? data.push(item) : null));
+            .forEach((item: any) => (item[3] ? data.push(item) : null));
 
           const convert = dataConvert(data);
           handleData(convert);
@@ -49,9 +49,8 @@ export default function ImportExcel({ handleData, handleClose }: Props) {
           dispatch(closeLoading());
 
           if (
-            err.message.includes("La fila") ||
             err.message.includes("El id") ||
-            err.message.includes("El numero")
+            err.message.includes("El radicado")
           ) {
             swal("Error", err.message, "error");
           } else {
@@ -67,29 +66,39 @@ export default function ImportExcel({ handleData, handleClose }: Props) {
     let newData: TutelaDetails[] = [];
     let idList: number[] = [];
     let nroList: string[] = [];
+    let radicadoList: string[] = [];
 
     data.forEach((processes: any, i: number) => {
       // Save data to check
       const idSiproj = Number(processes[21]);
       const nroTutela = processes[11];
+      const radicado = processes[3];
 
       // Check if idSiproj already exist
-      if (!idSiproj)
+      if (idList.some((id) => id === idSiproj))
+        throw new Error(`El id de la fila ${i + 1} ya existe: (${idSiproj})`);
+
+      // Check if radicado already exist
+      if (radicadoList.some((radicadoItem) => radicadoItem === radicado))
         throw new Error(
-          `La fila ${i} tiene problemas con el id: (${processes[21]})`
+          `El radicado de la fila ${i + 1} ya existe: (${radicado})`
         );
 
       // Check if nroTutela already exist
       /*       if (nroList.some((nro) => nro === nroTutela))
-        throw new Error(`El numero ${nroTutela} ya existe`); */
+        throw new Error(`El numero ${i + 1} ya existe: (${radicado})`); */
 
       // Add idSiproj and nroTutela to list
       idList.push(idSiproj);
       nroList.push(nroTutela);
 
+      if (radicado !== "NO TIENE NUMERO SIPA") {
+        radicadoList.push(radicado);
+      }
+
       const currentData: TutelaDetails = {
         tipo: textParser(processes[0] || ""),
-        fecha: combineDateAndTime(processes[1], processes[2]),
+        fecha: combineDateAndTime(processes[1], processes[2] || "00:00:00"),
         radicado: textParser(processes[3] || ""),
         demandanteId: textParser(processes[4] || ""),
         demandante: textParser(processes[5] || ""),
@@ -102,7 +111,10 @@ export default function ImportExcel({ handleData, handleClose }: Props) {
         termino: textParser(processes[12] || ""),
         remite: textParser(processes[13] || ""),
         abogado: textParser(processes[14] || ""),
-        fechaVencimiento: combineDateAndTime(processes[15], processes[16]),
+        fechaVencimiento: combineDateAndTime(
+          processes[15],
+          processes[16] || "00:00:00"
+        ),
         fechaRespuesta: newDate(processes[17]),
         radicadoSalida: textParser(processes[19] || ""),
         validacionRespuesta: textParser(processes[20] || ""),

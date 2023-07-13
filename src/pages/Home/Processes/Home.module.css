@@ -45,13 +45,15 @@
 
 .charts .btnContainer {
   grid-column: 1 / 3;
+  display: flex;
+  gap: 10px;
   height: min-content;
   margin-bottom: 20px;
 }
 
 .admin {
   grid-template-columns: min-content 1fr 1fr min-content;
-  grid-template-rows: 50px 1fr 1fr;
+  grid-template-rows: min-content 1fr 1fr;
 }
 
 .admin div:first-child {

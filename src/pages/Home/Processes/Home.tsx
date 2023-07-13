@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCharts } from "../../../redux/actions/Processes/charts";
 import { closeLoading, openLoading } from "../../../redux/actions/loading";
@@ -12,14 +12,20 @@ import EntityChart from "./EntityChart/EntityChart";
 import ProcessesChart from "./ProcessesChart/ProcessesChart";
 import TypeChart from "./TypeChart/TypeChart";
 
-import styles from "./Home.module.css";
 import Navbar from "../../../components/Navbar/Navbar";
 import SideBar from "../../../components/SideBar/SideBar";
+import SelectInput from "../../../components/Inputs/SelectInput";
+
+import styles from "./Home.module.css";
 
 export default function Home() {
   const redirect = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.sesion);
+  const [filter, setFilter] = useState({
+    posicionSDP: "",
+    tipoProceso: ""
+  });
   const { processCharts, update } = useProcessCharts();
 
   const chartData = useSelector((state: RootState) => state.processes.charts);
@@ -47,6 +53,13 @@ export default function Home() {
       });
   }
 
+  function handleChange(event: React.ChangeEvent<HTMLSelectElement>) {
+    setFilter({
+      ...filter,
+      [event.target.name]: event.target.value
+    });
+  }
+
   function handleNext() {
     redirect("/dashboard/home/tutelas");
   }
@@ -57,9 +70,8 @@ export default function Home() {
       <SideBar />
       {processCharts && (
         <div
-          className={`${styles.charts} ${
-            user.rol === UserRol.Admin ? styles.admin : ""
-          }`}
+          className={`${styles.charts} ${user.rol === UserRol.Admin ? styles.admin : ""
+            }`}
         >
           {user.rol === UserRol.Admin ? (
             <div className={styles.btnContainer}>
@@ -70,6 +82,20 @@ export default function Home() {
               >
                 Actualizar
               </button>
+              <SelectInput
+                name="posicionSDP"
+                label="Posición SDP"
+                value={filter.posicionSDP}
+                list={[]}
+                handleChange={handleChange}
+              />
+              <SelectInput
+                name="tipoProceso"
+                label="Tipo de proceso"
+                value={filter.tipoProceso}
+                list={[]}
+                handleChange={handleChange}
+              />
             </div>
           ) : null}
           <button

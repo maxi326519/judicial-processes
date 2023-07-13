@@ -82,7 +82,7 @@
 
 .row {
   display: grid;
-  grid-template-columns: 1fr 1fr 100px 90px 90px 130px 50px 50px;
+  grid-template-columns: 1fr 1fr 100px 100px 90px 90px 130px 50px 50px;
   gap: 10px;
   padding: 10px;
   outline: 1px solid var(--border);

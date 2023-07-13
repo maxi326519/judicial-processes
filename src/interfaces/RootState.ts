@@ -5,15 +5,24 @@ import { IFrames } from "./iframes";
 import { ProcessHeads, ProcessDetails } from "./Processes/data";
 import { ProcessLists, initProcessLists } from "./Processes/lists";
 import { Charts as ProcessCharts, initCharts } from "./Processes/charts";
+import {
+  ProcessesConfig,
+  initProcessesConfig,
+} from "./configuraiton/processes";
 
 // TUTELAS
 import { TutelaHeads, TutelaDetails } from "./Tutelas/data";
 import { TutelaLists, initTutelaLists } from "./Tutelas/lists";
 import { TutelaCharts, initTutelaCharts } from "./Tutelas/charts";
+import { TutelasConfig, initTutelasConfig } from "./configuraiton/tutelas";
 
 // REQUIREMENTS
 import { RequirementsHeads, RequirementsDetail } from "./Requirements/data";
 import { RequirementsLists, initRequirementsLists } from "./Requirements/lists";
+import {
+  RequirementsConfig,
+  initRequirementsConfig,
+} from "./configuraiton/requirements";
 import {
   RequirementsCharts,
   initRequirementsCharts,
@@ -41,6 +50,12 @@ export interface RootRequirements {
   iframes: IFrames[];
 }
 
+export interface RootConfig {
+  processes: ProcessesConfig;
+  tutelas: TutelasConfig;
+  requirements: RequirementsConfig;
+}
+
 export interface RootState {
   loading: boolean;
   sesion: Users;
@@ -48,6 +63,7 @@ export interface RootState {
   processes: RootProcesses;
   tutelas: RootTutelas;
   requirements: RootRequirements;
+  config: RootConfig;
 }
 
 export const initRootState = {
@@ -74,5 +90,10 @@ export const initRootState = {
     lists: initRequirementsLists,
     charts: initRequirementsCharts,
     iframes: [],
+  },
+  config: {
+    processes: initProcessesConfig(),
+    tutelas: initTutelasConfig(),
+    requirements: initRequirementsConfig(),
   },
 };

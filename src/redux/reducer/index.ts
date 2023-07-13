@@ -5,6 +5,7 @@ import { usersReducer } from "./UsersReducer";
 import { processesReducer } from "./ProcessesReducer";
 import { tutelasReducer } from "./TutelasReducer/indes";
 import { requirementsReducer } from "./RequirementsReducer/index";
+import { configReducer } from "./ConfigReducer";
 
 const rootReducer = combineReducers({
   loading: loadingReducer,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   processes: processesReducer,
   tutelas: tutelasReducer,
   requirements: requirementsReducer,
+  config: configReducer,
 });
 
 export default rootReducer;

@@ -33,6 +33,7 @@ import { collection, doc, getDoc, updateDoc } from "firebase/firestore";
 import ProcessesChart from "./pages/Home/Processes/ProcessesChart/ProcessesChart";
 import TutelasChart from "./pages/Home/Tutelas/TutelasChart/TutelasChart";
 import ThemeChart from "./pages/Home/Tutelas/ThemeChart/ThemeChart";
+import { Configuration } from "./pages/Configuration/Configuration";
 
 /* import RequirementsTable from "./pages/Tables/Requirements/Table/RequirementsTables";
 import RequirementsIframe from "./pages/Tables/Requirements/Iframes/Iframes";
@@ -97,6 +98,17 @@ function App() {
           element={
             user.rol === UserRol.Admin ? (
               <Dashboard element={<UsersTable />} title={"Listado de users"} />
+            ) : (
+              <PageNotFound />
+            )
+          }
+        />
+
+        <Route
+          path="/dashboard/configuracion"
+          element={
+            user.rol === UserRol.Admin ? (
+              <Dashboard element={<Configuration />} title={"Configuracion"} />
             ) : (
               <PageNotFound />
             )

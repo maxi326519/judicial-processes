@@ -1,0 +1,43 @@
+.config {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: var(--background);
+}
+
+.menu {
+  margin: none;
+  padding: none;
+}
+
+.menu button {
+  border: 1px solid #ddd;
+  color: grey;
+  background-color: #ddd;
+}
+
+.menu button:first-child {
+  border-radius: 5px 0 0 0;
+}
+
+.menu button:last-child {
+  border-radius: 0 5px 0 0;
+}
+
+.menu button:hover {
+  border-color: #aaa;
+}
+
+.menu .selected {
+  border: 1px solid #0003;
+  border-bottom: none;
+  color: var(--font);
+  background-color: var(--background);
+}
+
+.content {
+  flex-grow: 1;
+  border-radius: 0 10px 10px 10px;
+  border: 1px solid #0003;
+}

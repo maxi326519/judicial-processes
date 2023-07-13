@@ -16,6 +16,7 @@ import dateUTCToLocalDateYYYYMMDD from "../../functions/dateToStringInput";
 export default function useTutelas() {
   const user = useSelector((state: RootState) => state.sesion);
   const list = useSelector((state: RootState) => state.processes.lists);
+  const config = useSelector((state: RootState) => state.config.tutelas)
   const [tutela, setTutela] = useState<TutelaDetails>(initTutelaDetails);
   const [errors, setErrors] = useState<ErrorTutelaDetails>(
     initErrorTutelaDetails
@@ -180,167 +181,166 @@ export default function useTutelas() {
     let error: ErrorTutelaDetails = { ...initErrorTutelaDetails };
     let value = true;
 
-    if (tutela.idSiproj === 0) {
+    if (config.idSiproj  && config.idSiproj && tutela.idSiproj === 0) {
       error.idSiproj = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.nroTutela === "") {
+    if (config.nroTutela && tutela.nroTutela  === "") {
       error.nroTutela = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.abogado === "") {
+    if (config.abogado && tutela.abogado === "") {
       error.abogado = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.tipo === "") {
+    if (config.tipo && tutela.tipo === "") {
       error.tipo = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.fecha === null) {
+    if (config.fecha && tutela.fecha === null) {
       error.fecha = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.radicado === "") {
+    if (config.radicado && tutela.radicado === "") {
       error.radicado = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.demandanteId === "") {
+    if (config.demandanteId && tutela.demandanteId === "") {
       error.demandanteId = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.demandante === "") {
+    if (config.demandante && tutela.demandante === "") {
       error.demandante = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.demandado === "") {
+    if (config.demandado && tutela.demandado === "") {
       error.demandado = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.temaTutela === "") {
+    if (config.temaTutela && tutela.temaTutela === "") {
       error.temaTutela = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.derechoVulnerado === "") {
+    if (config.derechoVulnerado && tutela.derechoVulnerado === "") {
       error.derechoVulnerado = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.concepto === "") {
+    if (config.concepto && tutela.concepto === "") {
       error.concepto = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.termino === "") {
+    if (config.termino && tutela.termino === "") {
       error.termino = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.remite === "") {
+    if (config.remite && tutela.remite === "") {
       error.remite = "Debes completar este campo";
       value = false;
     }
 
-    /*     if (tutela.abogado === "") {
+        if (config.abogado && tutela.abogado === "") {
       error.abogado = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.fechaRespuesta === null) {
+    if (config.fechaRespuesta && tutela.fechaRespuesta === null) {
       error.fechaRespuesta = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.radicadoSalida === "") {
+    if (config.radicadoSalida && tutela.radicadoSalida === "") {
       error.radicadoSalida = "Debes completar este campo";
       value = false;
-    } */
-
-    /* 
-    if (tutela.oficioAdicional === "") {
+    } 
+    
+    if (config.oficioAdicional && tutela.oficioAdicional === "") {
       error.oficioAdicional = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.fallo1raInst === "") {
+    if (config.fallo1raInst && tutela.fallo1raInst === "") {
       error.fallo1raInst = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.fechaFallo1raInst === null) {
+    if (config.fechaFallo1raInst && tutela.fechaFallo1raInst === null) {
       error.fechaFallo1raInst = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.observacionFallo1raInst === "") {
+    if (config.observacionFallo1raInst && tutela.observacionFallo1raInst === "") {
       error.observacionFallo1raInst = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.terminoCumplimiento1raInst === 0) {
+    if (config.terminoCumplimiento1raInst && tutela.terminoCumplimiento1raInst === 0) {
       error.terminoCumplimiento1raInst = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.cumplimiento1raInst === "") {
+    if (config.cumplimiento1raInst && tutela.cumplimiento1raInst === "") {
       error.cumplimiento1raInst = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.impugnacionSDP === 0) {
+    if (config.impugnacionSDP && tutela.impugnacionSDP === 0) {
       error.impugnacionSDP = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.fechaImpugnacion === null) {
+    if (config.fechaImpugnacion && tutela.fechaImpugnacion === null) {
       error.fechaImpugnacion = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.fallo2daInst === "") {
+    if (config.fallo2daInst && tutela.fallo2daInst === "") {
       error.fallo2daInst = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.fechaFallo2daInst === null) {
+    if (config.fechaFallo2daInst && tutela.fechaFallo2daInst === null) {
       error.fechaFallo2daInst = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.observacionFallo2daInst === "") {
+    if (config.observacionFallo2daInst && tutela.observacionFallo2daInst === "") {
       error.observacionFallo2daInst = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.terminoCumplimiento2daInst === 0) {
+    if (config.terminoCumplimiento2daInst && tutela.terminoCumplimiento2daInst === 0) {
       error.terminoCumplimiento2daInst = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.cumplimiento2daInst === "") {
+    if (config.cumplimiento2daInst && tutela.cumplimiento2daInst === "") {
       error.cumplimiento2daInst = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.incidenteDesacato === "") {
+    if (config.incidenteDesacato && tutela.incidenteDesacato === "") {
       error.incidenteDesacato = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.observacionesGenerales === "") {
+    if (config.observacionesGenerales && tutela.observacionesGenerales === "") {
       error.observacionesGenerales = "Debes completar este campo";
       value = false;
     }
- */
+
     setErrors(error);
     return value;
   }

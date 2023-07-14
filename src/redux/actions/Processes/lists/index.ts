@@ -50,6 +50,16 @@ export function setItem(
   };
 }
 
+interface SalarioMinimo {
+  fecha: string;
+  salario: number;
+}
+
+interface Tipo {
+  tipo: string;
+  dias: number;
+}
+
 export function getLists(): ThunkAction<Promise<void>, RootState, null, any> {
   return async (dispatch: Dispatch<any>) => {
     try {
@@ -66,6 +76,30 @@ export function getLists(): ThunkAction<Promise<void>, RootState, null, any> {
         await updateDoc(processesDoc, { lists });
       } else {
         lists = doc!.lists;
+
+        // Sort
+        for (const list in lists) {
+          let element = lists[list];
+          if (list === "tipoProceso") {
+            element = element.sort((a: Tipo, b: Tipo) =>
+              a.tipo.localeCompare(b.tipo)
+            );
+          } else if (list === "salariosMinimos") {
+            element = element.sort((a: SalarioMinimo, b: SalarioMinimo) => {
+              if (a.fecha < b.fecha) {
+                return -1; // Devuelve un número negativo si a.fecha es menor que b.fecha
+              } else if (a.fecha > b.fecha) {
+                return 1; // Devuelve un número positivo si a.fecha es mayor que b.fecha
+              } else {
+                return 0; // Devuelve 0 si a.fecha es igual a b.fecha
+              }
+            });
+          } else if (list !== "diasFestivos") {
+            element = element.sort((a: string, b: string) =>
+              a.localeCompare(b)
+            );
+          }
+        }
       }
 
       dispatch({

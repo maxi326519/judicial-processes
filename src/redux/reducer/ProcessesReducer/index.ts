@@ -98,14 +98,29 @@ export const processesReducer = (
 
     /* LISTS */
     case SET_PROCESS_LIST_ITEM:
+      const item = action.payload.listName as keyof typeof state.lists;
       return {
         ...state,
         lists: {
           ...state.lists,
           [action.payload.listName]: [
-            ...state.lists[action.payload.listName as keyof typeof state.lists],
+            ...state.lists[item],
             ...action.payload.newValues,
-          ],
+          ].sort((a, b) => {
+            if (item === "tipoProceso") {
+              return a.tipo.localeCompare(b.tipo);
+            } else if (item === "salariosMinimos") {
+              if (a.fecha < b.fecha) {
+                return -1; // Devuelve un número negativo si a.fecha es menor que b.fecha
+              } else if (a.fecha > b.fecha) {
+                return 1; // Devuelve un número positivo si a.fecha es mayor que b.fecha
+              } else {
+                return 0; // Devuelve 0 si a.fecha es igual a b.fecha
+              }
+            } else if (item !== "diasFestivos") {
+              return a.localeCompare(b);
+            }
+          }),
         },
       };
 

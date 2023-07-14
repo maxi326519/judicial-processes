@@ -105,7 +105,7 @@ export const tutelasReducer = (
           [action.payload.listName]: [
             ...state.lists[action.payload.listName as keyof typeof state.lists],
             ...action.payload.newValues,
-          ],
+          ].sort((a, b) => a.localeCompare(b)),
         },
       };
 

@@ -66,6 +66,11 @@ export function getLists(): ThunkAction<Promise<void>, RootState, null, any> {
         await updateDoc(tutelasDoc, { lists });
       } else {
         lists = doc.lists;
+        // Sort
+        for (const list in lists) {
+          let element = lists[list];
+          element = element.sort((a: string, b: string) => a.localeCompare(b));
+        }
       }
 
       dispatch({

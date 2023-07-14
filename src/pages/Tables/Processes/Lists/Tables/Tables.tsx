@@ -21,6 +21,16 @@ interface Cache {
   deleted: string[];
 }
 
+interface SalarioMinimo {
+  fecha: string;
+  salario: number;
+}
+
+interface Tipo {
+  tipo: string;
+  dias: number;
+}
+
 const initCache: Cache = {
   new: [],
   deleted: [],
@@ -121,40 +131,57 @@ export default function Tables({
       <div className={styles.categoriesList}>
         {data.length > 0 ? (
           name === "tipoProceso" ? (
-            data.map((data, index) => (
-              <div
-                key={index}
-                className={`${styles.row} ${styles.tipoProceso}`}
-              >
-                <span>{data?.tipo}</span>
-                <span>{data?.dias}</span>
+            data
+              .filter((item: Tipo) => item.tipo)
+              .sort((a: Tipo, b: Tipo) => a.tipo.localeCompare(b.tipo))
+              .map((data, index) => (
                 <div
-                  className="btn btn-close"
-                  onClick={() => handleRemove(data)}
-                />
-              </div>
-            ))
+                  key={index}
+                  className={`${styles.row} ${styles.tipoProceso}`}
+                >
+                  <span>{data?.tipo}</span>
+                  <span>{data?.dias}</span>
+                  <div
+                    className="btn btn-close"
+                    onClick={() => handleRemove(data)}
+                  />
+                </div>
+              ))
           ) : name === "salariosMinimos" ? (
-            data.map((data, index) => (
-              <div key={index} className={styles.row}>
-                <span>{data.fecha}</span>
-                <span>{data.salario}</span>
-                <div
-                  className="btn btn-close"
-                  onClick={() => handleRemove(data)}
-                />
-              </div>
-            ))
+            data
+              .filter((item: SalarioMinimo) => item.fecha)
+              .sort((a: SalarioMinimo, b: SalarioMinimo) => {
+                if (a.fecha < b.fecha) {
+                  return -1; // Devuelve un número negativo si a.fecha es menor que b.fecha
+                } else if (a.fecha > b.fecha) {
+                  return 1; // Devuelve un número positivo si a.fecha es mayor que b.fecha
+                } else {
+                  return 0; // Devuelve 0 si a.fecha es igual a b.fecha
+                }
+              })
+              .map((data, index) => (
+                <div key={index} className={styles.row}>
+                  <span>{data.fecha}</span>
+                  <span>{data.salario}</span>
+                  <div
+                    className="btn btn-close"
+                    onClick={() => handleRemove(data)}
+                  />
+                </div>
+              ))
           ) : (
-            data.map((data, index) => (
-              <div key={index} className={styles.row}>
-                <span>{typeof data === "string" ? data : ""}</span>
-                <div
-                  className="btn btn-close"
-                  onClick={() => handleRemove(data)}
-                />
-              </div>
-            ))
+            data
+              .filter((item) => typeof item === "string")
+              .sort((a, b) => name !== "diasFestivos" && a.localeCompare(b))
+              .map((data, index) => (
+                <div key={index} className={styles.row}>
+                  <span>{typeof data === "string" ? data : ""}</span>
+                  <div
+                    className="btn btn-close"
+                    onClick={() => handleRemove(data)}
+                  />
+                </div>
+              ))
           )
         ) : (
           <span className={styles.empty}>Empty</span>

@@ -24,10 +24,12 @@ export default function ProcessesRow({
       className={`${style.row} ${user.rol === UserRol.Admin ? "" : style.user}`}
     >
       <td>{processes.idSiproj}</td>
+      <td>{processes.tipoProceso}</td>
       <td>{processes.radRamaJudicialInicial}</td>
       <td>{processes.radRamaJudicialActual}</td>
       <td>{processes.demandante}</td>
       <td>{processes.apoderadoActual}</td>
+      <td>{processes.posicionSDP}</td>
       <button
         className="btn btn-outline-primary"
         type="button"

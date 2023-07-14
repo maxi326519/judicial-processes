@@ -256,10 +256,12 @@ export default function ProcessesTable() {
         <thead>
           <tr className={`${styles.row} ${styles.firstRow}`}>
             <th>ID Siproj</th>
+            <th>Tipo de proceso</th>
             <th>Rad. Proceso Judicial (INICIAL)</th>
             <th>Rad. Proceso Judicial (ACTUAL)</th>
             <th>Demandante Nombre</th>
             <th>Apoderado Actual</th>
+            <th>Posición SPD</th>
           </tr>
         </thead>
         <tbody className={styles.contentRows}>

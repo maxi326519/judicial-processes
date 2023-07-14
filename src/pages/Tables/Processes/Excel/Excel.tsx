@@ -296,9 +296,11 @@ export default function Excel() {
         <thead>
           <tr className={`${styles.row} ${styles.firstRow}`}>
             <th>ID idSiproj</th>
+            <th>Tipo de proceso</th>
             <th>Rad. Proceso Judicial (INICIAL)</th>
             <th>Rad. Proceso Judicial (ACTUAL)</th>
             <th>Demandante Nombre</th>
+            <th>Posición SPD</th>
           </tr>
         </thead>
         <tbody className={styles.contentRows}>

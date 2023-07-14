@@ -2,6 +2,7 @@ import * as XLSX from "xlsx";
 import { useDispatch } from "react-redux";
 import {
   ProcessDetails,
+  ProcessHeads,
   ProcessState,
 } from "../../../../../interfaces/Processes/data";
 import {
@@ -139,38 +140,19 @@ export default function ImportExcel({ handleData, handleClose }: Props) {
     });
 
     return {
-      head: newData.map((item: any) => ({
+      head: newData.map((item: ProcessDetails): ProcessHeads => ({
         idSiproj: item.idSiproj,
         estado: item.estado,
+        tipoProceso: item.tipoProceso,
         apoderadoActual: item.apoderadoActual,
         radRamaJudicialInicial: item.radRamaJudicialInicial,
         radRamaJudicialActual: item.radRamaJudicialActual,
         demandante: item.demandante,
+        posicionSDP: item.posicionSDP
       })),
       details: newData,
     };
   }
-
-  /*   function newDate(date: string) {
-    if (date) {
-      let newDate = date;
-      const dateArray = newDate.split("/");
-      const day = dateArray[1];
-      const month = dateArray[0];
-      const year = dateArray[2];
-
-      newDate = `20${year.slice(-2)}-${("0" + month).slice(-2)}-${(
-        "0" + day
-      ).slice(-2)}`;
-      console.log(date);
-      console.log(dateArray);
-      console.log(newDate);
-      console.log(new Date(newDate));
-
-      return new Date(newDate) ? new Date(newDate) : null;
-    }
-    return null;
-  } */
 
   function newDate(fechaExcel: string) {
     // Supongamos que 'fechaExcel' es la fecha leída del archivo Excel en formato '9/2/21'

@@ -1,10 +1,12 @@
 export interface ProcessHeads {
   idSiproj: number;
   estado: ProcessState;
+  tipoProceso: string;
   apoderadoActual: string;
   radRamaJudicialInicial: string;
   radRamaJudicialActual: string;
   demandante: string;
+  posicionSDP: string;
 }
 
 export enum ProcessState {

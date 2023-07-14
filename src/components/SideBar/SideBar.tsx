@@ -66,7 +66,7 @@ const sideList = [
     ],
   },
   {
-    label: "Configuracón",
+    label: "Configuración",
     icon: config,
     permissions: UserPermissions.Admin,
     path: "/dashboard/configuracion"

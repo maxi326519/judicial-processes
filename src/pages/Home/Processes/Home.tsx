@@ -22,10 +22,8 @@ export default function Home() {
   const redirect = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.sesion);
-  const [filter, setFilter] = useState({
-    posicionSDP: "",
-    tipoProceso: ""
-  });
+  const charts = useSelector((state: RootState) => state.processes.charts)
+  const [posicionSDP, setPosicionSDP] = useState("");
   const { processCharts, update } = useProcessCharts();
 
   const chartData = useSelector((state: RootState) => state.processes.charts);
@@ -54,10 +52,7 @@ export default function Home() {
   }
 
   function handleChange(event: React.ChangeEvent<HTMLSelectElement>) {
-    setFilter({
-      ...filter,
-      [event.target.name]: event.target.value
-    });
+    setPosicionSDP(event.target.value);
   }
 
   function handleNext() {
@@ -85,15 +80,8 @@ export default function Home() {
               <SelectInput
                 name="posicionSDP"
                 label="Posición SDP"
-                value={filter.posicionSDP}
-                list={[]}
-                handleChange={handleChange}
-              />
-              <SelectInput
-                name="tipoProceso"
-                label="Tipo de proceso"
-                value={filter.tipoProceso}
-                list={[]}
+                value={posicionSDP}
+                list={charts.entityChart.map((data) => data.posicion)}
                 handleChange={handleChange}
               />
             </div>
@@ -108,9 +96,9 @@ export default function Home() {
             type="button"
             onClick={handleNext}
           >{`>`}</button>
-          <ProcessesChart />
-          <EntityChart />
-          <TypeChart />
+          <ProcessesChart posicionSDP={posicionSDP} />
+          <EntityChart posicionSDP={posicionSDP} />
+          <TypeChart posicionSDP={posicionSDP} />
         </div>
       )}
     </div>

@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Chart } from "react-google-charts";
 import { RootState } from "../../../../interfaces/RootState";
-import { ProcessesChartData } from "../../../../interfaces/Processes/charts";
 import { useSelector } from "react-redux";
 
 const header = ["Apoderados", "Activos", "Terminados"];
@@ -17,7 +16,11 @@ const options = {
   bars: "horizontal",
 };
 
-export default function ProcessesChart() {
+interface Props {
+  posicionSDP: string;
+}
+
+export default function ProcessesChart({ posicionSDP }: Props) {
   const chartData = useSelector(
     (state: RootState) => state.processes.charts.processesChart
   );
@@ -25,16 +28,19 @@ export default function ProcessesChart() {
 
   useEffect(() => {
     if (chartData.length > 0) {
-      setData([
-        header,
-        ...chartData.map((data: ProcessesChartData) => [
-          data.apoderado,
-          data.activos,
-          data.terminados,
-        ]),
-      ]);
+      const chartPosicion = chartData.find((data) => data.posicion === posicionSDP);
+      if (chartPosicion) {
+        setData([
+          header,
+          ...chartPosicion.data.map((data) => [
+            data.apoderado,
+            data.activos,
+            data.terminados,
+          ]),
+        ]);
+      }
     }
-  }, [chartData]);
+  }, [chartData, posicionSDP]);
 
   return (
     <Chart

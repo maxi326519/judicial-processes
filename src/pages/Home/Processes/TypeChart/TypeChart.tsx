@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { Chart } from "react-google-charts";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../interfaces/RootState";
-import { TypeChartData } from "../../../../interfaces/Processes/charts";
 
 const header = ["TIPO", "TIPOS"];
 const example = [header, ["Sin Datos", 0]];
@@ -14,18 +13,25 @@ const options = {
   chartArea: { width: "50%", height: "70%" },
 };
 
-export default function TypeChart() {
+interface Props {
+  posicionSDP: string;
+}
+
+export default function TypeChart({ posicionSDP }: Props) {
   const chartData = useSelector((state: RootState) => state.processes.charts.typeChart);
   const [data, setData] = useState<Array<Array<string | number>>>(example);
 
   useEffect(() => {
     if (chartData.length > 0) {
-      setData([
-        header,
-        ...chartData.map((data: TypeChartData) => [data.tipo, data.cantidad]),
-      ]);
+      const chartPosicion = chartData.find((data) => data.posicion === posicionSDP);
+      if (chartPosicion) {
+        setData([
+          header,
+          ...chartPosicion.data.map((data) => [data.tipo, data.cantidad]),
+        ]);
+      }
     }
-  }, [chartData]);
+  }, [chartData, posicionSDP]);
 
   return (
     <Chart

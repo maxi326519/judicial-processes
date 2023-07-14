@@ -1,26 +1,23 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import {
-  Charts,
-  EntityChartData,
-  ProcessesChartData,
-  StageChartData,
-  TypeChartData,
-  initEntity,
-} from "../../interfaces/Processes/charts";
 import { setCharts } from "../../redux/actions/Processes/charts";
 import { closeLoading, openLoading } from "../../redux/actions/loading";
 import { collection, doc, getDocs } from "firebase/firestore";
 import { db } from "../../firebase/config";
 import { ProcessDetails } from "../../interfaces/Processes/data";
+import {
+  Charts,
+  EntityChartData,
+  ProcessesChartData,
+  TypeChartData,
+} from "../../interfaces/Processes/charts";
 
 export default function useProcessChart() {
   const dispatch = useDispatch();
-  const [entityChart, setEntityChart] = useState<EntityChartData>(initEntity);
+  const [entityChart, setEntityChart] = useState<EntityChartData[]>([]);
   const [processesChart, setProcessesChart] = useState<ProcessesChartData[]>(
     []
   );
-  const [stageChart, setStageChart] = useState<StageChartData[]>([]);
   const [typeChart, setTypeChart] = useState<TypeChartData[]>([]);
 
   async function updateCharts() {
@@ -39,13 +36,11 @@ export default function useProcessChart() {
     const data: Charts = {
       entityChart: updateEntityChart(details),
       processesChart: updateProcessesChart(details),
-      stageChart: updateStageChart(details),
       typeChart: updateTypeChart(details),
     };
 
     setEntityChart(data.entityChart);
     setProcessesChart(data.processesChart);
-    setStageChart(data.stageChart);
     setTypeChart(data.typeChart);
 
     return dispatch<any>(setCharts(data))
@@ -58,17 +53,30 @@ export default function useProcessChart() {
       });
   }
 
-  function updateEntityChart(processes: ProcessDetails[]) {
-    let entityData = {
-      demandante: 0,
-      demandado: 0,
-    };
+  function updateEntityChart(processes: ProcessDetails[]): EntityChartData[] {
+    let entityData: EntityChartData[] = [];
 
     processes.forEach((process) => {
-      if (process.calidadActuacionEntidad === "DEMANDANTE") {
-        entityData.demandante++;
-      } else if (process.calidadActuacionEntidad === "DEMANDADO") {
-        entityData.demandado++;
+      // Get data by 'posicionSDP'
+      const posicionSDP = entityData.find(
+        (data) => data.posicion === process.posicionSDP
+      );
+
+      // Check if this 'posicionSDP' already exist
+      if (posicionSDP) {
+        // Add ont to 'demandante' or 'demandado'
+        if (process.calidadActuacionEntidad === "DEMANDANTE") {
+          posicionSDP.demandante++;
+        } else if (process.calidadActuacionEntidad === "DEMANDADO") {
+          posicionSDP.demandado++;
+        }
+      } else {
+        // If don't exist, create them
+        entityData.push({
+          posicion: process.posicionSDP,
+          demandado: process.calidadActuacionEntidad === "DEMANDADO" ? 1 : 0,
+          demandante: process.calidadActuacionEntidad === "DEMANDANTE" ? 1 : 0,
+        });
       }
     });
 
@@ -79,36 +87,36 @@ export default function useProcessChart() {
     let processesData: ProcessesChartData[] = [];
 
     processes.forEach((process) => {
-      // If "apoderado" already exist
-      if (
-        processesData.some((data) => data.apoderado === process.apoderadoActual)
-      ) {
-        // Map and update data
-        processesData = processesData.map((data) => {
-          // If found the process, add one to type
-          if (data.apoderado === process.apoderadoActual) {
-            let activos = Number(data.activos);
-            let terminados = Number(data.terminados);
+      // Get 'posicionSDP' ref
+      const posicionSDP = processesData.find(
+        (data) => data.posicion === process.posicionSDP
+      );
 
-            if (process.estado === "ACTIVO") activos++;
-            if (process.estado === "TERMINADO") terminados++;
+      // Check if this 'posicionSDP' already exist
+      if (posicionSDP) {
+        // Get 'apoderado' ref
+        const apoderado = posicionSDP.data.find(
+          (data) => data.apoderado === process.apoderadoActual
+        );
 
-            return {
-              apoderado: data.apoderado,
-              activos,
-              terminados,
-            };
-          } else {
-            // If not found the process, return same data
-            return data;
-          }
-        });
+        // Check if 'abogado' already exist
+        if (apoderado) {
+          // Add one to 'activos' of 'terminados'
+          if (process.estado === "ACTIVO") apoderado.activos++;
+          if (process.estado === "TERMINADO") apoderado.terminados++;
+        } else {
+          // Create the data, set 'activos' and 'terminados'
+          posicionSDP.data.push({
+            apoderado: process.apoderadoActual,
+            activos: process.estado === "ACTIVO" ? 1 : 0,
+            terminados: process.estado === "TERMINADO" ? 1 : 0,
+          });
+        }
       } else {
-        // If "apoderado" don't exist, create data
+        // Else create the data
         processesData.push({
-          apoderado: process.apoderadoActual,
-          activos: process.estado === "ACTIVO" ? 1 : 0,
-          terminados: process.estado === "TERMINADO" ? 1 : 0,
+          posicion: process.posicionSDP,
+          data: [],
         });
       }
     });
@@ -116,65 +124,43 @@ export default function useProcessChart() {
     return processesData;
   }
 
-  function updateStageChart(processes: ProcessDetails[]) {
-    let stageData: StageChartData[] = [];
-
-    processes.forEach((process) => {
-      // If "etapa" already exist
-      if (stageData.some((stage) => stage.etapa === process.etapaProcesal)) {
-        // Map and update data
-        stageData = stageData.map((data) => {
-          // If found the process, add one to type
-          if (data.etapa === process.etapaProcesal) {
-            let cantidad = data.cantidad + 1;
-
-            return {
-              etapa: data.etapa,
-              cantidad,
-            };
-          } else {
-            // If not found the process, return same data
-            return data;
-          }
-        });
-      } else {
-        // If "etapa" don't exist, create data
-        stageData.push({
-          etapa: process.etapaProcesal,
-          cantidad: 1,
-        });
-      }
-    });
-
-    return stageData;
-  }
-
   function updateTypeChart(processes: ProcessDetails[]) {
     let typeData: TypeChartData[] = [];
 
     processes.forEach((process) => {
-      // If "tipo" already exist
-      if (typeData.some((type) => type.tipo === process.tipoProceso)) {
-        // Map and update data
-        typeData = typeData.map((data) => {
-          // If found the process, add one to type
-          if (data.tipo === process.tipoProceso) {
-            let cantidad = data.cantidad + 1;
+      // Get 'posicionSDP' ref
+      const posicionSDP = typeData.find(
+        (data) => data.posicion === process.posicionSDP
+      );
 
-            return {
-              tipo: data.tipo,
-              cantidad,
-            };
-          } else {
-            // If not found the process, return same data
-            return data;
-          }
-        });
+      // Check if this 'posicionSDP' already exist
+      if (posicionSDP) {
+        // Get 'tipo' ref
+        const tipo = posicionSDP.data.find(
+          (data) => data.tipo === process.tipoProceso
+        );
+
+        // Check if 'tipo' already exist
+        if (tipo) {
+          // Add one to 'cantidad'
+          tipo.cantidad++;
+        } else {
+          // Create the data, and set 'cantidad' in 1
+          posicionSDP.data.push({
+            tipo: process.apoderadoActual,
+            cantidad: 1,
+          });
+        }
       } else {
-        // If "etapa" don't exist, create data
+        // Else create the data
         typeData.push({
-          tipo: process.tipoProceso,
-          cantidad: 1,
+          posicion: process.posicionSDP,
+          data: [
+            {
+              tipo: process.apoderadoActual,
+              cantidad: 1,
+            },
+          ],
         });
       }
     });
@@ -186,14 +172,12 @@ export default function useProcessChart() {
     processCharts: {
       entity: entityChart,
       processes: processesChart,
-      stage: stageChart,
       type: typeChart,
     },
     update: {
       charts: updateCharts,
       entityChart: updateEntityChart,
       processesChart: updateProcessesChart,
-      stageChart: updateStageChart,
       typeChart: updateTypeChart,
     },
   };

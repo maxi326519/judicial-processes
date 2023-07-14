@@ -10,19 +10,29 @@ const options = {
   title: "CALIDAD EN LA QUE ATÚA LA ENTIDAD",
 };
 
-export default function EntityChart() {
+interface Props {
+  posicionSDP: string;
+}
+
+export default function EntityChart({ posicionSDP }: Props) {
   const chartData = useSelector(
     (state: RootState) => state.processes.charts.entityChart
   );
   const [data, setData] = useState<Array<Array<string | number>>>(example);
 
   useEffect(() => {
-    setData([
-      header,
-      ["DEMANDANTE", chartData.demandante],
-      ["DEMANDADO", chartData.demandado],
-    ]);
-  }, [chartData]);
+    if (chartData.length > 0) {
+      const data = chartData.find((data) => data.posicion === posicionSDP);
+
+      if (data) {
+        setData([
+          header,
+          ["DEMANDANTE", data.demandante],
+          ["DEMANDADO", data.demandado],
+        ]);
+      }
+    }
+  }, [chartData, posicionSDP]);
 
   return (
     <Chart

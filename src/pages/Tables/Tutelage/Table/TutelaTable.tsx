@@ -262,8 +262,10 @@ export default function TutelaTable() {
             <th>ID Siproj</th>
             <th>Nro de tutela</th>
             <th>abogado</th>
+            <th>Tema tutela</th>
             <th>ID Demandante</th>
             <th>Demandante</th>
+            <th>Derecho vulnerado</th>
           </tr>
         </thead>
         <tbody className={styles.contentRows}>

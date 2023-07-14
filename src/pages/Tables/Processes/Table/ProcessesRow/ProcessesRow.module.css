@@ -92,5 +92,5 @@
 }
 
 .user {
-  grid-template-columns: 100px repeat(4, 1fr) 50px;
+  grid-template-columns: 100px repeat(6, 1fr) 50px;
 }

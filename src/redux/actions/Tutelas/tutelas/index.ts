@@ -65,8 +65,10 @@ export function setTutelas(
         idSiproj: tutelas.idSiproj,
         nroTutela: tutelas.nroTutela,
         abogado: tutelas.abogado,
+        temaTutela: tutelas.temaTutela,
         demandanteId: tutelas.demandanteId,
         demandante: tutelas.demandante,
+        derechoVulnerado: tutelas.derechoVulnerado,
       };
       let details: TutelaDetails = tutelas;
 
@@ -180,8 +182,10 @@ export function updateTutelas(
       idSiproj: details.idSiproj,
       nroTutela: details.nroTutela,
       abogado: details.abogado,
+      temaTutela: details.temaTutela,
       demandanteId: details.demandanteId,
       demandante: details.demandante,
+      derechoVulnerado: details.derechoVulnerado,
     };
 
     batch.update(doc(headColl, details.id), { ...head });
@@ -246,8 +250,10 @@ export function importTutelas(
             idSiproj: detail.idSiproj,
             nroTutela: detail.nroTutela,
             abogado: detail.abogado,
+            temaTutela: detail.temaTutela,
             demandanteId: detail.demandanteId,
             demandante: detail.demandante,
+            derechoVulnerado: detail.derechoVulnerado,
           };
           heads.push(head);
 

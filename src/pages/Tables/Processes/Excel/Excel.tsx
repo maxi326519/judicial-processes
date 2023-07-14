@@ -173,11 +173,16 @@ export default function Excel() {
         }
       }
 
-      snapshot.forEach((doc) => {
-        details.push(convertirValoresATexto(doc.data()));
-      });
+      // Save data
+      snapshot.forEach((doc) =>
+        details.push(doc.data())
+      );
 
-      setExcelData(details);
+      // Sort, convert and save the data to export
+      setExcelData(details
+        .sort((a: any, b: any) => a.apoderadoActual?.localeCompare(b.apoderadoActual))
+        .map((data: ProcessDetails) => convertirValoresATexto(data))
+      );
 
       handleCloseExport();
       dispatch(closeLoading());
@@ -218,7 +223,6 @@ export default function Excel() {
           resultado[clave] = valor;
         }
       }
-      console.log(clave, objeto[clave], "=>", resultado[clave]);
     }
 
     return resultado;

@@ -133,7 +133,7 @@ export default function Excel() {
       // Firestore collections
       const tutelasDoc = doc(collection(db, "Data"), "Tutelas");
       const tutelasColl = collection(tutelasDoc, "Details");
-      const details: any = [];
+      let details: any = [];
 
       // Query variables
       let snapshot: QuerySnapshot;
@@ -152,15 +152,22 @@ export default function Excel() {
         snapshot = await getDocs(detailsQuery);
       }
 
-      // Convert data
+      // Save data
       snapshot.forEach((doc) =>
-        details.push(convertirValoresATexto(doc.data()))
+        details.push(doc.data())
       );
 
-      console.log(details);
-
-      // Save data to export
-      setExcelData(details);
+      // Sort, convert and save the data to export
+      setExcelData(details
+        .sort((a: any, b: any) => {
+          if (a.fecha === null) return 1;
+          if (b.fecha === null) return -1;
+          if (a.fecha < b.fecha) return 1;
+          if (a.fecha > b.fecha) return -1;
+          return 0;
+        })
+        .map((data: TutelaDetails) => convertirValoresATexto(data))
+      );
 
       // CLose
       handleCloseExport();

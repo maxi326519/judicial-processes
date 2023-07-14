@@ -69,6 +69,11 @@ export default function ProcessesTable() {
         )
           return false;
         if (
+          filters.tipoProceso &&
+          !data.tipoProceso.includes(filters.tipoProceso.toUpperCase())
+        )
+          return false;
+        if (
           filters.radRamaJudicialInicial &&
           !data.radRamaJudicialInicial
             .toString()
@@ -88,6 +93,11 @@ export default function ProcessesTable() {
         if (
           filters.demandante &&
           !data.demandante.includes(filters.demandante.toUpperCase())
+        )
+          return false;
+        if (
+          filters.posicionSDP &&
+          !data.posicionSDP.includes(filters.posicionSDP.toUpperCase())
         )
           return false;
         return true;

@@ -73,6 +73,19 @@ export default function Filters({ filters, setFilters }: Props) {
           <label htmlFor="idSiproj">ID Siproj:</label>
         </div>
 
+        {/* TIPO DE PROCESO */}
+        <div className="form-floating">
+          <input
+            id="tipoProceso"
+            className="form-control"
+            name="tipoProceso"
+            type="text"
+            value={filters.tipoProceso}
+            onChange={handleChange}
+          />
+          <label htmlFor="tipoProceso">Tipo de proceso</label>
+        </div>
+
         {/* RAD DE RAMA JUDICIAL INICIAL */}
         <div className="form-floating">
           <input
@@ -114,6 +127,19 @@ export default function Filters({ filters, setFilters }: Props) {
             onChange={handleChange}
           />
           <label htmlFor="demandante">Nombre del demandante</label>
+        </div>
+
+        {/* POSICION SPD */}
+        <div className="form-floating">
+          <input
+            id="posicionSPD"
+            className="form-control"
+            name="posicionSPD"
+            type="text"
+            value={filters.posicionSDP}
+            onChange={handleChange}
+          />
+          <label htmlFor="posicionSPD">Posicion SPD</label>
         </div>
 
         <button

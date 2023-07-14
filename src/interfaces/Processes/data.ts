@@ -17,9 +17,11 @@ export enum ProcessState {
 export interface ProcessFilters {
   idSiproj: number;
   apoderadoActual: string;
+  tipoProceso: string;
   radRamaJudicialInicial: string;
   radRamaJudicialActual: string;
   demandante: string;
+  posicionSDP: string;
 }
 
 export interface ProcessDetails {
@@ -114,9 +116,11 @@ export const initErrorProcesses: ErrorProcesses = {
 export const initProcessFilters: ProcessFilters = {
   apoderadoActual: "",
   idSiproj: 0,
+  tipoProceso: "",
   radRamaJudicialInicial: "",
   radRamaJudicialActual: "",
   demandante: "",
+  posicionSDP: "",
 };
 
 export const initProcessDetails: ProcessDetails = {

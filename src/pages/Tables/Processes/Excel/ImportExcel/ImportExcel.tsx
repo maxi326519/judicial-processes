@@ -107,7 +107,9 @@ export default function ImportExcel({ handleData, handleClose }: Props) {
 
         pretensionAsunto: textParser(processes[21] || ""),
 
-        cuantiaEstimada: Number(processes[22]!.replace(/[$, ]/g, "")) || 0,
+        cuantiaEstimada: processes[22]
+          ? Number(processes[22].replace(/[$, ]/g, ""))
+          : 0,
         valorPretensionesSMLVM: Number(processes[23]) || 0,
 
         instanciaProceso: textParser(processes[24] || ""),
@@ -151,27 +153,6 @@ export default function ImportExcel({ handleData, handleClose }: Props) {
     };
   }
 
-  /*   function newDate(date: string) {
-    if (date) {
-      let newDate = date;
-      const dateArray = newDate.split("/");
-      const day = dateArray[1];
-      const month = dateArray[0];
-      const year = dateArray[2];
-
-      newDate = `20${year.slice(-2)}-${("0" + month).slice(-2)}-${(
-        "0" + day
-      ).slice(-2)}`;
-      console.log(date);
-      console.log(dateArray);
-      console.log(newDate);
-      console.log(new Date(newDate));
-
-      return new Date(newDate) ? new Date(newDate) : null;
-    }
-    return null;
-  } */
-
   function newDate(fechaExcel: string) {
     // Supongamos que 'fechaExcel' es la fecha leída del archivo Excel en formato '9/2/21'
     let fechaFormateada = "";
@@ -197,9 +178,12 @@ export default function ImportExcel({ handleData, handleClose }: Props) {
   }
 
   function textParser(texto: string): string {
-    const textoSinEspacios = texto.replace(/^\s+|\s+$/g, "");
-    const textoEnMayusculas = textoSinEspacios.toUpperCase();
-    return textoEnMayusculas;
+    if (texto) {
+      const textoSinEspacios = texto.replace(/^\s+|\s+$/g, "");
+      const textoEnMayusculas = textoSinEspacios.toUpperCase();
+      return textoEnMayusculas;
+    }
+    return "";
   }
 
   return (

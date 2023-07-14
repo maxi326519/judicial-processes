@@ -55,6 +55,11 @@ export default function useProcessChart() {
 
   function updateEntityChart(processes: ProcessDetails[]): EntityChartData[] {
     let entityData: EntityChartData[] = [];
+    let initEntityData: EntityChartData = {
+      posicion: "",
+      demandado: 0,
+      demandante: 0,
+    };
 
     processes.forEach((process) => {
       // Get data by 'posicionSDP'
@@ -67,8 +72,10 @@ export default function useProcessChart() {
         // Add ont to 'demandante' or 'demandado'
         if (process.calidadActuacionEntidad === "DEMANDANTE") {
           posicionSDP.demandante++;
+          initEntityData.demandante++;
         } else if (process.calidadActuacionEntidad === "DEMANDADO") {
           posicionSDP.demandado++;
+          initEntityData.demandado++;
         }
       } else {
         // If don't exist, create them
@@ -80,11 +87,17 @@ export default function useProcessChart() {
       }
     });
 
+    entityData.push(initEntityData);
+
     return entityData;
   }
 
   function updateProcessesChart(processes: ProcessDetails[]) {
     let processesData: ProcessesChartData[] = [];
+    let initProcessesData: ProcessesChartData = {
+      posicion: "",
+      data: [],
+    };
 
     processes.forEach((process) => {
       // Get 'posicionSDP' ref
@@ -98,19 +111,31 @@ export default function useProcessChart() {
         const apoderado = posicionSDP.data.find(
           (data) => data.apoderado === process.apoderadoActual
         );
+        const initApoderado = initProcessesData.data.find(
+          (data) => data.apoderado === process.apoderadoActual
+        );
 
         // Check if 'abogado' already exist
-        if (apoderado) {
+        if (apoderado && initApoderado) {
           // Add one to 'activos' of 'terminados'
-          if (process.estado === "ACTIVO") apoderado.activos++;
-          if (process.estado === "TERMINADO") apoderado.terminados++;
+          if (process.estado === "ACTIVO") {
+            apoderado.activos++;
+            initApoderado.activos++;
+          }
+          if (process.estado === "TERMINADO") {
+            apoderado.terminados++;
+            initApoderado.terminados++;
+          }
         } else {
           // Create the data, set 'activos' and 'terminados'
-          posicionSDP.data.push({
+          const newData = {
             apoderado: process.apoderadoActual,
             activos: process.estado === "ACTIVO" ? 1 : 0,
             terminados: process.estado === "TERMINADO" ? 1 : 0,
-          });
+          };
+
+          posicionSDP.data.push(newData);
+          initProcessesData.data.push(newData);
         }
       } else {
         // Else create the data
@@ -121,11 +146,17 @@ export default function useProcessChart() {
       }
     });
 
+    processesData.push(initProcessesData);
+
     return processesData;
   }
 
   function updateTypeChart(processes: ProcessDetails[]) {
     let typeData: TypeChartData[] = [];
+    let initTypeData: TypeChartData = {
+      posicion: "",
+      data: [],
+    };
 
     processes.forEach((process) => {
       // Get 'posicionSDP' ref
@@ -139,17 +170,23 @@ export default function useProcessChart() {
         const tipo = posicionSDP.data.find(
           (data) => data.tipo === process.tipoProceso
         );
+        const initTipo = initTypeData.data.find(
+          (data) => data.tipo === process.tipoProceso
+        );
 
         // Check if 'tipo' already exist
-        if (tipo) {
+        if (tipo && initTipo) {
           // Add one to 'cantidad'
           tipo.cantidad++;
+          initTipo!.cantidad++;
         } else {
           // Create the data, and set 'cantidad' in 1
-          posicionSDP.data.push({
+          const newData = {
             tipo: process.apoderadoActual,
             cantidad: 1,
-          });
+          };
+          posicionSDP.data.push(newData);
+          initTypeData.data.push(newData);
         }
       } else {
         // Else create the data
@@ -164,6 +201,8 @@ export default function useProcessChart() {
         });
       }
     });
+
+    typeData.push(initTypeData);
 
     return typeData;
   }

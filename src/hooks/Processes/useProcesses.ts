@@ -38,7 +38,10 @@ export default function useJudicialProcesses() {
   ) {
     let newJudicialProcesses: ProcessDetails = { ...judicialProcesses };
     // Set upper case, delete spaces and line breaks
-    const value = event.target.value.toUpperCase().replace(/[\r\n]+/g, ' ').replace(/\s{2,}/g, ' ');
+    const value = event.target.value
+      .toUpperCase()
+      .replace(/[\r\n]+/g, " ")
+      .replace(/\s{2,}/g, " ");
     const name = event.target.name;
     const type = event.target.type;
     const error: any = {};
@@ -155,8 +158,22 @@ export default function useJudicialProcesses() {
       error.apoderadoActual = "Debes completar este campo";
       value = false;
     }
+    if (
+      config.apoderadoAnterior &&
+      judicialProcesses.apoderadoAnterior === ""
+    ) {
+      error.apoderadoAnterior = "Debes completar este campo";
+      value = false;
+    }
     if (config.idSiproj && judicialProcesses.idSiproj === 0) {
       error.idSiproj = "Debes completar este campo";
+      value = false;
+    }
+    if (
+      config.procesoAltoImpacto &&
+      judicialProcesses.procesoAltoImpacto === ""
+    ) {
+      error.procesoAltoImpacto = "Debes completar este campo";
       value = false;
     }
     if (
@@ -178,10 +195,42 @@ export default function useJudicialProcesses() {
       value = false;
     }
     if (
+      config.diasTerminoContestacion &&
+      judicialProcesses.diasTerminoContestacion === null
+    ) {
+      error.diasTerminoContestacion = "Debes completar este campo";
+      value = false;
+    }
+    if (
       config.fechaNotificacion &&
       judicialProcesses.fechaNotificacion === null
     ) {
       error.fechaNotificacion = "Debes completar este campo";
+      value = false;
+    }
+    if (config.fechaAdmision && judicialProcesses.fechaAdmision === null) {
+      error.fechaAdmision = "Debes completar este campo";
+      value = false;
+    }
+    if (
+      config.fechaContestacion &&
+      judicialProcesses.fechaContestacion === null
+    ) {
+      error.fechaContestacion = "Debes completar este campo";
+      value = false;
+    }
+    if (
+      config.fechaLimiteProbContestacion &&
+      judicialProcesses.fechaLimiteProbContestacion === null
+    ) {
+      error.fechaLimiteProbContestacion = "Debes completar este campo";
+      value = false;
+    }
+    if (
+      config.validacionContestacion &&
+      judicialProcesses.validacionContestacion === ""
+    ) {
+      error.validacionContestacion = "Debes completar este campo";
       value = false;
     }
     if (
@@ -211,6 +260,10 @@ export default function useJudicialProcesses() {
       error.despachoActual = "Debes completar este campo";
       value = false;
     }
+    if (config.posicionSDP && judicialProcesses.posicionSDP === "") {
+      error.posicionSDP = "Debes completar este campo";
+      value = false;
+    }
     if (config.temaGeneral && judicialProcesses.temaGeneral === "") {
       error.temaGeneral = "Debes completar este campo";
       value = false;
@@ -223,12 +276,102 @@ export default function useJudicialProcesses() {
       error.cuantiaEstimada = "Debes completar este campo";
       value = false;
     }
+    if (
+      config.valorPretensionesSMLVM &&
+      judicialProcesses.valorPretensionesSMLVM === 0
+    ) {
+      error.valorPretensionesSMLVM = "Debes completar este campo";
+      value = false;
+    }
     if (config.instanciaProceso && judicialProcesses.instanciaProceso === "") {
       error.instanciaProceso = "Debes completar este campo";
       value = false;
     }
+    if (config.fechaProceso && judicialProcesses.fechaProceso === null) {
+      error.fechaProceso = "Debes completar este campo";
+      value = false;
+    }
+    if (
+      config.ultimoEstadoProceso &&
+      judicialProcesses.ultimoEstadoProceso === ""
+    ) {
+      error.ultimoEstadoProceso = "Debes completar este campo";
+      value = false;
+    }
     if (config.etapaProcesal && judicialProcesses.etapaProcesal === "") {
       error.etapaProcesal = "Debes completar este campo";
+      value = false;
+    }
+    if (
+      config.fechaFalloPrimeraInstancia &&
+      judicialProcesses.fechaFalloPrimeraInstancia === null
+    ) {
+      error.fechaFalloPrimeraInstancia = "Debes completar este campo";
+      value = false;
+    }
+    if (
+      config.sentidoFalloPrimeraInstancia &&
+      judicialProcesses.sentidoFalloPrimeraInstancia === ""
+    ) {
+      error.sentidoFalloPrimeraInstancia = "Debes completar este campo";
+      value = false;
+    }
+    if (
+      config.resumenPrimeraInstancia &&
+      judicialProcesses.resumenPrimeraInstancia === ""
+    ) {
+      error.resumenPrimeraInstancia = "Debes completar este campo";
+      value = false;
+    }
+    if (
+      config.fechaPresentacionRecurso &&
+      judicialProcesses.fechaPresentacionRecurso === null
+    ) {
+      error.fechaPresentacionRecurso = "Debes completar este campo";
+      value = false;
+    }
+    if (
+      config.fechaFalloSegundaInstancia &&
+      judicialProcesses.fechaFalloSegundaInstancia === null
+    ) {
+      error.fechaFalloSegundaInstancia = "Debes completar este campo";
+      value = false;
+    }
+    if (
+      config.sentidoFalloSegundaInstancia &&
+      judicialProcesses.sentidoFalloSegundaInstancia === ""
+    ) {
+      error.sentidoFalloSegundaInstancia = "Debes completar este campo";
+      value = false;
+    }
+    if (
+      config.resumenSegundaInstancia &&
+      judicialProcesses.resumenSegundaInstancia === ""
+    ) {
+      error.resumenSegundaInstancia = "Debes completar este campo";
+      value = false;
+    }
+    if (config.incidente && judicialProcesses.incidente === "") {
+      error.incidente = "Debes completar este campo";
+      value = false;
+    }
+    if (config.estadoIncidente && judicialProcesses.estadoIncidente === "") {
+      error.estadoIncidente = "Debes completar este campo";
+      value = false;
+    }
+    if (config.resumenIncidente && judicialProcesses.resumenIncidente === "") {
+      error.resumenIncidente = "Debes completar este campo";
+      value = false;
+    }
+    if (config.observaciones && judicialProcesses.observaciones === "") {
+      error.observaciones = "Debes completar este campo";
+      value = false;
+    }
+    if (
+      config.calificacionContingente &&
+      judicialProcesses.calificacionContingente === ""
+    ) {
+      error.calificacionContingente = "Debes completar este campo";
       value = false;
     }
     if (

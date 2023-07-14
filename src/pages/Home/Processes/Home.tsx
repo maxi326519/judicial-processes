@@ -26,8 +26,6 @@ export default function Home() {
   const [posicionSDP, setPosicionSDP] = useState("");
   const { processCharts, update } = useProcessCharts();
 
-  const chartData = useSelector((state: RootState) => state.processes.charts);
-
   useEffect(() => {
     dispatch<any>(getCharts());
   }, []);
@@ -61,7 +59,7 @@ export default function Home() {
 
   return (
     <div className={styles.background}>
-      <Navbar title="Home - Procesos" />
+      <Navbar title="Home - Procesos" />                                          
       <SideBar />
       {processCharts && (
         <div

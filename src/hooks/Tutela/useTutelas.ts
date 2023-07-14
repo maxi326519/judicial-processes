@@ -262,7 +262,7 @@ export default function useTutelas() {
     let error: ErrorTutelaDetails = { ...initErrorTutelaDetails };
     let value = true;
 
-    if (config.idSiproj && config.idSiproj && tutela.idSiproj === 0) {
+    if (config.idSiproj && tutela.idSiproj === 0) {
       error.idSiproj = "Debes completar este campo";
       value = false;
     }

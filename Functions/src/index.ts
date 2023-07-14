@@ -20,7 +20,7 @@ exports.setNewUser = onCall(async (data, context) => {
       throw new HttpsError("permission-denied", "must have admin rol");
 
     // Validate parameters
-    const { rol, name, email, password, permissions } = data;
+    const { rol, name, email, password, available, permissions } = data;
     if (!rol)
       throw new HttpsError("invalid-argument", "missing parameter: rol");
     if (!name)
@@ -29,6 +29,8 @@ exports.setNewUser = onCall(async (data, context) => {
       throw new HttpsError("invalid-argument", "missing parameter: email");
     if (!password)
       throw new HttpsError("invalid-argument", "missing parameter: password");
+    if (typeof available != "boolean")
+      throw new HttpsError("invalid-argument", "missing parameter: available");
     if (
       !permissions ||
       typeof permissions.processes != "boolean" ||
@@ -52,7 +54,7 @@ exports.setNewUser = onCall(async (data, context) => {
     await firestore
       .collection("Users")
       .doc(newUser.uid)
-      .set({ rol, name, email, permissions })
+      .set({ rol, name, email, available, permissions })
       .catch(() => {
         throw new HttpsError("internal", "Error to create user in database");
       });
@@ -83,7 +85,7 @@ exports.updateUser = onCall(async (data, context) => {
       throw new HttpsError("permission-denied", "must have admin rol");
 
     // Validate parameters
-    const { id, rol, name, email, password, permissions } = data;
+    const { id, rol, name, email, password, available, permissions } = data;
     if (!id) throw new HttpsError("invalid-argument", "missing parameter: rol");
     if (!rol)
       throw new HttpsError("invalid-argument", "missing parameter: rol");
@@ -91,11 +93,13 @@ exports.updateUser = onCall(async (data, context) => {
       throw new HttpsError("invalid-argument", "missing parameter: name");
     if (!email)
       throw new HttpsError("invalid-argument", "missing parameter: email");
+    if (typeof available != "boolean")
+      throw new HttpsError("invalid-argument", "missing parameter: available");
     if (
       !permissions ||
       typeof permissions.processes != "boolean" ||
       typeof permissions.tutelas != "boolean" ||
-      typeof permissions.requirements!= "boolean" 
+      typeof permissions.requirements != "boolean"
     )
       throw new HttpsError(
         "invalid-argument",
@@ -114,7 +118,7 @@ exports.updateUser = onCall(async (data, context) => {
     await firestore
       .collection("Users")
       .doc(newUser.uid)
-      .update({ rol, name, email, permissions })
+      .update({ rol, name, email, available, permissions })
       .catch(() => {
         throw new HttpsError("internal", "Error to update user in database");
       });

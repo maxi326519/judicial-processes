@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../../interfaces/RootState";
-import useTutelas from "../../../../../hooks/Tutela/useTutelas";
+import { dateToTime } from "../../../../../functions/dateToTime";
 import {
   setTutelas,
   updateTutelas,
@@ -10,16 +10,16 @@ import {
   closeLoading,
   openLoading,
 } from "../../../../../redux/actions/loading";
+import dateUTCToLocalDateYYYYMMDD from "../../../../../functions/dateToStringInput";
+import useTutelas from "../../../../../hooks/Tutela/useTutelas";
 import swal from "sweetalert";
 
 import Input from "../../../../../components/Inputs/Input";
 import SelectInput from "../../../../../components/Inputs/SelectInput";
 import TextareaInput from "../../../../../components/Inputs/TextareaInput";
+import Checkbox from "../../../../../components/Inputs/Checkbox";
 
 import styles from "./Form.module.css";
-import { dateToTime } from "../../../../../functions/dateToTime";
-import Checkbox from "../../../../../components/Inputs/Checkbox";
-import dateUTCToLocalDateYYYYMMDD from "../../../../../functions/dateToStringInput";
 
 interface Props {
   handleClose: () => void;
@@ -349,7 +349,7 @@ export default function Form({ handleClose }: Props) {
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (/* validations() */ true) {
+    if (validations()) {
       dispatch(openLoading());
       dispatch<any>(tutelaDetails ? updateTutelas(tutela) : setTutelas(tutela, usersSelected))
         .then(() => {

@@ -7,8 +7,10 @@ import {
   DELETE_TUTELA_DETAILS,
   GET_TUTELAS,
   GET_TUTELAS_DETAILS,
+  GET_TUTELAS_USERS,
   IMPORT_TUTELAS,
   SET_TUTELAS,
+  SET_TUTELAS_USERS,
   UPDATE_TUTELAS,
 } from "../../actions/Tutelas/tutelas";
 import {
@@ -37,6 +39,11 @@ export const tutelasReducer = (
       return {
         ...state,
         heads: [...state.heads, action.payload],
+        users: state.users.map((user) =>
+          user.user === action.payload.abogado
+            ? { ...user, available: false }
+            : user
+        ),
       };
 
     case GET_TUTELAS:
@@ -98,7 +105,7 @@ export const tutelasReducer = (
           [action.payload.listName]: [
             ...state.lists[action.payload.listName as keyof typeof state.lists],
             ...action.payload.newValues,
-          ],
+          ].sort((a, b) => a.localeCompare(b)),
         },
       };
 
@@ -175,6 +182,18 @@ export const tutelasReducer = (
       return {
         ...state,
         charts: action.payload,
+      };
+
+    case SET_TUTELAS_USERS:
+      return {
+        ...state,
+        users: action.payload,
+      };
+
+    case GET_TUTELAS_USERS:
+      return {
+        ...state,
+        users: action.payload,
       };
 
     case LOGOUT:

@@ -28,7 +28,6 @@ export const UPDATE_PROCESS_DETAILS = "UPDATE_PROCESSES_DETAILS";
 export const DELETE_PROCESS_DETAILS = "DELETE_PROCESS_DETAILS";
 export const IMPORT_PROCESSES = "IMPORT_PROCESSES";
 export const CLEAR_ALL_PROCESSES = "CLEAR_ALL_PROCESSES";
-/* export const GET_PROCESSES_DATA = "GET_PROCESSES_DATA"; */
 
 const dataColl = collection(db, "Data");
 const requirementsDoc = doc(dataColl, "Processes");
@@ -52,10 +51,12 @@ export function setProcesses(
       let head: ProcessHeads = {
         idSiproj: processes.idSiproj,
         estado: processes.estado,
+        tipoProceso: processes.tipoProceso,
         apoderadoActual: processes.apoderadoActual,
         radRamaJudicialInicial: processes.radRamaJudicialInicial,
         radRamaJudicialActual: processes.radRamaJudicialActual,
         demandante: processes.demandante,
+        posicionSDP: processes.posicionSDP,
       };
       let details: ProcessDetails = processes;
 
@@ -115,10 +116,12 @@ export function updateProcesses(
     const head: ProcessHeads = {
       idSiproj: details.idSiproj,
       estado: details.estado,
+      tipoProceso: details.tipoProceso,
       apoderadoActual: details.apoderadoActual,
       radRamaJudicialInicial: details.radRamaJudicialInicial,
       radRamaJudicialActual: details.radRamaJudicialActual,
       demandante: details.demandante,
+      posicionSDP: details.posicionSDP,
     };
 
     batch.update(doc(headColl, details.idSiproj.toString()), { ...head });
@@ -178,10 +181,12 @@ export function importProcesses(processesList: {
           let head: ProcessHeads = {
             idSiproj: details.idSiproj,
             estado: details.estado,
+            tipoProceso: details.tipoProceso,
             apoderadoActual: details.apoderadoActual,
             radRamaJudicialInicial: details.radRamaJudicialInicial,
             radRamaJudicialActual: details.radRamaJudicialActual,
             demandante: details.demandante,
+            posicionSDP: details.posicionSDP,
           };
           let detailsData = details;
 
@@ -310,28 +315,3 @@ export function clearAllProcesses(): ThunkAction<
     }
   };
 }
-/* 
-export function getProcessesData(): ThunkAction<
-  Promise<void>,
-  RootState,
-  null,
-  AnyAction
-> {
-  return async (dispatch: Dispatch<AnyAction>) => {
-    try {
-      const snapshot = await getDocs(detailsColl);
-      const data: any = [];
-
-      snapshot.forEach((doc) => {
-        data.push(doc.data());
-      });
-
-      dispatch({
-        type: GET_PROCESSES_DATA,
-        payload: data,
-      });
-    } catch (e: any) {
-      throw new Error(e);
-    }
-  };
-} */

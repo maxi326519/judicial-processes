@@ -120,33 +120,10 @@ export default function Tables({
     <form className={styles.container} onSubmit={handleSubmit}>
       <div className={styles.categoriesList}>
         {data.length > 0 ? (
-          name === "tipoProceso" ? (
-            data.map((data, index) => (
-              <div
-                key={index}
-                className={`${styles.row} ${styles.tipoProceso}`}
-              >
-                <span>{data?.tipo}</span>
-                <span>{data?.dias}</span>
-                <div
-                  className="btn btn-close"
-                  onClick={() => handleRemove(data)}
-                />
-              </div>
-            ))
-          ) : name === "salariosMinimos" ? (
-            data.map((data, index) => (
-              <div key={index} className={styles.row}>
-                <span>{data.fecha}</span>
-                <span>{data.salario}</span>
-                <div
-                  className="btn btn-close"
-                  onClick={() => handleRemove(data)}
-                />
-              </div>
-            ))
-          ) : (
-            data.map((data, index) => (
+          data
+            .filter((item) => typeof item === "string")
+            .sort((a, b) => name !== "diasFestivos" && a.localeCompare(b))
+            .map((data, index) => (
               <div key={index} className={styles.row}>
                 <span>{typeof data === "string" ? data : ""}</span>
                 <div
@@ -155,74 +132,20 @@ export default function Tables({
                 />
               </div>
             ))
-          )
         ) : (
           <span className={styles.empty}>Empty</span>
         )}
       </div>
       <div>
         <div className={styles.formContainer}>
-          {name === "diasFestivos" ? (
-            <input
-              className="form-control"
-              id="fecha"
-              type="date"
-              placeholder="Fecha"
-              value={newData}
-              onChange={handleChange}
-            />
-          ) : name === "tipoProceso" ? (
-            <div className={styles.inputs}>
-              <input
-                className="form-control"
-                id="tipo"
-                name="tipo"
-                type="text"
-                placeholder="Tipo"
-                value={newData?.tipo || ""}
-                onChange={handleChange}
-              />
-              <input
-                className="form-control"
-                id="dias"
-                name="dias"
-                type="number"
-                placeholder="Dias"
-                value={newData?.dias || ""}
-                onChange={handleChange}
-              />
-            </div>
-          ) : name === "salariosMinimos" ? (
-            <div className={styles.inputs}>
-              <input
-                className="form-control"
-                id="fecha"
-                name="fecha"
-                type="number"
-                placeholder="Año"
-                value={newData?.fecha || ""}
-                onChange={handleChange}
-              />
-              <input
-                className="form-control"
-                id="salario"
-                name="salario"
-                type="number"
-                placeholder="Salario"
-                value={newData?.salario || ""}
-                onChange={handleChange}
-              />
-            </div>
-          ) : (
-            <input
-              className="form-control"
-              id="add"
-              type="text"
-              placeholder="Datos"
-              value={newData}
-              onChange={handleChange}
-            />
-          )}
+          <input
+            className="form-control"
+            id="add"
+            type="text"
+            placeholder="Datos"
+            value={newData}
+            onChange={handleChange}
+          />
           <button
             className="btn btn-outline-success"
             type="button"

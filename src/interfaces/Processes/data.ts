@@ -1,10 +1,12 @@
 export interface ProcessHeads {
   idSiproj: number;
   estado: ProcessState;
+  tipoProceso: string;
   apoderadoActual: string;
   radRamaJudicialInicial: string;
   radRamaJudicialActual: string;
   demandante: string;
+  posicionSDP: string;
 }
 
 export enum ProcessState {
@@ -15,9 +17,11 @@ export enum ProcessState {
 export interface ProcessFilters {
   idSiproj: number;
   apoderadoActual: string;
+  tipoProceso: string;
   radRamaJudicialInicial: string;
   radRamaJudicialActual: string;
   demandante: string;
+  posicionSDP: string;
 }
 
 export interface ProcessDetails {
@@ -67,44 +71,90 @@ export interface ProcessDetails {
 
 export interface ErrorProcesses {
   apoderadoActual: string;
+  apoderadoAnterior: string;
   idSiproj: string;
+  procesoAltoImpacto: string;
   radRamaJudicialInicial: string;
   radRamaJudicialActual: string;
   tipoProceso: string;
+  diasTerminoContestacion: string;
   fechaNotificacion: string;
+  fechaAdmision: string;
+  fechaContestacion: string;
+  fechaLimiteProbContestacion: string;
+  validacionContestacion: string;
   calidadActuacionEntidad: string;
   demandados: string;
   idDemanante: string;
   demandante: string;
   despachoInicial: string;
   despachoActual: string;
+  posicionSDP: string;
   temaGeneral: string;
   pretensionAsunto: string;
   cuantiaEstimada: string;
+  valorPretensionesSMLVM: string;
   instanciaProceso: string;
+  fechaProceso: string;
+  ultimoEstadoProceso: string;
   etapaProcesal: string;
+  fechaFalloPrimeraInstancia: string;
+  sentidoFalloPrimeraInstancia: string;
+  resumenPrimeraInstancia: string;
+  fechaPresentacionRecurso: string;
+  fechaFalloSegundaInstancia: string;
+  sentidoFalloSegundaInstancia: string;
+  resumenSegundaInstancia: string;
+  incidente: string;
+  estadoIncidente: string;
+  resumenIncidente: string;
+  observaciones: string;
+  calificacionContingente: string;
   estado: string;
   fechaTerminacion: string;
 }
 
 export const initErrorProcesses: ErrorProcesses = {
   apoderadoActual: "",
+  apoderadoAnterior: "",
   idSiproj: "",
+  procesoAltoImpacto: "",
   radRamaJudicialInicial: "",
   radRamaJudicialActual: "",
   tipoProceso: "",
+  diasTerminoContestacion: "",
   fechaNotificacion: "",
+  fechaAdmision: "",
+  fechaContestacion: "",
+  fechaLimiteProbContestacion: "",
+  validacionContestacion: "",
   calidadActuacionEntidad: "",
   demandados: "",
   idDemanante: "",
   demandante: "",
   despachoInicial: "",
   despachoActual: "",
+  posicionSDP: "",
   temaGeneral: "",
   pretensionAsunto: "",
   cuantiaEstimada: "",
+  valorPretensionesSMLVM: "",
   instanciaProceso: "",
+  fechaProceso: "",
+  ultimoEstadoProceso: "",
   etapaProcesal: "",
+  fechaFalloPrimeraInstancia: "",
+  sentidoFalloPrimeraInstancia: "",
+  resumenPrimeraInstancia: "",
+  fechaPresentacionRecurso: "",
+  fechaFalloSegundaInstancia: "",
+  sentidoFalloSegundaInstancia: "",
+  resumenSegundaInstancia: "",
+  incidente: "",
+  estadoIncidente: "",
+  resumenIncidente: "",
+  observaciones: "",
+  calificacionContingente: "",
   estado: "",
   fechaTerminacion: "",
 };
@@ -112,9 +162,11 @@ export const initErrorProcesses: ErrorProcesses = {
 export const initProcessFilters: ProcessFilters = {
   apoderadoActual: "",
   idSiproj: 0,
+  tipoProceso: "",
   radRamaJudicialInicial: "",
   radRamaJudicialActual: "",
   demandante: "",
+  posicionSDP: "",
 };
 
 export const initProcessDetails: ProcessDetails = {

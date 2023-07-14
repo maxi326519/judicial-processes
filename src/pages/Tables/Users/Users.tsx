@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../interfaces/RootState";
-import { deleteUser, getUsers } from "../../../redux/actions/users";
+import { deleteUser, getUsers, updateUser } from "../../../redux/actions/users";
 import { Users } from "../../../interfaces/users";
 import { closeLoading, openLoading } from "../../../redux/actions/loading";
 import swal from "sweetalert";
@@ -44,6 +44,36 @@ export default function UsersTable() {
   function handleEdit(user: Users) {
     setEditUser(user);
     handleClose();
+  }
+
+  function handleAvailable(user: Users) {
+    swal({
+      text: "¿Seguro desea cambiar la disponibilidad de este usuario?",
+      buttons: {
+        Si: true,
+        No: true
+      }
+    }).then((response) => {
+      if (response === "Si") {
+        const userAvalidable: Users = { ...user, available: !user.available };
+        dispatch(openLoading());
+        dispatch<any>(updateUser(userAvalidable))
+          .then(() => {
+            handleClose();
+            dispatch(closeLoading());
+            swal("Guardado", "Se guardo el usuario", "success");
+          })
+          .catch((err: any) => {
+            console.log(err);
+            dispatch(closeLoading());
+            swal(
+              "Error",
+              "No se pudo guardar el usuario, inténtelo más tarde",
+              "error"
+            );
+          });
+      }
+    })
   }
 
   function handleDelete(id: string) {
@@ -96,6 +126,7 @@ export default function UsersTable() {
             <th>Nombre</th>
             <th>E-mail</th>
             <th>Rol</th>
+            <th>Disponible</th>
             <th>Processos</th>
             <th>Tutelas</th>
             <th>Requerimientos</th>
@@ -141,6 +172,7 @@ export default function UsersTable() {
                   user={user}
                   handleEdit={handleEdit}
                   handleDelete={handleDelete}
+                  handleAvailable={handleAvailable}
                 />
               ))
             )}

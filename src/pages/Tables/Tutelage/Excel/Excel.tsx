@@ -133,7 +133,7 @@ export default function Excel() {
       // Firestore collections
       const tutelasDoc = doc(collection(db, "Data"), "Tutelas");
       const tutelasColl = collection(tutelasDoc, "Details");
-      const details: any = [];
+      let details: any = [];
 
       // Query variables
       let snapshot: QuerySnapshot;
@@ -152,15 +152,22 @@ export default function Excel() {
         snapshot = await getDocs(detailsQuery);
       }
 
-      // Convert data
+      // Save data
       snapshot.forEach((doc) =>
-        details.push(convertirValoresATexto(doc.data()))
+        details.push(doc.data())
       );
 
-      console.log(details);
-
-      // Save data to export
-      setExcelData(details);
+      // Sort, convert and save the data to export
+      setExcelData(details
+        .sort((a: any, b: any) => {
+          if (a.fecha === null) return 1;
+          if (b.fecha === null) return -1;
+          if (a.fecha < b.fecha) return 1;
+          if (a.fecha > b.fecha) return -1;
+          return 0;
+        })
+        .map((data: TutelaDetails) => convertirValoresATexto(data))
+      );
 
       // CLose
       handleCloseExport();
@@ -235,24 +242,7 @@ export default function Excel() {
         <ExportExcel data={excelData} handleClose={handleCloseExport} />
       ) : null}
       <div className={styles.controls}>
-        {action === actionType.export ? (
-          <div className={styles.filter}>
-            {/*             <label htmlFor="state">Tipo: </label>
-            <select
-              id="state"
-              className="form-select"
-              value={state}
-              onChange={handleSelect}
-            >
-              <option value="">Todos</option>
-              <option value={TutelasState.Activo}>Activos</option>
-              <option value={TutelasState.Terminado}>Terminados</option>
-            </select>
-            <span className={styles.counter}>
-              {rows.length} procesos seleccionados
-            </span> */}
-          </div>
-        ) : (
+        {action === actionType.export && (
           <div>
             <button
               className="btn btn-outline-success"
@@ -268,7 +258,6 @@ export default function Excel() {
             >
               Cancelar
             </button>
-
             <span>Se importarán {rows.length}</span>
           </div>
         )}
@@ -299,8 +288,10 @@ export default function Excel() {
             <th>ID idSiproj</th>
             <th>Nro de Tutela</th>
             <th>Abogado</th>
+            <th>Tema de la tutela</th>
             <th>ID del demandante</th>
             <th>Demandante</th>
+            <th>Derecho vulnerado</th>
           </tr>
         </thead>
         <tbody className={styles.contentRows}>

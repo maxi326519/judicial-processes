@@ -4,6 +4,7 @@ export interface Users {
   email: string;
   rol: UserRol;
   password?: string;
+  available: boolean;
   permissions: {
     processes: boolean;
     tutelas: boolean;
@@ -22,7 +23,7 @@ export enum UserPermissions {
   Processes = "processes",
   Tutelas = "tutelas",
   Requirements = "requirements",
-  Any = "Any"
+  Any = "Any",
 }
 
 export interface ErrorUser {
@@ -37,6 +38,7 @@ export const initUser: Users = {
   email: "",
   rol: UserRol.User,
   password: "",
+  available: true,
   permissions: {
     processes: false,
     tutelas: false,

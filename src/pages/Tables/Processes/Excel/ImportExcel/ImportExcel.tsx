@@ -2,6 +2,7 @@ import * as XLSX from "xlsx";
 import { useDispatch } from "react-redux";
 import {
   ProcessDetails,
+  ProcessHeads,
   ProcessState,
 } from "../../../../../interfaces/Processes/data";
 import {
@@ -141,13 +142,15 @@ export default function ImportExcel({ handleData, handleClose }: Props) {
     });
 
     return {
-      head: newData.map((item: any) => ({
+      head: newData.map((item: ProcessDetails): ProcessHeads => ({
         idSiproj: item.idSiproj,
         estado: item.estado,
+        tipoProceso: item.tipoProceso,
         apoderadoActual: item.apoderadoActual,
         radRamaJudicialInicial: item.radRamaJudicialInicial,
         radRamaJudicialActual: item.radRamaJudicialActual,
         demandante: item.demandante,
+        posicionSDP: item.posicionSDP
       })),
       details: newData,
     };

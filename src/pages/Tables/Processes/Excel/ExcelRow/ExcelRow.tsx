@@ -10,9 +10,11 @@ export default function ExcelRow({ processes }: Props) {
   return (
     <tr className={style.row}>
       <td>{processes.idSiproj}</td>
+      <td>{processes.tipoProceso}</td>
       <td>{processes.radRamaJudicialInicial}</td>
       <td>{processes.radRamaJudicialInicial}</td>
       <td>{processes.demandante}</td>
+      <td>{processes.posicionSDP}</td>
     </tr>
   );
 }

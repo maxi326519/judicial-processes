@@ -3,8 +3,10 @@ export interface TutelaHeads {
   idSiproj: number;
   nroTutela: string;
   abogado: string;
+  temaTutela: string;
   demandanteId: string;
   demandante: string;
+  derechoVulnerado: string;
 }
 
 export interface TutelaFilters {
@@ -13,6 +15,11 @@ export interface TutelaFilters {
   abogado: string;
   demandanteId: string;
   demandante: string;
+}
+
+export interface UserSelected {
+  user: string;
+  available: boolean;
 }
 
 export interface TutelaDetails {

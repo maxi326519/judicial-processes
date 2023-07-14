@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../../interfaces/RootState";
-import useTutelas from "../../../../../hooks/Tutela/useTutelas";
+import { dateToTime } from "../../../../../functions/dateToTime";
 import {
   setTutelas,
   updateTutelas,
@@ -10,16 +10,16 @@ import {
   closeLoading,
   openLoading,
 } from "../../../../../redux/actions/loading";
+import dateUTCToLocalDateYYYYMMDD from "../../../../../functions/dateToStringInput";
+import useTutelas from "../../../../../hooks/Tutela/useTutelas";
 import swal from "sweetalert";
 
 import Input from "../../../../../components/Inputs/Input";
 import SelectInput from "../../../../../components/Inputs/SelectInput";
 import TextareaInput from "../../../../../components/Inputs/TextareaInput";
+import Checkbox from "../../../../../components/Inputs/Checkbox";
 
 import styles from "./Form.module.css";
-import { dateToTime } from "../../../../../functions/dateToTime";
-import Checkbox from "../../../../../components/Inputs/Checkbox";
-import dateUTCToLocalDateYYYYMMDD from "../../../../../functions/dateToStringInput";
 
 interface Props {
   handleClose: () => void;
@@ -34,6 +34,7 @@ export default function Form({ handleClose }: Props) {
   );
   const users = useSelector((state: RootState) => state.users);
   const lists = useSelector((state: RootState) => state.tutelas.lists);
+  const usersSelected = useSelector((state: RootState) => state.tutelas.users);
   const [errorLength, setErrorLength] = useState<number>(0);
 
   const inputs = [
@@ -73,6 +74,7 @@ export default function Form({ handleClose }: Props) {
       inputType: "select",
       list: users
         .filter((user) => user.id !== "2RuL7ejyY7ftgEAL4j7jy2RyOXQ2")
+        .filter((user) => user.permissions?.tutelas)
         .map((user) => user.name),
       error: errors.abogado,
     },
@@ -328,6 +330,7 @@ export default function Form({ handleClose }: Props) {
   ];
 
   useEffect(() => {
+
     return () => {
       reset();
       handleClose();
@@ -346,9 +349,9 @@ export default function Form({ handleClose }: Props) {
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (/* validations() */ true) {
+    if (validations()) {
       dispatch(openLoading());
-      dispatch<any>(tutelaDetails ? updateTutelas(tutela) : setTutelas(tutela))
+      dispatch<any>(tutelaDetails ? updateTutelas(tutela) : setTutelas(tutela, usersSelected))
         .then(() => {
           dispatch(closeLoading());
           handleClose();

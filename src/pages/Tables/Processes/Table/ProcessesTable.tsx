@@ -69,6 +69,11 @@ export default function ProcessesTable() {
         )
           return false;
         if (
+          filters.tipoProceso &&
+          !data.tipoProceso.includes(filters.tipoProceso.toUpperCase())
+        )
+          return false;
+        if (
           filters.radRamaJudicialInicial &&
           !data.radRamaJudicialInicial
             .toString()
@@ -88,6 +93,11 @@ export default function ProcessesTable() {
         if (
           filters.demandante &&
           !data.demandante.includes(filters.demandante.toUpperCase())
+        )
+          return false;
+        if (
+          filters.posicionSDP &&
+          !data.posicionSDP.includes(filters.posicionSDP.toUpperCase())
         )
           return false;
         return true;
@@ -256,10 +266,12 @@ export default function ProcessesTable() {
         <thead>
           <tr className={`${styles.row} ${styles.firstRow}`}>
             <th>ID Siproj</th>
+            <th>Tipo de proceso</th>
             <th>Rad. Proceso Judicial (INICIAL)</th>
             <th>Rad. Proceso Judicial (ACTUAL)</th>
             <th>Demandante Nombre</th>
             <th>Apoderado Actual</th>
+            <th>Posición SPD</th>
           </tr>
         </thead>
         <tbody className={styles.contentRows}>

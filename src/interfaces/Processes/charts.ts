@@ -1,42 +1,34 @@
 export interface Charts {
-  entityChart: EntityChartData;
+  entityChart: EntityChartData[];
   processesChart: ProcessesChartData[];
-  stageChart: StageChartData[];
   typeChart: TypeChartData[];
 }
 
 export interface EntityChartData {
+  posicion: string;
   demandado: number;
   demandante: number;
 }
 
 export interface ProcessesChartData {
-  apoderado: string;
-  activos: number;
-  terminados: number;
-}
-
-export interface StageChartData {
-  etapa: string;
-  cantidad: number;
+  posicion: string;
+  data: Array<{
+    apoderado: string;
+    activos: number;
+    terminados: number;
+  }>;
 }
 
 export interface TypeChartData {
-  tipo: string;
-  cantidad: number;
-}
-
-export const initEntity = {
-  demandado: 0,
-  demandante: 0,
+  posicion: string;
+  data: Array<{
+    tipo: string;
+    cantidad: number;
+  }>;
 }
 
 export const initCharts = {
-  entityChart: {
-    demandado: 0,
-    demandante: 0,
-  },
+  entityChart: [],
   processesChart: [],
-  stageChart: [],
   typeChart: [],
 };

@@ -8,6 +8,7 @@ import document from "../../assets/svg/sideBar/document.svg";
 import list from "../../assets/svg/sideBar/list.svg";
 import excel from "../../assets/svg/sideBar/excel.svg";
 import graphics from "../../assets/svg/sideBar/graphics.svg";
+import config from "../../assets/svg/sideBar/configuration.svg";
 
 import styles from "./SideBar.module.css";
 import SideDropDown from "./SideDropDown/SideDropDown";
@@ -63,6 +64,12 @@ const sideList = [
       { label: "Graficos", icon: graphics, path: "/dashboard/requerimientos" },
       { label: "Excel", icon: excel, path: "/dashboard/requerimientos" },
     ],
+  },
+  {
+    label: "Configuración",
+    icon: config,
+    permissions: UserPermissions.Admin,
+    path: "/dashboard/configuracion"
   },
 ];
 

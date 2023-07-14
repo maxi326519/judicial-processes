@@ -8,14 +8,22 @@ interface Props {
   user: Users;
   handleEdit: (user: Users) => void;
   handleDelete: (id: string) => void;
+  handleAvailable: (user: Users) => void;
 }
 
-export default function UsersRow({ user, handleEdit, handleDelete }: Props) {
+export default function UsersRow({ user, handleEdit, handleDelete, handleAvailable }: Props) {
   return (
     <tr className={style.row}>
       <td>{user.name}</td>
       <td>{user.email}</td>
       <td>{user.rol}</td>
+      <button
+        className="btn btn-outline-primary"
+        type="button"
+        onClick={() => handleAvailable(user)}
+      >
+        {user.available ? "Disponible" : "No"}
+      </button>
       {user.rol === UserRol.Admin || user.permissions?.processes ? (
         <td className={`${style.permissions} ${style.access}`}>
           <span>Habilitado</span>

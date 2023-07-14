@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../interfaces/RootState";
 import { UserRol } from "../../interfaces/users";
-import { dateToTime } from "../../functions/dateToTime";
+import { closeLoading, openLoading } from "../../redux/actions/loading";
+import { updateUserDisabled } from "../../redux/actions/Tutelas/tutelas";
 import {
   TutelaDetails,
   ErrorTutelaDetails,
@@ -11,28 +12,34 @@ import {
 } from "../../interfaces/Tutelas/data";
 import getLimitDate from "../../functions/getLimitDate";
 import getDateLimitTutelas from "../../functions/getDateLimitTutelas";
-import dateUTCToLocalDateYYYYMMDD from "../../functions/dateToStringInput";
 
 export default function useTutelas() {
+  const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.sesion);
+  const users = useSelector((state: RootState) => state.users);
   const list = useSelector((state: RootState) => state.processes.lists);
-  const [tutela, setTutela] = useState<TutelaDetails>(initTutelaDetails);
-  const [errors, setErrors] = useState<ErrorTutelaDetails>(
-    initErrorTutelaDetails
-  );
+  const config = useSelector((state: RootState) => state.config.tutelas);
+  const usersSelected = useSelector((state: RootState) => state.tutelas.users);
+  const [tutela, setTutela] = useState<TutelaDetails>({ ...initTutelaDetails });
+  const [errors, setErrors] = useState<ErrorTutelaDetails>({
+    ...initErrorTutelaDetails,
+  });
   const tutelaDetails = useSelector(
     (state: RootState) => state.tutelas.details
   );
   const lists = useSelector((state: RootState) => state.processes.lists);
 
   useEffect(() => {
-    let data = { ...tutela };
-    if (user.rol === UserRol.User) data.abogado = user.name;
-    if (tutelaDetails) {
-      data = tutelaDetails;
-    }
-    setTutela(data);
-  }, [user, tutelaDetails]);
+    checkTutelasPerUser();
+  }, []);
+
+  useEffect(() => {
+    if (tutelaDetails) setTutela(tutelaDetails);
+  }, [tutelaDetails]);
+
+  useEffect(() => {
+    console.log(tutela);
+  }, [tutela]);
 
   function handleChange(
     event: React.ChangeEvent<
@@ -40,7 +47,7 @@ export default function useTutelas() {
     >
   ) {
     let newTutela: TutelaDetails = { ...tutela };
-    const value = event.target.value.toUpperCase();
+    const value = event.target.value.toUpperCase().replace(/[\r\n]+/g, ' ').replace(/\s{2,}/g, ' ');
     const name = event.target.name;
     const type = event.target.type;
     const error: any = {};
@@ -171,176 +178,262 @@ export default function useTutelas() {
     setTutela(newTutela);
   }
 
+  function checkTutelasPerUser() {
+    let change = false;
+    let usersSelectedLocal = [...usersSelected];
+    const availableUsers = users.filter((user) => {
+      if (!user.available) return false;
+      if (!user.permissions?.tutelas) return false;
+      if (user.email === "maxi.326519@gmail.com") return false;
+      return true;
+    });
+
+    dispatch(openLoading());
+
+    console.log("All users", users);
+    console.log("Checking users", availableUsers);
+    console.log("Selected: ", usersSelectedLocal);
+
+    // Check if the users already exist, otherwise create it
+    availableUsers.forEach((user) => {
+      // If don't exist, add the user
+      if (!usersSelectedLocal.some((selected) => selected.user === user.name)) {
+        change = true;
+        console.log("Check true 1");
+        console.log(
+          usersSelectedLocal.length,
+          usersSelectedLocal.find((selected) => selected.user === user.name)
+            ?.user,
+          user.name
+        );
+        usersSelectedLocal.push({
+          user: user.name,
+          available: true,
+        });
+      }
+    });
+
+    console.log("Checking availables");
+
+    // Check if some users have 'available' property in true, otherwise set all 'availabel' property in true
+    if (!usersSelectedLocal.some((selected) => selected.available)) {
+      change = true;
+      console.log(usersSelectedLocal.some((selected) => selected.available));
+      console.log("Check true 2");
+      usersSelectedLocal = usersSelectedLocal.map((selected) => ({
+        user: selected.user,
+        available: true,
+      }));
+    }
+
+    console.log("Changes: ", change);
+
+    // If set some change, save the data
+    if (change) {
+      dispatch<any>(updateUserDisabled(usersSelectedLocal))
+        .then(() => {
+          dispatch(closeLoading());
+        })
+        .catch((error: Error) => {
+          console.log(error.message);
+          dispatch(closeLoading());
+        });
+    } else {
+      dispatch(closeLoading());
+    }
+
+    // Set in 'abogado' property the first user availabel
+    for (const selected of usersSelectedLocal) {
+      if (selected.available) {
+        const newTutela = { ...tutela, abogado: selected.user };
+        console.log("selected: ", newTutela);
+        setTutela(newTutela);
+        break;
+      }
+    }
+  }
+
   function reset() {
-    setTutela(initTutelaDetails);
-    setErrors(initErrorTutelaDetails);
+    setTutela({ ...initTutelaDetails });
+    setErrors({ ...initErrorTutelaDetails });
   }
 
   function validations() {
     let error: ErrorTutelaDetails = { ...initErrorTutelaDetails };
     let value = true;
 
-    if (tutela.idSiproj === 0) {
+    if (config.idSiproj && tutela.idSiproj === 0) {
       error.idSiproj = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.nroTutela === "") {
+    if (config.nroTutela && tutela.nroTutela === "") {
       error.nroTutela = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.abogado === "") {
+    if (config.abogado && tutela.abogado === "") {
       error.abogado = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.tipo === "") {
+    if (config.tipo && tutela.tipo === "") {
       error.tipo = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.fecha === null) {
+    if (config.fecha && tutela.fecha === null) {
       error.fecha = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.radicado === "") {
+    if (config.radicado && tutela.radicado === "") {
       error.radicado = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.demandanteId === "") {
+    if (config.demandanteId && tutela.demandanteId === "") {
       error.demandanteId = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.demandante === "") {
+    if (config.demandante && tutela.demandante === "") {
       error.demandante = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.demandado === "") {
+    if (config.demandado && tutela.demandado === "") {
       error.demandado = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.temaTutela === "") {
+    if (config.temaTutela && tutela.temaTutela === "") {
       error.temaTutela = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.derechoVulnerado === "") {
+    if (config.derechoVulnerado && tutela.derechoVulnerado === "") {
       error.derechoVulnerado = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.concepto === "") {
+    if (config.concepto && tutela.concepto === "") {
       error.concepto = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.termino === "") {
+    if (config.termino && tutela.termino === "") {
       error.termino = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.remite === "") {
+    if (config.remite && tutela.remite === "") {
       error.remite = "Debes completar este campo";
       value = false;
     }
 
-    /*     if (tutela.abogado === "") {
+    if (config.abogado && tutela.abogado === "") {
       error.abogado = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.fechaRespuesta === null) {
+    if (config.fechaRespuesta && tutela.fechaRespuesta === null) {
       error.fechaRespuesta = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.radicadoSalida === "") {
+    if (config.radicadoSalida && tutela.radicadoSalida === "") {
       error.radicadoSalida = "Debes completar este campo";
       value = false;
-    } */
+    }
 
-    /* 
-    if (tutela.oficioAdicional === "") {
+    if (config.oficioAdicional && tutela.oficioAdicional === "") {
       error.oficioAdicional = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.fallo1raInst === "") {
+    if (config.fallo1raInst && tutela.fallo1raInst === "") {
       error.fallo1raInst = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.fechaFallo1raInst === null) {
+    if (config.fechaFallo1raInst && tutela.fechaFallo1raInst === null) {
       error.fechaFallo1raInst = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.observacionFallo1raInst === "") {
+    if (
+      config.observacionFallo1raInst &&
+      tutela.observacionFallo1raInst === ""
+    ) {
       error.observacionFallo1raInst = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.terminoCumplimiento1raInst === 0) {
+    if (
+      config.terminoCumplimiento1raInst &&
+      tutela.terminoCumplimiento1raInst === 0
+    ) {
       error.terminoCumplimiento1raInst = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.cumplimiento1raInst === "") {
+    if (config.cumplimiento1raInst && tutela.cumplimiento1raInst === "") {
       error.cumplimiento1raInst = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.impugnacionSDP === 0) {
+    if (config.impugnacionSDP && tutela.impugnacionSDP === 0) {
       error.impugnacionSDP = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.fechaImpugnacion === null) {
+    if (config.fechaImpugnacion && tutela.fechaImpugnacion === null) {
       error.fechaImpugnacion = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.fallo2daInst === "") {
+    if (config.fallo2daInst && tutela.fallo2daInst === "") {
       error.fallo2daInst = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.fechaFallo2daInst === null) {
+    if (config.fechaFallo2daInst && tutela.fechaFallo2daInst === null) {
       error.fechaFallo2daInst = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.observacionFallo2daInst === "") {
+    if (
+      config.observacionFallo2daInst &&
+      tutela.observacionFallo2daInst === ""
+    ) {
       error.observacionFallo2daInst = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.terminoCumplimiento2daInst === 0) {
+    if (
+      config.terminoCumplimiento2daInst &&
+      tutela.terminoCumplimiento2daInst === 0
+    ) {
       error.terminoCumplimiento2daInst = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.cumplimiento2daInst === "") {
+    if (config.cumplimiento2daInst && tutela.cumplimiento2daInst === "") {
       error.cumplimiento2daInst = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.incidenteDesacato === "") {
+    if (config.incidenteDesacato && tutela.incidenteDesacato === "") {
       error.incidenteDesacato = "Debes completar este campo";
       value = false;
     }
 
-    if (tutela.observacionesGenerales === "") {
+    if (config.observacionesGenerales && tutela.observacionesGenerales === "") {
       error.observacionesGenerales = "Debes completar este campo";
       value = false;
     }
- */
+
     setErrors(error);
     return value;
   }

@@ -22,8 +22,10 @@ export default function TutelaRow({ tutela, handleEdit, handleDelete }: Props) {
       <td>{tutela.idSiproj}</td>
       <td>{tutela.nroTutela}</td>
       <td>{tutela.abogado}</td>
+      <td>{tutela.temaTutela}</td>
       <td>{tutela.demandanteId}</td>
       <td>{tutela.demandante}</td>
+      <td>{tutela.derechoVulnerado}</td>
       <button
         className="btn btn-outline-primary"
         type="button"

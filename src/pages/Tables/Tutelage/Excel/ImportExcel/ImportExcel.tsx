@@ -148,8 +148,10 @@ export default function ImportExcel({ handleData, handleClose }: Props) {
           idSiproj: item.idSiproj,
           nroTutela: item.nroTutela,
           abogado: item.abogado,
+          temaTutela: item.temaTutela,
           demandanteId: item.demandanteId,
           demandante: item.demandante,
+          derechoVulnerado: item.derechoVulnerado,
         })
       ),
       details: newData,

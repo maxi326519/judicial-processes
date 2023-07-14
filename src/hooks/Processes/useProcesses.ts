@@ -37,7 +37,8 @@ export default function useJudicialProcesses() {
     >
   ) {
     let newJudicialProcesses: ProcessDetails = { ...judicialProcesses };
-    const value = event.target.value.toUpperCase();
+    // Set upper case, delete spaces and line breaks
+    const value = event.target.value.toUpperCase().replace(/[\r\n]+/g, ' ').replace(/\s{2,}/g, ' ');
     const name = event.target.name;
     const type = event.target.type;
     const error: any = {};

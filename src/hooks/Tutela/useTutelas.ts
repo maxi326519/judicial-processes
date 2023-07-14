@@ -47,7 +47,7 @@ export default function useTutelas() {
     >
   ) {
     let newTutela: TutelaDetails = { ...tutela };
-    const value = event.target.value.toUpperCase();
+    const value = event.target.value.toUpperCase().replace(/[\r\n]+/g, ' ').replace(/\s{2,}/g, ' ');
     const name = event.target.name;
     const type = event.target.type;
     const error: any = {};

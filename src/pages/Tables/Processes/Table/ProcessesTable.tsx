@@ -37,7 +37,9 @@ export default function ProcessesTable() {
   const processesHeads = useSelector(
     (state: RootState) => state.processes.heads
   );
-  const [filters, setFilters] = useState<ProcessFilters>(initProcessFilters);
+  const [filters, setFilters] = useState<ProcessFilters>({
+    ...initProcessFilters,
+  });
   const [rows, setRows] = useState<ProcessHeads[]>([]);
   const [form, setForm] = useState<boolean>(false);
   const [loading, setLoading] = useState(false);
@@ -56,8 +58,12 @@ export default function ProcessesTable() {
         filters.idSiproj ||
         filters.radRamaJudicialInicial ||
         filters.radRamaJudicialActual ||
-        filters.demandante
+        filters.demandante ||
+        filters.posicionSDP ||
+        filters.tipoProceso
       ) {
+        console.log(data.posicionSDP, filters.posicionSDP.toUpperCase());
+        console.log(data.tipoProceso, filters.tipoProceso.toUpperCase());
         if (
           filters.apoderadoActual &&
           filters.apoderadoActual !== data.apoderadoActual

@@ -132,14 +132,14 @@ export default function Filters({ filters, setFilters }: Props) {
         {/* POSICION SPD */}
         <div className="form-floating">
           <input
-            id="posicionSPD"
+            id="posicionSDP"
             className="form-control"
-            name="posicionSPD"
+            name="posicionSDP"
             type="text"
             value={filters.posicionSDP}
             onChange={handleChange}
           />
-          <label htmlFor="posicionSPD">Posicion SPD</label>
+          <label htmlFor="posicionSDP">Posicion SPD</label>
         </div>
 
         <button

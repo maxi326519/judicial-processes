@@ -162,8 +162,8 @@ export default function Excel() {
         .sort((a: any, b: any) => {
           if (a.fecha === null) return 1;
           if (b.fecha === null) return -1;
-          if (a.fecha < b.fecha) return 1;
-          if (a.fecha > b.fecha) return -1;
+          if (a.fecha > b.fecha) return 1;
+          if (a.fecha < b.fecha) return -1;
           return 0;
         })
         .map((data: TutelaDetails) => convertirValoresATexto(data))

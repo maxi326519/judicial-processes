@@ -86,6 +86,19 @@ export default function Filters({ filters, setFilters }: Props) {
           <label htmlFor="nroTutela">Nro de tutela:</label>
         </div>
 
+        {/* TEMA TUTELA */}
+        <div className="form-floating">
+          <input
+            id="temaTutela"
+            className="form-control"
+            name="temaTutela"
+            type="text"
+            value={filters.temaTutela}
+            onChange={handleChange}
+          />
+          <label htmlFor="temaTutela">Tema tutela:</label>
+        </div>
+
         {/* ID DEMANDANTE */}
         <div className="form-floating form-floating-dark">
           <input
@@ -109,7 +122,20 @@ export default function Filters({ filters, setFilters }: Props) {
             value={filters.demandante}
             onChange={handleChange}
           />
-          <label htmlFor="demandante">Nombre del demandante</label>
+          <label htmlFor="demandante">Nombre del demandante:</label>
+        </div>
+
+        {/* DERECHO VULNERADO */}
+        <div className="form-floating">
+          <input
+            id="derechoVulnerado"
+            className="form-control"
+            name="derechoVulnerado"
+            type="text"
+            value={filters.derechoVulnerado}
+            onChange={handleChange}
+          />
+          <label htmlFor="derechoVulnerado">Derecho vulnerado:</label>
         </div>
 
         <button

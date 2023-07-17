@@ -93,7 +93,7 @@ export default function Excel() {
     dispatch<any>(importTutelas(data.details))
       .then(() => {
         dispatch(closeLoading());
-        setAction(actionType.export);
+        setAction(actionType.import);
         setData(initData);
         setRows(tutelas);
 
@@ -242,7 +242,7 @@ export default function Excel() {
         <ExportExcel data={excelData} handleClose={handleCloseExport} />
       ) : null}
       <div className={styles.controls}>
-        {action === actionType.export && (
+        {action === actionType.import && (
           <div>
             <button
               className="btn btn-outline-success"

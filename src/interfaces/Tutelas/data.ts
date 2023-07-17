@@ -13,8 +13,10 @@ export interface TutelaFilters {
   idSiproj: number;
   nroTutela: string;
   abogado: string;
+  temaTutela: string;
   demandanteId: string;
   demandante: string;
+  derechoVulnerado: string;
 }
 
 export interface UserSelected {
@@ -105,8 +107,10 @@ export const initTutelaFilters: TutelaFilters = {
   idSiproj: 0,
   nroTutela: "",
   abogado: "",
+  temaTutela: "",
   demandanteId: "",
   demandante: "",
+  derechoVulnerado: "",
 };
 
 export const initTutelaDetails: TutelaDetails = {

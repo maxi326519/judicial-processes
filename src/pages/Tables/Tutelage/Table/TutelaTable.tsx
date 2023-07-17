@@ -55,23 +55,37 @@ export default function TutelaTable() {
         filters.idSiproj ||
         filters.nroTutela ||
         filters.abogado ||
+        filters.temaTutela ||
         filters.demandanteId ||
-        filters.demandante
+        filters.demandante ||
+        filters.derechoVulnerado
       ) {
         /* ABOGADO */
         if (filters.abogado && filters.abogado !== data.abogado) return false;
+
         /* ID SIPROJ */
         if (
           filters.idSiproj &&
           !data.idSiproj.toString().startsWith(filters.idSiproj.toString())
         )
           return false;
+
         /* NRO TUTELA */
         if (
           filters.nroTutela &&
           !data.nroTutela.toString().startsWith(filters.nroTutela.toString())
-        )
+        ) {
           return false;
+        }
+
+        /* TEMA TUTELA */
+        if (
+          filters.nroTutela &&
+          !data.temaTutela.toString().startsWith(filters.temaTutela.toString())
+        ) {
+          return false;
+        }
+
         /* DEMANDANTE ID */
         if (
           filters.demandanteId &&
@@ -81,12 +95,24 @@ export default function TutelaTable() {
         ) {
           return false;
         }
+
         /* DEMANDANTE */
         if (
           filters.demandante &&
           !data.demandante.includes(filters.demandante.toUpperCase())
-        )
+        ) {
           return false;
+        }
+
+        /* ID DEMANDANTE */
+        if (
+          filters.nroTutela &&
+          !data.demandanteId
+            .toString()
+            .startsWith(filters.demandanteId.toString())
+        ) {
+          return false;
+        }
         return true;
       } else return true;
     });

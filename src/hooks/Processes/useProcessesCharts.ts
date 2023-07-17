@@ -72,10 +72,8 @@ export default function useProcessChart() {
         // Add ont to 'demandante' or 'demandado'
         if (process.calidadActuacionEntidad === "DEMANDANTE") {
           posicionSDP.demandante++;
-          initEntityData.demandante++;
         } else if (process.calidadActuacionEntidad === "DEMANDADO") {
           posicionSDP.demandado++;
-          initEntityData.demandado++;
         }
       } else {
         // If don't exist, create them
@@ -84,6 +82,14 @@ export default function useProcessChart() {
           demandado: process.calidadActuacionEntidad === "DEMANDADO" ? 1 : 0,
           demandante: process.calidadActuacionEntidad === "DEMANDANTE" ? 1 : 0,
         });
+      }
+    });
+
+    processes.forEach((process) => {
+      if (process.calidadActuacionEntidad === "DEMANDANTE") {
+        initEntityData.demandante++;
+      } else if (process.calidadActuacionEntidad === "DEMANDADO") {
+        initEntityData.demandado++;
       }
     });
 
@@ -111,20 +117,15 @@ export default function useProcessChart() {
         const apoderado = posicionSDP.data.find(
           (data) => data.apoderado === process.apoderadoActual
         );
-        const initApoderado = initProcessesData.data.find(
-          (data) => data.apoderado === process.apoderadoActual
-        );
 
         // Check if 'abogado' already exist
-        if (apoderado && initApoderado) {
+        if (apoderado) {
           // Add one to 'activos' of 'terminados'
           if (process.estado === "ACTIVO") {
             apoderado.activos++;
-            initApoderado.activos++;
           }
           if (process.estado === "TERMINADO") {
             apoderado.terminados++;
-            initApoderado.terminados++;
           }
         } else {
           // Create the data, set 'activos' and 'terminados'
@@ -135,7 +136,6 @@ export default function useProcessChart() {
           };
 
           posicionSDP.data.push(newData);
-          initProcessesData.data.push(newData);
         }
       } else {
         // Else create the data
@@ -143,6 +143,28 @@ export default function useProcessChart() {
           posicion: process.posicionSDP,
           data: [],
         });
+      }
+    });
+
+    processes.forEach((process) => {
+      const initApoderado = initProcessesData.data.find(
+        (data) => data.apoderado === process.apoderadoActual
+      );
+
+      // Check if 'abogado' already exist
+      if (initApoderado) {
+        // Add one to 'activos' of 'terminados'
+        if (process.estado === "ACTIVO") initApoderado.activos++;
+        if (process.estado === "TERMINADO") initApoderado.terminados++;
+      } else {
+        // Create the data, set 'activos' and 'terminados'
+        const newData = {
+          apoderado: process.apoderadoActual,
+          activos: process.estado === "ACTIVO" ? 1 : 0,
+          terminados: process.estado === "TERMINADO" ? 1 : 0,
+        };
+
+        initProcessesData.data.push(newData);
       }
     });
 
@@ -199,6 +221,25 @@ export default function useProcessChart() {
             },
           ],
         });
+      }
+    });
+
+    processes.forEach((process) => {
+      const initTipo = initTypeData.data.find(
+        (data) => data.tipo === process.tipoProceso
+      );
+
+      // Check if 'tipo' already exist
+      if (initTipo) {
+        // Add one to 'cantidad'
+        initTipo!.cantidad++;
+      } else {
+        // Create the data, and set 'cantidad' in 1
+        const newData = {
+          tipo: process.apoderadoActual,
+          cantidad: 1,
+        };
+        initTypeData.data.push(newData);
       }
     });
 

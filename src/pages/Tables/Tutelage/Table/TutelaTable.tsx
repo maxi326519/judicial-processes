@@ -60,6 +60,10 @@ export default function TutelaTable() {
         filters.demandante ||
         filters.derechoVulnerado
       ) {
+
+        console.log(data.temaTutela, filters.temaTutela);
+        console.log(data.derechoVulnerado, filters.derechoVulnerado);
+
         /* ABOGADO */
         if (filters.abogado && filters.abogado !== data.abogado) return false;
 
@@ -80,8 +84,8 @@ export default function TutelaTable() {
 
         /* TEMA TUTELA */
         if (
-          filters.nroTutela &&
-          !data.temaTutela.toString().startsWith(filters.temaTutela.toString())
+          filters.temaTutela &&
+          !data.temaTutela.toString().startsWith(filters.temaTutela.toUpperCase())
         ) {
           return false;
         }
@@ -104,12 +108,12 @@ export default function TutelaTable() {
           return false;
         }
 
-        /* ID DEMANDANTE */
+        /* DERECHO VULNERADO */
         if (
-          filters.nroTutela &&
-          !data.demandanteId
+          filters.derechoVulnerado &&
+          !data.derechoVulnerado
             .toString()
-            .startsWith(filters.demandanteId.toString())
+            .startsWith(filters.derechoVulnerado.toUpperCase())
         ) {
           return false;
         }
@@ -276,6 +280,7 @@ export default function TutelaTable() {
               className="btn btn-outline-primary"
               type="button"
               onClick={handleClose}
+              disabled={loading}
             >
               + Nueva tutela
             </button>

@@ -204,7 +204,7 @@ export default function useProcessChart() {
         } else {
           // Create the data, and set 'cantidad' in 1
           const newData = {
-            tipo: process.apoderadoActual,
+            tipo: process.tipoProceso,
             cantidad: 1,
           };
           posicionSDP.data.push(newData);
@@ -216,7 +216,7 @@ export default function useProcessChart() {
           posicion: process.posicionSDP,
           data: [
             {
-              tipo: process.apoderadoActual,
+              tipo: process.tipoProceso,
               cantidad: 1,
             },
           ],
@@ -232,11 +232,11 @@ export default function useProcessChart() {
       // Check if 'tipo' already exist
       if (initTipo) {
         // Add one to 'cantidad'
-        initTipo!.cantidad++;
+        initTipo.cantidad++;
       } else {
         // Create the data, and set 'cantidad' in 1
         const newData = {
-          tipo: process.apoderadoActual,
+          tipo: process.tipoProceso,
           cantidad: 1,
         };
         initTypeData.data.push(newData);

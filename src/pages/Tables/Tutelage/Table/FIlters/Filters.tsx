@@ -31,7 +31,7 @@ export default function Filters({ filters, setFilters }: Props) {
   }
 
   function handleReset() {
-    setFilters(initTutelaFilters);
+    setFilters(initTutelaFilters());
   }
 
   return (

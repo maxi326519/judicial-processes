@@ -30,9 +30,9 @@ export const IMPORT_PROCESSES = "IMPORT_PROCESSES";
 export const CLEAR_ALL_PROCESSES = "CLEAR_ALL_PROCESSES";
 
 const dataColl = collection(db, "Data");
-const requirementsDoc = doc(dataColl, "Processes");
-const headColl = collection(requirementsDoc, "Head");
-const detailsColl = collection(requirementsDoc, "Details");
+const processesDoc = doc(dataColl, "Processes");
+const headColl = collection(processesDoc, "Head");
+const detailsColl = collection(processesDoc, "Details");
 
 export function setProcesses(
   processes: ProcessDetails
@@ -95,6 +95,9 @@ export function getProcesses(
         processes.push(doc.data());
       });
     }
+
+    console.log(snapshot?.size);
+    console.log(processes);
 
     try {
       dispatch({

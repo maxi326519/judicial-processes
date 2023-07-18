@@ -20,10 +20,10 @@ export default function useTutelas() {
   const list = useSelector((state: RootState) => state.processes.lists);
   const config = useSelector((state: RootState) => state.config.tutelas);
   const usersSelected = useSelector((state: RootState) => state.tutelas.users);
-  const [tutela, setTutela] = useState<TutelaDetails>({ ...initTutelaDetails });
-  const [errors, setErrors] = useState<ErrorTutelaDetails>({
-    ...initErrorTutelaDetails,
-  });
+  const [tutela, setTutela] = useState<TutelaDetails>(initTutelaDetails());
+  const [errors, setErrors] = useState<ErrorTutelaDetails>(
+    initErrorTutelaDetails()
+  );
   const tutelaDetails = useSelector(
     (state: RootState) => state.tutelas.details
   );
@@ -47,7 +47,10 @@ export default function useTutelas() {
     >
   ) {
     let newTutela: TutelaDetails = { ...tutela };
-    const value = event.target.value.toUpperCase().replace(/[\r\n]+/g, ' ').replace(/\s{2,}/g, ' ');
+    const value = event.target.value
+      .toUpperCase()
+      .replace(/[\r\n]+/g, " ")
+      .replace(/\s{2,}/g, " ");
     const name = event.target.name;
     const type = event.target.type;
     const error: any = {};
@@ -254,12 +257,12 @@ export default function useTutelas() {
   }
 
   function reset() {
-    setTutela({ ...initTutelaDetails });
-    setErrors({ ...initErrorTutelaDetails });
+    setTutela(initTutelaDetails());
+    setErrors(initErrorTutelaDetails());
   }
 
   function validations() {
-    let error: ErrorTutelaDetails = { ...initErrorTutelaDetails };
+    let error: ErrorTutelaDetails = initErrorTutelaDetails();
     let value = true;
 
     if (config.idSiproj && tutela.idSiproj === 0) {

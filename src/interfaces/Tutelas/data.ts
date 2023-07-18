@@ -103,7 +103,7 @@ export interface ErrorTutelaDetails {
   observacionesGenerales: string;
 }
 
-export const initTutelaFilters: TutelaFilters = {
+export const initTutelaFilters = (): TutelaFilters => ({
   idSiproj: 0,
   nroTutela: "",
   abogado: "",
@@ -111,9 +111,9 @@ export const initTutelaFilters: TutelaFilters = {
   demandanteId: "",
   demandante: "",
   derechoVulnerado: "",
-};
+});
 
-export const initTutelaDetails: TutelaDetails = {
+export const initTutelaDetails = (): TutelaDetails => ({
   idSiproj: 0,
   nroTutela: "",
   tipo: "",
@@ -150,9 +150,9 @@ export const initTutelaDetails: TutelaDetails = {
   fechaCumplimiento2daInst: null,
   incidenteDesacato: "",
   observacionesGenerales: "",
-};
+});
 
-export const initErrorTutelaDetails: ErrorTutelaDetails = {
+export const initErrorTutelaDetails = (): ErrorTutelaDetails => ({
   idSiproj: "",
   nroTutela: "",
   tipo: "",
@@ -189,4 +189,4 @@ export const initErrorTutelaDetails: ErrorTutelaDetails = {
   fechaCumplimiento2daInst: "",
   incidenteDesacato: "",
   observacionesGenerales: "",
-};
+});

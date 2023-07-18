@@ -10,6 +10,7 @@ import {
   QuerySnapshot,
   Timestamp,
   collection,
+  doc,
   getDocs,
   query,
   where,
@@ -146,7 +147,9 @@ export default function Excel() {
   async function handleGetData() {
     dispatch(openLoading());
     try {
-      const colProcesses = collection(db, "Details");
+      const dataColl = collection(db, "Data");
+      const processesDoc = doc(dataColl, "Processes");
+      const detailsColl = collection(processesDoc, "Details");
       const details: any = [];
       let snapshot: QuerySnapshot;
       let wheres = {
@@ -157,18 +160,18 @@ export default function Excel() {
       if (user.rol === UserRol.Admin) {
         let detailsQuery: Query;
         if (state === "") {
-          snapshot = await getDocs(colProcesses);
+          snapshot = await getDocs(detailsColl);
         } else {
-          detailsQuery = query(colProcesses, wheres.estado);
+          detailsQuery = query(detailsColl, wheres.estado);
           snapshot = await getDocs(detailsQuery);
         }
       } else {
         let detailsQuery: Query;
         if (state === "") {
-          detailsQuery = query(colProcesses, wheres.apoderado);
+          detailsQuery = query(detailsColl, wheres.apoderado);
           snapshot = await getDocs(detailsQuery);
         } else {
-          detailsQuery = query(colProcesses, wheres.apoderado, wheres.estado);
+          detailsQuery = query(detailsColl, wheres.apoderado, wheres.estado);
           snapshot = await getDocs(detailsQuery);
         }
       }

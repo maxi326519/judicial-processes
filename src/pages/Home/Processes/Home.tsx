@@ -59,15 +59,12 @@ export default function Home() {
 
   return (
     <div className={styles.background}>
-      <Navbar title="Home - Procesos" />                                          
+      <Navbar title="Home - Procesos" />
       <SideBar />
       {processCharts && (
-        <div
-          className={`${styles.charts} ${user.rol === UserRol.Admin ? styles.admin : ""
-            }`}
-        >
-          {user.rol === UserRol.Admin ? (
-            <div className={styles.btnContainer}>
+        <div className={styles.charts}>
+          <div className={styles.btnContainer}>
+            {user.rol === UserRol.Admin ? (
               <button
                 className="btn btn-outline-success"
                 type="button"
@@ -75,15 +72,15 @@ export default function Home() {
               >
                 Actualizar
               </button>
-              <SelectInput
-                name="posicionSDP"
-                label="Posición SDP"
-                value={posicionSDP}
-                list={charts.entityChart.map((data) => data.posicion)}
-                handleChange={handleChange}
-              />
-            </div>
-          ) : null}
+            ) : null}
+            <SelectInput
+              name="posicionSDP"
+              label="Posición SDP"
+              value={posicionSDP}
+              list={charts.entityChart.map((data) => data.posicion)}
+              handleChange={handleChange}
+            />
+          </div>
           <button
             className={styles.prev}
             type="button"

@@ -137,20 +137,7 @@ export default function Excel() {
 
       // Query variables
       let snapshot: QuerySnapshot;
-      let wheres = {
-        apoderado: where("apoderadoActual", "==", user.name),
-      };
-
-      // IF the user is admin, get all data, else just their data
-      if (user.rol === UserRol.Admin) {
-        // Get all data
-        snapshot = await getDocs(tutelasColl);
-      } else {
-        // Get just user data
-        let detailsQuery: Query;
-        detailsQuery = query(tutelasColl, wheres.apoderado);
-        snapshot = await getDocs(detailsQuery);
-      }
+      snapshot = await getDocs(tutelasColl);
 
       // Save data
       snapshot.forEach((doc) =>

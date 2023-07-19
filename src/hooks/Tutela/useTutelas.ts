@@ -53,7 +53,6 @@ export default function useTutelas() {
       .replace(/\s{2,}/g, " ");
     const name = event.target.name;
     const type = event.target.type;
-    const error: any = {};
 
     if (type === "date") {
       const dateValue = new Date(`${value} 08:00:00`);

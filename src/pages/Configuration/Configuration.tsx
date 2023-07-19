@@ -22,15 +22,13 @@ export function Configuration() {
 
     useEffect(() => {
         dispatch(openLoading());
-        console.log("asdasdsa");
         Promise.all([
             dispatch<any>(getProcessesConfig()),
             dispatch<any>(getTutelasConfig()),
             dispatch<any>(getRequirementsConfig()),
         ])
             .then(() => {
-        console.log("asdasdsa");
-        dispatch(closeLoading());
+                dispatch(closeLoading());
             })
             .catch((error: Error) => {
                 console.log(error.message);

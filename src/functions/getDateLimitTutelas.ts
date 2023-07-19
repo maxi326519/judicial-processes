@@ -34,7 +34,13 @@ export default function getDateLimitTutelas(
 
   // Función para verificar si una fecha es un día festivo
   function esDiaFestivo(fecha: Date): boolean {
-    const fechaStr = fecha.toISOString().slice(0, 10);
+    const year = fecha.getFullYear();
+    const month = `0${fecha.getMonth()}`.slice(-2);
+    const day = `0${fecha.getDate()}`.slice(-2);
+    const fechaStr = `${day}/${month}/${year}`;
+
+    console.log("Es festivo: ", fechaStr);
+    console.log(diasFestivos.includes(fechaStr));
     return diasFestivos.includes(fechaStr);
   }
 

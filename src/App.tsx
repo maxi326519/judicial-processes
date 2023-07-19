@@ -34,6 +34,8 @@ import ProcessesChart from "./pages/Home/Processes/ProcessesChart/ProcessesChart
 import TutelasChart from "./pages/Home/Tutelas/TutelasChart/TutelasChart";
 import ThemeChart from "./pages/Home/Tutelas/ThemeChart/ThemeChart";
 import { Configuration } from "./pages/Configuration/Configuration";
+import { getLists } from "./redux/actions/Processes/lists";
+import { getProcessesConfig, getRequirementsConfig, getTutelasConfig } from "./redux/actions/config";
 
 /* import RequirementsTable from "./pages/Tables/Requirements/Table/RequirementsTables";
 import RequirementsIframe from "./pages/Tables/Requirements/Iframes/Iframes";
@@ -56,12 +58,23 @@ function App() {
 
     redirect("/login");
     dispatch(openLoading());
-    setTimeout(() => {
+    auth.onAuthStateChanged(() => {
       if (auth.currentUser) {
         dispatch<any>(getUserData())
           .then(() => {
             redirect("/dashboard/home/procesos");
-            dispatch(closeLoading());
+            Promise.all([
+              dispatch<any>(getLists()),
+              dispatch<any>(getProcessesConfig()),
+              dispatch<any>(getTutelasConfig()),
+              dispatch<any>(getRequirementsConfig()),
+            ]).then(() => {
+              dispatch(closeLoading());
+            }).catch((error: Error) => {
+              console.log(error.message);
+              dispatch(closeLoading());
+              swal("Error", "Hubo un error al cargar algunos datos", "error")
+            });
           })
           .catch((err: any) => {
             console.log(err);
@@ -76,7 +89,14 @@ function App() {
         redirect("/login");
         dispatch(closeLoading());
       }
-    }, 1000);
+    });
+
+    setTimeout(() => {
+      if (!auth.currentUser) {
+        redirect("/login");
+        dispatch(closeLoading());
+      }
+    }, 5000);
   }, []);
 
   return (
@@ -97,7 +117,7 @@ function App() {
           path="/dashboard/usuarios"
           element={
             user.rol === UserRol.Admin ? (
-              <Dashboard element={<UsersTable />} title={"Listado de users"} />
+              <Dashboard element={<UsersTable />} title={"Listado de Usuarios"} />
             ) : (
               <PageNotFound />
             )
@@ -121,7 +141,7 @@ function App() {
             user.rol === UserRol.Admin || user.permissions.processes ? (
               <Dashboard
                 element={<ProcessesTable />}
-                title={"Listado de processes"}
+                title={"Listado de Procesos"}
               />
             ) : (
               <PageNotFound />

@@ -89,16 +89,17 @@ export function deleteItem(
 ): ThunkAction<Promise<void>, RootState, null, any> {
   return async (dispatch: Dispatch<any>) => {
     try {
+      // Create the batch
       const batch = writeBatch(db);
 
-      console.log(listName, values);
-
+      // Set the list items to update
       values.forEach((value: string) => {
         batch.update(tutelasDoc, {
           [`lists.${listName}`]: arrayRemove(value),
         });
       });
-
+      
+      // Update
       await batch.commit();
 
       dispatch({

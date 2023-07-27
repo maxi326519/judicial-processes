@@ -6,6 +6,14 @@ import { getUserData } from "./redux/actions/sesion";
 import { auth } from "./firebase/config";
 import { useEffect } from "react";
 import { UserRol } from "./interfaces/users";
+import { Configuration } from "./pages/Configuration/Configuration";
+import { getLists } from "./redux/actions/Processes/lists";
+import {
+  getProcessesConfig,
+  getRequirementsConfig,
+  getTutelasConfig,
+} from "./redux/actions/config";
+import ThemeChart from "./pages/Home/Tutelas/ThemeChart/ThemeChart";
 import swal from "sweetalert";
 
 import "./App.css";
@@ -29,13 +37,14 @@ import TutelasHome from "./pages/Home/Tutelas/Home";
 import TutelasTable from "./pages/Tables/Tutelage/Table/TutelaTable";
 import TutelasIframe from "./pages/Tables/Tutelage/Iframes/Iframes";
 import TutelasExcel from "./pages/Tables/Tutelage/Excel/Excel";
+
+import RequirementsTable from "./pages/Tables/Requirements/Table/RequirementsTable";
+import RequirementsIframe from "./pages/Tables/Requirements/Iframes/Iframes";
+import RequirementsExcel from "./pages/Tables/Requirements/Excel/Excel";
+
 import { collection, doc, getDoc, updateDoc } from "firebase/firestore";
 import ProcessesChart from "./pages/Home/Processes/ProcessesChart/ProcessesChart";
 import TutelasChart from "./pages/Home/Tutelas/TutelasChart/TutelasChart";
-import ThemeChart from "./pages/Home/Tutelas/ThemeChart/ThemeChart";
-import { Configuration } from "./pages/Configuration/Configuration";
-import { getLists } from "./redux/actions/Processes/lists";
-import { getProcessesConfig, getRequirementsConfig, getTutelasConfig } from "./redux/actions/config";
 
 /* import RequirementsTable from "./pages/Tables/Requirements/Table/RequirementsTables";
 import RequirementsIframe from "./pages/Tables/Requirements/Iframes/Iframes";
@@ -68,13 +77,15 @@ function App() {
               dispatch<any>(getProcessesConfig()),
               dispatch<any>(getTutelasConfig()),
               dispatch<any>(getRequirementsConfig()),
-            ]).then(() => {
-              dispatch(closeLoading());
-            }).catch((error: Error) => {
-              console.log(error.message);
-              dispatch(closeLoading());
-              swal("Error", "Hubo un error al cargar algunos datos", "error")
-            });
+            ])
+              .then(() => {
+                dispatch(closeLoading());
+              })
+              .catch((error: Error) => {
+                console.log(error.message);
+                dispatch(closeLoading());
+                swal("Error", "Hubo un error al cargar algunos datos", "error");
+              });
           })
           .catch((err: any) => {
             console.log(err);
@@ -117,7 +128,10 @@ function App() {
           path="/dashboard/usuarios"
           element={
             user.rol === UserRol.Admin ? (
-              <Dashboard element={<UsersTable />} title={"Listado de Usuarios"} />
+              <Dashboard
+                element={<UsersTable />}
+                title={"Listado de Usuarios"}
+              />
             ) : (
               <PageNotFound />
             )
@@ -214,14 +228,44 @@ function App() {
         />
 
         {/* REQUIREMENTS */}
-        <Route path="/dashboard/requerimientos" element={<PageNotFound />} />
+        <Route
+          path="/dashboard/requerimientos"
+          element={
+            user.rol === UserRol.Admin || user.permissions.requirements ? (
+              <Dashboard
+                element={<RequirementsTable />}
+                title={"Requerimientos - Tabla"}
+              />
+            ) : (
+              <PageNotFound />
+            )
+          }
+        />
         <Route
           path="/dashboard/requerimientos/graficos"
-          element={<PageNotFound />}
+          element={
+            user.rol === UserRol.Admin || user.permissions.requirements ? (
+              <Dashboard
+                element={<RequirementsIframe />}
+                title={"Requerimientos - Gráficos"}
+              />
+            ) : (
+              <PageNotFound />
+            )
+          }
         />
         <Route
           path="/dashboard/requerimientos/excel"
-          element={<PageNotFound />}
+          element={
+            user.rol === UserRol.Admin || user.permissions.requirements ? (
+              <Dashboard
+                element={<RequirementsExcel />}
+                title={"Requerimientos - Excel"}
+              />
+            ) : (
+              <PageNotFound />
+            )
+          }
         />
       </Routes>
     </div>

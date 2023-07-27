@@ -59,13 +59,18 @@ export function getLists(): ThunkAction<Promise<void>, RootState, null, any> {
 
       // If lists don't existe, create it
       if (!doc) {
-        lists = { ...initRequirementsLists };
+        lists = initRequirementsLists();
         await setDoc(requirementsDoc, { lists });
       } else if (!lists) {
-        lists = { ...initRequirementsLists };
+        lists = initRequirementsLists();
         await updateDoc(requirementsDoc, { lists });
       } else {
         lists = doc.lists;
+        // Sort
+        for (const list in lists) {
+          let element = lists[list];
+          element = element.sort((a: string, b: string) => a.localeCompare(b));
+        }
       }
 
       dispatch({
@@ -84,14 +89,18 @@ export function deleteItem(
 ): ThunkAction<Promise<void>, RootState, null, any> {
   return async (dispatch: Dispatch<any>) => {
     try {
+
+      // Create the batch
       const batch = writeBatch(db);
 
+      // Set the list items to update
       values.forEach((value: string) => {
         batch.update(requirementsDoc, {
           [`lists.${listName}`]: arrayRemove(value),
         });
       });
 
+      // Update
       await batch.commit();
 
       dispatch({

@@ -3,6 +3,7 @@ import { RootRequirements, initRootState } from "../../../interfaces/RootState";
 import {
   CLEAR_ALL_REQUIREMENTS,
   DELETE_REQUIREMENTS,
+  DELETE_REQUIREMENTS_DETAILS,
   GET_REQUIREMENTS,
   IMPORT_REQUIREMENTS,
   SET_REQUIREMENTS,
@@ -47,14 +48,20 @@ export const requirementsReducer = (
       return {
         ...state,
         heads: state.heads.map((head) =>
-          head.idSiproj === action.payload.idSiproj ? action.payload : head
+          head.id === action.payload.id ? action.payload : head
         ),
       };
 
     case DELETE_REQUIREMENTS:
       return {
         ...state,
-        heads: state.heads.filter((head) => head.idSiproj !== action.payload),
+        heads: state.heads.filter((head) => head.id !== action.payload),
+      };
+
+    case DELETE_REQUIREMENTS_DETAILS:
+      return {
+        ...state,
+        details: null,
       };
 
     case IMPORT_REQUIREMENTS:
@@ -84,7 +91,7 @@ export const requirementsReducer = (
           [action.payload.listName]: [
             ...state.lists[action.payload.listName as keyof typeof state.lists],
             ...action.payload.newValues,
-          ],
+          ].sort((a, b) => a.localeCompare(b)),
         },
       };
 

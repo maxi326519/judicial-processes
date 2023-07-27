@@ -1,0 +1,193 @@
+.dashboard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-height: 100vh;
+  height: 100%;
+  padding: 20px;
+  padding-top: 0;
+}
+
+.dashboard h3 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.controls {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  margin: 10px 0 10px 0;
+  gap: 10px;
+}
+
+.controls .filter {
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+}
+
+.controls .filter .counter {
+  width: 410px;
+}
+
+.controls div {
+  gap: 10px;
+}
+
+.controls div {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.controls button {
+  display: flex;
+  align-items: center;
+}
+
+.controls img {
+  margin-right: 10px;
+  width: 20px;
+  filter: invert(21%) sepia(76%) saturate(2935%) hue-rotate(190deg)
+    brightness(98%) contrast(95%);
+}
+
+.table {
+  flex-grow: 1;
+  outline: 1px solid var(--dark-panel);
+  overflow: hidden;
+  table-layout: fixed;
+  border-radius: 5px;
+}
+
+.table button {
+  border: none;
+}
+
+.table div {
+  max-height: calc(100vh - 90px - 58px - 56px - 25px);
+  overflow-y: scroll;
+}
+
+.table div::-webkit-scrollbar {
+  width: 10px;
+  background: #0004;
+}
+
+.table div::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.table div::-webkit-scrollbar-thumb {
+  background-color: var(--panel); /* color of the scroll thumb */
+  border-radius: 5px; /* roundness of the scroll thumb */
+}
+
+.table thead {
+  outline: 1px solid var(--border);
+}
+
+.table tbody {
+  overflow: hidden;
+}
+
+.table tbody div {
+  overflow-y: scroll;
+}
+
+.table .footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 5px;
+  background-color: var(--dark-panel);
+  color: grey;
+}
+
+.contentRows {
+  height: 100%;
+  padding-bottom: 35px;
+  overflow: scroll;
+}
+
+.emptyRows {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  padding: 10px;
+  outline: 1px solid var(--border);
+}
+
+.firstRow {
+  padding-right: 20px;
+  color: white;
+  background-color: var(--dark-panel);
+}
+
+.row th {
+  font-weight: normal !important;
+}
+
+.edit-buttons .btn-primary {
+  width: 100%;
+}
+
+.edit-buttons .btn-success {
+  width: 50%;
+  margin-right: 5px;
+}
+
+.edit-buttons .btn-danger {
+  width: 45%;
+}
+
+.loading {
+  position: absolute;
+  z-index: 1000;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  background-color: #0002;
+}
+
+.loading img {
+  width: 50px;
+  height: 50px;
+}
+
+.error {
+  position: absolute;
+  z-index: 1000;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  background-color: #0002;
+  color: #ff9b9b;
+}
+
+.error img {
+  width: 50px;
+  height: 50px;
+  filter: invert(23%) sepia(98%) saturate(7468%) hue-rotate(358deg)
+    brightness(50%) contrast(112%);
+}
+
+.error div {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}

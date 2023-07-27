@@ -5,7 +5,6 @@ import { ThunkAction } from "redux-thunk";
 import { Dispatch } from "react";
 import { db } from "../../../../firebase/config";
 import {
-  DocumentData,
   DocumentReference,
   collection,
   doc,

@@ -61,8 +61,8 @@ const sideList = [
     permissions: UserPermissions.Requirements,
     subList: [
       { label: "Listado", icon: list, path: "/dashboard/requerimientos" },
-      { label: "Graficos", icon: graphics, path: "/dashboard/requerimientos" },
-      { label: "Excel", icon: excel, path: "/dashboard/requerimientos" },
+      { label: "Graficos", icon: graphics, path: "/dashboard/requerimientos/graficos" },
+      { label: "Excel", icon: excel, path: "/dashboard/requerimientos/excel" },
     ],
   },
   {

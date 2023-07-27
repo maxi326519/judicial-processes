@@ -1,11 +1,9 @@
 import { AnyAction } from "redux";
-import {
-  RequirementsDetail,
-  RequirementsHeads,
-} from "../../../../interfaces/Requirements/data";
 import { RootState } from "../../../../interfaces/RootState";
 import { ThunkAction } from "redux-thunk";
+import { UserRol, Users } from "../../../../interfaces/users";
 import { Dispatch } from "react";
+import { db } from "../../../../firebase/config";
 import {
   collection,
   doc,
@@ -15,8 +13,10 @@ import {
   where,
   writeBatch,
 } from "firebase/firestore";
-import { db } from "../../../../firebase/config";
-import { UserRol, Users } from "../../../../interfaces/users";
+import {
+  RequirementsDetail,
+  RequirementsHeads,
+} from "../../../../interfaces/Requirements/data";
 
 export const SET_REQUIREMENTS = "SET_REQUIREMENTS";
 export const GET_REQUIREMENTS = "GET_REQUIREMENTS";
@@ -24,6 +24,8 @@ export const UPDATE_REQUIREMENTS = "UPDATE_REQUIREMENTS";
 export const DELETE_REQUIREMENTS = "DELETE_REQUIREMENTS";
 
 export const GET_REQUIREMENTS_DETAILS = "GET_REQUIREMENTS_DETAILS";
+export const DELETE_REQUIREMENTS_DETAILS = "DELETE_REQUIREMENTS_DETAILS";
+
 export const IMPORT_REQUIREMENTS = "IMPORT_REQUIREMENTS";
 export const CLEAR_ALL_REQUIREMENTS = "CLEAR_ALL_REQUIREMENTS";
 
@@ -39,22 +41,28 @@ export function setRequirements(
     try {
       const batch = writeBatch(db);
 
-      const headDoc = doc(headColl, requiriments.idSiproj.toString());
-      const detailsDoc = doc(detailsColl, requiriments.idSiproj.toString());
+      // Firestore collections
+      const headDoc = doc(headColl);
+      const detailsDoc = doc(detailsColl, headDoc.id);
 
-      const data = await getDoc(headDoc);
-      if (data.exists())
-        throw new Error(`Ya existe el id ${requiriments.idSiproj}`);
-
+      // Create data to save
       let head: RequirementsHeads = {
-        idSiproj: requiriments.idSiproj,
+        radicadoSipa: requiriments.radicadoSipa,
+        tipoProceso: requiriments.tipoProceso,
+        remitenteGeneral: requiriments.remitenteGeneral,
+        remitenteEspecifico: requiriments.remitenteEspecifico,
       };
       let details: RequirementsDetail = requiriments;
 
+      // Add data to save
       batch.set(headDoc, head);
       batch.set(detailsDoc, details);
 
+      // Post data
       await batch.commit();
+
+      // Add id to save
+      head.id = headDoc.id;
 
       dispatch({
         type: SET_REQUIREMENTS,
@@ -70,20 +78,28 @@ export function getRequirements(
   user: Users
 ): ThunkAction<Promise<void>, RootState, null, AnyAction> {
   return async (dispatch: Dispatch<AnyAction>) => {
-    let requiriments: any = [];
-    let snapshot;
+    // Create variables to use
+    let requiriments: any = []; // Save snapshot data
+    let snapshot; // Save the snapshot
 
+    // Check user rol, and get docs
     if (user.rol === UserRol.Admin) {
+      // if user is admin, get all docs
       snapshot = await getDocs(headColl);
     } else if (user.rol === UserRol.User) {
+      // if user is not admin, get only her docs
       snapshot = await getDocs(
         query(headColl, where("abogado", "==", user.name))
       );
     }
 
+    // Save doc data
     if (snapshot) {
-      snapshot.forEach((doc: any) => {
-        requiriments.push(doc.data());
+      snapshot.forEach((doc) => {
+        requiriments.push({
+          ...doc.data(),
+          id: doc.id,
+        });
       });
     }
 
@@ -98,13 +114,17 @@ export function getRequirements(
   };
 }
 
-export function getDetails(
-  idSiproj: string
+export function getRequirementsDetails(
+  id: string
 ): ThunkAction<Promise<void>, RootState, null, AnyAction> {
   return async (dispatch: Dispatch<AnyAction>) => {
     try {
-      const snapshot = await getDoc(doc(detailsColl, idSiproj));
-      let details: any = snapshot.data();
+      // Get doc
+      const snapshot = await getDoc(doc(detailsColl, id));
+
+      // Save doc data
+      let details: RequirementsDetail = snapshot.data() as RequirementsDetail;
+      details.id = id;
 
       dispatch({
         type: GET_REQUIREMENTS_DETAILS,
@@ -122,12 +142,20 @@ export function updateRequirements(
   return async (dispatch: Dispatch<AnyAction>) => {
     const batch = writeBatch(db);
 
-    const head: RequirementsHeads = { idSiproj: requiriments.idSiproj };
-    const details: RequirementsDetail = { ...requiriments };
+    // Create the new docs data
+    let head: RequirementsHeads = {
+      radicadoSipa: requiriments.radicadoSipa,
+      tipoProceso: requiriments.tipoProceso,
+      remitenteGeneral: requiriments.remitenteGeneral,
+      remitenteEspecifico: requiriments.remitenteEspecifico,
+    };
+    let { id, ...details }: RequirementsDetail = requiriments;
 
-    batch.update(doc(headColl, details.idSiproj.toString()), { ...head });
-    batch.update(doc(detailsColl, details.idSiproj.toString()), { ...details });
+    // Set updata data
+    batch.update(doc(headColl, id!.toString()), { ...head });
+    batch.update(doc(detailsColl, id!.toString()), { ...details });
 
+    // Update
     batch.commit();
 
     try {
@@ -142,24 +170,32 @@ export function updateRequirements(
 }
 
 export function deleteRequirements(
-  requirimentsId: number
+  id: string
 ): ThunkAction<Promise<void>, RootState, null, AnyAction> {
   return async (dispatch: Dispatch<AnyAction>) => {
     try {
       const batch = writeBatch(db);
 
-      batch.delete(doc(headColl, requirimentsId.toString()));
-      batch.delete(doc(detailsColl, requirimentsId.toString()));
+      // Set delete
+      batch.delete(doc(headColl, id.toString()));
+      batch.delete(doc(detailsColl, id.toString()));
 
+      // Delete
       await batch.commit();
 
       dispatch({
         type: DELETE_REQUIREMENTS,
-        payload: requirimentsId,
+        payload: id,
       });
     } catch (e: any) {
       throw new Error(e);
     }
+  };
+}
+
+export function deleteRequirementsDetails() {
+  return {
+    type: DELETE_REQUIREMENTS_DETAILS,
   };
 }
 
@@ -168,23 +204,40 @@ export function importRequirements(
 ): ThunkAction<Promise<void>, RootState, null, AnyAction> {
   return async (dispatch: Dispatch<AnyAction>) => {
     try {
-      const batch = writeBatch(db);
-      let row = 0;
-      let heads: RequirementsHeads[] = [];
+      let batch = writeBatch(db);
+      let row = 0; // Save the current row to return the error
+      let counter = 0; // Count docs amounts
+      let heads: RequirementsHeads[] = []; // Save de new heads docs to return
 
       try {
-        details.forEach((details: RequirementsDetail) => {
+        for (const detail of details) {
           row++;
+          counter++;
 
-          let head: RequirementsHeads = { idSiproj: details.idSiproj };
+          // Create the new docs data
+          let head: RequirementsHeads = {
+            radicadoSipa: detail.radicadoSipa,
+            tipoProceso: detail.tipoProceso,
+            remitenteGeneral: detail.remitenteGeneral,
+            remitenteEspecifico: detail.remitenteEspecifico,
+          };
           heads.push(head);
 
-          const headDoc = doc(headColl, details.idSiproj.toString());
-          const detailsDoc = doc(detailsColl, details.idSiproj.toString());
+          // Firestore collections
+          const headDoc = doc(headColl);
+          const detailsDoc = doc(detailsColl, headDoc.id);
 
+          // Set data
           batch.set(headDoc, head);
-          batch.set(detailsDoc, details);
-        });
+          batch.set(detailsDoc, detail);
+
+          // Set only 500 docs, leter post de batch an reset them
+          if (counter >= 250) {
+            await batch.commit();
+            batch = writeBatch(db);
+            counter = 0;
+          }
+        }
       } catch (error) {
         console.log(error);
         throw new Error(`Hubo un error en la fila ${row} `);
@@ -210,14 +263,19 @@ export function clearAllRequirements(): ThunkAction<
 > {
   return async (dispatch: Dispatch<AnyAction>) => {
     try {
+      // Create the batch
       const batch = writeBatch(db);
+
+      // Get all docs to delete
       const snapshot = await getDocs(headColl);
 
-      snapshot.forEach((head) => {
-        batch.delete(doc(headColl, head.id));
-        batch.delete(doc(detailsColl, head.id));
+      // Add deletes to batch
+      snapshot.forEach((data) => {
+        batch.delete(doc(headColl, data.id));
+        batch.delete(doc(detailsColl, data.id));
       });
 
+      // Delete docs
       await batch.commit();
 
       dispatch({

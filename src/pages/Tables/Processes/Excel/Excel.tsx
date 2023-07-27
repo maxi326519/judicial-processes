@@ -157,34 +157,24 @@ export default function Excel() {
         estado: where("estado", "==", state),
       };
 
-      if (user.rol === UserRol.Admin) {
-        let detailsQuery: Query;
-        if (state === "") {
-          snapshot = await getDocs(detailsColl);
-        } else {
-          detailsQuery = query(detailsColl, wheres.estado);
-          snapshot = await getDocs(detailsQuery);
-        }
+      let detailsQuery: Query;
+      if (state === "") {
+        snapshot = await getDocs(detailsColl);
       } else {
-        let detailsQuery: Query;
-        if (state === "") {
-          detailsQuery = query(detailsColl, wheres.apoderado);
-          snapshot = await getDocs(detailsQuery);
-        } else {
-          detailsQuery = query(detailsColl, wheres.apoderado, wheres.estado);
-          snapshot = await getDocs(detailsQuery);
-        }
+        detailsQuery = query(detailsColl, wheres.estado);
+        snapshot = await getDocs(detailsQuery);
       }
 
       // Save data
-      snapshot.forEach((doc) =>
-        details.push(doc.data())
-      );
+      snapshot.forEach((doc) => details.push(doc.data()));
 
       // Sort, convert and save the data to export
-      setExcelData(details
-        .sort((a: any, b: any) => a.apoderadoActual?.localeCompare(b.apoderadoActual))
-        .map((data: ProcessDetails) => convertirValoresATexto(data))
+      setExcelData(
+        details
+          .sort((a: any, b: any) =>
+            a.apoderadoActual?.localeCompare(b.apoderadoActual)
+          )
+          .map((data: ProcessDetails) => convertirValoresATexto(data))
       );
 
       handleCloseExport();

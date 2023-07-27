@@ -6,14 +6,11 @@ import { closeLoading, openLoading } from "../../../../redux/actions/loading";
 import { UserRol } from "../../../../interfaces/users";
 import { db } from "../../../../firebase/config";
 import {
-  Query,
   QuerySnapshot,
   Timestamp,
   collection,
   doc,
   getDocs,
-  query,
-  where,
 } from "firebase/firestore";
 import {
   getTutelas,

@@ -46,15 +46,15 @@ export function getCharts(): ThunkAction<
 
       // If lists don't existe, create it
       if (!doc) {
-        charts = { ...initRequirementsCharts };
+        charts = initRequirementsCharts();
         await setDoc(requirementsDoc, { charts });
       } else if (!charts) {
-        charts = { ...initRequirementsCharts };
+        charts = initRequirementsCharts();
         await updateDoc(requirementsDoc, { charts });
       } else {
         charts = doc.charts;
       }
-      
+
       dispatch({
         type: GET_REQUIREMENTS_CHARTS,
         payload: charts,

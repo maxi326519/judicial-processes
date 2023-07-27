@@ -137,8 +137,6 @@ export default function ImportExcel({ handleData, handleClose }: Props) {
         incidenteDesacato: textParser(processes[37] || ""),
         observacionesGenerales: textParser(processes[38] || ""),
       };
-
-      console.log(currentData);
       newData.push(currentData);
     });
 

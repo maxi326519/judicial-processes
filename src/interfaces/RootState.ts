@@ -88,8 +88,8 @@ export const initRootState = {
   requirements: {
     heads: [],
     details: null,
-    lists: initRequirementsLists,
-    charts: initRequirementsCharts,
+    lists: initRequirementsLists(),
+    charts: initRequirementsCharts(),
     iframes: [],
   },
   config: {

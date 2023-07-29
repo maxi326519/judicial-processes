@@ -1,15 +1,13 @@
 import { useState, useEffect } from "react";
 import { Chart } from "react-google-charts";
-import { RootState } from "../../../../interfaces/RootState";
-import { useSelector } from "react-redux";
-import { AbogadosCharts } from "../../../../interfaces/Tutelas/charts";
+import { AbogadoChart } from "../../../../interfaces/Requirements/charts";
 
-const header = ["Apoderados", "Totales", "."];
+const header = ["Abogados", "Activos", "Terminados"];
 const example = [header, ["Sin datos", 0, 0]];
 
 const options = {
   chart: {
-    title: "PROCESOS POR APODERADO",
+    title: "REQUERIMIENTOS POR APODERADO",
     titleStyle: {
       bold: true, // Establece el estilo de negrita
     },
@@ -17,23 +15,21 @@ const options = {
   bars: "horizontal",
 };
 
-export default function TutelasChart() {
-  const chartData = useSelector(
-    (state: RootState) => state.tutelas.charts.abogadosChart
-  );
+interface Props {
+  chartData: AbogadoChart[];
+}
+
+export default function AbogadoBarChart({ chartData }: Props) {
   const [data, setData] = useState<Array<Array<string | number>>>(example);
 
   useEffect(() => {
     if (chartData.length > 0) {
       setData([
         header,
-        ...chartData.map((data: AbogadosCharts) => [
-          data.name,
-          data.types.reduce(
-            (acumulator, data) => acumulator + data.quantity,
-            0
-          ),
-          0,
+        ...chartData.map((data) => [
+          data.abogado,
+          data.activos,
+          data.terminados,
         ]),
       ]);
     }

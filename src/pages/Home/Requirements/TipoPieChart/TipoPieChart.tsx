@@ -1,23 +1,23 @@
 import { useState, useEffect } from "react";
 import { Chart } from "react-google-charts";
-import { RootState } from "../../../../interfaces/RootState";
-import { useSelector } from "react-redux";
+import { TipoChart } from "../../../../interfaces/Requirements/charts";
 
 const header = ["FALLO", "CANTIDAD"];
 const example = [header, ["DATO", 0], ["DATO", 0]];
 
 const options = {
-  title: "FALLO 1RA INSTANCIA",
+  title: "TIPO DE REQUERIMIENTOS",
 };
 
-export default function Fallo1Chart() {
-  const chartData = useSelector(
-    (state: RootState) => state.tutelas.charts.fallo1RaInstChart
-  );
+interface Props { 
+  chartData: TipoChart[];
+}
+
+export default function TipoPieChart({ chartData }: Props) {
   const [data, setData] = useState<Array<Array<string | number>>>(example);
 
   useEffect(() => {
-    setData([header, ...chartData.map((data) => [data.type, data.quantity])]);
+    setData([header, ...chartData.map((data) => [data.tipo, data.cantidad])]);
   }, [chartData]);
 
   return (

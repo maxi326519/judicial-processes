@@ -1,27 +1,26 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getCharts } from "../../../redux/actions/Tutelas/charts";
+import { getCharts } from "../../../redux/actions/Requirements/charts";
 import { closeLoading, openLoading } from "../../../redux/actions/loading";
 import { RootState } from "../../../interfaces/RootState";
 import { UserRol } from "../../../interfaces/users";
 import { useNavigate } from "react-router-dom";
-import useTutelaChart from "../../../hooks/Tutela/useTutelaChart";
+import useRequirementsChart from "../../../hooks/Requirements/useRequirementsCharts";
 import swal from "sweetalert";
 
-import TutelasChart from "./TutelasChart/TutelasChart";
-import Fallo1Chart from "./Fallo1Chart/Fallo1Chart";
-import Fallo2Chart from "./Fallo2Chart/Fallo2Chart";
-import ThemeChart from "./ThemeChart/ThemeChart";
-
-import styles from "./Home.module.css";
 import Navbar from "../../../components/Navbar/Navbar";
 import SideBar from "../../../components/SideBar/SideBar";
+import TipoPieChart from "./TipoPieChart/TipoPieChart";
+import RemitenteAreaChart from "./RemitenteAreaChart/RemitenteAreaChart";
+import AbogadoBarChart from "./AbogadoBarChart/AbogadoBarChart";
+
+import styles from "./Home.module.css";
 
 export default function Home() {
   const redirect = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.sesion);
-  const { charts, updateCharts } = useTutelaChart();
+  const { charts, updateCharts } = useRequirementsChart();
 
   useEffect(() => {
     dispatch<any>(getCharts());
@@ -46,12 +45,16 @@ export default function Home() {
   }
 
   function handlePrev() {
+    redirect("/dashboard/home/tutelas");
+  }
+
+  function handleNext() {
     redirect("/dashboard/home/procesos");
   }
 
   return (
     <div className={styles.background}>
-      <Navbar title="Home- Tutelas" />
+      <Navbar title="Home- Requirements" />
       <SideBar />
       <div
         className={`${styles.charts} ${
@@ -77,12 +80,11 @@ export default function Home() {
         <button
           className={styles.next}
           type="button"
-          onClick={handlePrev}
+          onClick={handleNext}
         >{`>`}</button>
-        <TutelasChart />
-        <ThemeChart />
-        <Fallo1Chart />
-        <Fallo2Chart />
+        <AbogadoBarChart chartData={charts.abogado} />
+        <TipoPieChart chartData={charts.tipo} />
+        <RemitenteAreaChart chartData={charts.remitente} />
       </div>
     </div>
   );

@@ -49,6 +49,10 @@ export default function Home() {
     redirect("/dashboard/home/procesos");
   }
 
+  function handleNext() {
+    redirect("/dashboard/home/requerimientos");
+  }
+
   return (
     <div className={styles.background}>
       <Navbar title="Home- Tutelas" />
@@ -77,7 +81,7 @@ export default function Home() {
         <button
           className={styles.next}
           type="button"
-          onClick={handlePrev}
+          onClick={handleNext}
         >{`>`}</button>
         <TutelasChart />
         <ThemeChart />

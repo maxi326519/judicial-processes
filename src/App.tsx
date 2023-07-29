@@ -38,6 +38,7 @@ import TutelasTable from "./pages/Tables/Tutelage/Table/TutelaTable";
 import TutelasIframe from "./pages/Tables/Tutelage/Iframes/Iframes";
 import TutelasExcel from "./pages/Tables/Tutelage/Excel/Excel";
 
+import RequirementsHome from "./pages/Home/Requirements/Home";
 import RequirementsTable from "./pages/Tables/Requirements/Table/RequirementsTable";
 import RequirementsIframe from "./pages/Tables/Requirements/Iframes/Iframes";
 import RequirementsExcel from "./pages/Tables/Requirements/Excel/Excel";
@@ -45,10 +46,6 @@ import RequirementsExcel from "./pages/Tables/Requirements/Excel/Excel";
 import { collection, doc, getDoc, updateDoc } from "firebase/firestore";
 import ProcessesChart from "./pages/Home/Processes/ProcessesChart/ProcessesChart";
 import TutelasChart from "./pages/Home/Tutelas/TutelasChart/TutelasChart";
-
-/* import RequirementsTable from "./pages/Tables/Requirements/Table/RequirementsTables";
-import RequirementsIframe from "./pages/Tables/Requirements/Iframes/Iframes";
-import RequirementsExcel from "./pages/Tables/Requirements/Excel/Excel"; */
 
 function App() {
   const redirect = useNavigate();
@@ -120,9 +117,13 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/reset-email" element={<ResetEmail />} />
         <Route path="/reset-password" element={<ResetPassword />} />
-        <Route path="/dashboard/home/procesos" element={<ProcessesHome />} />
 
+        <Route path="/dashboard/home/procesos" element={<ProcessesHome />} />
         <Route path="/dashboard/home/tutelas" element={<TutelasHome />} />
+        <Route
+          path="/dashboard/home/requerimientos"
+          element={<RequirementsHome />}
+        />
 
         <Route
           path="/dashboard/usuarios"

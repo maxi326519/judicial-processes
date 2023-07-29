@@ -21,12 +21,14 @@ export default function RequirementsRow({
   const user = useSelector((state: RootState) => state.sesion);
   return (
     <tr
-      className={`${style.row} ${user.rol === UserRol.Admin ? "" : style.user}`}
+      className={`${style.row} ${
+        user.rol === UserRol.Admin ? style.admin : ""
+      }`}
     >
       <td>{requirements.radicadoSipa}</td>
+      <td>{requirements.abogado}</td>
       <td>{requirements.tipoProceso}</td>
-      <td>{requirements.remitenteGeneral}</td>
-      <td>{requirements.remitenteEspecifico}</td>
+      <td>{requirements.numeroProceso}</td>
       <button
         className="btn btn-outline-primary"
         type="button"

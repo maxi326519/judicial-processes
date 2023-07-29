@@ -35,15 +35,25 @@ export default function useRequirements() {
     const name = event.target.name; // Get the input name
     const type = event.target.type; // Get the input type
 
+    console.log(name, value);
+
     // Check if input type is 'date' and convert data from type 'string' to type 'Date'
     if (type === "date") {
-      const dateValue = new Date(`${value} 08:00:00`);
-      // Only sabe if is valid date
-      if (!isNaN(dateValue.getTime())) {
+      // If value is empty set null
+      if (value === "") {
         newRequirement = {
           ...newRequirement,
-          [name]: dateValue,
+          [name]: null,
         };
+      } else {
+        const dateValue = new Date(`${value} 08:00:00`);
+        // Only sabe if is valid date
+        if (!isNaN(dateValue.getTime())) {
+          newRequirement = {
+            ...newRequirement,
+            [name]: dateValue,
+          };
+        }
       }
     } else if (type === "number") {
       newRequirement = {
@@ -69,97 +79,97 @@ export default function useRequirements() {
     let error: ErrorRequirementsDetail = initErrorRequirementsDetail();
     let value = true;
 
-    if(config.consecutivo && requirement.consecutivo === 0){
+    if (config.consecutivo && requirement.consecutivo === 0) {
       error.consecutivo = "Debes completar este campo";
       value = false;
     }
 
-    if(config.fechaNotificacion && requirement.fechaNotificacion === null){
+    if (config.fechaNotificacion && requirement.fechaNotificacion === null) {
       error.fechaNotificacion = "Debes completar este campo";
       value = false;
     }
 
-    if(config.radicadoSipa && requirement.radicadoSipa === ""){
+    if (config.radicadoSipa && requirement.radicadoSipa === "") {
       error.radicadoSipa = "Debes completar este campo";
       value = false;
     }
 
-    if(config.remitenteGeneral && requirement.remitenteGeneral === ""){
+    if (config.remitenteGeneral && requirement.remitenteGeneral === "") {
       error.remitenteGeneral = "Debes completar este campo";
       value = false;
     }
 
-    if(config.remitenteEspecifico && requirement.remitenteEspecifico === ""){
+    if (config.remitenteEspecifico && requirement.remitenteEspecifico === "") {
       error.remitenteEspecifico = "Debes completar este campo";
       value = false;
     }
 
-    if(config.direccion && requirement.direccion === ""){
+    if (config.direccion && requirement.direccion === "") {
       error.direccion = "Debes completar este campo";
       value = false;
     }
 
-    if(config.concepto && requirement.concepto === ""){
+    if (config.concepto && requirement.concepto === "") {
       error.concepto = "Debes completar este campo";
       value = false;
     }
 
-    if(config.tipoProceso && requirement.tipoProceso === ""){
+    if (config.tipoProceso && requirement.tipoProceso === "") {
       error.tipoProceso = "Debes completar este campo";
       value = false;
     }
 
-    if(config.numeroProceso && requirement.numeroProceso === ""){
+    if (config.numeroProceso && requirement.numeroProceso === "") {
       error.numeroProceso = "Debes completar este campo";
       value = false;
     }
 
-    if(config.abogado && requirement.abogado === ""){
+    if (config.abogado && requirement.abogado === "") {
       error.abogado = "Debes completar este campo";
       value = false;
     }
 
-    if(config.fechaVencimiento && requirement.fechaVencimiento === null){
+    if (config.fechaVencimiento && requirement.fechaVencimiento === null) {
       error.fechaVencimiento = "Debes completar este campo";
       value = false;
     }
 
-    if(config.solicitudDadep && requirement.solicitudDadep === ""){
+    if (config.solicitudDadep && requirement.solicitudDadep === "") {
       error.solicitudDadep = "Debes completar este campo";
       value = false;
     }
 
-    if(config.areaApoyo && requirement.areaApoyo === ""){
+    if (config.areaApoyo && requirement.areaApoyo === "") {
       error.areaApoyo = "Debes completar este campo";
       value = false;
     }
 
-    if(config.solicitudConcepto && requirement.solicitudConcepto === ""){
+    if (config.solicitudConcepto && requirement.solicitudConcepto === "") {
       error.solicitudConcepto = "Debes completar este campo";
       value = false;
     }
 
-    if(config.respuestaSolicitud && requirement.respuestaSolicitud === ""){
+    if (config.respuestaSolicitud && requirement.respuestaSolicitud === "") {
       error.respuestaSolicitud = "Debes completar este campo";
       value = false;
     }
 
-    if(config.fechaRespuesta && requirement.fechaRespuesta === null){
+    if (config.fechaRespuesta && requirement.fechaRespuesta === null) {
       error.fechaRespuesta = "Debes completar este campo";
       value = false;
     }
 
-    if(config.respuestaSipa && requirement.respuestaSipa === null){
+    if (config.respuestaSipa && requirement.respuestaSipa === null) {
       error.respuestaSipa = "Debes completar este campo";
       value = false;
     }
 
-    if(config.estado && requirement.estado === ""){
+    if (config.estado && requirement.estado === "") {
       error.estado = "Debes completar este campo";
       value = false;
     }
 
-    if(config.observaciones && requirement.observaciones === ""){
+    if (config.observaciones && requirement.observaciones === "") {
       error.observaciones = "Debes completar este campo";
       value = false;
     }

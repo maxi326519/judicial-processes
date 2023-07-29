@@ -5,6 +5,7 @@ import {
   DELETE_REQUIREMENTS,
   DELETE_REQUIREMENTS_DETAILS,
   GET_REQUIREMENTS,
+  GET_REQUIREMENTS_DETAILS,
   IMPORT_REQUIREMENTS,
   SET_REQUIREMENTS,
   UPDATE_REQUIREMENTS,
@@ -42,6 +43,12 @@ export const requirementsReducer = (
       return {
         ...state,
         heads: action.payload,
+      };
+
+    case GET_REQUIREMENTS_DETAILS:
+      return {
+        ...state,
+        details: action.payload,
       };
 
     case UPDATE_REQUIREMENTS:

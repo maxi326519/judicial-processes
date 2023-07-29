@@ -145,10 +145,8 @@ export default function Excel() {
       setExcelData(
         details
           .sort((a: any, b: any) => {
-            if (a.fecha === null) return 1;
-            if (b.fecha === null) return -1;
-            if (a.fecha > b.fecha) return 1;
-            if (a.fecha < b.fecha) return -1;
+            if (a.consecutivo > b.consecutivo) return 1;
+            if (a.consecutivo < b.consecutivo) return -1;
             return 0;
           })
           .map((data: RequirementsDetail) => convertirValoresATexto(data))
@@ -271,9 +269,9 @@ export default function Excel() {
         <thead>
           <tr className={`${styles.row} ${styles.firstRow}`}>
             <th>Radicado en SIPA</th>
-            <th>Remitente especifico</th>
-            <th>Remitente general</th>
+            <th>Abogado</th>
             <th>Tipo de proceso</th>
+            <th>Numero proceso</th>
           </tr>
         </thead>
         <tbody className={styles.contentRows}>

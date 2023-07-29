@@ -81,7 +81,7 @@ export default function Tables({
   }
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setNewData(event.target.value);
+    setNewData(event.target.value.toLocaleUpperCase());
   }
 
   function handleAdd() {

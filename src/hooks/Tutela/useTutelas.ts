@@ -55,13 +55,21 @@ export default function useTutelas() {
     const type = event.target.type;
 
     if (type === "date") {
-      const dateValue = new Date(`${value} 08:00:00`);
-      // Only sabe if is valid date
-      if (!isNaN(dateValue.getTime())) {
+      // If value is empty set null
+      if (value === "") {
         newTutela = {
           ...tutela,
-          [name]: dateValue,
+          [name]: null,
         };
+      } else {
+        const dateValue = new Date(`${value} 08:00:00`);
+        // Only sabe if is valid date
+        if (!isNaN(dateValue.getTime())) {
+          newTutela = {
+            ...tutela,
+            [name]: dateValue,
+          };
+        }
       }
     } else if (event.target.type === "checkbox") {
       newTutela = {

@@ -1,11 +1,11 @@
-import { TutelaDetails } from "../../../../../interfaces/Tutelas/data";
+import { RequirementsDetail } from "../../../../../interfaces/Requirements/data";
 
 import Excel from "./Excel/Excel";
 
 import styles from "./ExportExcel.module.css";
 
 interface Props {
-  data: TutelaDetails[];
+  data: RequirementsDetail[];
   handleClose: () => void;
 }
 
@@ -14,7 +14,7 @@ export default function ExportExcel({ data, handleClose }: Props) {
     <div className={styles.background}>
       <form>
         <div className={styles.close}>
-          <h4>Exportar procesos</h4>
+          <h4>Exportar requerimientos</h4>
           <div className="btn-close" onClick={handleClose} />
         </div>
         {data.length > 0 ? (

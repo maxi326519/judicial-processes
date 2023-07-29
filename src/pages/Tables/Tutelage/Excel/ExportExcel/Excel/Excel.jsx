@@ -168,8 +168,6 @@ const dataLabels = [
 ];
 
 export default function Excel({ data, handleClose }) {
-  const [filename, setFilename] = useState("Tutelas");
-
   return (
     <ExcelFile
       element={
@@ -182,7 +180,7 @@ export default function Excel({ data, handleClose }) {
           <span>Export</span>
         </button>
       }
-      filename={filename}
+      filename="Tutelas"
     >
       <ExcelSheet data={data} name="Employees">
         {dataLabels.map((data) => (

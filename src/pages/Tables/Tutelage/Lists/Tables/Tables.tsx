@@ -82,9 +82,12 @@ export default function Tables({
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     if (name === "tipoProceso" || name === "salariosMinimos") {
-      setNewData({ ...newData, [event.target.name]: event.target.value });
+      setNewData({
+        ...newData,
+        [event.target.name]: event.target.value.toLocaleUpperCase(),
+      });
     } else {
-      setNewData(event.target.value);
+      setNewData(event.target.value.toLocaleUpperCase());
     }
   }
 

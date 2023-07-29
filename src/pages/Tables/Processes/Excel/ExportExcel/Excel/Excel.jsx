@@ -8,7 +8,7 @@ const ExcelFile = ReactExport.ExcelFile;
 const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
 const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
 
-export default function Excel({data, state, handleClose}) {
+export default function Excel({ data, state, handleClose }) {
   const [filename, setFilename] = useState("");
 
   useEffect(() => {

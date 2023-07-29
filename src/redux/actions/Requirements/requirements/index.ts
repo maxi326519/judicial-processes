@@ -17,6 +17,7 @@ import {
   RequirementsDetail,
   RequirementsHeads,
 } from "../../../../interfaces/Requirements/data";
+import getDateOrNull from "../../../../functions/getDateOrNull";
 
 export const SET_REQUIREMENTS = "SET_REQUIREMENTS";
 export const GET_REQUIREMENTS = "GET_REQUIREMENTS";
@@ -48,9 +49,9 @@ export function setRequirements(
       // Create data to save
       let head: RequirementsHeads = {
         radicadoSipa: requiriments.radicadoSipa,
+        abogado: requiriments.abogado,
         tipoProceso: requiriments.tipoProceso,
-        remitenteGeneral: requiriments.remitenteGeneral,
-        remitenteEspecifico: requiriments.remitenteEspecifico,
+        numeroProceso: requiriments.numeroProceso,
       };
       let details: RequirementsDetail = requiriments;
 
@@ -120,11 +121,18 @@ export function getRequirementsDetails(
   return async (dispatch: Dispatch<AnyAction>) => {
     try {
       // Get doc
-      const snapshot = await getDoc(doc(detailsColl, id));
+      const snapshot = await getDoc(doc(detailsColl, id.toString()));
 
       // Save doc data
-      let details: RequirementsDetail = snapshot.data() as RequirementsDetail;
-      details.id = id;
+      const data: any = snapshot.data() as RequirementsDetail;
+      const details: RequirementsDetail = {
+        ...(snapshot.data() as RequirementsDetail),
+        id: id,
+        fechaNotificacion: getDateOrNull(data.fechaNotificacion),
+        fechaVencimiento: getDateOrNull(data.fechaVencimiento),
+        fechaRespuesta: getDateOrNull(data.fechaRespuesta),
+        respuestaSipa: getDateOrNull(data.respuestaSipa),
+      };
 
       dispatch({
         type: GET_REQUIREMENTS_DETAILS,
@@ -145,9 +153,9 @@ export function updateRequirements(
     // Create the new docs data
     let head: RequirementsHeads = {
       radicadoSipa: requiriments.radicadoSipa,
+      abogado: requiriments.abogado,
       tipoProceso: requiriments.tipoProceso,
-      remitenteGeneral: requiriments.remitenteGeneral,
-      remitenteEspecifico: requiriments.remitenteEspecifico,
+      numeroProceso: requiriments.numeroProceso,
     };
     let { id, ...details }: RequirementsDetail = requiriments;
 
@@ -217,11 +225,10 @@ export function importRequirements(
           // Create the new docs data
           let head: RequirementsHeads = {
             radicadoSipa: detail.radicadoSipa,
+            abogado: detail.abogado,
             tipoProceso: detail.tipoProceso,
-            remitenteGeneral: detail.remitenteGeneral,
-            remitenteEspecifico: detail.remitenteEspecifico,
+            numeroProceso: detail.numeroProceso,
           };
-          heads.push(head);
 
           // Firestore collections
           const headDoc = doc(headColl);
@@ -237,6 +244,12 @@ export function importRequirements(
             batch = writeBatch(db);
             counter = 0;
           }
+
+          // Add data to Redux
+          heads.push({
+            ...head,
+            id: headDoc.id,
+          });
         }
       } catch (error) {
         console.log(error);

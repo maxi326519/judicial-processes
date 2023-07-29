@@ -10,9 +10,9 @@ export default function ExcelRow({ requirement }: Props) {
   return (
     <tr className={style.row}>
       <td>{requirement.radicadoSipa}</td>
-      <td>{requirement.remitenteEspecifico}</td>
-      <td>{requirement.remitenteGeneral}</td>
+      <td>{requirement.abogado}</td>
       <td>{requirement.tipoProceso}</td>
+      <td>{requirement.numeroProceso}</td>
     </tr>
   );
 }

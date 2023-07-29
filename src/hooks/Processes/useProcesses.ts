@@ -47,13 +47,21 @@ export default function useJudicialProcesses() {
     const error: any = {};
 
     if (type === "date") {
-      const dateValue = new Date(value);
-      // Only sabe if is valid date
-      if (!isNaN(dateValue.getTime())) {
+      // If value is empty set null
+      if (value === "") {
         newJudicialProcesses = {
           ...judicialProcesses,
-          [name]: dateValue,
+          [name]: null,
         };
+      } else {
+        const dateValue = new Date(value);
+        // Only sabe if is valid date
+        if (!isNaN(dateValue.getTime())) {
+          newJudicialProcesses = {
+            ...judicialProcesses,
+            [name]: dateValue,
+          };
+        }
       }
     } else {
       newJudicialProcesses = {

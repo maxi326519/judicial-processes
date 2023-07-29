@@ -21,7 +21,9 @@ export default function ProcessesRow({
   const user = useSelector((state: RootState) => state.sesion);
   return (
     <tr
-      className={`${style.row} ${user.rol === UserRol.Admin ? "" : style.user}`}
+      className={`${style.row} ${
+        user.rol === UserRol.Admin ? style.admin : ""
+      }`}
     >
       <td>{processes.idSiproj}</td>
       <td>{processes.tipoProceso}</td>

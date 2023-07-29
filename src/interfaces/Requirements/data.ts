@@ -1,16 +1,16 @@
 export interface RequirementsHeads {
   id?: string;
   radicadoSipa: string;
+  abogado: string;
   tipoProceso: string;
-  remitenteGeneral: string;
-  remitenteEspecifico: string;
+  numeroProceso: string;
 }
 
 export interface RequirementsFilters {
   radicadoSipa: string;
+  abogado: string;
   tipoProceso: string;
-  remitenteGeneral: string;
-  remitenteEspecifico: string;
+  numeroProceso: string;
 }
 
 export interface RequirementsDetail {
@@ -18,6 +18,7 @@ export interface RequirementsDetail {
   consecutivo: number;
   fechaNotificacion: Date | null;
   radicadoSipa: string;
+  otrosRadicadosSipa: string;
   remitenteGeneral: string;
   remitenteEspecifico: string;
   direccion: string;
@@ -40,6 +41,7 @@ export interface ErrorRequirementsDetail {
   consecutivo: string;
   fechaNotificacion: string;
   radicadoSipa: string;
+  otrosRadicadosSipa: string;
   remitenteGeneral: string;
   remitenteEspecifico: string;
   direccion: string;
@@ -60,22 +62,23 @@ export interface ErrorRequirementsDetail {
 
 export const initRequirementsHeads = (): RequirementsHeads => ({
   radicadoSipa: "",
+  abogado: "",
   tipoProceso: "",
-  remitenteGeneral: "",
-  remitenteEspecifico: "",
+  numeroProceso: "",
 });
 
 export const initRequirementsFilters = (): RequirementsFilters => ({
   radicadoSipa: "",
+  abogado: "",
   tipoProceso: "",
-  remitenteGeneral: "",
-  remitenteEspecifico: "",
+  numeroProceso: "",
 });
 
 export const initRequirementsDetail = (): RequirementsDetail => ({
   consecutivo: 0,
   fechaNotificacion: null,
   radicadoSipa: "",
+  otrosRadicadosSipa: "",
   remitenteGeneral: "",
   remitenteEspecifico: "",
   direccion: "",
@@ -98,6 +101,7 @@ export const initErrorRequirementsDetail = (): ErrorRequirementsDetail => ({
   consecutivo: "",
   fechaNotificacion: "",
   radicadoSipa: "",
+  otrosRadicadosSipa: "",
   remitenteGeneral: "",
   remitenteEspecifico: "",
   direccion: "",

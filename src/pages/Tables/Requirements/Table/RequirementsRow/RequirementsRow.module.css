@@ -80,11 +80,6 @@
   transition: 0.2s;
 }
 
-.row button:last-child img {
-  filter: invert(28%) sepia(73%) saturate(7153%) hue-rotate(353deg)
-    brightness(94%) contrast(125%);
-}
-
 .row button:hover img {
   height: 20px;
   filter: invert(100%);
@@ -93,4 +88,9 @@
 
 .user {
   grid-template-columns: 100px repeat(6, 1fr) 50px;
+}
+
+.admin button:last-child img {
+  filter: invert(28%) sepia(73%) saturate(7153%) hue-rotate(353deg)
+    brightness(94%) contrast(125%);
 }

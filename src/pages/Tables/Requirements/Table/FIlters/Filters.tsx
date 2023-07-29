@@ -49,21 +49,21 @@ export default function Filters({ filters, setFilters }: Props) {
           handleChange={handleChange}
         />
         <Input
+          name="abogado"
+          value={filters.abogado}
+          label="Abogado"
+          handleChange={handleChange}
+        />
+        <Input
           name="tipoProceso"
           value={filters.tipoProceso}
           label="Tipo de proceso"
           handleChange={handleChange}
         />
         <Input
-          name="remitenteGeneral"
-          value={filters.remitenteGeneral}
-          label="Remitente general"
-          handleChange={handleChange}
-        />
-        <Input
-          name="remitenteEspecifico"
-          value={filters.remitenteEspecifico}
-          label="Remitente especifico"
+          name="numeroProceso"
+          value={filters.numeroProceso}
+          label="Numero de proceso"
           handleChange={handleChange}
         />
         <button

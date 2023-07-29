@@ -8,11 +8,7 @@ import { UserRol } from "../../../../interfaces/users";
 import { getUsers } from "../../../../redux/actions/users";
 import { closeLoading, openLoading } from "../../../../redux/actions/loading";
 import { initRequirementsHeads } from "../../../../interfaces/Requirements/data";
-import {
-  RequirementsHeads,
-  RequirementsFilters,
-  initRequirementsFilters,
-} from "../../../../interfaces/Requirements/data";
+import { RequirementsHeads } from "../../../../interfaces/Requirements/data";
 import {
   deleteRequirements,
   getRequirements,
@@ -57,9 +53,9 @@ export default function RequirementsTable() {
     const filter = requirements.filter((data: RequirementsHeads) => {
       if (
         filters.radicadoSipa ||
+        filters.abogado ||
         filters.tipoProceso ||
-        filters.remitenteGeneral ||
-        filters.remitenteEspecifico
+        filters.numeroProceso
       ) {
         /* RADICADO SIPA */
         if (
@@ -69,6 +65,15 @@ export default function RequirementsTable() {
             .startsWith(filters.radicadoSipa.toString())
         )
           return false;
+
+        /* ABOGADO */
+        if (
+          filters.abogado &&
+          !data.abogado.toString().startsWith(filters.abogado.toString())
+        ) {
+          return false;
+        }
+
         /* TIPO RPOCESO */
         if (
           filters.tipoProceso &&
@@ -77,23 +82,13 @@ export default function RequirementsTable() {
             .startsWith(filters.tipoProceso.toString())
         )
           return false;
-
-        /* REMITENTE GENERAL */
+ 
+        /* NUMERO DE PROCESO */
         if (
-          filters.remitenteGeneral &&
-          !data.remitenteGeneral
+          filters.numeroProceso &&
+          !data.numeroProceso
             .toString()
-            .startsWith(filters.remitenteGeneral.toString())
-        ) {
-          return false;
-        }
-
-        /* TEMA REMITENTE ESPECIFICO */
-        if (
-          filters.remitenteEspecifico &&
-          !data.remitenteEspecifico
-            .toString()
-            .startsWith(filters.remitenteEspecifico.toUpperCase())
+            .startsWith(filters.numeroProceso.toUpperCase())
         ) {
           return false;
         }
@@ -275,9 +270,9 @@ export default function RequirementsTable() {
         <thead>
           <tr className={`${styles.row} ${styles.firstRow}`}>
             <th>Radicado SIPA</th>
+            <th>Abogado</th>
             <th>Tipo de proceso</th>
-            <th>Remitente general</th>
-            <th>Remitente especifico</th>
+            <th>Número de proceso</th>
           </tr>
         </thead>
         <tbody className={styles.contentRows}>

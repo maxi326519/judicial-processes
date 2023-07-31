@@ -20,7 +20,7 @@ exports.setNewUser = onCall(async (data, context) => {
       throw new HttpsError("permission-denied", "must have admin rol");
 
     // Validate parameters
-    const { rol, name, email, password, available, permissions } = data;
+    const { rol, name, email, password, permissions } = data;
     if (!rol)
       throw new HttpsError("invalid-argument", "missing parameter: rol");
     if (!name)
@@ -29,8 +29,6 @@ exports.setNewUser = onCall(async (data, context) => {
       throw new HttpsError("invalid-argument", "missing parameter: email");
     if (!password)
       throw new HttpsError("invalid-argument", "missing parameter: password");
-    if (typeof available != "boolean")
-      throw new HttpsError("invalid-argument", "missing parameter: available");
     if (
       !permissions ||
       typeof permissions.processes != "boolean" ||
@@ -54,7 +52,12 @@ exports.setNewUser = onCall(async (data, context) => {
     await firestore
       .collection("Users")
       .doc(newUser.uid)
-      .set({ rol, name, email, available, permissions })
+      .set({
+        rol,
+        name,
+        email,
+        permissions,
+      })
       .catch(() => {
         throw new HttpsError("internal", "Error to create user in database");
       });
@@ -93,8 +96,6 @@ exports.updateUser = onCall(async (data, context) => {
       throw new HttpsError("invalid-argument", "missing parameter: name");
     if (!email)
       throw new HttpsError("invalid-argument", "missing parameter: email");
-    if (typeof available != "boolean")
-      throw new HttpsError("invalid-argument", "missing parameter: available");
     if (
       !permissions ||
       typeof permissions.processes != "boolean" ||
@@ -114,11 +115,26 @@ exports.updateUser = onCall(async (data, context) => {
         throw new HttpsError("internal", "Error to update user");
       });
 
+    let newUserData: any = {
+      rol,
+      name,
+      email,
+      permissions,
+    };
+
+    // If available exist add them
+    if (available) {
+      newUserData.available = {
+        startDate: new Date(available.startDate),
+        endDate: new Date(available.startDate),
+      };
+    }
+
     // Update user to database
     await firestore
       .collection("Users")
       .doc(newUser.uid)
-      .update({ rol, name, email, available, permissions })
+      .update(newUserData)
       .catch(() => {
         throw new HttpsError("internal", "Error to update user in database");
       });

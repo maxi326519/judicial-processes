@@ -25,8 +25,8 @@ interface Props {
 
 export default function Form({ editUser, handleClose }: Props) {
   const dispatch = useDispatch();
-  const [user, setUserData] = useState<Users>({ ...initUser });
-  const [error, setError] = useState<ErrorUser>({ ...initErrorUser });
+  const [user, setUserData] = useState<Users>(initUser());
+  const [error, setError] = useState<ErrorUser>(initErrorUser());
 
   useEffect(() => {
     if (editUser) setUserData(editUser);
@@ -81,7 +81,7 @@ export default function Form({ editUser, handleClose }: Props) {
   }
 
   function handleValidations() {
-    let errors: ErrorUser = initErrorUser;
+    let errors: ErrorUser = initErrorUser();
     let value = true;
 
     /* ROL */

@@ -66,9 +66,9 @@ export interface RootState {
   config: RootConfig;
 }
 
-export const initRootState = {
+export const initRootState: RootState = {
   loading: false,
-  sesion: initUser,
+  sesion: initUser(),
   users: [],
   processes: {
     heads: [],

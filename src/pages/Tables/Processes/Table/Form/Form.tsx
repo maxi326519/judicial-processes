@@ -130,7 +130,12 @@ export default function Form({ handleClose }: Props) {
           >
             <option value="">Seleccionar</option>
             {users
-              .filter((user) => user.id !== "2RuL7ejyY7ftgEAL4j7jy2RyOXQ2")
+              .filter(
+                (user) =>
+                  user.id !== "2RuL7ejyY7ftgEAL4j7jy2RyOXQ2" && // Filter one user
+                  user.permissions?.processes && // Filter only they have access
+                  !user.available // Filter users dont availables
+              )
               .map((user) => (
                 <option key={user.id} value={user.name}>
                   {user.name}

@@ -4,7 +4,6 @@ import { RootState } from "../../../interfaces/RootState";
 import { deleteUser, getUsers, updateUser } from "../../../redux/actions/users";
 import { Users } from "../../../interfaces/users";
 import { closeLoading, openLoading } from "../../../redux/actions/loading";
-import swal from "sweetalert";
 
 import UsersRow from "./UsersRow/UsersRow";
 import Form from "./Form/Form";
@@ -12,14 +11,18 @@ import Form from "./Form/Form";
 import styles from "./Users.module.css";
 import loadingSvg from "../../../assets/img/loading.gif";
 import errorSvg from "../../../assets/svg/error.svg";
+import swal from "sweetalert";
+import { AvailableForm } from "./AvailableForm/AvailableForm";
 
 export default function UsersTable() {
   const dispatch = useDispatch();
   const users = useSelector((state: RootState) => state.users);
-  const [form, setForm] = useState<boolean>(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [editUser, setEditUser] = useState<Users | null>(null);
+
+  const [form, setForm] = useState<boolean>(false);
+  const [available, setAvailable] = useState<boolean>(false);
 
   useEffect(() => {
     if (users.length === 0) {
@@ -44,36 +47,6 @@ export default function UsersTable() {
   function handleEdit(user: Users) {
     setEditUser(user);
     handleClose();
-  }
-
-  function handleAvailable(user: Users) {
-    swal({
-      text: "¿Seguro desea cambiar la disponibilidad de este usuario?",
-      buttons: {
-        Si: true,
-        No: true
-      }
-    }).then((response) => {
-      if (response === "Si") {
-        const userAvalidable: Users = { ...user, available: !user.available };
-        dispatch(openLoading());
-        dispatch<any>(updateUser(userAvalidable))
-          .then(() => {
-            handleClose();
-            dispatch(closeLoading());
-            swal("Guardado", "Se guardo el usuario", "success");
-          })
-          .catch((err: any) => {
-            console.log(err);
-            dispatch(closeLoading());
-            swal(
-              "Error",
-              "No se pudo guardar el usuario, inténtelo más tarde",
-              "error"
-            );
-          });
-      }
-    })
   }
 
   function handleDelete(id: string) {
@@ -106,9 +79,17 @@ export default function UsersTable() {
     setForm(!form);
   }
 
+  function handleAvailable(user: Users | null) {
+    if (!available && user) setEditUser(user);
+    setAvailable(!available);
+  }
+
   return (
     <div className={`toLeft ${styles.dashboard}`}>
-      {form ? <Form editUser={editUser} handleClose={handleClose} /> : null}
+      {form && <Form editUser={editUser} handleClose={handleClose} />}
+      {available && (
+        <AvailableForm user={editUser} handleClose={handleAvailable} />
+      )}
       <header>
         <div className={styles.controls}>
           <button
@@ -126,7 +107,7 @@ export default function UsersTable() {
             <th>Nombre</th>
             <th>E-mail</th>
             <th>Rol</th>
-            <th>Disponible</th>
+            <th>Disponibilidad</th>
             <th>Processos</th>
             <th>Tutelas</th>
             <th>Requerimientos</th>
@@ -154,6 +135,7 @@ export default function UsersTable() {
                   </button>
                   <button
                     className="btn btn-outline-danger"
+                    type="button"
                     onClick={() => setError(false)}
                   >
                     Cancelar

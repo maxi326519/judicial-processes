@@ -57,10 +57,21 @@ export function getUsers(): ThunkAction<
       let user: any = [];
 
       snapshot.forEach((doc) => {
-        user.push({
-          ...doc.data(),
-          id: doc.id,
-        });
+        let currentUser = doc.data();
+
+        // Set id
+        currentUser.id = doc.id;
+
+        // Change dates from Timestamp type to Date type
+        if (currentUser.available) {
+          currentUser.available.startDate =
+            currentUser.available.startDate?.toDate();
+          currentUser.available.endDate =
+            currentUser.available.endDate?.toDate();
+        }
+
+        // Save current user
+        user.push(currentUser);
       });
 
       dispatch({

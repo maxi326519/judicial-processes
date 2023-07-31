@@ -4,7 +4,7 @@ export interface Users {
   email: string;
   rol: UserRol;
   password?: string;
-  available: boolean;
+  available?: { startDate: Date | null; endDate: Date | null };
   permissions: {
     processes: boolean;
     tutelas: boolean;
@@ -33,22 +33,21 @@ export interface ErrorUser {
   password?: string;
 }
 
-export const initUser: Users = {
+export const initUser = (): Users => ({
   name: "",
   email: "",
   rol: UserRol.User,
   password: "",
-  available: true,
   permissions: {
     processes: false,
     tutelas: false,
     requirements: false,
   },
-};
+});
 
-export const initErrorUser: ErrorUser = {
+export const initErrorUser = (): ErrorUser => ({
   rol: "",
   name: "",
   email: "",
   password: "",
-};
+});

@@ -73,8 +73,12 @@ export default function Form({ handleClose }: Props) {
       label: "Abogado",
       inputType: "select",
       list: users
-        .filter((user) => user.id !== "2RuL7ejyY7ftgEAL4j7jy2RyOXQ2")
-        .filter((user) => user.permissions?.tutelas)
+        .filter(
+          (user) =>
+            user.id !== "2RuL7ejyY7ftgEAL4j7jy2RyOXQ2" && // Filter one user
+            user.permissions?.tutelas && // Filter only they have access
+            !user.available // Filter users dont availables
+        )
         .map((user) => user.name),
       error: errors.abogado,
     },
@@ -330,7 +334,6 @@ export default function Form({ handleClose }: Props) {
   ];
 
   useEffect(() => {
-
     return () => {
       reset();
       handleClose();
@@ -351,7 +354,11 @@ export default function Form({ handleClose }: Props) {
     event.preventDefault();
     if (validations()) {
       dispatch(openLoading());
-      dispatch<any>(tutelaDetails ? updateTutelas(tutela) : setTutelas(tutela, usersSelected))
+      dispatch<any>(
+        tutelaDetails
+          ? updateTutelas(tutela)
+          : setTutelas(tutela, usersSelected)
+      )
         .then(() => {
           dispatch(closeLoading());
           handleClose();

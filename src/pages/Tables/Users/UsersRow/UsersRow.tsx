@@ -3,6 +3,7 @@ import { UserRol, Users } from "../../../../interfaces/users";
 import style from "./UsersRow.module.css";
 import editSvg from "../../../../assets/svg/edit.svg";
 import deleteSvg from "../../../../assets/svg/delete.svg";
+import { dateToString } from "../../../../functions/dateToString";
 
 interface Props {
   user: Users;
@@ -11,18 +12,26 @@ interface Props {
   handleAvailable: (user: Users) => void;
 }
 
-export default function UsersRow({ user, handleEdit, handleDelete, handleAvailable }: Props) {
+export default function UsersRow({
+  user,
+  handleEdit,
+  handleDelete,
+  handleAvailable,
+}: Props) {
   return (
     <tr className={style.row}>
       <td>{user.name}</td>
       <td>{user.email}</td>
       <td>{user.rol}</td>
       <button
-        className="btn btn-outline-primary"
+        className={`btn ${user.available ? "btn-outline-danger" : "btn-outline-success"}`}
         type="button"
         onClick={() => handleAvailable(user)}
       >
-        {user.available ? "Disponible" : "No"}
+        {user.available
+          ? `${dateToString(user.available.startDate!)} - 
+             ${dateToString(user.available.endDate!)}`
+          : "Disponible"}
       </button>
       {user.rol === UserRol.Admin || user.permissions?.processes ? (
         <td className={`${style.permissions} ${style.access}`}>

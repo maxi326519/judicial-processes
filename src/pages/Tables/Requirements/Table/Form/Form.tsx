@@ -115,8 +115,12 @@ export default function Form({ handleClose }: Props) {
       label: "Abogado",
       inputType: "select",
       list: users
-        .filter((user) => user.id !== "2RuL7ejyY7ftgEAL4j7jy2RyOXQ2")
-        .filter((user) => user.permissions?.requirements)
+        .filter(
+          (user) =>
+            user.id !== "2RuL7ejyY7ftgEAL4j7jy2RyOXQ2" && // Filter one user
+            user.permissions?.requirements && // Filter only they have access
+            !user.available // Filter users dont availables
+        )
         .map((user) => user.name),
       error: errors.abogado,
     },

@@ -74,8 +74,10 @@ export const initRequirementsFilters = (): RequirementsFilters => ({
   numeroProceso: "",
 });
 
-export const initRequirementsDetail = (): RequirementsDetail => ({
-  consecutivo: 0,
+export const initRequirementsDetail = (
+  consecutivo?: number
+): RequirementsDetail => ({
+  consecutivo: consecutivo || 0,
   fechaNotificacion: null,
   radicadoSipa: "",
   otrosRadicadosSipa: "",

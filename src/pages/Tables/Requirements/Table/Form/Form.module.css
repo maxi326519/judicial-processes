@@ -97,26 +97,26 @@
 }
 
 /* REMITENTE ESPECIFICO */
-.grid div:nth-child(5) {
-  grid-column: 1 / 4;
+.grid div:nth-child(6) {
+  grid-column: 2 / 4;
 }
 
 /* DIRECCION */
-.grid div:nth-child(6) {
+.grid div:nth-child(7) {
   grid-column: 4 / 6;
 }
 
 /* CONCEPTO */
-.grid div:nth-child(7) {
+.grid div:nth-child(8) {
   grid-column: 1 / 6;
 }
 
 /* AREA DE APOYO */
-.grid div:nth-child(13) {
+.grid div:nth-child(14) {
   grid-column: 1 / 6;
 }
 
-.grid div:nth-child(19) {
+.grid div:nth-child(20) {
   grid-column: 1 / 6;
 }
 

@@ -10,8 +10,8 @@ import {
   openLoading,
 } from "../../../../../redux/actions/loading";
 import useRequirements from "../../../../../hooks/Requirements/useRequirements";
-import swal from "sweetalert";
 import dateUTCToLocalDateYYYYMMDD from "../../../../../functions/dateToStringInput";
+import swal from "sweetalert";
 
 import Input from "../../../../../components/Inputs/Input";
 import SelectInput from "../../../../../components/Inputs/SelectInput";
@@ -107,17 +107,17 @@ export default function Form({ handleClose }: Props) {
       name: "numeroProceso",
       label: "Número de proceso",
       inputType: "text",
-      list: users
-        .filter((user) => user.id !== "2RuL7ejyY7ftgEAL4j7jy2RyOXQ2")
-        .filter((user) => user.permissions?.requirements)
-        .map((user) => user.name),
       error: errors.numeroProceso,
     },
     {
       value: requirement.abogado,
       name: "abogado",
       label: "Abogado",
-      inputType: "text",
+      inputType: "select",
+      list: users
+        .filter((user) => user.id !== "2RuL7ejyY7ftgEAL4j7jy2RyOXQ2")
+        .filter((user) => user.permissions?.requirements)
+        .map((user) => user.name),
       error: errors.abogado,
     },
     {

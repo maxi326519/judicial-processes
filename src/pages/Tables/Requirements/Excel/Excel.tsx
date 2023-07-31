@@ -145,8 +145,10 @@ export default function Excel() {
       setExcelData(
         details
           .sort((a: any, b: any) => {
-            if (a.consecutivo > b.consecutivo) return 1;
-            if (a.consecutivo < b.consecutivo) return -1;
+            if (a.fechaNotificacion === null) return 1;
+            if (b.fechaNotificacion === null) return -1;
+            if (a.fechaNotificacion > b.fechaNotificacion) return 1;
+            if (a.fechaNotificacion < b.fechaNotificacion) return -1;
             return 0;
           })
           .map((data: RequirementsDetail) => convertirValoresATexto(data))

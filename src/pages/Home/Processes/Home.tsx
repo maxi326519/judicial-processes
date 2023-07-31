@@ -22,7 +22,7 @@ export default function Home() {
   const redirect = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.sesion);
-  const charts = useSelector((state: RootState) => state.processes.charts)
+  const charts = useSelector((state: RootState) => state.processes.charts);
   const [posicionSDP, setPosicionSDP] = useState("");
   const { processCharts, update } = useProcessCharts();
 
@@ -57,6 +57,10 @@ export default function Home() {
     redirect("/dashboard/home/tutelas");
   }
 
+  function handlePrev() {
+    redirect("/dashboard/home/requerimientos");
+  }
+
   return (
     <div className={styles.background}>
       <Navbar title="Home - Procesos" />
@@ -84,7 +88,7 @@ export default function Home() {
           <button
             className={styles.prev}
             type="button"
-            onClick={handleNext}
+            onClick={handlePrev}
           >{`<`}</button>
           <button
             className={styles.next}

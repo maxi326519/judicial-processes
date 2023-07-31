@@ -11,7 +11,7 @@ export default function useRequirements() {
   const requirements = useSelector((state: RootState) => state.requirements);
   const config = useSelector((state: RootState) => state.config.requirements);
   const [requirement, setRequirement] = useState<RequirementsDetail>(
-    initRequirementsDetail()
+    initRequirementsDetail(requirements.heads.length + 1)
   );
   const [errors, setErrors] = useState<ErrorRequirementsDetail>(
     initErrorRequirementsDetail()

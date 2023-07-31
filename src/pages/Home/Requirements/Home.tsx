@@ -54,7 +54,7 @@ export default function Home() {
 
   return (
     <div className={styles.background}>
-      <Navbar title="Home- Requirements" />
+      <Navbar title="Home- Requerimientos" />
       <SideBar />
       <div
         className={`${styles.charts} ${

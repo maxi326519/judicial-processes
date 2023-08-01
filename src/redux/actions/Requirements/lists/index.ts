@@ -55,15 +55,17 @@ export function getLists(): ThunkAction<Promise<void>, RootState, null, any> {
     try {
       const snapshot = await getDoc(requirementsDoc);
       let doc = snapshot.data();
-      let lists = doc?.list;
+      let lists = doc?.lists;
 
       // If lists don't existe, create it
       if (!doc) {
         lists = initRequirementsLists();
         await setDoc(requirementsDoc, { lists });
+        console.log("New data");
       } else if (!lists) {
         lists = initRequirementsLists();
         await updateDoc(requirementsDoc, { lists });
+        console.log("Update data");
       } else {
         lists = doc.lists;
         // Sort

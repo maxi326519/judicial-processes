@@ -20,6 +20,7 @@ import TextareaInput from "../../../../../components/Inputs/TextareaInput";
 import Checkbox from "../../../../../components/Inputs/Checkbox";
 
 import styles from "./Form.module.css";
+import { UserRol } from "../../../../../interfaces/users";
 
 interface Props {
   handleClose: () => void;
@@ -76,8 +77,13 @@ export default function Form({ handleClose }: Props) {
         .filter(
           (user) =>
             user.id !== "2RuL7ejyY7ftgEAL4j7jy2RyOXQ2" && // Filter one user
+            user.rol !== UserRol.Admin && // Filter the admins
             user.permissions?.tutelas && // Filter only they have access
-            !user.available // Filter users dont availables
+            !(
+              user.available && // If available exist
+              user.available.startDate! <= new Date() && // If the date is within the range
+              user.available.endDate! >= new Date()
+            )
         )
         .map((user) => user.name),
       error: errors.abogado,

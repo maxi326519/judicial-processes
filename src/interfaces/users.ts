@@ -4,7 +4,10 @@ export interface Users {
   email: string;
   rol: UserRol;
   password?: string;
-  available?: { startDate: Date | null; endDate: Date | null };
+  available?: {
+    startDate: Date | null;
+    endDate: Date | null
+  };
   permissions: {
     processes: boolean;
     tutelas: boolean;

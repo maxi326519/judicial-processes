@@ -19,6 +19,7 @@ import TextareaInput from "../../../../../components/Inputs/TextareaInput";
 import Checkbox from "../../../../../components/Inputs/Checkbox";
 
 import styles from "./Form.module.css";
+import { UserRol } from "../../../../../interfaces/users";
 
 interface Props {
   handleClose: () => void;
@@ -118,8 +119,12 @@ export default function Form({ handleClose }: Props) {
         .filter(
           (user) =>
             user.id !== "2RuL7ejyY7ftgEAL4j7jy2RyOXQ2" && // Filter one user
-            user.permissions?.requirements && // Filter only they have access
-            !user.available // Filter users dont availables
+            (user.permissions?.processes || user.rol === UserRol.Admin) && // Filter only they have access
+            !(
+              user.available && // If available exist
+              user.available.startDate! <= new Date() && // If the date is within the range
+              user.available.endDate! >= new Date()
+            )
         )
         .map((user) => user.name),
       error: errors.abogado,
@@ -211,6 +216,7 @@ export default function Form({ handleClose }: Props) {
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (validations()) {
+      console.log(requirement);
       dispatch(openLoading());
       dispatch<any>(
         requirementsDetails

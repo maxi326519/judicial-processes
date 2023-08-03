@@ -15,7 +15,6 @@ import getDateLimitTutelas from "../../functions/getDateLimitTutelas";
 
 export default function useTutelas() {
   const dispatch = useDispatch();
-  const user = useSelector((state: RootState) => state.sesion);
   const users = useSelector((state: RootState) => state.users);
   const list = useSelector((state: RootState) => state.processes.lists);
   const config = useSelector((state: RootState) => state.config.tutelas);
@@ -27,7 +26,6 @@ export default function useTutelas() {
   const tutelaDetails = useSelector(
     (state: RootState) => state.tutelas.details
   );
-  const lists = useSelector((state: RootState) => state.processes.lists);
 
   useEffect(() => {
     checkTutelasPerUser();
@@ -36,10 +34,6 @@ export default function useTutelas() {
   useEffect(() => {
     if (tutelaDetails) setTutela(tutelaDetails);
   }, [tutelaDetails]);
-
-  useEffect(() => {
-    console.log(tutela);
-  }, [tutela]);
 
   function handleChange(
     event: React.ChangeEvent<
@@ -192,7 +186,11 @@ export default function useTutelas() {
     let change = false;
     let usersSelectedLocal = [...usersSelected];
     const availableUsers = users.filter((user) => {
-      if (!user.available) return false;
+      if (
+        user.available && // If available exist
+        user.available.startDate! <= new Date() && // If the date is within the range
+        user.available.endDate! >= new Date()
+      ) return false;
       if (!user.permissions?.tutelas) return false;
       if (user.email === "maxi.326519@gmail.com") return false;
       return true;

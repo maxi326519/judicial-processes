@@ -121,9 +121,8 @@ export default function Form({ handleClose }: Props) {
           <select
             id="apoderadoActual"
             name="apoderadoActual"
-            className={`form-select ${
-              !errors.apoderadoActual ? "" : "is-invalid"
-            }`}
+            className={`form-select ${!errors.apoderadoActual ? "" : "is-invalid"
+              }`}
             value={judicialProcesses.apoderadoActual}
             onChange={handleChange}
             disabled={user.rol === UserRol.User}
@@ -134,7 +133,12 @@ export default function Form({ handleClose }: Props) {
                 (user) =>
                   user.id !== "2RuL7ejyY7ftgEAL4j7jy2RyOXQ2" && // Filter one user
                   user.permissions?.processes && // Filter only they have access
-                  !user.available // Filter users dont availables
+                  user.rol !== UserRol.Admin && // Filter the admins
+                  !(
+                    user.available && // If available exist
+                    user.available.startDate! <= new Date() && // If the date is within the range
+                    user.available.endDate! >= new Date()
+                  )
               )
               .map((user) => (
                 <option key={user.id} value={user.name}>
@@ -189,9 +193,8 @@ export default function Form({ handleClose }: Props) {
           <input
             id="radRamaJudicialInicial"
             name="radRamaJudicialInicial"
-            className={`form-control ${
-              !errors.radRamaJudicialInicial ? "" : "is-invalid"
-            }`}
+            className={`form-control ${!errors.radRamaJudicialInicial ? "" : "is-invalid"
+              }`}
             type="text"
             value={judicialProcesses.radRamaJudicialInicial}
             onChange={handleChange}
@@ -207,9 +210,8 @@ export default function Form({ handleClose }: Props) {
           <input
             id="radRamaJudicialActual"
             name="radRamaJudicialActual"
-            className={`form-control ${
-              !errors.radRamaJudicialActual ? "" : "is-invalid"
-            }`}
+            className={`form-control ${!errors.radRamaJudicialActual ? "" : "is-invalid"
+              }`}
             type="text"
             value={judicialProcesses.radRamaJudicialActual}
             onChange={handleChange}
@@ -226,9 +228,8 @@ export default function Form({ handleClose }: Props) {
             <select
               id="tipoProceso"
               name="tipoProceso"
-              className={`form-select ${
-                errors.tipoProceso ? "is-invalid" : ""
-              }`}
+              className={`form-select ${errors.tipoProceso ? "is-invalid" : ""
+                }`}
               value={judicialProcesses.tipoProceso}
               onChange={handleChange}
             >
@@ -266,9 +267,8 @@ export default function Form({ handleClose }: Props) {
           <input
             id="fechaNotificacion"
             name="fechaNotificacion"
-            className={`form-control ${
-              !errors.fechaNotificacion ? "" : "is-invalid"
-            }`}
+            className={`form-control ${!errors.fechaNotificacion ? "" : "is-invalid"
+              }`}
             type="date"
             value={
               judicialProcesses.fechaNotificacion?.toISOString()?.split("T")[0]
@@ -352,9 +352,8 @@ export default function Form({ handleClose }: Props) {
           <select
             id="calidadActuacionEntidad"
             name="calidadActuacionEntidad"
-            className={`form-select ${
-              !errors.calidadActuacionEntidad ? "" : "is-invalid"
-            }`}
+            className={`form-select ${!errors.calidadActuacionEntidad ? "" : "is-invalid"
+              }`}
             value={judicialProcesses.calidadActuacionEntidad}
             onChange={handleChange}
           >
@@ -392,9 +391,8 @@ export default function Form({ handleClose }: Props) {
           <input
             id="idDemanante"
             name="idDemanante"
-            className={`form-control ${
-              !errors.idDemanante ? "" : "is-invalid"
-            }`}
+            className={`form-control ${!errors.idDemanante ? "" : "is-invalid"
+              }`}
             type="text"
             value={judicialProcesses.idDemanante}
             onChange={handleChange}
@@ -426,9 +424,8 @@ export default function Form({ handleClose }: Props) {
           <select
             id="despachoInicial"
             name="despachoInicial"
-            className={`form-select ${
-              !errors.despachoInicial ? "" : "is-invalid"
-            }`}
+            className={`form-select ${!errors.despachoInicial ? "" : "is-invalid"
+              }`}
             value={judicialProcesses.despachoInicial}
             onChange={handleChange}
           >
@@ -450,9 +447,8 @@ export default function Form({ handleClose }: Props) {
           <select
             id="despachoActual"
             name="despachoActual"
-            className={`form-select ${
-              !errors.despachoActual ? "" : "is-invalid"
-            }`}
+            className={`form-select ${!errors.despachoActual ? "" : "is-invalid"
+              }`}
             value={judicialProcesses.despachoActual}
             onChange={handleChange}
           >
@@ -517,9 +513,8 @@ export default function Form({ handleClose }: Props) {
           <input
             id="cuantiaEstimada"
             name="cuantiaEstimada"
-            className={`form-control ${
-              !errors.cuantiaEstimada ? "" : "is-invalid"
-            }`}
+            className={`form-control ${!errors.cuantiaEstimada ? "" : "is-invalid"
+              }`}
             type="number"
             value={judicialProcesses.cuantiaEstimada}
             onChange={handleChange}
@@ -550,9 +545,8 @@ export default function Form({ handleClose }: Props) {
           <textarea
             id="pretensionAsunto"
             name="pretensionAsunto"
-            className={`form-control ${
-              !errors.pretensionAsunto ? "" : "is-invalid"
-            }`}
+            className={`form-control ${!errors.pretensionAsunto ? "" : "is-invalid"
+              }`}
             value={judicialProcesses.pretensionAsunto}
             onChange={handleChange}
           />
@@ -567,9 +561,8 @@ export default function Form({ handleClose }: Props) {
           <select
             id="instanciaProceso"
             name="instanciaProceso"
-            className={`form-select ${
-              !errors.instanciaProceso ? "" : "is-invalid"
-            }`}
+            className={`form-select ${!errors.instanciaProceso ? "" : "is-invalid"
+              }`}
             value={judicialProcesses.instanciaProceso}
             onChange={handleChange}
           >
@@ -606,9 +599,8 @@ export default function Form({ handleClose }: Props) {
           <select
             id="etapaProcesal"
             name="etapaProcesal"
-            className={`form-select ${
-              !errors.etapaProcesal ? "" : "is-invalid"
-            }`}
+            className={`form-select ${!errors.etapaProcesal ? "" : "is-invalid"
+              }`}
             value={judicialProcesses.etapaProcesal}
             onChange={handleChange}
           >
@@ -884,9 +876,8 @@ export default function Form({ handleClose }: Props) {
           <input
             id="fechaTerminacion"
             name="fechaTerminacion"
-            className={`form-control ${
-              errors.fechaTerminacion ? "is-invalid" : ""
-            }`}
+            className={`form-control ${errors.fechaTerminacion ? "is-invalid" : ""
+              }`}
             type="date"
             value={
               judicialProcesses.fechaTerminacion?.toISOString().split("T")[0]

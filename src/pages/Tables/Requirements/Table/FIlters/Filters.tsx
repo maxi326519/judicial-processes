@@ -1,6 +1,5 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../../interfaces/RootState";
-import { UserRol } from "../../../../../interfaces/users";
 import { useState } from "react";
 import {
   RequirementsFilters,
@@ -10,6 +9,8 @@ import {
 import style from "./Filter.module.css";
 import filterSvg from "../../../../../assets/svg/filter.svg";
 import Input from "../../../../../components/Inputs/Input";
+import SelectInput from "../../../../../components/Inputs/SelectInput";
+import { UserRol } from "../../../../../interfaces/users";
 
 interface Props {
   filters: RequirementsFilters;
@@ -48,10 +49,21 @@ export default function Filters({ filters, setFilters }: Props) {
           label="Radicado en SIPA"
           handleChange={handleChange}
         />
-        <Input
+        <SelectInput
           name="abogado"
           value={filters.abogado}
           label="Abogado"
+          list={users
+            .filter(
+              (user) =>
+                user.id !== "2RuL7ejyY7ftgEAL4j7jy2RyOXQ2" && // Filter one user
+                (user.permissions?.processes || user.rol === UserRol.Admin) &&
+                !(
+                  user.available && // If available exist
+                  user.available.startDate! <= new Date() && // If the date is within the range
+                  user.available.endDate! >= new Date()
+                )
+            ).map(user => user.name)}
           handleChange={handleChange}
         />
         <Input

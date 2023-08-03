@@ -34,9 +34,10 @@ export const requirementsReducer = (
 ) => {
   switch (action.type) {
     case SET_REQUIREMENTS:
+      console.log("Redux:", action.payload);
       return {
         ...state,
-        heads: action.payload.head,
+        heads: [...state.heads, action.payload],
       };
 
     case GET_REQUIREMENTS:

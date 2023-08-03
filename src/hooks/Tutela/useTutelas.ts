@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../interfaces/RootState";
-import { UserRol } from "../../interfaces/users";
 import { closeLoading, openLoading } from "../../redux/actions/loading";
 import { updateUserDisabled } from "../../redux/actions/Tutelas/tutelas";
 import {
@@ -198,22 +197,11 @@ export default function useTutelas() {
 
     dispatch(openLoading());
 
-    console.log("All users", users);
-    console.log("Checking users", availableUsers);
-    console.log("Selected: ", usersSelectedLocal);
-
     // Check if the users already exist, otherwise create it
     availableUsers.forEach((user) => {
       // If don't exist, add the user
       if (!usersSelectedLocal.some((selected) => selected.user === user.name)) {
         change = true;
-        console.log("Check true 1");
-        console.log(
-          usersSelectedLocal.length,
-          usersSelectedLocal.find((selected) => selected.user === user.name)
-            ?.user,
-          user.name
-        );
         usersSelectedLocal.push({
           user: user.name,
           available: true,
@@ -221,20 +209,14 @@ export default function useTutelas() {
       }
     });
 
-    console.log("Checking availables");
-
     // Check if some users have 'available' property in true, otherwise set all 'availabel' property in true
     if (!usersSelectedLocal.some((selected) => selected.available)) {
       change = true;
-      console.log(usersSelectedLocal.some((selected) => selected.available));
-      console.log("Check true 2");
       usersSelectedLocal = usersSelectedLocal.map((selected) => ({
         user: selected.user,
         available: true,
       }));
     }
-
-    console.log("Changes: ", change);
 
     // If set some change, save the data
     if (change) {
@@ -254,7 +236,6 @@ export default function useTutelas() {
     for (const selected of usersSelectedLocal) {
       if (selected.available) {
         const newTutela = { ...tutela, abogado: selected.user };
-        console.log("selected: ", newTutela);
         setTutela(newTutela);
         break;
       }

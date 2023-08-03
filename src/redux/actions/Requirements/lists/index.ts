@@ -59,13 +59,13 @@ export function getLists(): ThunkAction<Promise<void>, RootState, null, any> {
 
       // If lists don't existe, create it
       if (!doc) {
-        lists = initRequirementsLists();
+/*         lists = initRequirementsLists();
         await setDoc(requirementsDoc, { lists });
         console.log("New data");
       } else if (!lists) {
         lists = initRequirementsLists();
         await updateDoc(requirementsDoc, { lists });
-        console.log("Update data");
+        console.log("Update data"); */
       } else {
         lists = doc.lists;
         // Sort

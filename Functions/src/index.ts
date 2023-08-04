@@ -126,8 +126,10 @@ exports.updateUser = onCall(async (data, context) => {
     if (available) {
       newUserData.available = {
         startDate: new Date(available.startDate),
-        endDate: new Date(available.startDate),
+        endDate: new Date(available.endDate),
       };
+    } else {
+      newUserData.available = false;
     }
 
     // Update user to database

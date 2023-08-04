@@ -43,14 +43,14 @@ export function AvailableForm({ user, handleClose }: Props) {
     const value = event.target.value;
     const name = event.target.name;
 
-    if (value) setDates({ ...dates, [name]: new Date(event.target.value) });
+    if (value) setDates({ ...dates, [name]: new Date(`${value} 00:00:00`)});
     else setDates({ ...dates, [name]: null });
 
     // Check if 'endDate' is valid date
     if (
       dates.startDate &&
       name === "endDate" &&
-      dates.startDate >= new Date(value)
+      dates.startDate >= new Date(`${value} 00:00:00`)
     ) {
       setErrors({
         ...errors,
@@ -59,7 +59,7 @@ export function AvailableForm({ user, handleClose }: Props) {
     } else if (
       dates.endDate &&
       name === "startDate" &&
-      new Date(value) >= dates.endDate
+      new Date(`${value} 00:00:00`) >= dates.endDate
     ) {
       // Check if 'startDate' is valid date
       setErrors({
@@ -74,8 +74,8 @@ export function AvailableForm({ user, handleClose }: Props) {
   function handleSubmit(event: React.ChangeEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    console.log(user, validations());
-
+    console.log(dates);
+    
     // If user exist
     if (user) {
       // Extract available

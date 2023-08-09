@@ -77,7 +77,6 @@ export default function Form({ handleClose }: Props) {
         .filter(
           (user) =>
             user.id !== "2RuL7ejyY7ftgEAL4j7jy2RyOXQ2" && // Filter one user
-            user.rol !== UserRol.Admin && // Filter the admins
             user.permissions?.tutelas && // Filter only they have access
             !(
               user.available && // If available exist

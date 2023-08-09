@@ -11,6 +11,7 @@ import {
 } from "../../interfaces/Tutelas/data";
 import getLimitDate from "../../functions/getLimitDate";
 import getDateLimitTutelas from "../../functions/getDateLimitTutelas";
+import { UserRol } from "../../interfaces/users";
 
 export default function useTutelas() {
   const dispatch = useDispatch();
@@ -184,16 +185,15 @@ export default function useTutelas() {
   function checkTutelasPerUser() {
     let change = false;
     let usersSelectedLocal = [...usersSelected];
-    const availableUsers = users.filter((user) => {
-      if (
+
+    const availableUsers = users.filter((user) =>
+      user.id !== "2RuL7ejyY7ftgEAL4j7jy2RyOXQ2" && // Filter one user
+      user.permissions?.tutelas && // Filter only they have access
+      !(
         user.available && // If available exist
         user.available.startDate! <= new Date() && // If the date is within the range
         user.available.endDate! >= new Date()
-      ) return false;
-      if (!user.permissions?.tutelas) return false;
-      if (user.email === "maxi.326519@gmail.com") return false;
-      return true;
-    });
+      ));
 
     dispatch(openLoading());
 
@@ -236,6 +236,7 @@ export default function useTutelas() {
     for (const selected of usersSelectedLocal) {
       if (selected.available) {
         const newTutela = { ...tutela, abogado: selected.user };
+        console.log(newTutela);
         setTutela(newTutela);
         break;
       }

@@ -20,7 +20,6 @@ import TextareaInput from "../../../../../components/Inputs/TextareaInput";
 import Checkbox from "../../../../../components/Inputs/Checkbox";
 
 import styles from "./Form.module.css";
-import { UserRol } from "../../../../../interfaces/users";
 
 interface Props {
   handleClose: () => void;
@@ -77,6 +76,7 @@ export default function Form({ handleClose }: Props) {
         .filter(
           (user) =>
             user.id !== "2RuL7ejyY7ftgEAL4j7jy2RyOXQ2" && // Filter one user
+            user.name !== "CAMILO RAMOS" && // Filter CAMILO RAMOS
             user.permissions?.tutelas && // Filter only they have access
             !(
               user.available && // If available exist

@@ -11,7 +11,6 @@ import {
 } from "../../interfaces/Tutelas/data";
 import getLimitDate from "../../functions/getLimitDate";
 import getDateLimitTutelas from "../../functions/getDateLimitTutelas";
-import { UserRol } from "../../interfaces/users";
 
 export default function useTutelas() {
   const dispatch = useDispatch();
@@ -185,17 +184,21 @@ export default function useTutelas() {
   function checkTutelasPerUser() {
     let change = false;
     let usersSelectedLocal = [...usersSelected];
+    dispatch(openLoading());
 
     const availableUsers = users.filter((user) =>
       user.id !== "2RuL7ejyY7ftgEAL4j7jy2RyOXQ2" && // Filter one user
+      user.name !== "CAMILO RAMOS" && // Filter CAMILO RAMOS
       user.permissions?.tutelas && // Filter only they have access
       !(
         user.available && // If available exist
         user.available.startDate! <= new Date() && // If the date is within the range
         user.available.endDate! >= new Date()
-      ));
+      )
+    );
 
-    dispatch(openLoading());
+    // Delete user without access
+    usersSelectedLocal = usersSelectedLocal.filter((user) => availableUsers.some((a) => a.name === user.user));
 
     // Check if the users already exist, otherwise create it
     availableUsers.forEach((user) => {
@@ -209,7 +212,7 @@ export default function useTutelas() {
       }
     });
 
-    // Check if some users have 'available' property in true, otherwise set all 'availabel' property in true
+    // Check if some users have 'available' property in true, otherwise set all 'available' property in true
     if (!usersSelectedLocal.some((selected) => selected.available)) {
       change = true;
       usersSelectedLocal = usersSelectedLocal.map((selected) => ({

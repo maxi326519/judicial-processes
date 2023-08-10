@@ -29,6 +29,7 @@ import styles from "./ProcessesTable.module.css";
 import loadingSvg from "../../../../assets/img/loading.gif";
 import errorSvg from "../../../../assets/svg/error.svg";
 import listSvg from "../../../../assets/svg/list.svg";
+import ProcessesDetails from "../ProcessesDetails/ProcessesDetails";
 
 export default function ProcessesTable() {
   const dispatch = useDispatch();
@@ -45,6 +46,8 @@ export default function ProcessesTable() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [list, setList] = useState(false);
+
+  const [radicado, setRadicado] = useState<string>("");
 
   useEffect(() => {
     if (processesHeads.length === 0) handleGetProcesses();
@@ -233,10 +236,19 @@ export default function ProcessesTable() {
     setList(!list);
   }
 
+  function handleActuaciones(radicado?: string) {
+    if (radicado) {
+      setRadicado(radicado);
+    } else {
+      setRadicado("");
+    }
+  }
+
   return (
     <div className={`toLeft ${styles.dashboard}`}>
       {form ? <Form handleClose={handleClose} /> : null}
       {list ? <Lists handleClose={handleShowList} /> : null}
+      {radicado ? <ProcessesDetails radicado={radicado} handleClose={handleActuaciones} /> : null}
       <div className={styles.controls}>
         <Filters filters={filters} setFilters={setFilters} />
         {user.rol === UserRol.Admin ? (
@@ -320,6 +332,7 @@ export default function ProcessesTable() {
                   processes={processesHeads}
                   handleEdit={handleEdit}
                   handleDelete={handleDelete}
+                  handleActuaciones={handleActuaciones}
                 />
               ))
             )}

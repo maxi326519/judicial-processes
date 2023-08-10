@@ -6,24 +6,26 @@ import { UserRol } from "../../../../../interfaces/users";
 import style from "./ProcessesRow.module.css";
 import editSvg from "../../../../../assets/svg/edit.svg";
 import deleteSvg from "../../../../../assets/svg/delete.svg";
+import listSvg from "../../../../../assets/svg/list.svg";
 
 interface Props {
   processes: ProcessHeads;
   handleEdit: (id: string) => void;
   handleDelete: (procesess: ProcessHeads) => void;
+  handleActuaciones: (radicado: string) => void;
 }
 
 export default function ProcessesRow({
   processes,
   handleEdit,
   handleDelete,
+  handleActuaciones
 }: Props) {
   const user = useSelector((state: RootState) => state.sesion);
   return (
     <tr
-      className={`${style.row} ${
-        user.rol === UserRol.Admin ? style.admin : ""
-      }`}
+      className={`${style.row} ${user.rol === UserRol.Admin ? style.admin : ""
+        }`}
     >
       <td>{processes.idSiproj}</td>
       <td>{processes.tipoProceso}</td>
@@ -32,6 +34,13 @@ export default function ProcessesRow({
       <td>{processes.demandante}</td>
       <td>{processes.apoderadoActual}</td>
       <td>{processes.posicionSDP}</td>
+      <button
+        className="btn btn-outline-primary"
+        type="button"
+        onClick={() => handleActuaciones(processes.radRamaJudicialActual)}
+      >
+        <img src={listSvg} alt="listSvg" />
+      </button>
       <button
         className="btn btn-outline-primary"
         type="button"

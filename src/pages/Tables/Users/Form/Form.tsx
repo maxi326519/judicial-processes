@@ -113,7 +113,7 @@ export default function Form({ editUser, handleClose }: Props) {
 
   return (
     <div className={style.background}>
-      <form className={`toTop ${style.form}`} onSubmit={handlelocalSubmit}>
+      <form className={`toTop ${style.window}`} onSubmit={handlelocalSubmit}>
         <div className={style.close}>
           <h3>{editUser ? "Editar" : "Agregar"} usuario</h3>
           <div className="btn-close" onClick={handleLocalClose} />
@@ -167,9 +167,8 @@ export default function Form({ editUser, handleClose }: Props) {
             </button>
           </div>
           <div
-            className={`${style.permissions} ${
-              user.rol === UserRol.User && style.showPermissions
-            }`}
+            className={`${style.permissions} ${user.rol === UserRol.User && style.showPermissions
+              }`}
           >
             <h5>Permisos</h5>
             <Checkbox

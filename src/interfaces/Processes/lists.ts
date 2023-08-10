@@ -39,3 +39,18 @@ export const initProcessLists: ProcessLists = {
   diasFestivos: [],
   salariosMinimos: [],
 };
+
+export interface DetalleRadicacion {
+  actuacion: string;
+  anotacion: string;
+  cant: number;
+  codRegla: string;
+  conDocumentos: boolean;
+  consActuacion: 21;
+  fechaActuacion: string;
+  fechaFinal: string | null;
+  fechaInicial: string | null;
+  fechaRegistro: string;
+  idRegActuacion: number;
+  llaveProceso: string;
+}

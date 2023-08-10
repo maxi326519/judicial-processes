@@ -1,0 +1,109 @@
+.background {
+  position: absolute;
+  z-index: 500;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: #00000066;
+}
+
+.window {
+  position: relative;
+  z-index: 500;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  padding-top: 0;
+  color: var(--font);
+  background-color: var(--background);
+}
+
+.close{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.close h3{
+  flex-grow: 1;
+  text-align: center;
+}
+
+.table{
+  height: calc(100vh - 300px);
+}
+
+.pagination {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 5px;
+  color: white;
+  background-color: var(--dark-panel);
+}
+
+.pagination button {
+  border: 1px solid var(--dark-panel);
+  color: white;
+  border-radius: 5px;
+  background-color: transparent;
+}
+
+.pagination button:hover {
+  border: 1px solid var(--dark-border);
+}
+
+.pagination button:active {
+  filter: brightness(70%);
+}
+
+.contentCard {
+  height: 100%;
+  overflow-y: auto;
+}
+
+.listEmpty {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.edit-buttons .btn-primary {
+  width: 100%;
+}
+
+.edit-buttons .btn-success {
+  width: 50%;
+  margin-right: 5px;
+}
+
+.edit-buttons .btn-danger {
+  width: 45%;
+}
+
+.card {
+  overflow-y: scroll;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 100px 1fr 1fr 100px 100px 100px;
+  gap: 10px;
+  padding: 10px;
+  outline: 1px solid var(--border);
+}
+
+.firstRow {
+  padding-right: 20px;
+  color: white;
+  background-color: var(--dark-panel);
+}

@@ -18,8 +18,8 @@ import ThemeChart from "./pages/Home/Tutelas/ThemeChart/ThemeChart";
 import swal from "sweetalert";
 
 import "./App.css";
+import "./animation.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "animation.css";
 
 import Dashboard from "./components/Dashboard/Dashboard";
 import PageNotFound from "./components/PageNotFound/PageNotFound";

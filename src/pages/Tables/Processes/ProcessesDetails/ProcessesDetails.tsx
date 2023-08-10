@@ -68,8 +68,9 @@ export default function ProcessesDetails({ radicado, handleClose }: Props) {
         swal("Error", "Surgió un error al cargar las actuaciones", "error");
       }
     }
+    console.log("Treminado");
     dispatch(closeLoading());
-  }, [loadedPages, radicado, dispatch]);
+  }, [radicado, dispatch]);
 
   useEffect(() => {
     handleGetDetails();

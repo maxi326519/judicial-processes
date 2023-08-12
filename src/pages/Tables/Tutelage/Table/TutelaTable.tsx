@@ -50,76 +50,80 @@ export default function TutelaTable() {
   }, []);
 
   useEffect(() => {
-    const filter = tutela.filter((data: TutelaHeads) => {
-      if (
-        filters.idSiproj ||
-        filters.nroTutela ||
-        filters.abogado ||
-        filters.temaTutela ||
-        filters.demandanteId ||
-        filters.demandante ||
-        filters.derechoVulnerado
-      ) {
-
-        console.log(data.temaTutela, filters.temaTutela);
-        console.log(data.derechoVulnerado, filters.derechoVulnerado);
-
-        /* ABOGADO */
-        if (filters.abogado && filters.abogado !== data.abogado) return false;
-
-        /* ID SIPROJ */
+    const filter = tutela
+      .filter((data: TutelaHeads) => {
         if (
-          filters.idSiproj &&
-          !data.idSiproj.toString().startsWith(filters.idSiproj.toString())
-        )
-          return false;
-
-        /* NRO TUTELA */
-        if (
-          filters.nroTutela &&
-          !data.nroTutela.toString().startsWith(filters.nroTutela.toString())
+          filters.idSiproj ||
+          filters.nroTutela ||
+          filters.abogado ||
+          filters.temaTutela ||
+          filters.demandanteId ||
+          filters.demandante ||
+          filters.derechoVulnerado
         ) {
-          return false;
-        }
+          /* ABOGADO */
+          if (filters.abogado && filters.abogado !== data.abogado) return false;
 
-        /* TEMA TUTELA */
-        if (
-          filters.temaTutela &&
-          !data.temaTutela.toString().startsWith(filters.temaTutela.toUpperCase())
-        ) {
-          return false;
-        }
+          /* ID SIPROJ */
+          if (
+            filters.idSiproj &&
+            !data.idSiproj.toString().startsWith(filters.idSiproj.toString())
+          )
+            return false;
 
-        /* DEMANDANTE ID */
-        if (
-          filters.demandanteId &&
-          !data.demandanteId
-            .toString()
-            .startsWith(filters.demandanteId.toString())
-        ) {
-          return false;
-        }
+          /* NRO TUTELA */
+          if (
+            filters.nroTutela &&
+            !data.nroTutela.toString().startsWith(filters.nroTutela.toString())
+          ) {
+            return false;
+          }
 
-        /* DEMANDANTE */
-        if (
-          filters.demandante &&
-          !data.demandante.includes(filters.demandante.toUpperCase())
-        ) {
-          return false;
-        }
+          /* TEMA TUTELA */
+          if (
+            filters.temaTutela &&
+            !data.temaTutela.toString().startsWith(filters.temaTutela.toUpperCase())
+          ) {
+            return false;
+          }
 
-        /* DERECHO VULNERADO */
-        if (
-          filters.derechoVulnerado &&
-          !data.derechoVulnerado
-            .toString()
-            .startsWith(filters.derechoVulnerado.toUpperCase())
-        ) {
-          return false;
+          /* DEMANDANTE ID */
+          if (
+            filters.demandanteId &&
+            !data.demandanteId
+              .toString()
+              .startsWith(filters.demandanteId.toString())
+          ) {
+            return false;
+          }
+
+          /* DEMANDANTE */
+          if (
+            filters.demandante &&
+            !data.demandante.includes(filters.demandante.toUpperCase())
+          ) {
+            return false;
+          }
+
+          /* DERECHO VULNERADO */
+          if (
+            filters.derechoVulnerado &&
+            !data.derechoVulnerado
+              .toString()
+              .startsWith(filters.derechoVulnerado.toUpperCase())
+          ) {
+            return false;
+          }
+          return true;
+        } else return true;
+      })
+      .sort((a, b) => {
+        if (a.fechaNotificacion !== null && b.fechaNotificacion !== null){
+          if (a.fechaNotificacion?.getTime() < b.fechaNotificacion?.getTime()) return 1;
+          if (a.fechaNotificacion?.getTime() > b.fechaNotificacion?.getTime()) return -1;
         }
-        return true;
-      } else return true;
-    });
+        return 0;
+      })
     setRows(filter);
   }, [tutela, filters]);
 
@@ -291,6 +295,7 @@ export default function TutelaTable() {
         <thead>
           <tr className={`${styles.row} ${styles.firstRow}`}>
             <th>ID Siproj</th>
+            <th>Fecha</th>
             <th>Nro de tutela</th>
             <th>abogado</th>
             <th>Tema tutela</th>

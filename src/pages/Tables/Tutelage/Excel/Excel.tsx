@@ -270,6 +270,7 @@ export default function Excel() {
         <thead>
           <tr className={`${styles.row} ${styles.firstRow}`}>
             <th>ID idSiproj</th>
+            <th>Fecha</th>
             <th>Nro de Tutela</th>
             <th>Abogado</th>
             <th>Tema de la tutela</th>

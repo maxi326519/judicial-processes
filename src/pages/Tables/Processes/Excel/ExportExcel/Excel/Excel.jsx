@@ -130,6 +130,7 @@ export default function Excel({ data, state, handleClose }) {
           value="calificacionContingente"
         />
         <ExcelColumn label="ESTADO" value="estado" />
+        <ExcelColumn label="FECHA DE EJECUTORIA" value="fechaEjecutoria" />
         <ExcelColumn label="FECHA DE TERMINACIÓN" value="fechaTerminacion" />
       </ExcelSheet>
     </ExcelFile>

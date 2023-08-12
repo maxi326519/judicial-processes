@@ -214,11 +214,16 @@
 
 /* ESTADO */
 .grid div:nth-child(40) {
-  grid-column: 3 / 5;
+  grid-column: 3 / 4;
+}
+
+/* FECHA EJECUTORIA */
+.grid div:nth-child(41) {
+  grid-column: 4 / 5;
 }
 
 /* FECHA TERMINACION */
-.grid div:nth-child(41) {
+.grid div:nth-child(42) {
   grid-column: 5 / 6;
 }
 

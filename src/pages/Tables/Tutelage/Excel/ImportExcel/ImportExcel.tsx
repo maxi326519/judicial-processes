@@ -75,8 +75,8 @@ export default function ImportExcel({ handleData, handleClose }: Props) {
       const radicado = processes[3];
 
       // Check if idSiproj already exist
-      if (idList.some((id) => id === idSiproj))
-        throw new Error(`El id de la fila ${i + 1} ya existe: (${idSiproj})`);
+/*       if (idList.some((id) => id === idSiproj))
+        throw new Error(`El id de la fila ${i + 1} ya existe: (${idSiproj})`); */
 
       // Check if radicado already exist
       if (radicadoList.some((radicadoItem) => radicadoItem === radicado))
@@ -135,7 +135,7 @@ export default function ImportExcel({ handleData, handleClose }: Props) {
         cumplimiento2daInst: textParser(processes[35] || ""),
         fechaCumplimiento2daInst: newDate(processes[36]),
         incidenteDesacato: textParser(processes[37] || ""),
-        observacionesGenerales: textParser(processes[38] || ""),
+        observacionesGenerales: textParser(processes[39] || ""),
       };
       newData.push(currentData);
     });
@@ -144,6 +144,7 @@ export default function ImportExcel({ handleData, handleClose }: Props) {
       head: newData.map(
         (item: TutelaDetails): TutelaHeads => ({
           idSiproj: item.idSiproj,
+          fechaNotificacion: item.fecha,
           nroTutela: item.nroTutela,
           abogado: item.abogado,
           temaTutela: item.temaTutela,

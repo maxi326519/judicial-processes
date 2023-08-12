@@ -6,6 +6,7 @@ import { TutelaHeads } from "../../../../../interfaces/Tutelas/data";
 import style from "./TutelaRow.module.css";
 import editSvg from "../../../../../assets/svg/edit.svg";
 import deleteSvg from "../../../../../assets/svg/delete.svg";
+import { dateToString } from "../../../../../functions/dateToString";
 
 interface Props {
   tutela: TutelaHeads;
@@ -17,11 +18,11 @@ export default function TutelaRow({ tutela, handleEdit, handleDelete }: Props) {
   const user = useSelector((state: RootState) => state.sesion);
   return (
     <tr
-      className={`${style.row} ${
-        user.rol === UserRol.Admin ? style.admin : ""
-      }`}
+      className={`${style.row} ${user.rol === UserRol.Admin ? style.admin : ""
+        }`}
     >
       <td>{tutela.idSiproj}</td>
+      <td>{tutela.fechaNotificacion && dateToString(tutela.fechaNotificacion)}</td>
       <td>{tutela.nroTutela}</td>
       <td>{tutela.abogado}</td>
       <td>{tutela.temaTutela}</td>

@@ -135,7 +135,8 @@ export default function ImportExcel({ handleData, handleClose }: Props) {
         calificacionContingente: textParser(processes[39] || ""),
         estado:
           (textParser(processes[40]) as ProcessState) || ProcessState.Activo,
-        fechaTerminacion: newDate(processes[41]),
+        fechaEjecutoria: newDate(processes[41]),
+        fechaTerminacion: newDate(processes[42]),
       };
 
       newData.push(currentData);

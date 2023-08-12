@@ -66,6 +66,7 @@ export interface ProcessDetails {
   observaciones: string;
   calificacionContingente: string;
   estado: ProcessState;
+  fechaEjecutoria: Date | null;
   fechaTerminacion: Date | null;
 }
 
@@ -111,6 +112,7 @@ export interface ErrorProcesses {
   observaciones: string;
   calificacionContingente: string;
   estado: string;
+  fechaEjecutoria: string;
   fechaTerminacion: string;
 }
 
@@ -156,6 +158,7 @@ export const initErrorProcesses: ErrorProcesses = {
   observaciones: "",
   calificacionContingente: "",
   estado: "",
+  fechaEjecutoria: "",
   fechaTerminacion: "",
 };
 
@@ -211,5 +214,6 @@ export const initProcessDetails: ProcessDetails = {
   observaciones: "",
   calificacionContingente: "",
   estado: ProcessState.Activo,
+  fechaEjecutoria: null,
   fechaTerminacion: null,
 };

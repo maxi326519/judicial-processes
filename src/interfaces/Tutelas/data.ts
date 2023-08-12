@@ -1,6 +1,7 @@
 export interface TutelaHeads {
   id?: string;
   idSiproj: number;
+  fechaNotificacion: Date | null;
   nroTutela: string;
   abogado: string;
   temaTutela: string;

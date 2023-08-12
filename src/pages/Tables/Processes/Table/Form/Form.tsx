@@ -871,6 +871,25 @@ export default function Form({ handleClose }: Props) {
           <small>{errors.estado}</small>
         </div>
 
+        {/* FECHA DE EJECUTORIA */}
+        <div className="form-floating">
+          <input
+            id="fechaEjecutoria"
+            name="fechaEjecutoria"
+            className={`form-control ${errors.fechaEjecutoria ? "is-invalid" : ""
+              }`}
+            type="date"
+            value={
+              judicialProcesses.fechaEjecutoria?.toISOString().split("T")[0]
+            }
+            onChange={handleChange}
+          />
+          <label htmlFor="fechaEjecutoria" className="form-label">
+            Fecha terminación:
+          </label>
+          <small>{errors.fechaEjecutoria}</small>
+        </div>
+
         {/* FECHA DE TERMINACION */}
         <div className="form-floating">
           <input

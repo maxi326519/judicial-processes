@@ -62,6 +62,7 @@ export function setTutelas(
       // Data to save
       let head: TutelaHeads = {
         idSiproj: tutelas.idSiproj,
+        fechaNotificacion: tutelas.fecha,
         nroTutela: tutelas.nroTutela,
         abogado: tutelas.abogado,
         temaTutela: tutelas.temaTutela,
@@ -115,6 +116,7 @@ export function getTutelas(
         tutelas.push({
           id: doc.id,
           ...doc.data(),
+          fechaNotificacion: getDateOrNull(doc.data().fechaNotificacion),
         });
       });
     }
@@ -179,6 +181,7 @@ export function updateTutelas(
 
     const head: TutelaHeads = {
       idSiproj: details.idSiproj,
+      fechaNotificacion: details.fecha,
       nroTutela: details.nroTutela,
       abogado: details.abogado,
       temaTutela: details.temaTutela,
@@ -247,6 +250,7 @@ export function importTutelas(
           // Data to post
           let head: TutelaHeads = {
             idSiproj: detail.idSiproj,
+            fechaNotificacion: detail.fecha,
             nroTutela: detail.nroTutela,
             abogado: detail.abogado,
             temaTutela: detail.temaTutela,

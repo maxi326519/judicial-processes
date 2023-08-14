@@ -426,7 +426,7 @@ export default function useTutelas() {
       error.observacionesGenerales = "Debes completar este campo";
       value = false;
     }
-
+    
     setErrors(error);
     return value;
   }

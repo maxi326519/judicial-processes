@@ -295,7 +295,7 @@ export default function TutelaTable() {
         <thead>
           <tr className={`${styles.row} ${styles.firstRow}`}>
             <th>ID Siproj</th>
-            <th>Fecha</th>
+            <th>Fecha de Notificación</th>
             <th>Nro de tutela</th>
             <th>abogado</th>
             <th>Tema tutela</th>

@@ -290,6 +290,7 @@ export default function ProcessesTable() {
             <th>Demandante Nombre</th>
             <th>Apoderado Actual</th>
             <th>Posición SPD</th>
+            <th>Consulta Rama</th>
           </tr>
         </thead>
         <tbody className={styles.contentRows}>

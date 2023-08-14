@@ -41,6 +41,7 @@ export interface ProcessesConfig {
   observaciones: boolean;
   calificacionContingente: boolean;
   estado: boolean;
+  fechaEjecutoria: boolean;
   fechaTerminacion: boolean;
 }
 
@@ -86,5 +87,6 @@ export const initProcessesConfig = (): ProcessesConfig => ({
   observaciones: false,
   calificacionContingente: false,
   estado: false,
+  fechaEjecutoria: false,
   fechaTerminacion: false,
 });

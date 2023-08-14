@@ -383,17 +383,24 @@ export default function useJudicialProcesses() {
       value = false;
     }
     if (
-      config.estado &&
-      judicialProcesses.estado !== ProcessState.Activo &&
-      judicialProcesses.estado !== ProcessState.Terminado
+      config.fechaEjecutoria &&
+      judicialProcesses.fechaEjecutoria === null
     ) {
-      error.estado = "Debes completar este campo";
+      error.fechaEjecutoria = "Debes completar este campo";
       value = false;
     }
 
     if (
       config.estado &&
       judicialProcesses.estado === ProcessState.Terminado &&
+      judicialProcesses.fechaTerminacion === null
+    ) {
+      error.fechaTerminacion = "Debes completar este campo";
+      value = false;
+    }
+
+    if (
+      config.fechaEjecutoria &&
       judicialProcesses.fechaTerminacion === null
     ) {
       error.fechaTerminacion = "Debes completar este campo";

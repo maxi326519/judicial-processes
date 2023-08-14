@@ -96,9 +96,6 @@ export function getProcesses(
       });
     }
 
-    console.log(snapshot?.size);
-    console.log(processes);
-
     try {
       dispatch({
         type: GET_PROCESSES,
@@ -249,6 +246,9 @@ export function getProcessDetails(
           : null,
         fechaFalloSegundaInstancia: details.fechaFalloSegundaInstancia
           ? details.fechaFalloSegundaInstancia.toDate()
+          : null,
+        fechaEjecutoria: details.fechaEjecutoria
+          ? details.fechaEjecutoria.toDate()
           : null,
         fechaTerminacion: details.fechaTerminacion
           ? details.fechaTerminacion.toDate()

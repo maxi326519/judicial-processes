@@ -55,6 +55,7 @@ const inputs: Inputs[] = [
     { name: "observaciones", label: "Observaciones" },
     { name: "calificacionContingente", label: "Calificación del contingente" },
     { name: "estado", label: "Estado" },
+    { name: "fechaEjecutoria", label: "Fecha de ejecutoria" },
     { name: "fechaTerminacion", label: "Fecha de terminación" },
 ];
 

@@ -121,8 +121,7 @@ export default function Form({ handleClose }: Props) {
           <select
             id="apoderadoActual"
             name="apoderadoActual"
-            className={`form-select ${!errors.apoderadoActual ? "" : "is-invalid"
-              }`}
+            className={`form-select ${!errors.apoderadoActual ? "" : "is-invalid"}`}
             value={judicialProcesses.apoderadoActual}
             onChange={handleChange}
             disabled={user.rol === UserRol.User}
@@ -157,7 +156,7 @@ export default function Form({ handleClose }: Props) {
           <input
             id="apoderadoAnterior"
             name="apoderadoAnterior"
-            className="form-control"
+            className={`form-select ${!errors.apoderadoAnterior ? "" : "is-invalid"}`}
             type="text"
             value={judicialProcesses.apoderadoAnterior}
             onChange={handleChange}
@@ -165,6 +164,7 @@ export default function Form({ handleClose }: Props) {
           <label htmlFor="apoderadoAnterior" className="form-label">
             Apoderado Anterior:
           </label>
+          <small>{errors.apoderadoAnterior}</small>
         </div>
 
         {/* PROCESO ALTO IMPACTO */}
@@ -172,7 +172,7 @@ export default function Form({ handleClose }: Props) {
           <select
             id="procesoAltoImpacto"
             name="procesoAltoImpacto"
-            className="form-select"
+            className={`form-select ${!errors.procesoAltoImpacto ? "" : "is-invalid"}`}
             value={judicialProcesses.procesoAltoImpacto}
             onChange={handleChange}
           >
@@ -186,6 +186,7 @@ export default function Form({ handleClose }: Props) {
           <label htmlFor="procesoAltoImpacto" className="form-label">
             Proceso Alto Impacto:
           </label>
+          <small>{errors.procesoAltoImpacto}</small>
         </div>
 
         {/* RAMA JUDICIAL INICIAL */}
@@ -267,8 +268,7 @@ export default function Form({ handleClose }: Props) {
           <input
             id="fechaNotificacion"
             name="fechaNotificacion"
-            className={`form-control ${!errors.fechaNotificacion ? "" : "is-invalid"
-              }`}
+            className={`form-control ${!errors.fechaNotificacion ? "" : "is-invalid"}`}
             type="date"
             value={
               judicialProcesses.fechaNotificacion?.toISOString()?.split("T")[0]
@@ -286,7 +286,7 @@ export default function Form({ handleClose }: Props) {
           <input
             id="fechaAdmision"
             name="fechaAdmision"
-            className="form-control"
+            className={`form-control ${!errors.fechaAdmision ? "" : "is-invalid"}`}
             type="date"
             value={judicialProcesses.fechaAdmision?.toISOString().split("T")[0]}
             onChange={handleChange}
@@ -294,6 +294,7 @@ export default function Form({ handleClose }: Props) {
           <label htmlFor="fechaAdmision" className="form-label">
             Fecha de admision:
           </label>
+          <small>{errors.fechaAdmision}</small>
         </div>
 
         {/* FECHA DE CONTESTACION DE LA DEMANDA */}
@@ -301,7 +302,7 @@ export default function Form({ handleClose }: Props) {
           <input
             id="fechaContestacion"
             name="fechaContestacion"
-            className="form-control"
+            className={`form-control ${!errors.fechaContestacion ? "" : "is-invalid"}`}
             type="date"
             value={
               judicialProcesses.fechaContestacion?.toISOString().split("T")[0]
@@ -311,6 +312,7 @@ export default function Form({ handleClose }: Props) {
           <label htmlFor="fechaContestacion" className="form-label">
             Fecha de contestación de la demanda:
           </label>
+          <small>{errors.fechaContestacion}</small>
         </div>
 
         {/* FECHA LIMITE PROBABLE DE CONTESTACION */}
@@ -470,7 +472,7 @@ export default function Form({ handleClose }: Props) {
           <select
             id="posicionSDP"
             name="posicionSDP"
-            className="form-select"
+            className={`form-select ${!errors.posicionSDP ? "" : "is-invalid" }`}
             value={judicialProcesses.posicionSDP}
             onChange={handleChange}
           >
@@ -484,6 +486,7 @@ export default function Form({ handleClose }: Props) {
           <label htmlFor="posicionSDP" className="form-label">
             Posicion SDP:
           </label>
+          <small>{errors.posicionSDP}</small>
         </div>
 
         {/* TEMA GENERAL */}
@@ -584,7 +587,7 @@ export default function Form({ handleClose }: Props) {
           <input
             id="fechaProceso"
             name="fechaProceso"
-            className="form-control"
+            className={`form-control ${!errors.fechaProceso ? "" : "is-invalid"}`}
             type="date"
             value={judicialProcesses.fechaProceso?.toISOString().split("T")[0]}
             onChange={handleChange}
@@ -592,6 +595,7 @@ export default function Form({ handleClose }: Props) {
           <label htmlFor="fechaProceso" className="form-label">
             Fecha del ultimo estado:
           </label>
+          <small>{errors.fechaProceso}</small>
         </div>
 
         {/* ETAPA PROCESAL */}
@@ -599,8 +603,7 @@ export default function Form({ handleClose }: Props) {
           <select
             id="etapaProcesal"
             name="etapaProcesal"
-            className={`form-select ${!errors.etapaProcesal ? "" : "is-invalid"
-              }`}
+            className={`form-select ${!errors.etapaProcesal ? "" : "is-invalid"}`}
             value={judicialProcesses.etapaProcesal}
             onChange={handleChange}
           >
@@ -622,13 +625,14 @@ export default function Form({ handleClose }: Props) {
           <textarea
             id="ultimoEstadoProceso"
             name="ultimoEstadoProceso"
-            className="form-control"
+            className={`form-select ${!errors.ultimoEstadoProceso ? "" : "is-invalid"}`}
             value={judicialProcesses.ultimoEstadoProceso}
             onChange={handleChange}
           />
           <label htmlFor="ultimoEstadoProceso" className="form-label">
             último estado del proceso:
           </label>
+          <small>{errors.ultimoEstadoProceso}</small>
         </div>
 
         {/* FECHA DE FALLO DE PRIMERA INSTANCIA */}
@@ -636,7 +640,7 @@ export default function Form({ handleClose }: Props) {
           <input
             id="fechaFalloPrimeraInstancia"
             name="fechaFalloPrimeraInstancia"
-            className="form-control"
+            className={`form-select ${!errors.fechaFalloPrimeraInstancia ? "" : "is-invalid"}`}
             type="date"
             value={
               judicialProcesses.fechaFalloPrimeraInstancia
@@ -648,6 +652,7 @@ export default function Form({ handleClose }: Props) {
           <label htmlFor="fechaFalloPrimeraInstancia" className="form-label">
             Fecha de fallo de primera instancia:
           </label>
+          <small>{errors.fechaFalloPrimeraInstancia}</small>
         </div>
 
         {/* SENTIDO DEL FALLO PRIMERA INSTANCIA */}
@@ -655,7 +660,7 @@ export default function Form({ handleClose }: Props) {
           <select
             id="sentidoFalloPrimeraInstancia"
             name="sentidoFalloPrimeraInstancia"
-            className="form-select"
+            className={`form-select ${!errors.sentidoFalloPrimeraInstancia ? "" : "is-invalid"}`}
             value={judicialProcesses.sentidoFalloPrimeraInstancia}
             onChange={handleChange}
           >
@@ -669,6 +674,7 @@ export default function Form({ handleClose }: Props) {
           <label htmlFor="sentidoFalloPrimeraInstancia" className="form-label">
             Sentido del fallo primera instancia:
           </label>
+          <small>{errors.sentidoFalloPrimeraInstancia}</small>
         </div>
 
         {/* FECHA DE PRESENTACION DE RECURSOS */}
@@ -676,7 +682,7 @@ export default function Form({ handleClose }: Props) {
           <input
             id="fechaPresentacionRecurso"
             name="fechaPresentacionRecurso"
-            className="form-control"
+            className={`form-select ${!errors.fechaPresentacionRecurso ? "" : "is-invalid"}`}
             type="date"
             value={
               judicialProcesses.fechaPresentacionRecurso
@@ -688,6 +694,7 @@ export default function Form({ handleClose }: Props) {
           <label htmlFor="fechaPresentacionRecurso" className="form-label">
             Fecha de presentacion de recursos:
           </label>
+          <small>{errors.fechaPresentacionRecurso}</small>
         </div>
 
         {/* FECHA FALLO DE SEGUNDA INSTANCIA */}
@@ -695,7 +702,7 @@ export default function Form({ handleClose }: Props) {
           <input
             id="fechaFalloSegundaInstancia"
             name="fechaFalloSegundaInstancia"
-            className="form-control"
+            className={`form-select ${!errors.fechaFalloSegundaInstancia ? "" : "is-invalid"}`}
             type="date"
             value={
               judicialProcesses.fechaFalloSegundaInstancia
@@ -707,6 +714,7 @@ export default function Form({ handleClose }: Props) {
           <label htmlFor="fechaFalloSegundaInstancia" className="form-label">
             Fecha fallo de segunda instancia:
           </label>
+          <small>{errors.fechaFalloSegundaInstancia}</small>
         </div>
 
         {/* SENTIDO DE FALLO DE SEGUNDA INSTANCIA */}
@@ -714,7 +722,7 @@ export default function Form({ handleClose }: Props) {
           <select
             id="sentidoFalloSegundaInstancia"
             name="sentidoFalloSegundaInstancia"
-            className="form-select"
+            className={`form-select ${!errors.sentidoFalloSegundaInstancia ? "" : "is-invalid"}`}
             value={judicialProcesses.sentidoFalloSegundaInstancia}
             onChange={handleChange}
           >
@@ -728,6 +736,7 @@ export default function Form({ handleClose }: Props) {
           <label htmlFor="sentidoFalloSegundaInstancia" className="form-label">
             Sentido de fallo de segunda instancia:
           </label>
+          <small>{errors.sentidoFalloSegundaInstancia}</small>
         </div>
 
         {/* RESUMEN PRIMERA INSTANCIA */}
@@ -735,13 +744,14 @@ export default function Form({ handleClose }: Props) {
           <textarea
             id="resumenPrimeraInstancia"
             name="resumenPrimeraInstancia"
-            className="form-control"
+            className={`form-select ${!errors.resumenPrimeraInstancia ? "" : "is-invalid"}`}
             value={judicialProcesses.resumenPrimeraInstancia}
             onChange={handleChange}
           />
           <label htmlFor="resumenPrimeraInstancia" className="form-label">
             Resumen primera instancia:
           </label>
+          <small>{errors.resumenPrimeraInstancia}</small>
         </div>
 
         {/* RESUMEN SEGUNDA INSTANCIA */}
@@ -749,13 +759,14 @@ export default function Form({ handleClose }: Props) {
           <textarea
             id="resumenSegundaInstancia"
             name="resumenSegundaInstancia"
-            className="form-control"
+            className={`form-select ${!errors.resumenSegundaInstancia ? "" : "is-invalid"}`}
             value={judicialProcesses.resumenSegundaInstancia}
             onChange={handleChange}
           />
           <label htmlFor="resumenSegundaInstancia" className="form-label">
             Resumen segunda instancia:
           </label>
+          <small>{errors.resumenSegundaInstancia}</small>
         </div>
 
         {/* INCIDENTE */}
@@ -763,7 +774,7 @@ export default function Form({ handleClose }: Props) {
           <select
             id="incidente"
             name="incidente"
-            className="form-select"
+            className={`form-select ${!errors.incidente ? "" : "is-invalid"}`}
             value={judicialProcesses.incidente}
             onChange={handleChange}
           >
@@ -777,6 +788,7 @@ export default function Form({ handleClose }: Props) {
           <label htmlFor="incidente" className="form-label">
             Incidente:
           </label>
+          <small>{errors.incidente}</small>
         </div>
 
         {/* ESTADO DEL INCIDENTE */}
@@ -784,7 +796,7 @@ export default function Form({ handleClose }: Props) {
           <select
             id="estadoIncidente"
             name="estadoIncidente"
-            className="form-select"
+            className={`form-select ${!errors.estadoIncidente ? "" : "is-invalid"}`}
             value={judicialProcesses.estadoIncidente}
             onChange={handleChange}
           >
@@ -798,6 +810,7 @@ export default function Form({ handleClose }: Props) {
           <label htmlFor="estadoIncidente" className="form-label">
             Estado incidente:
           </label>
+          <small>{errors.estadoIncidente}</small>
         </div>
 
         {/* RESUMEN DEL INCIDENTE */}
@@ -805,13 +818,14 @@ export default function Form({ handleClose }: Props) {
           <textarea
             id="resumenIncidente"
             name="resumenIncidente"
-            className="form-control"
+            className={`form-select ${!errors.resumenIncidente ? "" : "is-invalid"}`}
             value={judicialProcesses.resumenIncidente}
             onChange={handleChange}
           />
           <label htmlFor="resumenIncidente" className="form-label">
             Resumen incidente:
           </label>
+          <small>{errors.resumenIncidente}</small>
         </div>
 
         {/* OBSERVACIONES / COMENTARIOS */}
@@ -819,13 +833,14 @@ export default function Form({ handleClose }: Props) {
           <textarea
             id="observaciones"
             name="observaciones"
-            className="form-control"
+            className={`form-select ${!errors.observaciones ? "" : "is-invalid"}`}
             value={judicialProcesses.observaciones}
             onChange={handleChange}
           />
           <label htmlFor="observaciones" className="form-label">
             Observaciones:
           </label>
+          <small>{errors.observaciones}</small>
         </div>
 
         {/* CALIFICACION CONTINGENTE */}
@@ -833,7 +848,7 @@ export default function Form({ handleClose }: Props) {
           <select
             id="calificacionContingente"
             name="calificacionContingente"
-            className="form-select"
+            className={`form-select ${!errors.calificacionContingente ? "" : "is-invalid"}`}
             value={judicialProcesses.calificacionContingente}
             onChange={handleChange}
           >
@@ -847,6 +862,7 @@ export default function Form({ handleClose }: Props) {
           <label htmlFor="calificacionContingente" className="form-label">
             Calificacion contingente:
           </label>
+          <small>{errors.calificacionContingente}</small>
         </div>
 
         {/* ESTADO (ACTIVO O TERMINADO) */}
@@ -885,7 +901,7 @@ export default function Form({ handleClose }: Props) {
             onChange={handleChange}
           />
           <label htmlFor="fechaEjecutoria" className="form-label">
-            Fecha terminación:
+            Fecha ejecutoria:
           </label>
           <small>{errors.fechaEjecutoria}</small>
         </div>

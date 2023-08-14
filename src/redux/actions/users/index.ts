@@ -66,8 +66,14 @@ export function getUsers(): ThunkAction<
         if (currentUser.available) {
           currentUser.available.startDate =
             currentUser.available.startDate?.toDate();
-          currentUser.available.endDate =
+          
+            currentUser.available.endDate =
             currentUser.available.endDate?.toDate();
+            
+            // Check users availables
+            if(currentUser.available.endDate < new Date()){
+              currentUser.available = false;
+            }
         }
 
         // Save current user

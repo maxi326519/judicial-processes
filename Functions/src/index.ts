@@ -1,5 +1,6 @@
 import { HttpsError, onCall } from "firebase-functions/v1/https";
 import admin = require("firebase-admin");
+
 admin.initializeApp();
 
 exports.setNewUser = onCall(async (data, context) => {

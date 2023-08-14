@@ -8,9 +8,6 @@
 # testing
 /coverage
 
-# production
-/build
-
 # misc
 .DS_Store
 .env
@@ -28,3 +25,10 @@ firebase-debug.log
 firestore-debug.log
 ui-debug.log
 /firebase
+.firebase
+
+# VS CODE
+.vscode
+
+# production
+/build

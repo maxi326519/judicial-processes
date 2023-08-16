@@ -131,7 +131,6 @@ export function getRequirementsDetails(
         fechaNotificacion: getDateOrNull(data.fechaNotificacion),
         fechaVencimiento: getDateOrNull(data.fechaVencimiento),
         fechaRespuesta: getDateOrNull(data.fechaRespuesta),
-        respuestaSipa: getDateOrNull(data.respuestaSipa),
       };
 
       dispatch({

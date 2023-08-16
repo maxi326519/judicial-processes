@@ -67,6 +67,13 @@ export default function useRequirements() {
       };
     }
 
+    // FUNCTIONS
+    if(name === "respuestaSipa" && value !== ""){
+      newRequirement.estado = "TERMINADO";
+    }else{
+      newRequirement.estado = "ACTIVO";
+    }
+
     // Clean errors
     if (errors.hasOwnProperty(name)) {
       setErrors({ ...errors, [name]: "" });

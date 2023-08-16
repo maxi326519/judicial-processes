@@ -97,7 +97,7 @@ export default function ImportExcel({ handleData, handleClose }: Props) {
         solicitudConcepto: textParser(requirements[14] || ""),
         respuestaSolicitud: textParser(requirements[15] || ""),
         fechaRespuesta: newDate(requirements[16]),
-        respuestaSipa: newDate(requirements[17]),
+        respuestaSipa: textParser(requirements[17] || ""),
         estado: textParser(requirements[18] || ""),
         observaciones: textParser(requirements[19] || ""),
       };

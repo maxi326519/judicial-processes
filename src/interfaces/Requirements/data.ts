@@ -32,7 +32,7 @@ export interface RequirementsDetail {
   solicitudConcepto: string;
   respuestaSolicitud: string;
   fechaRespuesta: Date | null;
-  respuestaSipa: Date | null;
+  respuestaSipa: string;
   estado: string;
   observaciones: string;
 }
@@ -94,7 +94,7 @@ export const initRequirementsDetail = (
   solicitudConcepto: "",
   respuestaSolicitud: "",
   fechaRespuesta: null,
-  respuestaSipa: null,
+  respuestaSipa: "",
   estado: "",
   observaciones: "",
 });

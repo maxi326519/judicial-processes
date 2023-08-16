@@ -173,10 +173,10 @@ export default function Form({ handleClose }: Props) {
       error: errors.fechaRespuesta,
     },
     {
-      value: dateUTCToLocalDateYYYYMMDD(requirement.respuestaSipa),
+      value: requirement.respuestaSipa,
       name: "respuestaSipa",
       label: "Respuesta SIPA",
-      inputType: "date",
+      inputType: "text",
       error: errors.respuestaSipa,
     },
     {

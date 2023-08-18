@@ -1,0 +1,35 @@
+:root {
+  --primary-color: #fdda4a;
+
+  --shadow-color: #3F3712;
+  --shadow-dark-color: #201B09;
+
+  --primary-color--transp: #fdda4a44;
+  --filter-color: invert(81%) sepia(56%) saturate(520%) hue-rotate(351deg)
+    brightness(101%) contrast(98%);
+
+  --navbar-height: 60px;
+  --max-width: 1400px;
+
+  --title-size: 40px;
+  --max-height: 1080px;
+
+  --font-primary: 'Francois One', sans-serif;
+  --font-secundary: 'Open Sans', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body{
+  margin: 0;
+  padding: 0;
+}
+
+.landing {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  font-family: var(--font-secundary);
+}

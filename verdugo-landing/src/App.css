@@ -1,0 +1,60 @@
+@font-face {
+  font-family: "Poppins Semi Bold";
+  src: url("./assets/fonts/Poppins-SemiBold.ttf") format("truetype");
+  /* Opcionalmente, puedes incluir más formatos de fuente para garantizar la compatibilidad en diferentes navegadores */
+}
+
+@font-face {
+  font-family: "Poppins Bold";
+  src: url("./assets/fonts/Poppins-Bold.ttf") format("truetype");
+  /* Opcionalmente, puedes incluir más formatos de fuente para garantizar la compatibilidad en diferentes navegadores */
+}
+
+@font-face {
+  font-family: "Poppins light";
+  src: url("./assets/fonts/Poppins-Light.ttf") format("truetype");
+  /* Opcionalmente, puedes incluir más formatos de fuente para garantizar la compatibilidad en diferentes navegadores */
+}
+
+@font-face {
+  font-family: "Poppins Black";
+  src: url("./assets/fonts/Poppins-Black.ttf") format("truetype");
+  /* Opcionalmente, puedes incluir más formatos de fuente para garantizar la compatibilidad en diferentes navegadores */
+}
+
+:root {
+  --primary-color: red;
+
+  --filter-color: invert(15%) sepia(100%) saturate(5337%) hue-rotate(358deg)
+    brightness(116%) contrast(123%);
+
+  --navbar-height: 100px;
+  --max-width: 1400px;
+
+  --title-size: 40px;
+  --max-height: 1080px;
+
+  --font-menu: "Poppins Semi Bold", sans-serif; 
+  --font-bold: "Poppins Bold", sans-serif; 
+  --font-light: "Poppins light", sans-serif; 
+  --font-main-text: "Poppins Black", sans-serif; 
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.landing {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  font-family: var(--font-secundary);
+  background-image: url("./assets/img/backgounnd.png");
+  background-repeat: repeat;
+  background-size: 50%;
+}

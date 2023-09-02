@@ -1,0 +1,106 @@
+.container {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border-radius: 10px;
+}
+
+.categoriesList {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 200px;
+  max-height: 270px;
+  padding: 5px;
+  border-radius: 5px;
+  overflow-y: scroll;
+  border: 1px solid var(--border);
+}
+
+.categoriesList {
+  position: relative;
+  width: 100%;
+  text-align: center;
+}
+
+.categoriesList .empty {
+  height: 100%;
+  color: var(--border);
+}
+
+.categoriesList .row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+  padding: 5px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+
+.categoriesList .row span {
+  flex-grow: 1;
+}
+
+.categoriesList .row button {
+  width: 40px;
+  border-radius: 8px;
+}
+
+.formContainer {
+  display: flex;
+  gap: 5px;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.formContainer label {
+  display: none;
+}
+
+.formContainer input {
+  flex-grow: 1;
+}
+
+.formContainer input {
+  border: 1px solid grey;
+}
+
+.formContainer button {
+  font-size: 20px;
+  width: 60px;
+}
+
+.container button[type="submit"] {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.categoriesList .tipoProceso{
+  display: grid;
+  gap: 5px;
+  grid-template-columns: 1fr 40px max-content;
+  text-align: left;
+}
+
+.inputs{
+  display: flex;
+  gap: 5px
+}
+
+.loading {
+  position: absolute;
+  z-index: 1000;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  background-color: #0002;
+  overflow: hidden;
+}
+
+.loading img {
+  width: 50px;
+  height: 50px;
+}

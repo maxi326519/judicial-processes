@@ -1,0 +1,109 @@
+.navBar {
+  position: relative;
+  z-index: 800;
+  display: flex;
+  align-items: center;
+  height: 65px;
+  padding: 5px;
+  box-shadow: 0px 0px 10px 5px #0004;
+}
+
+.navBar h5 {
+  text-align: center;
+  font-size: 30px;
+  flex-grow: 1;
+}
+
+.navBar .logo img {
+  height: 60px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.container nav {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+
+.container nav h2 {
+  flex-grow: 1;
+  text-align: center;
+}
+
+.profile .userImg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.profile .userImg:hover {
+  border-color: var(--primary-color);
+}
+
+.profile .userImg img {
+  width: 70%;
+  filter: invert(30%);
+}
+
+.profile:hover .menu {
+  display: block;
+}
+
+.profile .menu {
+  display: none;
+  position: absolute;
+  z-index: 2000;
+  right: 20px;
+  list-style: none;
+  padding: 0 0 10px 0;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px 4px #0003;
+  overflow: hidden;
+  background-color: var(--background);
+}
+
+.profile .menu li {
+  padding: 5px 20px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.profile .menu li:hover {
+  background-color: #0002;
+}
+.profile .menu li:hover img {
+  filter: invert(21%) sepia(76%) saturate(2935%) hue-rotate(190deg)
+    brightness(98%) contrast(95%);
+}
+
+.profile .menu li img {
+  width: 20px;
+  margin-right: 10px;
+  filter: invert(40%);
+}
+
+.profile .menu li:first-child {
+  text-align: center;
+  background-color: var(--dark-panel);
+  color: var(--dark-font);
+}
+
+.profile .menu li:first-child,
+.profile .menu li:nth-child(2) {
+  cursor: default;
+}
+
+.profile .menu li:nth-child(2):hover {
+  background-color: transparent;
+}

@@ -1,0 +1,79 @@
+.row {
+  display: grid;
+  align-items: center;
+  grid-template-columns: 120px 1fr 1fr 1fr 1fr 100px 100px 100px 50px 50px 50px;
+  gap: 10px;
+  padding: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.row span {
+  border-right: 1px solid var(--border);
+}
+
+.row button img {
+  height: 20px;
+  filter: invert(21%) sepia(76%) saturate(2935%) hue-rotate(190deg)
+    brightness(98%) contrast(95%);
+  transition: 0.2s;
+}
+
+.row button:last-child img {
+  filter: invert(28%) sepia(73%) saturate(7153%) hue-rotate(353deg)
+    brightness(94%) contrast(125%);
+}
+
+.row button:hover img {
+  height: 20px;
+  filter: invert(100%);
+  transition: 0.2s;
+}
+
+.row button {
+  border: none;
+}
+
+.imgContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 120px;
+  height: 100px;
+  border-radius: 5px;
+  border: 1px solid #0004;
+  overflow: hidden !important;
+}
+
+.imgContainer img {
+  min-width: 100%;
+  min-height: 100%;
+}
+
+.enable div,
+.disable div {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin-right: 5px;
+  border-radius: 50%;
+}
+
+.enable {
+  color: rgb(69, 170, 56);
+}
+
+.disable {
+  color: #0006;
+}
+
+.enable div {
+  background-color: rgb(69, 255, 44);
+}
+
+.disable div {
+  background-color: #0002;
+}
+
+.error {
+  border: 1px solid red;
+}

@@ -1,13 +1,17 @@
 import { ThunkAction } from "redux-thunk";
 import { AnyAction } from "redux";
+import { User } from "./User";
+import { StockFilters, initStockFilters } from "./Stock";
+import { initHistoryFilters } from "./History";
 
 export interface LoginState {}
 
-export interface UsersState {}
-
 export interface ProductsState {}
 
-export interface StockState {}
+export interface StockState {
+  data: [];
+  filters: StockFilters;
+}
 
 export interface StorageState {}
 
@@ -16,7 +20,7 @@ export interface HistoryState {}
 export interface RootState {
   loading: boolean;
   login: LoginState;
-  users: UsersState;
+  users: User[];
   products: ProductsState;
   stock: StockState;
   storage: StorageState;
@@ -32,12 +36,18 @@ export type MyThunkAction = ThunkAction<
 
 export const initLoginState = (): LoginState => ({});
 
-export const initUsersState = (): UsersState => ({});
+export const initUsersState = () => [];
 
-export const initProductsState = (): ProductsState => ({});
+export const initProductsState = (): ProductsState => [];
 
-export const initStockState = (): StockState => ({});
+export const initStockState = (): StockState => ({
+  data: [],
+  filters: initStockFilters(),
+});
 
-export const initStorageState = (): StorageState => ({});
+export const initStorageState = (): StorageState => [];
 
-export const initHistoryState = (): HistoryState => ({});
+export const initHistoryState = (): HistoryState => ({
+  data: [],
+  filters: initHistoryFilters(),
+});

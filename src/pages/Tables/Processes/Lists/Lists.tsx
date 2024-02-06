@@ -52,7 +52,7 @@ export default function Lists({ handleClose }: Props) {
         {loading ? <Loading /> : null}
         <header className={style.close}>
           <h3>Listas</h3>
-          <div className="btn-close" onClick={handleClose} />
+          <div className="btn-close" onClick={handleClose} /> 
         </header>
         <div className={style.container}>
           <SideBar name={name} handleSelect={handleSelect} />

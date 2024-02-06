@@ -50,6 +50,10 @@ export default function Tables({
   const [data, setData] = useState<any[]>([]);
 
   useEffect(() => {
+    console.log(cache);
+  }, [cache]);
+
+  useEffect(() => {
     setCache(initCache);
     for (let item in lists) {
       if (item === name) {
@@ -63,6 +67,9 @@ export default function Tables({
 
     if (cache.new.length > 0) {
       handleOpenLoading();
+
+      console.log(cache.new);
+
       dispatch<any>(setItem(name, cache.new))
         .then(() => {
           swal("Actualizado", "Datos Actualizados", "success");
@@ -92,7 +99,10 @@ export default function Tables({
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     if (name === "tipoProceso" || name === "salariosMinimos") {
-      setNewData({ ...newData, [event.target.name]: event.target.value.toLocaleUpperCase() });
+      setNewData({
+        ...newData,
+        [event.target.name]: event.target.value.toLocaleUpperCase(),
+      });
     } else {
       setNewData(event.target.value.toLocaleUpperCase());
     }
@@ -101,10 +111,11 @@ export default function Tables({
   function handleAdd() {
     if (name === "diasFestivos") {
       setData([...data, changeDateFormat(newData)]);
+      setCache({ ...cache, new: [...cache.new, changeDateFormat(newData)] });
     } else {
       setData([...data, newData]);
+      setCache({ ...cache, new: [...cache.new, newData] });
     }
-    setCache({ ...cache, new: [...cache.new, newData] });
     setNewData("");
   }
 

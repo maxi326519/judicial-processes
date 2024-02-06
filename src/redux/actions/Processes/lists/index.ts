@@ -29,6 +29,8 @@ export function setItem(
     try {
       const batch = writeBatch(db);
 
+      console.log(newValues);
+
       newValues.forEach((value: string) => {
         batch.update(processesDoc, {
           [`lists.${listName}`]: arrayUnion(value),

@@ -27,6 +27,9 @@ import {
   RequirementsCharts,
   initRequirementsCharts,
 } from "./Requirements/charts";
+import { PoderesDetails, PoderesHeads } from "./Poderes/data";
+import { initPoderesList, PoderesList } from "./Poderes/list";
+import { initPoderesChart, PoderesChart } from "./Poderes/chart";
 
 export interface RootProcesses {
   heads: ProcessHeads[];
@@ -43,6 +46,15 @@ export interface RootTutelas {
   charts: TutelaCharts;
   iframes: IFrames[];
 }
+
+export interface RootPoderes {
+  heads: PoderesHeads[];
+  details: PoderesDetails | null;
+  lists: PoderesList;
+  charts: PoderesChart;
+  iframes: IFrames[];
+}
+
 export interface RootRequirements {
   heads: RequirementsHeads[];
   details: RequirementsDetail | null;
@@ -63,6 +75,7 @@ export interface RootState {
   processes: RootProcesses;
   tutelas: RootTutelas;
   requirements: RootRequirements;
+  poderes: RootPoderes;
   config: RootConfig;
 }
 
@@ -90,6 +103,13 @@ export const initRootState: RootState = {
     details: null,
     lists: initRequirementsLists(),
     charts: initRequirementsCharts(),
+    iframes: [],
+  },
+  poderes: {
+    heads: [],
+    details: null,
+    lists: initPoderesList(),
+    charts: initPoderesChart(),
     iframes: [],
   },
   config: {

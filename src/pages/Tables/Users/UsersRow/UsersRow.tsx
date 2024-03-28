@@ -1,9 +1,9 @@
 import { UserRol, Users } from "../../../../interfaces/users";
+import { dateToString } from "../../../../functions/dateToString";
 
 import style from "./UsersRow.module.css";
 import editSvg from "../../../../assets/svg/edit.svg";
 import deleteSvg from "../../../../assets/svg/delete.svg";
-import { dateToString } from "../../../../functions/dateToString";
 
 interface Props {
   user: Users;
@@ -24,7 +24,9 @@ export default function UsersRow({
       <td>{user.email}</td>
       <td>{user.rol}</td>
       <button
-        className={`btn ${user.available ? "btn-outline-danger" : "btn-outline-success"}`}
+        className={`btn ${
+          user.available ? "btn-outline-danger" : "btn-outline-success"
+        }`}
         type="button"
         onClick={() => handleAvailable(user)}
       >
@@ -52,6 +54,15 @@ export default function UsersRow({
         </td>
       )}
       {user.rol === UserRol.Admin || user.permissions?.requirements ? (
+        <td className={`${style.permissions} ${style.access}`}>
+          <span>Habilitado</span>
+        </td>
+      ) : (
+        <td className={`${style.permissions} ${style.denegated}`}>
+          <span>Denegado</span>
+        </td>
+      )}
+      {user.rol === UserRol.Admin || user.permissions?.poderes ? (
         <td className={`${style.permissions} ${style.access}`}>
           <span>Habilitado</span>
         </td>

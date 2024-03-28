@@ -1,7 +1,7 @@
+import { closeLoading, openLoading } from "../../../../redux/actions/loading";
+import { setUser, updateUser } from "../../../../redux/actions/users";
 import { useState, useEffect } from "react";
 import { generatePassword } from "../../../../functions/generatePassword";
-import { setUser, updateUser } from "../../../../redux/actions/users";
-import { closeLoading, openLoading } from "../../../../redux/actions/loading";
 import { useDispatch } from "react-redux";
 import {
   ErrorUser,
@@ -13,8 +13,8 @@ import {
 import swal from "sweetalert";
 
 import Input from "../../../../components/Inputs/Input";
-import SelectInput from "../../../../components/Inputs/SelectInput";
 import Checkbox from "../../../../components/Inputs/Checkbox";
+import SelectInput from "../../../../components/Inputs/SelectInput";
 
 import style from "./Form.module.css";
 
@@ -167,8 +167,9 @@ export default function Form({ editUser, handleClose }: Props) {
             </button>
           </div>
           <div
-            className={`${style.permissions} ${user.rol === UserRol.User && style.showPermissions
-              }`}
+            className={`${style.permissions} ${
+              user.rol === UserRol.User && style.showPermissions
+            }`}
           >
             <h5>Permisos</h5>
             <Checkbox
@@ -187,6 +188,12 @@ export default function Form({ editUser, handleClose }: Props) {
               name={"requirements"}
               value={user.permissions?.requirements}
               label={"Requerimientos"}
+              handleCheck={handlePermissions}
+            />
+            <Checkbox
+              name={"poderes"}
+              value={user.permissions?.poderes}
+              label={"Poderes"}
               handleCheck={handlePermissions}
             />
           </div>

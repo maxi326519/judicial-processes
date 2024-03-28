@@ -111,6 +111,7 @@ export default function UsersTable() {
             <th>Processos</th>
             <th>Tutelas</th>
             <th>Requerimientos</th>
+            <th>Poderes</th>
             <th>Acciones</th>
           </tr>
         </thead>

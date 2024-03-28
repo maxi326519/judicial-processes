@@ -66,6 +66,16 @@ const sideList = [
     ],
   },
   {
+    label: "Poderes",
+    icon: document,
+    permissions: UserPermissions.Requirements,
+    subList: [
+      { label: "Listado", icon: list, path: "/dashboard/poderes" },
+      { label: "Graficos", icon: graphics, path: "/dashboard/poderes/graficos" },
+      { label: "Excel", icon: excel, path: "/dashboard/poderes/excel" },
+    ],
+  },
+  {
     label: "Configuración",
     icon: config,
     permissions: UserPermissions.Admin,

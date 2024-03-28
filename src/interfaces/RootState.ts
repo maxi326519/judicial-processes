@@ -30,6 +30,7 @@ import {
 import { PoderesDetails, PoderesHeads } from "./Poderes/data";
 import { initPoderesList, PoderesList } from "./Poderes/list";
 import { initPoderesChart, PoderesChart } from "./Poderes/chart";
+import { initPoderesConfig, PoderesConfig } from "./configuraiton/poderes";
 
 export interface RootProcesses {
   heads: ProcessHeads[];
@@ -66,6 +67,7 @@ export interface RootConfig {
   processes: ProcessesConfig;
   tutelas: TutelasConfig;
   requirements: RequirementsConfig;
+  poderes: PoderesConfig;
 }
 
 export interface RootState {
@@ -116,5 +118,6 @@ export const initRootState: RootState = {
     processes: initProcessesConfig(),
     tutelas: initTutelasConfig(),
     requirements: initRequirementsConfig(),
+    poderes: initPoderesConfig(),
   },
 };

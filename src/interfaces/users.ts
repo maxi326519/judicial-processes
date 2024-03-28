@@ -6,12 +6,13 @@ export interface Users {
   password?: string;
   available?: {
     startDate: Date | null;
-    endDate: Date | null
+    endDate: Date | null;
   };
   permissions: {
     processes: boolean;
     tutelas: boolean;
     requirements: boolean;
+    poderes: boolean;
   };
 }
 
@@ -45,6 +46,7 @@ export const initUser = (): Users => ({
     processes: false,
     tutelas: false,
     requirements: false,
+    poderes: false,
   },
 });
 

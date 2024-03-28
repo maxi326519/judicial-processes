@@ -1,5 +1,5 @@
 export interface PoderesHeads {
-  id: string;
+  id?: string;
   radicadoSipa: string;
   abogado: string;
   concepto: string;
@@ -7,13 +7,13 @@ export interface PoderesHeads {
 }
 
 export interface PoderesDetails {
-  id: string;
-  fechaRadicacion: Date;
+  id?: string;
+  fechaRadicacion: Date | null;
   radicadoSipa: string;
   abogado: string; // Listado
   concepto: string; // Listado
   proceso: string; // Listado
-  numero: number;
+  numero: string;
   accionante: string;
   observaciones: string;
 }
@@ -26,7 +26,6 @@ export interface PoderesFilters {
 }
 
 export interface ErrorPoderesDetails {
-  id: string,
   fechaRadicacion: string;
   radicadoSipa: string;
   abogado: string;
@@ -38,13 +37,12 @@ export interface ErrorPoderesDetails {
 }
 
 export const initPoderesDetails = (): PoderesDetails => ({
-  id: "",
-  fechaRadicacion: new Date(),
+  fechaRadicacion: null,
   radicadoSipa: "",
   abogado: "",
   concepto: "",
   proceso: "",
-  numero: 0,
+  numero: "",
   accionante: "",
   observaciones: "",
 });
@@ -57,7 +55,6 @@ export const initPoderesFilters = (): PoderesFilters => ({
 });
 
 export const initErrorPoderesDetails = (): ErrorPoderesDetails => ({
-  id: "",
   fechaRadicacion: "",
   radicadoSipa: "",
   abogado: "",

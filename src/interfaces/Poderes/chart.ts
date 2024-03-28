@@ -1,6 +1,15 @@
 export interface PoderesChart {
-  concepto: ConceptoChart;
-  radicado: RadicadoChart;
+  abogados: AbogadosCharts[];
+  concepto: ConceptoChart[];
+  radicado: RadicadoChart[];
+}
+
+export interface AbogadosCharts {
+  name: string;
+  types: Array<{
+    label: string;
+    quantity: number;
+  }>;
 }
 
 export interface ConceptoChart {
@@ -17,8 +26,9 @@ export interface RadicadoChart {
 }
 
 export const initPoderesChart = (): PoderesChart => ({
-  concepto: initConceptoChart(),
-  radicado: initRadicadoChart(),
+  abogados: [],
+  concepto: [],
+  radicado: [],
 });
 
 export const initConceptoChart = (): ConceptoChart => ({

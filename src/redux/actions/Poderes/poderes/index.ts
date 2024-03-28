@@ -1,7 +1,3 @@
-import {
-  PoderesDetails,
-  PoderesHeads,
-} from "../../../../interfaces/Poderes/data";
 import { UserRol, Users } from "../../../../interfaces/users";
 import { UserSelected } from "../../../../interfaces/Tutelas/data";
 import { ThunkAction } from "redux-thunk";
@@ -21,6 +17,10 @@ import {
   where,
   writeBatch,
 } from "firebase/firestore";
+import {
+  PoderesDetails,
+  PoderesHeads,
+} from "../../../../interfaces/Poderes/data";
 import getDateOrNull from "../../../../functions/getDateOrNull";
 
 export const SET_PODERES = "SET_PODERES";
@@ -42,8 +42,7 @@ const headColl = collection(poderesDoc, "Head");
 const detailsColl = collection(poderesDoc, "Details");
 
 export function setPoderes(
-  poder: PoderesDetails,
-  users: UserSelected[]
+  poder: PoderesDetails
 ): ThunkAction<Promise<void>, RootState, null, AnyAction> {
   return async (dispatch: Dispatch<AnyAction>) => {
     try {
@@ -53,13 +52,8 @@ export function setPoderes(
       const headDoc = doc(headColl);
       const detailsDoc = doc(detailsColl, headDoc.id);
 
-      // Check if the idSiproj of this "poder" already exist
-      const snapIdcheck = await getDoc(doc(headColl, poder.id.toString()));
-      if (snapIdcheck.exists()) throw new Error("id already exist");
-
       // Data to save
       let head: PoderesHeads = {
-        id: poder.id,
         radicadoSipa: poder.radicadoSipa,
         abogado: poder.abogado,
         concepto: poder.concepto,
@@ -70,13 +64,6 @@ export function setPoderes(
       // Add data to save
       batch.set(headDoc, head);
       batch.set(detailsDoc, details);
-      batch.update(poderesDoc, {
-        users: users.map((selected: UserSelected) =>
-          selected.user === head.abogado
-            ? { ...selected, available: false }
-            : selected
-        ),
-      });
 
       // Post data
       await batch.commit();
@@ -109,8 +96,8 @@ export function getPoderes(
     if (snapshot) {
       snapshot.forEach((doc) => {
         poderes.push({
-          id: doc.id,
           ...doc.data(),
+          id: doc.id,
           fechaNotificacion: getDateOrNull(doc.data().fechaNotificacion),
         });
       });
@@ -135,21 +122,12 @@ export function getPoderDetails(
       const snapshot = await getDoc(doc(detailsColl, id));
       let details: any = snapshot.data();
 
+      console.log(snapshot.exists(), snapshot);
+
       details = {
         ...details,
         id: id,
-        fecha: getDateOrNull(details.fecha),
-        fechaVencimiento: getDateOrNull(details.fechaVencimiento),
-        fechaRespuesta: getDateOrNull(details.fechaRespuesta),
-        fechaFallo1raInst: getDateOrNull(details.fechaFallo1raInst),
-        fechaCumplimiento1raInst: getDateOrNull(
-          details.fechaCumplimiento1raInst
-        ),
-        fechaImpugnacion: getDateOrNull(details.fechaImpugnacion),
-        fechaFallo2daInst: getDateOrNull(details.fechaFallo2daInst),
-        fechaCumplimiento2daInst: getDateOrNull(
-          details.fechaCumplimiento2daInst
-        ),
+        fechaRadicacion: getDateOrNull(details.fechaRadicacion),
       };
 
       dispatch({

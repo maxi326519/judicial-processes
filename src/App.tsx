@@ -45,6 +45,11 @@ import RequirementsTable from "./pages/Tables/Requirements/Table/RequirementsTab
 import RequirementsIframe from "./pages/Tables/Requirements/Iframes/Iframes";
 import RequirementsExcel from "./pages/Tables/Requirements/Excel/Excel";
 
+import PoderesHome from "./pages/Home/Poderes/Home";
+import PoderTable from "./pages/Tables/Poderes/Table/PoderTable";
+import PoderesIframe from "./pages/Tables/Tutelage/Iframes/Iframes";
+import PoderesExcel from "./pages/Tables/Tutelage/Excel/Excel";
+
 function App() {
   const redirect = useNavigate();
   const dispatch = useDispatch();
@@ -114,6 +119,7 @@ function App() {
           path="/dashboard/home/requerimientos"
           element={<RequirementsHome />}
         />
+        <Route path="/dashboard/home/poderes" element={<PoderesHome />} />
 
         <Route
           path="/dashboard/usuarios"
@@ -253,6 +259,41 @@ function App() {
                 element={<RequirementsExcel />}
                 title={"Requerimientos - Excel"}
               />
+            ) : (
+              <PageNotFound />
+            )
+          }
+        />
+
+        {/* PAGOS */}
+        <Route
+          path="/dashboard/poderes"
+          element={
+            user.rol === UserRol.Admin || user.permissions.poderes ? (
+              <Dashboard element={<PoderTable />} title={"Poderes - Tabla"} />
+            ) : (
+              <PageNotFound />
+            )
+          }
+        />
+        <Route
+          path="/dashboard/poderes/graficos"
+          element={
+            user.rol === UserRol.Admin || user.permissions.poderes ? (
+              <Dashboard
+                element={<PoderesIframe />}
+                title={"Poderes - Gráficos"}
+              />
+            ) : (
+              <PageNotFound />
+            )
+          }
+        />
+        <Route
+          path="/dashboard/poderes/excel"
+          element={
+            user.rol === UserRol.Admin || user.permissions.poderes ? (
+              <Dashboard element={<PoderesExcel />} title={"Poderes - Excel"} />
             ) : (
               <PageNotFound />
             )

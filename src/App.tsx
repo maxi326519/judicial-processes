@@ -47,8 +47,8 @@ import RequirementsExcel from "./pages/Tables/Requirements/Excel/Excel";
 
 import PoderesHome from "./pages/Home/Poderes/Home";
 import PoderTable from "./pages/Tables/Poderes/Table/PoderTable";
-import PoderesIframe from "./pages/Tables/Tutelage/Iframes/Iframes";
-import PoderesExcel from "./pages/Tables/Tutelage/Excel/Excel";
+import PoderesIframe from "./pages/Tables/Poderes/Iframes/Iframes";
+import PoderesExcel from "./pages/Tables/Poderes/Excel/Excel";
 
 function App() {
   const redirect = useNavigate();

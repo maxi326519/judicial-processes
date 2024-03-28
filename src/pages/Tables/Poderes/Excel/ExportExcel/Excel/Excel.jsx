@@ -1,4 +1,3 @@
-import { useState } from "react";
 import ReactExport from "react-export-excel";
 
 import style from "./Excel.module.css";
@@ -10,40 +9,36 @@ const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
 
 const dataLabels = [
   {
-    value: "id",
-    lvae: "id",
-  },
-  {
     value: "Fecha de Radicacion",
-    lvae: "fechaRadicacion",
+    label: "fechaRadicacion",
   },
   {
     value: "radicadoSipa",
-    lvae: "radicadoSipa",
+    label: "Radicado Sipa",
   },
   {
     value: "abogado",
-    lvae: "abogado",
+    label: "Abogado",
   },
   {
     value: "concepto",
-    lvae: "concepto",
+    label: "Concepto",
   },
   {
     value: "proceso",
-    lvae: "proceso",
+    label: "Proceso",
   },
   {
     value: "numero",
-    lvae: "numero",
+    label: "Numero",
   },
   {
     value: "accionante",
-    lvae: "accionante",
+    label: "Accionante",
   },
   {
     value: "observaciones",
-    lvae: "observaciones",
+    label: "Observaciones",
   },
 ];
 

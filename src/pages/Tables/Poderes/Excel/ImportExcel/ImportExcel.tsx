@@ -3,12 +3,15 @@ import {
   closeLoading,
   openLoading,
 } from "../../../../../redux/actions/loading";
+import {
+  PoderesDetails,
+  PoderesHeads,
+} from "../../../../../interfaces/Poderes/data";
 import * as XLSX from "xlsx";
 import swal from "sweetalert";
 import moment from "moment";
 
 import styles from "./ImportExcel.module.css";
-import { PoderesDetails, PoderesHeads } from "../../../../../interfaces/Poderes/data";
 
 interface Props {
   handleData: (data: any) => void;
@@ -72,7 +75,7 @@ export default function ImportExcel({ handleData, handleClose }: Props) {
       const radicado = processes[3];
 
       // Check if idSiproj already exist
-/*       if (idList.some((id) => id === idSiproj))
+      /*       if (idList.some((id) => id === idSiproj))
         throw new Error(`El id de la fila ${i + 1} ya existe: (${idSiproj})`); */
 
       // Check if radicado already exist
@@ -100,7 +103,7 @@ export default function ImportExcel({ handleData, handleClose }: Props) {
         abogado: textParser(processes[3] || ""),
         concepto: textParser(processes[4] || ""),
         proceso: textParser(processes[5] || ""),
-        numero: Number(processes[6] || 0),
+        numero: textParser(processes[6] || ""),
         accionante: textParser(processes[7] || ""),
         observaciones: textParser(processes[8] || ""),
       };

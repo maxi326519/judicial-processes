@@ -1,5 +1,4 @@
 export interface PoderesChart {
-  abogados: AbogadosCharts[];
   concepto: ConceptoChart[];
   radicado: RadicadoChart[];
 }
@@ -26,7 +25,6 @@ export interface RadicadoChart {
 }
 
 export const initPoderesChart = (): PoderesChart => ({
-  abogados: [],
   concepto: [],
   radicado: [],
 });

@@ -1,17 +1,16 @@
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../interfaces/RootState";
 import { collection, doc, getDocs } from "firebase/firestore";
-import { setCharts } from "../../redux/actions/Poderes/charts";
-import { db } from "../../firebase/config";
+import { useDispatch, useSelector } from "react-redux";
 import { PoderesDetails } from "../../interfaces/Poderes/data";
+import { dateToString } from "../../functions/dateToString";
+import { setCharts } from "../../redux/actions/Poderes/charts";
+import { RootState } from "../../interfaces/RootState";
+import { db } from "../../firebase/config";
 import {
   ConceptoChart,
-  initConceptoChart,
-  initRadicadoChart,
   PoderesChart,
   RadicadoChart,
 } from "../../interfaces/Poderes/chart";
-import { dateToString } from "../../functions/dateToString";
+
 export default function useCharts() {
   const dispatch = useDispatch();
   const charts = useSelector((state: RootState) => state.poderes.charts);
@@ -30,8 +29,8 @@ export default function useCharts() {
     snapshot.forEach((doc) => poderes.push(doc.data() as PoderesDetails));
 
     const poderCharts: PoderesChart = {
-      concepto: conceptoChart(poderes),
-      radicado: radicadoChart(poderes),
+      concepto: [],
+      radicado: [],
     };
 
     dispatch<any>(setCharts(poderCharts));

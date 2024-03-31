@@ -106,7 +106,7 @@ export default function Excel() {
 
   function handleCancelImport() {
     swal({
-      text: "¿Seguro que desea cancelar la importación de los procesos?",
+      text: "¿Seguro que desea cancelar la importación de los poderes?",
       icon: "warning",
       buttons: {
         Si: true,
@@ -266,7 +266,6 @@ export default function Excel() {
       <table className={styles.table}>
         <thead>
           <tr className={`${styles.row} ${styles.firstRow}`}>
-            <th>Id</th>
             <th>Radicado</th>
             <th>Abogado</th>
             <th>Concepto</th>
@@ -283,7 +282,7 @@ export default function Excel() {
             {error ? (
               <div className={styles.error}>
                 <img src={errorSvg} alt="error" />
-                <span>No se pudo cargar los procesos</span>
+                <span>No se pudo cargar los poderes</span>
                 <div>
                   <button
                     className="btn btn-outline-primary"
@@ -304,7 +303,7 @@ export default function Excel() {
             ) : null}
             {rows.length <= 0 ? (
               <tr className={styles.emptyRows}>
-                <th>No hay procesos</th>
+                <th>No hay poderes</th>
               </tr>
             ) : (
               rows?.map((poder: PoderesHeads) => (

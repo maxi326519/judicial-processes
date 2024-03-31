@@ -260,7 +260,6 @@ export default function PoderTable() {
       <table className={styles.table}>
         <thead>
           <tr className={`${styles.row} ${styles.firstRow}`}>
-            <th>ID</th>
             <th>Radicado SIPA</th>
             <th>Abogado</th>
             <th>Concepto</th>

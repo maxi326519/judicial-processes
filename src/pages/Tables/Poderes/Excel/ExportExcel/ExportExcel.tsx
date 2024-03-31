@@ -13,7 +13,7 @@ export default function ExportExcel({ data, handleClose }: Props) {
     <div className={styles.background}>
       <form>
         <div className={styles.close}>
-          <h4>Exportar procesos</h4>
+          <h4>Exportar poderes</h4>
           <div className="btn-close" onClick={handleClose} />
         </div>
         {data.length > 0 ? (

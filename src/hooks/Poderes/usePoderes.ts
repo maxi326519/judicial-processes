@@ -39,7 +39,7 @@ export default function usePoder() {
   ) {
     let newPoder: PoderesDetails = { ...poder };
     // Set upper case, delete spaces and line breaks
-    const value = event.target.value.toUpperCase().replace(/\s{2,}/g, " ");
+    const value = event.target.value.toUpperCase();
     const name = event.target.name;
     const type = event.target.type;
 

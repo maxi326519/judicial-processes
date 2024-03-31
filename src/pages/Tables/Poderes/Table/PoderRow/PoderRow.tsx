@@ -21,7 +21,6 @@ export default function PoderRow({ poder, handleEdit, handleDelete }: Props) {
         user.rol === UserRol.Admin ? style.admin : ""
       }`}
     >
-      <td>{poder.id}</td>
       <td>{poder.radicadoSipa}</td>
       <td>{poder.abogado}</td>
       <td>{poder.concepto}</td>

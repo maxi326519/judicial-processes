@@ -158,13 +158,13 @@ export default function ImportExcel({ handleData, handleClose }: Props) {
     <div className={styles.background}>
       <form>
         <div className={styles.close}>
-          <h4>Importar procesos</h4>
+          <h4>Importar poderes</h4>
           <div className="btn-close" onClick={handleClose} />
         </div>
         <input
           className="form-control"
           type="file"
-          placeholder="Importar movimientos"
+          placeholder="Importar poderes"
           onChange={handleFileChange}
         />
       </form>

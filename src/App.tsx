@@ -1,13 +1,13 @@
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "./interfaces/RootState";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { closeLoading, openLoading } from "./redux/actions/loading";
-import { getUserData } from "./redux/actions/sesion";
-import { auth } from "./firebase/config";
-import { useEffect } from "react";
-import { UserRol } from "./interfaces/users";
+import { useDispatch, useSelector } from "react-redux";
 import { Configuration } from "./pages/Configuration/Configuration";
+import { getUserData } from "./redux/actions/sesion";
+import { RootState } from "./interfaces/RootState";
+import { useEffect } from "react";
 import { getLists } from "./redux/actions/Processes/lists";
+import { UserRol } from "./interfaces/users";
+import { auth } from "./firebase/config";
 import {
   getProcessesConfig,
   getRequirementsConfig,

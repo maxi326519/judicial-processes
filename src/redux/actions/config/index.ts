@@ -1,9 +1,10 @@
 import { collection, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
-import { db } from "../../../firebase/config";
+import { PoderesConfig } from "../../../interfaces/configuraiton/poderes";
 import { ThunkAction } from "redux-thunk";
 import { RootState } from "../../../interfaces/RootState";
 import { AnyAction } from "redux";
 import { Dispatch } from "react";
+import { db } from "../../../firebase/config";
 import {
   ProcessesConfig,
   initProcessesConfig,
@@ -21,14 +22,17 @@ const configColl = collection(db, "Configuration");
 const processesConfigDoc = doc(configColl, "ProcessesConfig");
 const tutelasConfigDoc = doc(configColl, "TutelasConfig");
 const requirementsConfigDoc = doc(configColl, "RequirementsConfig");
+const poderesConfigDoc = doc(configColl, "PoderesConfig");
 
 export const UPDATE_PROCESSES_CONFIG = "UPDATE_PROCESSES_CONFIG";
 export const UPDATE_TUTELAS_CONFIG = "UPDATE_TUTELAS_CONFIG";
 export const UPDATE_REQUIREMENTS_CONFIG = "UPDATE_REQUIREMENTS_CONFIG";
+export const UPDATE_PODERES_CONFIG = "UPDATE_PODERES_CONFIG";
 
 export const GET_PROCESSES_CONFIG = "GET_PROCESSES_CONFIG";
 export const GET_TUTELAS_CONFIG = "GET_TUTELAS_CONFIG";
 export const GET_REQUIREMENTS_CONFIG = "GET_REQUIREMENTS_CONFIG";
+export const GET_PODERES_CONFIG = "GET_PODERES_CONFIG";
 
 export function getProcessesConfig(): ThunkAction<
   Promise<void>,
@@ -108,6 +112,32 @@ export function getRequirementsConfig(): ThunkAction<
   };
 }
 
+export function getPoderesConfig(): ThunkAction<
+  Promise<void>,
+  RootState,
+  null,
+  AnyAction
+> {
+  return async (dispatch: Dispatch<AnyAction>) => {
+    try {
+      const snapshot = await getDoc(poderesConfigDoc);
+      let poderesConfig = snapshot.data();
+
+      if (!snapshot.exists()) {
+        poderesConfig = initRequirementsConfig();
+        await setDoc(poderesConfigDoc, poderesConfig);
+      }
+
+      dispatch({
+        type: GET_PODERES_CONFIG,
+        payload: poderesConfig,
+      });
+    } catch (e: any) {
+      throw new Error(e);
+    }
+  };
+}
+
 export function updateProcessesConfig(
   processesConfig: ProcessesConfig
 ): ThunkAction<Promise<void>, RootState, null, AnyAction> {
@@ -152,6 +182,23 @@ export function updateRequirementsConfig(
       dispatch({
         type: UPDATE_REQUIREMENTS_CONFIG,
         payload: requirementsConfig,
+      });
+    } catch (e: any) {
+      throw new Error(e);
+    }
+  };
+}
+
+export function updatePoderesConfig(
+  poderesConfig: PoderesConfig
+): ThunkAction<Promise<void>, RootState, null, AnyAction> {
+  return async (dispatch: Dispatch<AnyAction>) => {
+    try {
+      await updateDoc(poderesConfigDoc, { ...poderesConfig });
+
+      dispatch({
+        type: GET_PODERES_CONFIG,
+        payload: poderesConfig,
       });
     } catch (e: any) {
       throw new Error(e);

@@ -11,6 +11,7 @@ import {
 
 export default function usePoder() {
   const user = useSelector((state: RootState) => state.sesion);
+  const config = useSelector((state: RootState) => state.config.poderes);
   const [poder, setPoder] = useState<PoderesDetails>(initPoderesDetails());
   const [errors, setErrors] = useState<ErrorPoderesDetails>(
     initErrorPoderesDetails()
@@ -84,42 +85,42 @@ export default function usePoder() {
     let value = true;
 
     // Add validations
-    if (poder.fechaRadicacion === null) {
+    if (config.fechaRadicacion && poder.fechaRadicacion === null) {
       error.fechaRadicacion = "Debes completar este campo";
       value = false;
     }
 
-    if (poder.radicadoSipa === "") {
+    if (config.radicadoSipa && poder.radicadoSipa === "") {
       error.radicadoSipa = "Debes completar este campo";
       value = false;
     }
 
-    if (poder.abogado === "") {
+    if (config.abogado && poder.abogado === "") {
       error.abogado = "Debes completar este campo";
       value = false;
     }
 
-    if (poder.concepto === "") {
+    if (config.concepto && poder.concepto === "") {
       error.concepto = "Debes completar este campo";
       value = false;
     }
 
-    if (poder.proceso === "") {
+    if (config.proceso && poder.proceso === "") {
       error.proceso = "Debes completar este campo";
       value = false;
     }
 
-    if (poder.numero === "") {
+    if (config.numero && poder.numero === "") {
       error.numero = "Debes completar este campo";
       value = false;
     }
 
-    if (poder.accionante === "") {
+    if (config.accionante && poder.accionante === "") {
       error.accionante = "Debes completar este campo";
       value = false;
     }
 
-    if (poder.observaciones === "") {
+    if (config.observaciones && poder.observaciones === "") {
       error.observaciones = "Debes completar este campo";
       value = false;
     }

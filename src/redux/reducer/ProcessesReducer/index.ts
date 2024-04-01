@@ -1,5 +1,4 @@
 import { RootProcesses, initRootState } from "../../../interfaces/RootState";
-import { initProcessDetails } from "../../../interfaces/Processes/data";
 import { AnyAction } from "redux";
 import { IFrames } from "../../../interfaces/iframes";
 import {

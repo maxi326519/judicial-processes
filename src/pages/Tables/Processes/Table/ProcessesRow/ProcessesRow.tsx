@@ -4,9 +4,9 @@ import { ProcessHeads } from "../../../../../interfaces/Processes/data";
 import { UserRol } from "../../../../../interfaces/users";
 
 import style from "./ProcessesRow.module.css";
+import listSvg from "../../../../../assets/svg/list.svg";
 import editSvg from "../../../../../assets/svg/edit.svg";
 import deleteSvg from "../../../../../assets/svg/delete.svg";
-import listSvg from "../../../../../assets/svg/list.svg";
 
 interface Props {
   processes: ProcessHeads;
@@ -19,13 +19,14 @@ export default function ProcessesRow({
   processes,
   handleEdit,
   handleDelete,
-  handleActuaciones
+  handleActuaciones,
 }: Props) {
   const user = useSelector((state: RootState) => state.sesion);
   return (
     <tr
-      className={`${style.row} ${user.rol === UserRol.Admin ? style.admin : ""
-        }`}
+      className={`${style.row} ${
+        user.rol === UserRol.Admin ? style.admin : ""
+      }`}
     >
       <td>{processes.idSiproj}</td>
       <td>{processes.tipoProceso}</td>
@@ -34,6 +35,11 @@ export default function ProcessesRow({
       <td>{processes.demandante}</td>
       <td>{processes.apoderadoActual}</td>
       <td>{processes.posicionSDP}</td>
+      <td>
+        <div
+          className={`${style.signal} ${style.active} ${style.inactive}`}
+        ></div>
+      </td>
       <button
         className="btn btn-outline-primary"
         type="button"

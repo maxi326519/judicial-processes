@@ -7,6 +7,7 @@ export interface ProcessHeads {
   radRamaJudicialActual: string;
   demandante: string;
   posicionSDP: string;
+  movment?: boolean;
 }
 
 export enum ProcessState {

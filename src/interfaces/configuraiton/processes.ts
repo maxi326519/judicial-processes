@@ -1,4 +1,3 @@
-
 export interface ProcessesConfig {
   apoderadoActual: boolean;
   apoderadoAnterior: boolean;
@@ -43,6 +42,11 @@ export interface ProcessesConfig {
   estado: boolean;
   fechaEjecutoria: boolean;
   fechaTerminacion: boolean;
+  check: {
+    date: Date;
+    value: boolean;
+    changeId: number[];
+  };
 }
 
 export const initProcessesConfig = (): ProcessesConfig => ({
@@ -89,4 +93,9 @@ export const initProcessesConfig = (): ProcessesConfig => ({
   estado: false,
   fechaEjecutoria: false,
   fechaTerminacion: false,
+  check: {
+    date: new Date(),
+    value: true,
+    changeId: [],
+  },
 });

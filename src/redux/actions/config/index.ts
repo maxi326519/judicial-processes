@@ -25,6 +25,7 @@ const requirementsConfigDoc = doc(configColl, "RequirementsConfig");
 const poderesConfigDoc = doc(configColl, "PoderesConfig");
 
 export const UPDATE_PROCESSES_CONFIG = "UPDATE_PROCESSES_CONFIG";
+export const UPDATE_PROCESSES_CHANGE_CONFIG = "UPDATE_PROCESSES_CHANGE_CONFIG";
 export const UPDATE_TUTELAS_CONFIG = "UPDATE_TUTELAS_CONFIG";
 export const UPDATE_REQUIREMENTS_CONFIG = "UPDATE_REQUIREMENTS_CONFIG";
 export const UPDATE_PODERES_CONFIG = "UPDATE_PODERES_CONFIG";
@@ -148,6 +149,31 @@ export function updateProcessesConfig(
       dispatch({
         type: UPDATE_PROCESSES_CONFIG,
         payload: processesConfig,
+      });
+    } catch (e: any) {
+      throw new Error(e);
+    }
+  };
+}
+
+export function updateCheckAct(
+  processConfig: ProcessesConfig,
+  changeId: number[]
+): ThunkAction<Promise<void>, RootState, null, AnyAction> {
+  return async (dispatch: Dispatch<AnyAction>) => {
+    try {
+      await updateDoc(processesConfigDoc, {
+        ...processConfig,
+        check: {
+          date: new Date(),
+          value: false,
+          changeId: changeId,
+        },
+      });
+
+      dispatch({
+        type: UPDATE_PROCESSES_CHANGE_CONFIG,
+        payload: processConfig,
       });
     } catch (e: any) {
       throw new Error(e);

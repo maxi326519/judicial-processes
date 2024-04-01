@@ -1,10 +1,11 @@
-import { useEffect } from "react";
-import { useState } from "react";
+import { closeLoading, openLoading } from "../../../../redux/actions/loading";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../interfaces/RootState";
+import { useEffect } from "react";
 import { getLists } from "../../../../redux/actions/Processes/lists";
-import { UserRol } from "../../../../interfaces/users";
 import { getUsers } from "../../../../redux/actions/users";
+import { useState } from "react";
+import { UserRol } from "../../../../interfaces/users";
 import {
   deleteProcesses,
   deleteProcessDetails,
@@ -17,24 +18,27 @@ import {
   ProcessFilters,
   initProcessFilters,
 } from "../../../../interfaces/Processes/data";
-import { closeLoading, openLoading } from "../../../../redux/actions/loading";
 import swal from "sweetalert";
 
+import ProcessesDetails from "../ProcessesDetails/ProcessesDetails";
 import ProcessesRow from "./ProcessesRow/ProcessesRow";
-import Form from "./Form/Form";
 import Filters from "./FIlters/Filters";
 import Lists from "../Lists/Lists";
+import Form from "./Form/Form";
 
 import styles from "./ProcessesTable.module.css";
 import loadingSvg from "../../../../assets/img/loading.gif";
 import errorSvg from "../../../../assets/svg/error.svg";
 import listSvg from "../../../../assets/svg/list.svg";
-import ProcessesDetails from "../ProcessesDetails/ProcessesDetails";
+import reloadSvg from "../../../../assets/svg/reload.svg";
+import useJudicialProcesses from "../../../../hooks/Processes/useProcesses";
 
 export default function ProcessesTable() {
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.sesion);
   const users = useSelector((state: RootState) => state.users);
+  const config = useSelector((state: RootState) => state.config.processes);
+  const { checkActuacion } = useJudicialProcesses();
   const processesHeads = useSelector(
     (state: RootState) => state.processes.heads
   );
@@ -53,6 +57,10 @@ export default function ProcessesTable() {
     if (processesHeads.length === 0) handleGetProcesses();
     if (users.length === 0) handleGetUsers();
   }, []);
+
+  // useEffect(() => {
+  //   if (config.check) checkActuacion();
+  // }, [processesHeads]);
 
   useEffect(() => {
     const filter = processesHeads.filter((data: ProcessHeads) => {
@@ -248,7 +256,9 @@ export default function ProcessesTable() {
     <div className={`toLeft ${styles.dashboard}`}>
       {form ? <Form handleClose={handleClose} /> : null}
       {list ? <Lists handleClose={handleShowList} /> : null}
-      {radicado ? <ProcessesDetails radicado={radicado} handleClose={handleActuaciones} /> : null}
+      {radicado ? (
+        <ProcessesDetails radicado={radicado} handleClose={handleActuaciones} />
+      ) : null}
       <div className={styles.controls}>
         <Filters filters={filters} setFilters={setFilters} />
         {user.rol === UserRol.Admin ? (
@@ -260,6 +270,14 @@ export default function ProcessesTable() {
             >
               <img src={listSvg} alt="list" />
               <span>Listas</span>
+            </button>
+            <button
+              className="btn btn-outline-primary"
+              type="button"
+              onClick={checkActuacion}
+            >
+              <img src={reloadSvg} alt="list" />
+              <span>Recargar ramas</span>
             </button>
             <button
               className={`btn btn-outline-danger ${styles.clear}`}
@@ -290,6 +308,7 @@ export default function ProcessesTable() {
             <th>Demandante Nombre</th>
             <th>Apoderado Actual</th>
             <th>Posición SPD</th>
+            <th>Movimiento</th>
             <th>Consulta Rama</th>
           </tr>
         </thead>

@@ -1,8 +1,8 @@
+import { closeLoading, openLoading } from "../../redux/actions/loading";
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../interfaces/RootState";
 import { UserRol } from "../../interfaces/users";
-import getLimitDate from "../../functions/getLimitDate";
 import {
   ProcessDetails,
   ErrorProcesses,
@@ -10,6 +10,10 @@ import {
   initErrorProcesses,
   ProcessState,
 } from "../../interfaces/Processes/data";
+import getLimitDate from "../../functions/getLimitDate";
+import axios from "axios";
+import swal from "sweetalert";
+import { updateCheckAct } from "../../redux/actions/config";
 
 export default function useJudicialProcesses() {
   const user = useSelector((state: RootState) => state.sesion);
@@ -20,7 +24,9 @@ export default function useJudicialProcesses() {
   const processDetails = useSelector(
     (state: RootState) => state.processes.details
   );
+  const process = useSelector((state: RootState) => state.processes.heads);
   const lists = useSelector((state: RootState) => state.processes.lists);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     let data = { ...judicialProcesses };
@@ -382,10 +388,7 @@ export default function useJudicialProcesses() {
       error.calificacionContingente = "Debes completar este campo";
       value = false;
     }
-    if (
-      config.fechaEjecutoria &&
-      judicialProcesses.fechaEjecutoria === null
-    ) {
+    if (config.fechaEjecutoria && judicialProcesses.fechaEjecutoria === null) {
       error.fechaEjecutoria = "Debes completar este campo";
       value = false;
     }
@@ -399,10 +402,7 @@ export default function useJudicialProcesses() {
       value = false;
     }
 
-    if (
-      config.fechaEjecutoria &&
-      judicialProcesses.fechaTerminacion === null
-    ) {
+    if (config.fechaEjecutoria && judicialProcesses.fechaTerminacion === null) {
       error.fechaTerminacion = "Debes completar este campo";
       value = false;
     }
@@ -411,6 +411,71 @@ export default function useJudicialProcesses() {
     return value;
   }
 
+  const handleCheckActuacion = async () => {
+    try {
+      let processes: any = {};
+      const changeId = [];
+
+      if (config.check.value) {
+        for (const head of process) {
+          console.log(head?.radRamaJudicialActual);
+          if (process[0]?.radRamaJudicialActual) {
+            // Get the data
+            processes = await axios.get(
+              `https://consultaprocesos.ramajudicial.gov.co:448/api/v2/Procesos/Consulta/NumeroRadicacion?numero=${head.radRamaJudicialActual}&SoloActivos=false&pagina=1`
+            );
+
+            // Get de id
+            const id = processes.data.procesos?.[0].idProceso;
+
+            // If id exist
+            if (id) {
+              // Get details
+              const details = await axios.get(
+                `https://consultaprocesos.ramajudicial.gov.co:448/api/v2/Proceso/Actuaciones/${id}?pagina=${1}`
+              );
+
+              console.log(details.data.actuaciones);
+              console.log(details.data.actuaciones[0]);
+
+              if (
+                details.data.actuaciones[0] &&
+                !isNaN(
+                  new Date(details.data.actuaciones[0].fechaActuacion).getTime()
+                )
+              ) {
+                const actDate = new Date(
+                  details.data.actuaciones[0].fechaActuacion
+                );
+                const currentDate = new Date();
+
+                console.log(actDate, currentDate);
+
+                if (
+                  actDate.getFullYear() === currentDate.getFullYear() &&
+                  actDate.getMonth() + 1 === currentDate.getMonth() + 1 &&
+                  actDate.getDate() === currentDate.getDate()
+                ) {
+                  console.log("Change");
+                  changeId.push(process[0]?.idSiproj);
+                } else {
+                  console.log("No change");
+                }
+              }
+              dispatch(openLoading());
+              dispatch<any>(updateCheckAct(config, changeId))
+                .then(() => dispatch(closeLoading()))
+                .catch(() => dispatch(closeLoading()));
+            }
+          }
+        }
+      }
+    } catch (error: any) {
+      console.log(error);
+      swal("Error", "Surgió un error al cargar las actuaciones", "error");
+    }
+  };
+
   return {
     judicialProcesses,
     errors,
@@ -418,5 +483,6 @@ export default function useJudicialProcesses() {
     reset,
     setJudicialProcesses: handleChange,
     setErrors,
+    checkActuacion: handleCheckActuacion,
   };
 }

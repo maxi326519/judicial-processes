@@ -6,6 +6,7 @@ import {
   GET_REQUIREMENTS_CONFIG,
   GET_TUTELAS_CONFIG,
   UPDATE_PODERES_CONFIG,
+  UPDATE_PROCESSES_CHANGE_CONFIG,
   UPDATE_PROCESSES_CONFIG,
   UPDATE_REQUIREMENTS_CONFIG,
   UPDATE_TUTELAS_CONFIG,
@@ -17,6 +18,12 @@ export const configReducer = (
 ) => {
   switch (action.type) {
     case UPDATE_PROCESSES_CONFIG:
+      return {
+        ...state,
+        processes: action.payload,
+      };
+
+    case UPDATE_PROCESSES_CHANGE_CONFIG:
       return {
         ...state,
         processes: action.payload,

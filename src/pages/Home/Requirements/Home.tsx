@@ -49,7 +49,7 @@ export default function Home() {
   }
 
   function handleNext() {
-    redirect("/dashboard/home/procesos");
+    redirect("/dashboard/home/poderes");
   }
 
   return (

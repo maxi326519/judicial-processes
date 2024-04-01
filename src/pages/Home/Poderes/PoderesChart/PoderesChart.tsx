@@ -9,7 +9,7 @@ const example = [header, ["Sin datos", 0, 0]];
 
 const options = {
   chart: {
-    title: "PROCESOS POR APODERADO",
+    title: "PODERES POR APODERADO",
     titleStyle: {
       bold: true, // Establece el estilo de negrita
     },
@@ -19,7 +19,7 @@ const options = {
 
 export default function PoderesChart() {
   const chartData = useSelector(
-    (state: RootState) => state.tutelas.charts.abogadosChart
+    (state: RootState) => state.poderes.charts.abogados
   );
   const [data, setData] = useState<Array<Array<string | number>>>(example);
 

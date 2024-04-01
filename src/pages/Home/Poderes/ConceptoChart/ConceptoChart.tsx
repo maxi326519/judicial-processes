@@ -1,18 +1,18 @@
 import { useState, useEffect } from "react";
-import { Chart } from "react-google-charts";
-import { RootState } from "../../../../interfaces/RootState";
 import { useSelector } from "react-redux";
+import { RootState } from "../../../../interfaces/RootState";
+import { Chart } from "react-google-charts";
 
 const header = ["TIPO", "CANTIDAD"];
 const example = [header, ["Dato", 0], ["Dato", 0]];
 
 const options = {
-  title: "TIPOS DE TUTELAS",
+  title: "CONCEPTOS",
 };
 
-export default function ThemeChart() {
+export default function ConceptoChart() {
   const chartData = useSelector(
-    (state: RootState) => state.tutelas.charts.temaTutelaChart
+    (state: RootState) => state.poderes.charts.concepto
   );
   const [data, setData] = useState<Array<Array<string | number>>>(example);
 

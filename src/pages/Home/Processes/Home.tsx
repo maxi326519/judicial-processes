@@ -53,12 +53,12 @@ export default function Home() {
     setPosicionSDP(event.target.value);
   }
 
-  function handleNext() {
-    redirect("/dashboard/home/tutelas");
+  function handlePrev() {
+    redirect("/dashboard/home/poderes");
   }
 
-  function handlePrev() {
-    redirect("/dashboard/home/requerimientos");
+  function handleNext() {
+    redirect("/dashboard/home/tutelas");
   }
 
   return (

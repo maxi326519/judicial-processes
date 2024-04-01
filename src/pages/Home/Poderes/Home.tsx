@@ -5,21 +5,22 @@ import { useEffect } from "react";
 import { getCharts } from "../../../redux/actions/Tutelas/charts";
 import { RootState } from "../../../interfaces/RootState";
 import { UserRol } from "../../../interfaces/users";
-import useTutelaChart from "../../../hooks/Tutela/useTutelaChart";
+import usePoderesChart from "../../../hooks/Poderes/usePoderesChart";
 import swal from "sweetalert";
 
 import PoderesChart from "./PoderesChart/PoderesChart";
-import ThemeChart from "./ThemeChart/ThemeChart";
+import ConceptoChart from "./ConceptoChart/ConceptoChart";
 import Navbar from "../../../components/Navbar/Navbar";
 import SideBar from "../../../components/SideBar/SideBar";
 
 import styles from "./Home.module.css";
+import RadicadoChart from "./RadicadoChart/RadicadoChart";
 
 export default function Home() {
   const redirect = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.sesion);
-  const { charts, updateCharts } = useTutelaChart();
+  const { updateCharts } = usePoderesChart();
 
   useEffect(() => {
     dispatch<any>(getCharts());
@@ -44,16 +45,16 @@ export default function Home() {
   }
 
   function handlePrev() {
-    redirect("/dashboard/home/procesos");
+    redirect("/dashboard/home/requerimientos");
   }
 
   function handleNext() {
-    redirect("/dashboard/home/requerimientos");
+    redirect("/dashboard/home/procesos");
   }
 
   return (
     <div className={styles.background}>
-      <Navbar title="Home- Tutelas" />
+      <Navbar title="Home - Poderes" />
       <SideBar />
       <div
         className={`${styles.charts} ${
@@ -82,7 +83,8 @@ export default function Home() {
           onClick={handleNext}
         >{`>`}</button>
         <PoderesChart />
-        <ThemeChart />
+        <ConceptoChart />
+        <RadicadoChart />
       </div>
     </div>
   );

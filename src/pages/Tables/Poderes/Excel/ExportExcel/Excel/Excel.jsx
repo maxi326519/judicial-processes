@@ -9,8 +9,8 @@ const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
 
 const dataLabels = [
   {
-    value: "Fecha de Radicacion",
-    label: "fechaRadicacion",
+    value: "fechaRadicacion",
+    label: "Fecha de Radicacion",
   },
   {
     value: "radicadoSipa",

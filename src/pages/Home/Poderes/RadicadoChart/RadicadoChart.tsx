@@ -1,3 +1,4 @@
+import { RadicadoChart as RadicadoChartTS } from "../../../../interfaces/Poderes/chart";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../interfaces/RootState";
@@ -7,7 +8,13 @@ const header = ["TIPO", "CANTIDAD"];
 const example = [header, ["Dato", 0], ["Dato", 0]];
 
 const options = {
-  title: "RADICADOS",
+  chart: {
+    title: "RADICADOS",
+    titleStyle: {
+      bold: true, // Establece el estilo de negrita
+    },
+  },
+  bars: "horizontal",
 };
 
 export default function RadicadoChart() {
@@ -17,16 +24,21 @@ export default function RadicadoChart() {
   const [data, setData] = useState<Array<Array<string | number>>>(example);
 
   useEffect(() => {
-    setData([header, ...chartData.map((data) => [data.type, data.quantity])]);
+    if (chartData.length > 0) {
+      setData([
+        header,
+        ...chartData.map((data: RadicadoChartTS) => [data.type, data.quantity]),
+      ]);
+    }
   }, [chartData]);
 
   return (
     <Chart
-      chartType="PieChart"
+      chartType="Bar"
+      width="100%"
+      height="100%"
       data={data}
       options={options}
-      width={"100%"}
-      height={"400px"}
     />
   );
 }

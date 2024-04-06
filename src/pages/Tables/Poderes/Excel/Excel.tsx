@@ -184,28 +184,12 @@ export default function Excel() {
         } else if (typeof valor === "boolean") {
           resultado[clave] = valor ? " SI" : "NO";
         } else if (valor instanceof Timestamp) {
-          // If is Date, convert to string and add time if necessary
-          const date = valor.toDate();
+          const dateUTC = valor.toDate().toISOString().split("T")[0].split("-");
+          const year = dateUTC[0];
+          const month = dateUTC[1];
+          const day = dateUTC[2];
 
-          // Get date data
-          const year = date.getFullYear();
-          const month = date.getMonth() + 1;
-          const day = date.getDate();
-
-          // Get time data
-          const hour = date.getHours();
-          const minutes = date.getMinutes();
-          const seconds = date.getSeconds();
-
-          // Set date
-          resultado[clave] = `${`0${day}`.slice(-2)}/${`0${month}`.slice(
-            -2
-          )}/${year}`;
-
-          // Set time
-          resultado[`${clave}Hora`] = `${`0${hour}`.slice(
-            -2
-          )}:${`0${minutes}`.slice(-2)}:${`0${seconds}`.slice(-2)}`;
+          resultado[clave] = `${day}/${month}/${year}`;
         } else {
           resultado[clave] = valor;
         }

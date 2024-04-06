@@ -9,7 +9,6 @@ interface Props {
 export default function ExcelRow({ poder }: Props) {
   return (
     <tr className={style.row}>
-      <td>{poder.id}</td>
       <td>{poder.radicadoSipa}</td>
       <td>{poder.abogado}</td>
       <td>{poder.concepto}</td>

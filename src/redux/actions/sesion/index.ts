@@ -62,8 +62,12 @@ export function logOut(): ThunkAction<
   };
 }
 
-export function getUserData(
-): ThunkAction<Promise<void>, RootState, null, AnyAction> {
+export function getUserData(): ThunkAction<
+  Promise<void>,
+  RootState,
+  null,
+  AnyAction
+> {
   return async (dispatch: Dispatch<AnyAction>) => {
     try {
       const colUser = collection(db, "Users");

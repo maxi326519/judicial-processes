@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../interfaces/RootState";
-import { deleteUser, getUsers, updateUser } from "../../../redux/actions/users";
-import { Users } from "../../../interfaces/users";
 import { closeLoading, openLoading } from "../../../redux/actions/loading";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteUser, getUsers } from "../../../redux/actions/users";
+import { useEffect, useState } from "react";
+import { AvailableForm } from "./AvailableForm/AvailableForm";
+import { RootState } from "../../../interfaces/RootState";
+import { UserRol, Users } from "../../../interfaces/users";
 
 import UsersRow from "./UsersRow/UsersRow";
 import Form from "./Form/Form";
@@ -12,15 +13,17 @@ import styles from "./Users.module.css";
 import loadingSvg from "../../../assets/img/loading.gif";
 import errorSvg from "../../../assets/svg/error.svg";
 import swal from "sweetalert";
-import { AvailableForm } from "./AvailableForm/AvailableForm";
+import History from "./History/History";
 
 export default function UsersTable() {
   const dispatch = useDispatch();
   const users = useSelector((state: RootState) => state.users);
+  const user = useSelector((state: RootState) => state.sesion);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [editUser, setEditUser] = useState<Users | null>(null);
 
+  const [history, setHistory] = useState<boolean>(false);
   const [form, setForm] = useState<boolean>(false);
   const [available, setAvailable] = useState<boolean>(false);
 
@@ -74,6 +77,10 @@ export default function UsersTable() {
     });
   }
 
+  function handleHistory() {
+    setHistory(!history);
+  }
+
   function handleClose() {
     if (form) setEditUser(null);
     setForm(!form);
@@ -86,12 +93,24 @@ export default function UsersTable() {
 
   return (
     <div className={`toLeft ${styles.dashboard}`}>
+      {history && user.rol === UserRol.Admin && (
+        <History onClose={handleHistory} />
+      )}
       {form && <Form editUser={editUser} handleClose={handleClose} />}
       {available && (
         <AvailableForm user={editUser} handleClose={handleAvailable} />
       )}
       <header>
         <div className={styles.controls}>
+          {user.rol === UserRol.Admin && (
+            <button
+              className="btn btn-outline-primary"
+              type="button"
+              onClick={handleHistory}
+            >
+              Historial de sesiones
+            </button>
+          )}
           <button
             className="btn btn-outline-primary"
             type="button"

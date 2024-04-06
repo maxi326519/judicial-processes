@@ -1,10 +1,11 @@
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { closeLoading, openLoading } from "./redux/actions/loading";
 import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { updateUserHistory } from "./redux/actions/history";
 import { Configuration } from "./pages/Configuration/Configuration";
 import { getUserData } from "./redux/actions/sesion";
 import { RootState } from "./interfaces/RootState";
-import { useEffect } from "react";
 import { getLists } from "./redux/actions/Processes/lists";
 import { UserRol } from "./interfaces/users";
 import { auth } from "./firebase/config";
@@ -55,6 +56,8 @@ function App() {
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.sesion);
   const loading = useSelector((state: RootState) => state.loading);
+  const [ingress, setIngress] = useState<boolean>(false);
+  let register = false;
 
   useEffect(() => {
     redirect("/login");
@@ -64,6 +67,7 @@ function App() {
         dispatch<any>(getUserData())
           .then(() => {
             redirect("/dashboard/home/procesos");
+            setIngress(true);
             Promise.all([
               dispatch<any>(getLists()),
               dispatch<any>(getProcessesConfig()),
@@ -101,6 +105,20 @@ function App() {
       }
     }, 5000);
   }, []);
+
+  useEffect(() => {
+    if (ingress && !register && user.id) {
+      console.log("App");
+      console.log(ingress, !register, user.id);
+      dispatch<any>(updateUserHistory(user, false, true)).catch(
+        (error: any) => {
+          console.log(error);
+        }
+      );
+      register = true;
+      setIngress(false);
+    }
+  }, [user, ingress]);
 
   return (
     <div className="App">

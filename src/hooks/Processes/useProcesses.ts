@@ -416,57 +416,55 @@ export default function useJudicialProcesses() {
       let processes: any = {};
       const changeId = [];
 
-      if (config.check.value) {
-        for (const head of process) {
-          console.log(head?.radRamaJudicialActual);
-          if (process[0]?.radRamaJudicialActual) {
-            // Get the data
-            processes = await axios.get(
-              `https://consultaprocesos.ramajudicial.gov.co:448/api/v2/Procesos/Consulta/NumeroRadicacion?numero=${head.radRamaJudicialActual}&SoloActivos=false&pagina=1`
+      for (const head of process) {
+        console.log(head?.radRamaJudicialActual);
+        if (process[0]?.radRamaJudicialActual) {
+          // Get the data
+          processes = await axios.get(
+            `https://consultaprocesos.ramajudicial.gov.co:448/api/v2/Procesos/Consulta/NumeroRadicacion?numero=${head.radRamaJudicialActual}&SoloActivos=false&pagina=1`
+          );
+
+          // Get de id
+          const id = processes.data.procesos?.[0].idProceso;
+
+          // If id exist
+          if (id) {
+            // Get details
+            const details = await axios.get(
+              `https://consultaprocesos.ramajudicial.gov.co:448/api/v2/Proceso/Actuaciones/${id}?pagina=${1}`
             );
 
-            // Get de id
-            const id = processes.data.procesos?.[0].idProceso;
+            console.log(details.data.actuaciones);
+            console.log(details.data.actuaciones[0]);
 
-            // If id exist
-            if (id) {
-              // Get details
-              const details = await axios.get(
-                `https://consultaprocesos.ramajudicial.gov.co:448/api/v2/Proceso/Actuaciones/${id}?pagina=${1}`
+            if (
+              details.data.actuaciones[0] &&
+              !isNaN(
+                new Date(details.data.actuaciones[0].fechaActuacion).getTime()
+              )
+            ) {
+              const actDate = new Date(
+                details.data.actuaciones[0].fechaActuacion
               );
+              const currentDate = new Date();
 
-              console.log(details.data.actuaciones);
-              console.log(details.data.actuaciones[0]);
+              console.log(actDate, currentDate);
 
               if (
-                details.data.actuaciones[0] &&
-                !isNaN(
-                  new Date(details.data.actuaciones[0].fechaActuacion).getTime()
-                )
+                actDate.getFullYear() === currentDate.getFullYear() &&
+                actDate.getMonth() + 1 === currentDate.getMonth() + 1 &&
+                actDate.getDate() === currentDate.getDate()
               ) {
-                const actDate = new Date(
-                  details.data.actuaciones[0].fechaActuacion
-                );
-                const currentDate = new Date();
-
-                console.log(actDate, currentDate);
-
-                if (
-                  actDate.getFullYear() === currentDate.getFullYear() &&
-                  actDate.getMonth() + 1 === currentDate.getMonth() + 1 &&
-                  actDate.getDate() === currentDate.getDate()
-                ) {
-                  console.log("Change");
-                  changeId.push(process[0]?.idSiproj);
-                } else {
-                  console.log("No change");
-                }
+                console.log("Change");
+                changeId.push(process[0]?.idSiproj);
+              } else {
+                console.log("No change");
               }
-              dispatch(openLoading());
-              dispatch<any>(updateCheckAct(config, changeId))
-                .then(() => dispatch(closeLoading()))
-                .catch(() => dispatch(closeLoading()));
             }
+            dispatch(openLoading());
+            dispatch<any>(updateCheckAct(config, changeId))
+              .then(() => dispatch(closeLoading()))
+              .catch(() => dispatch(closeLoading()));
           }
         }
       }

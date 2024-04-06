@@ -1,12 +1,13 @@
+import { requirementsReducer } from "./RequirementsReducer/index";
+import { processesReducer } from "./ProcessesReducer";
 import { combineReducers } from "redux";
+import { tutelasReducer } from "./TutelasReducer/indes";
+import { poderesReducer } from "./PoderesReducer/indes";
+import { historyReducer } from "./HistoryReducer";
 import { loadingReducer } from "./LoadingReducer";
 import { sesionReducer } from "./SesionReducer";
 import { usersReducer } from "./UsersReducer";
-import { processesReducer } from "./ProcessesReducer";
-import { tutelasReducer } from "./TutelasReducer/indes";
-import { requirementsReducer } from "./RequirementsReducer/index";
 import { configReducer } from "./ConfigReducer";
-import { poderesReducer } from "./PoderesReducer/indes";
 
 const rootReducer = combineReducers({
   loading: loadingReducer,
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   requirements: requirementsReducer,
   poderes: poderesReducer,
   config: configReducer,
+  history: historyReducer,
 });
 
 export default rootReducer;

@@ -1,0 +1,30 @@
+.row {
+  display: grid;
+  align-items: center;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  padding: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.row button {
+  margin: 0;
+}
+
+.row button:last-child {
+  border: 0;
+}
+
+.row button:last-child img {
+  filter: invert(24%) sepia(87%) saturate(6383%) hue-rotate(345deg)
+    brightness(69%) contrast(107%);
+}
+
+.row button:last-child:hover img {
+  filter: none;
+  filter: invert(100%);
+}
+
+.selected {
+  background-color: #0001;
+}

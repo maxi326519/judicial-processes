@@ -2,9 +2,9 @@ import { Users, initUser } from "./users";
 import { IFrames } from "./iframes";
 
 // PROCESSES
-import { ProcessHeads, ProcessDetails } from "./Processes/data";
-import { ProcessLists, initProcessLists } from "./Processes/lists";
 import { Charts as ProcessCharts, initCharts } from "./Processes/charts";
+import { ProcessLists, initProcessLists } from "./Processes/lists";
+import { ProcessHeads, ProcessDetails } from "./Processes/data";
 import {
   ProcessesConfig,
   initProcessesConfig,
@@ -12,13 +12,18 @@ import {
 
 // TUTELAS
 import { TutelaHeads, TutelaDetails, UserSelected } from "./Tutelas/data";
-import { TutelaLists, initTutelaLists } from "./Tutelas/lists";
-import { TutelaCharts, initTutelaCharts } from "./Tutelas/charts";
 import { TutelasConfig, initTutelasConfig } from "./configuraiton/tutelas";
+import { TutelaCharts, initTutelaCharts } from "./Tutelas/charts";
+import { TutelaLists, initTutelaLists } from "./Tutelas/lists";
 
 // REQUIREMENTS
-import { RequirementsHeads, RequirementsDetail } from "./Requirements/data";
 import { RequirementsLists, initRequirementsLists } from "./Requirements/lists";
+import { RequirementsHeads, RequirementsDetail } from "./Requirements/data";
+import { initPoderesConfig, PoderesConfig } from "./configuraiton/poderes";
+import { initPoderesChart, PoderesChart } from "./Poderes/chart";
+import { PoderesDetails, PoderesHeads } from "./Poderes/data";
+import { initPoderesList, PoderesList } from "./Poderes/list";
+import { HistoryData, initHistoryData } from "./history";
 import {
   RequirementsConfig,
   initRequirementsConfig,
@@ -27,10 +32,6 @@ import {
   RequirementsCharts,
   initRequirementsCharts,
 } from "./Requirements/charts";
-import { PoderesDetails, PoderesHeads } from "./Poderes/data";
-import { initPoderesList, PoderesList } from "./Poderes/list";
-import { initPoderesChart, PoderesChart } from "./Poderes/chart";
-import { initPoderesConfig, PoderesConfig } from "./configuraiton/poderes";
 
 export interface RootProcesses {
   heads: ProcessHeads[];
@@ -79,6 +80,7 @@ export interface RootState {
   requirements: RootRequirements;
   poderes: RootPoderes;
   config: RootConfig;
+  history: HistoryData;
 }
 
 export const initRootState: RootState = {
@@ -120,4 +122,5 @@ export const initRootState: RootState = {
     requirements: initRequirementsConfig(),
     poderes: initPoderesConfig(),
   },
+  history: initHistoryData(),
 };

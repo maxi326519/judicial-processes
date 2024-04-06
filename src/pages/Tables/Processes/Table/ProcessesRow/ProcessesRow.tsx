@@ -22,6 +22,10 @@ export default function ProcessesRow({
   handleActuaciones,
 }: Props) {
   const user = useSelector((state: RootState) => state.sesion);
+  const config = useSelector(
+    (state: RootState) => state.config.processes.check.changeId
+  );
+
   return (
     <tr
       className={`${style.row} ${
@@ -37,7 +41,11 @@ export default function ProcessesRow({
       <td>{processes.posicionSDP}</td>
       <td>
         <div
-          className={`${style.signal} ${style.active} ${style.inactive}`}
+          className={`${style.signal} ${
+            config.find((id) => id === processes.idSiproj)
+              ? style.active
+              : style.inactive
+          }`}
         ></div>
       </td>
       <button

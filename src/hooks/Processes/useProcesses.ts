@@ -416,58 +416,87 @@ export default function useJudicialProcesses() {
       let processes: any = {};
       const changeId = [];
 
+      dispatch(openLoading());
+
       for (const head of process) {
         console.log(head?.radRamaJudicialActual);
+        console.log(changeId);
+
         if (process[0]?.radRamaJudicialActual) {
-          // Get the data
-          processes = await axios.get(
-            `https://consultaprocesos.ramajudicial.gov.co:448/api/v2/Procesos/Consulta/NumeroRadicacion?numero=${head.radRamaJudicialActual}&SoloActivos=false&pagina=1`
-          );
-
-          // Get de id
-          const id = processes.data.procesos?.[0].idProceso;
-
-          // If id exist
-          if (id) {
-            // Get details
-            const details = await axios.get(
-              `https://consultaprocesos.ramajudicial.gov.co:448/api/v2/Proceso/Actuaciones/${id}?pagina=${1}`
+          try {
+            // Get the data
+            processes = await axios.get(
+              `https://consultaprocesos.ramajudicial.gov.co:448/api/v2/Procesos/Consulta/NumeroRadicacion?numero=${head.radRamaJudicialActual}&SoloActivos=false&pagina=1`
             );
 
-            console.log(details.data.actuaciones);
-            console.log(details.data.actuaciones[0]);
+            // Get de id
+            console.log(processes.data);
+            const id = processes.data.procesos?.[0]?.idProceso;
 
-            if (
-              details.data.actuaciones[0] &&
-              !isNaN(
-                new Date(details.data.actuaciones[0].fechaActuacion).getTime()
-              )
-            ) {
-              const actDate = new Date(
-                details.data.actuaciones[0].fechaActuacion
+            // If id exist
+            if (id) {
+              // Get details
+              const details = await axios.get(
+                `https://consultaprocesos.ramajudicial.gov.co:448/api/v2/Proceso/Actuaciones/${id}?pagina=${1}`
               );
-              const currentDate = new Date();
-
-              console.log(actDate, currentDate);
 
               if (
-                actDate.getFullYear() === currentDate.getFullYear() &&
-                actDate.getMonth() + 1 === currentDate.getMonth() + 1 &&
-                actDate.getDate() === currentDate.getDate()
+                details.data.actuaciones[0] &&
+                !isNaN(
+                  new Date(details.data.actuaciones[0].fechaActuacion).getTime()
+                )
               ) {
-                console.log("Change");
-                changeId.push(process[0]?.idSiproj);
-              } else {
-                console.log("No change");
+                const actDate = new Date(
+                  details.data.actuaciones[0].fechaActuacion
+                );
+                const currentDate = new Date();
+
+                const yesterday = new Date();
+                yesterday.setDate(currentDate.getDate() - 1);
+                
+                const twoDaysAgo = new Date();
+                twoDaysAgo.setDate(currentDate.getDate() - 2); 
+
+                // Comprueba si es la misma fecha (año, mes, día) de hoy, ayer, o hace dos días
+                if (
+                  (actDate.getFullYear() === currentDate.getFullYear() &&
+                    actDate.getMonth() === currentDate.getMonth() &&
+                    actDate.getDate() === currentDate.getDate()) ||
+                  (actDate.getFullYear() === yesterday.getFullYear() &&
+                    actDate.getMonth() === yesterday.getMonth() &&
+                    actDate.getDate() === yesterday.getDate()) ||
+                  (actDate.getFullYear() === twoDaysAgo.getFullYear() &&
+                    actDate.getMonth() === twoDaysAgo.getMonth() &&
+                    actDate.getDate() === twoDaysAgo.getDate())
+                ) {
+                  changeId.push(process[0]?.idSiproj);
+                  console.log("Change: ", actDate);
+                } else {
+                  console.log("No change: ", actDate);
+                }
               }
+              await new Promise((resolve) => setTimeout(resolve, 200));
             }
-            dispatch(openLoading());
-            dispatch<any>(updateCheckAct(config, changeId))
-              .then(() => dispatch(closeLoading()))
-              .catch(() => dispatch(closeLoading()));
+          } catch (error: any) {
+            console.log(error);
+            swal({
+              title: "Error",
+              text: `Surgió un error con el documento ${process[0]?.radRamaJudicialActual}`,
+              icon: "error",
+              buttons: {
+                Continuar: true,
+              },
+            });
           }
         }
       }
+
+      dispatch<any>(updateCheckAct(config, changeId))
+        .then(() => dispatch(closeLoading()))
+        .catch((error: any) => {
+          console.log(error);
+          dispatch(closeLoading())
+        });
     } catch (error: any) {
       console.log(error);
       swal("Error", "Surgió un error al cargar las actuaciones", "error");

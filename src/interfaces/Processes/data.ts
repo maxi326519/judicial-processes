@@ -23,6 +23,8 @@ export interface ProcessFilters {
   radRamaJudicialActual: string;
   demandante: string;
   posicionSDP: string;
+  estado: string;
+  actuacion: string;
 }
 
 export interface ProcessDetails {
@@ -171,6 +173,8 @@ export const initProcessFilters: ProcessFilters = {
   radRamaJudicialActual: "",
   demandante: "",
   posicionSDP: "",
+  estado: "",
+  actuacion: "",
 };
 
 export const initProcessDetails: ProcessDetails = {

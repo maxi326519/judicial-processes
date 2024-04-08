@@ -38,6 +38,9 @@ export default function ProcessesTable() {
   const user = useSelector((state: RootState) => state.sesion);
   const users = useSelector((state: RootState) => state.users);
   const config = useSelector((state: RootState) => state.config.processes);
+  const configCheck = useSelector(
+    (state: RootState) => state.config.processes.check.changeId
+  );
   const { checkActuacion } = useJudicialProcesses();
   const processesHeads = useSelector(
     (state: RootState) => state.processes.heads
@@ -63,6 +66,8 @@ export default function ProcessesTable() {
   // }, [processesHeads]);
 
   useEffect(() => {
+    console.log(filters);
+
     const filter = processesHeads.filter((data: ProcessHeads) => {
       if (
         filters.apoderadoActual ||
@@ -71,7 +76,9 @@ export default function ProcessesTable() {
         filters.radRamaJudicialActual ||
         filters.demandante ||
         filters.posicionSDP ||
-        filters.tipoProceso
+        filters.tipoProceso ||
+        filters.actuacion ||
+        filters.estado
       ) {
         console.log(data.posicionSDP, filters.posicionSDP.toUpperCase());
         console.log(data.tipoProceso, filters.tipoProceso.toUpperCase());
@@ -117,6 +124,23 @@ export default function ProcessesTable() {
           !data.posicionSDP.includes(filters.posicionSDP.toUpperCase())
         )
           return false;
+
+        if (filters.estado && filters.estado !== data.estado) return false;
+
+        if (
+          filters.actuacion &&
+          filters.actuacion === "true" &&
+          !configCheck.find((id) => id === data.idSiproj)
+        )
+          return false;
+
+        if (
+          filters.actuacion &&
+          filters.actuacion === "false" &&
+          configCheck.find((id) => id === data.idSiproj)
+        )
+          return false;
+
         return true;
       } else return true;
     });
@@ -308,6 +332,7 @@ export default function ProcessesTable() {
             <th>Demandante Nombre</th>
             <th>Apoderado Actual</th>
             <th>Posición SPD</th>
+            <th>Estado</th>
             <th>Movimiento</th>
             <th>Consulta Rama</th>
           </tr>

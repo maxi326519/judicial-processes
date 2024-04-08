@@ -8,7 +8,7 @@ import { getUserData } from "./redux/actions/sesion";
 import { RootState } from "./interfaces/RootState";
 import { getLists } from "./redux/actions/Processes/lists";
 import { UserRol } from "./interfaces/users";
-import { auth } from "./firebase/config";
+import { auth, db } from "./firebase/config";
 import {
   getProcessesConfig,
   getRequirementsConfig,
@@ -50,6 +50,8 @@ import PoderesHome from "./pages/Home/Poderes/Home";
 import PoderTable from "./pages/Tables/Poderes/Table/PoderTable";
 import PoderesIframe from "./pages/Tables/Poderes/Iframes/Iframes";
 import PoderesExcel from "./pages/Tables/Poderes/Excel/Excel";
+import { collection, doc, getDoc, getDocs } from "firebase/firestore";
+import { ProcessDetails, ProcessHeads } from "./interfaces/Processes/data";
 
 function App() {
   const redirect = useNavigate();
@@ -74,7 +76,7 @@ function App() {
               dispatch<any>(getTutelasConfig()),
               dispatch<any>(getRequirementsConfig()),
             ])
-              .then(() => {
+              .then(async () => {
                 dispatch(closeLoading());
               })
               .catch((error: Error) => {

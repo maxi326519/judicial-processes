@@ -453,9 +453,9 @@ export default function useJudicialProcesses() {
 
                 const yesterday = new Date();
                 yesterday.setDate(currentDate.getDate() - 1);
-                
+
                 const twoDaysAgo = new Date();
-                twoDaysAgo.setDate(currentDate.getDate() - 2); 
+                twoDaysAgo.setDate(currentDate.getDate() - 2);
 
                 // Comprueba si es la misma fecha (año, mes, día) de hoy, ayer, o hace dos días
                 if (
@@ -495,7 +495,7 @@ export default function useJudicialProcesses() {
         .then(() => dispatch(closeLoading()))
         .catch((error: any) => {
           console.log(error);
-          dispatch(closeLoading())
+          dispatch(closeLoading());
         });
     } catch (error: any) {
       console.log(error);

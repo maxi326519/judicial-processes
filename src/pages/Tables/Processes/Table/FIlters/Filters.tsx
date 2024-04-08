@@ -1,11 +1,12 @@
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../../interfaces/RootState";
 import { useState } from "react";
+import { UserRol } from "../../../../../interfaces/users";
 import {
   ProcessFilters,
+  ProcessState,
   initProcessFilters,
 } from "../../../../../interfaces/Processes/data";
-import { UserRol } from "../../../../../interfaces/users";
-import { RootState } from "../../../../../interfaces/RootState";
-import { useSelector } from "react-redux";
 
 import style from "./Filter.module.css";
 import filterSvg from "../../../../../assets/svg/filter.svg";
@@ -140,6 +141,40 @@ export default function Filters({ filters, setFilters }: Props) {
             onChange={handleChange}
           />
           <label htmlFor="posicionSDP">Posicion SPD</label>
+        </div>
+
+        {/* ESTADO */}
+        <div className="form-floating">
+          <select
+            id="estado"
+            className="form-control"
+            name="estado"
+            value={filters.estado}
+            onChange={handleChange}
+          >
+            <option value="">Seleccionar</option>
+            <option value={ProcessState.Activo}>{ProcessState.Activo}</option>
+            <option value={ProcessState.Terminado}>
+              {ProcessState.Terminado}
+            </option>
+          </select>
+          <label htmlFor="posicionSDP">Estado</label>
+        </div>
+
+        {/* Actuacion */}
+        <div className="form-floating">
+          <select
+            id="actuacion"
+            className="form-control"
+            name="actuacion"
+            value={filters.actuacion}
+            onChange={handleChange}
+          >
+            <option value="">Seleccionar</option>
+            <option value="true">Con cambios</option>
+            <option value="false">Sin cambios</option>
+          </select>
+          <label htmlFor="actuacion">Actuacion</label>
         </div>
 
         <button

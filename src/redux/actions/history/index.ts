@@ -18,7 +18,7 @@ export function getHistoryUser(
   return async (dispatch: Dispatch<AnyAction>) => {
     try {
       // Create id
-      const date = filter ? new Date(filter) : new Date();
+      const date = filter ? new Date(`${filter}  12:00:00`) : new Date();
       const year = date.getFullYear();
       const month = `0${date.getMonth() + 1}`.slice(-2);
       const day = `0${date.getDate()}`.slice(-2);

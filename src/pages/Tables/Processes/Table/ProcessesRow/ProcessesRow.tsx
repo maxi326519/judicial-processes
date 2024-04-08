@@ -39,6 +39,7 @@ export default function ProcessesRow({
       <td>{processes.demandante}</td>
       <td>{processes.apoderadoActual}</td>
       <td>{processes.posicionSDP}</td>
+      <td>{processes.estado}</td>
       <td>
         <div
           className={`${style.signal} ${

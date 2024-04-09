@@ -61,13 +61,7 @@ export default function ProcessesTable() {
     if (users.length === 0) handleGetUsers();
   }, []);
 
-  // useEffect(() => {
-  //   if (config.check) checkActuacion();
-  // }, [processesHeads]);
-
   useEffect(() => {
-    console.log(filters);
-
     const filter = processesHeads.filter((data: ProcessHeads) => {
       if (
         filters.apoderadoActual ||
@@ -80,8 +74,6 @@ export default function ProcessesTable() {
         filters.actuacion ||
         filters.estado
       ) {
-        console.log(data.posicionSDP, filters.posicionSDP.toUpperCase());
-        console.log(data.tipoProceso, filters.tipoProceso.toUpperCase());
         if (
           filters.apoderadoActual &&
           filters.apoderadoActual !== data.apoderadoActual

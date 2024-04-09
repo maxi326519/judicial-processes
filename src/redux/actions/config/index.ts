@@ -162,18 +162,20 @@ export function updateCheckAct(
 ): ThunkAction<Promise<void>, RootState, null, AnyAction> {
   return async (dispatch: Dispatch<AnyAction>) => {
     try {
-      await updateDoc(processesConfigDoc, {
+      const newConfig = {
         ...processConfig,
         check: {
           date: new Date(),
           value: false,
           changeId: changeId,
         },
-      });
+      };
+
+      await updateDoc(processesConfigDoc, newConfig);
 
       dispatch({
         type: UPDATE_PROCESSES_CHANGE_CONFIG,
-        payload: processConfig,
+        payload: newConfig,
       });
     } catch (e: any) {
       throw new Error(e);

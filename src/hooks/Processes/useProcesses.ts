@@ -419,10 +419,7 @@ export default function useJudicialProcesses() {
       dispatch(openLoading());
 
       for (const head of process) {
-        console.log(head?.radRamaJudicialActual);
-        console.log(changeId);
-
-        if (process[0]?.radRamaJudicialActual) {
+        if (head.estado === ProcessState.Activo && head.radRamaJudicialActual) {
           try {
             // Get the data
             processes = await axios.get(
@@ -430,7 +427,6 @@ export default function useJudicialProcesses() {
             );
 
             // Get de id
-            console.log(processes.data);
             const id = processes.data.procesos?.[0]?.idProceso;
 
             // If id exist
@@ -469,10 +465,8 @@ export default function useJudicialProcesses() {
                     actDate.getMonth() === twoDaysAgo.getMonth() &&
                     actDate.getDate() === twoDaysAgo.getDate())
                 ) {
-                  changeId.push(process[0]?.idSiproj);
-                  console.log("Change: ", actDate);
-                } else {
-                  console.log("No change: ", actDate);
+                  console.log("Check", head.idSiproj);
+                  changeId.push(head.idSiproj);
                 }
               }
               await new Promise((resolve) => setTimeout(resolve, 200));
@@ -490,6 +484,8 @@ export default function useJudicialProcesses() {
           }
         }
       }
+
+      console.log(changeId);
 
       dispatch<any>(updateCheckAct(config, changeId))
         .then(() => dispatch(closeLoading()))

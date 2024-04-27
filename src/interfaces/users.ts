@@ -13,6 +13,7 @@ export interface Users {
     tutelas: boolean;
     requirements: boolean;
     poderes: boolean;
+    conciliaciones: boolean;
   };
 }
 
@@ -47,6 +48,7 @@ export const initUser = (): Users => ({
     tutelas: false,
     requirements: false,
     poderes: false,
+    conciliaciones: false,
   },
 });
 

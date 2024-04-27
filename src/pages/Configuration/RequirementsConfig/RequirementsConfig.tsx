@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   RequirementsConfig as RequirementsConfiguration,
   initRequirementsConfig,
-} from "../../../interfaces/configuraiton/requirements";
+} from "../../../interfaces/Configuration/requirements";
 import swal from "sweetalert";
 
 import Checkbox from "../../../components/Inputs/Checkbox";

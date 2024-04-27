@@ -1,13 +1,13 @@
 export interface ConciliacionesHeads {
   id?: string;
-  fechaIngresoSolicitud: Date;
+  fechaIngresoSolicitud: Date | null;
   radicadoSIPA: string;
 }
 
 export interface Conciliaciones {
   // 1 MOMENTO: NOTIFICACION DE SOLICITUD DE CONCILIACION
   id?: string;
-  fechaIngresoSolicitud: Date;
+  fechaIngresoSolicitud: Date | null;
   radicadoSIPA: string;
   convocante: string;
   medioControl: string; // Listado
@@ -20,7 +20,7 @@ export interface Conciliaciones {
   consecutivo: number;
   radicadosSIPASolicitud: string;
   radicadosSIPARespuesta: string;
-  fechaComite: Date;
+  fechaComite: Date | null;
 
   // 3 MOMENTO: RECEPCION AL COMITÉ DE CONCILIACION
   desicionComite: string; // Listado
@@ -29,17 +29,18 @@ export interface Conciliaciones {
   // DATOS COMPLEMENTARIOS
   procuraduriaRemitente: string; // Listado
   numeroSolicitud: string;
-  fechaCitacionAudiencia: Date;
+  fechaCitacionAudiencia: Date | null;
   observaciones: string;
 }
 
 export interface ConciliacionesFilters {
   id: string;
-  fechaIngresoSolicitud: Date;
+  fechaIngresoSolicitud: Date | null;
   radicadoSIPA: string;
 }
 
 export interface ErrorConciliaciones {
+  id: string;
   fechaIngresoSolicitud: string;
   radicadoSIPA: string;
   convocante: string;
@@ -61,7 +62,7 @@ export interface ErrorConciliaciones {
 }
 
 export const initConciliaciones = (): Conciliaciones => ({
-  fechaIngresoSolicitud: new Date(),
+  fechaIngresoSolicitud: null,
   radicadoSIPA: "",
   convocante: "",
   medioControl: "",
@@ -72,12 +73,12 @@ export const initConciliaciones = (): Conciliaciones => ({
   consecutivo: 0,
   radicadosSIPASolicitud: "",
   radicadosSIPARespuesta: "",
-  fechaComite: new Date(),
+  fechaComite: null,
   desicionComite: "",
   estadoAudiencia: "",
   procuraduriaRemitente: "",
   numeroSolicitud: "",
-  fechaCitacionAudiencia: new Date(),
+  fechaCitacionAudiencia: null,
   observaciones: "",
 });
 
@@ -88,6 +89,7 @@ export const initConciliacionesFilters = (): ConciliacionesFilters => ({
 });
 
 export const initErrorConciliaciones = (): ErrorConciliaciones => ({
+  id: "",
   fechaIngresoSolicitud: "",
   radicadoSIPA: "",
   convocante: "",

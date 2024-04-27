@@ -1,0 +1,109 @@
+.form {
+  position: absolute;
+  z-index: 1500;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  color: var(--font);
+  background-color: var(--background);
+  overflow: hidden;
+}
+
+.close {
+  position: relative;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  box-shadow: 0 0 10px 5px #0006;
+}
+
+.close h3 {
+  flex-grow: 1;
+  margin: 20px;
+  margin-left: 0px;
+  text-align: center;
+}
+
+.close div {
+  margin-right: 7px;
+}
+
+.grid {
+  flex-grow: 1;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(4, min-content);
+  gap: 20px;
+  padding: 20px;
+  width: 100%;
+  overflow-y: scroll;
+  background-color: #0004;
+}
+
+.grid::-webkit-scrollbar {
+  width: 10px;
+  background: #0004;
+}
+
+.grid::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.grid::-webkit-scrollbar-thumb {
+  background-color: var(--dark-panel); /* color of the scroll thumb */
+  border-radius: 5px; /* roundness of the scroll thumb */
+}
+
+.typesInputs {
+  grid-column: 1 / 3;
+  display: flex;
+  gap: 20px;
+}
+
+.typesInputs div:last-child {
+  width: 120px;
+}
+
+.dataRight {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+}
+
+.container form-floating {
+  border: 1px solid var(--border);
+}
+
+.grid .formuladas {
+  background-color: #f944 !important;
+}
+
+.form .btnContainer:last-child {
+  position: relative;
+  z-index: 100;
+  padding: 20px;
+  box-shadow: 0 0 10px 5px #0006;
+}
+
+.form .btnContainer button {
+  margin-right: 20px;
+}
+
+.grid div:nth-child(6) {
+  grid-column: 1 / 3;
+}
+
+.grid div:nth-child(7) {
+  grid-column: 3 / 6;
+}
+
+.grid div:nth-child(8) {
+  grid-column: 1 / 6;
+}
+
+.grid div:nth-child(9) {
+  grid-column: 1 / 6;
+}

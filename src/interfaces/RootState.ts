@@ -5,21 +5,17 @@ import { IFrames } from "./iframes";
 import { Charts as ProcessCharts, initCharts } from "./Processes/charts";
 import { ProcessLists, initProcessLists } from "./Processes/lists";
 import { ProcessHeads, ProcessDetails } from "./Processes/data";
-import {
-  ProcessesConfig,
-  initProcessesConfig,
-} from "./configuraiton/processes";
 
 // TUTELAS
 import { TutelaHeads, TutelaDetails, UserSelected } from "./Tutelas/data";
-import { TutelasConfig, initTutelasConfig } from "./configuraiton/tutelas";
+import { TutelasConfig, initTutelasConfig } from "./Configuration/tutelas";
 import { TutelaCharts, initTutelaCharts } from "./Tutelas/charts";
 import { TutelaLists, initTutelaLists } from "./Tutelas/lists";
 
 // REQUIREMENTS
 import { RequirementsLists, initRequirementsLists } from "./Requirements/lists";
 import { RequirementsHeads, RequirementsDetail } from "./Requirements/data";
-import { initPoderesConfig, PoderesConfig } from "./configuraiton/poderes";
+import { initPoderesConfig, PoderesConfig } from "./Configuration/poderes";
 import { initPoderesChart, PoderesChart } from "./Poderes/chart";
 import { PoderesDetails, PoderesHeads } from "./Poderes/data";
 import { initPoderesList, PoderesList } from "./Poderes/list";
@@ -27,16 +23,19 @@ import { HistoryData, initHistoryData } from "./history";
 import {
   RequirementsConfig,
   initRequirementsConfig,
-} from "./configuraiton/requirements";
+} from "./Configuration/requirements";
 import {
   RequirementsCharts,
   initRequirementsCharts,
 } from "./Requirements/charts";
+
+// CONCILIACIONES
+import { Conciliaciones, ConciliacionesHeads } from "./Conciliaciones/data";
+import { initProcessesConfig, ProcessesConfig } from "./Configuration/processes";
 import {
   ConciliacionesConfig,
   initConciliacionesConfig,
-} from "./configuraiton/consiliaciones";
-import { Conciliaciones, ConciliacionesHeads } from "./Conciliaciones/data";
+} from "./Configuration/conciliaciones";
 import {
   ConciliacionesList,
   initConciliacionesList,

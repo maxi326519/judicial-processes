@@ -118,7 +118,7 @@ export function getConciliacionesHeaders(
   };
 }
 
-export function getConciliaciones(
+export function getConciliacion(
   id: string
 ): ThunkAction<Promise<void>, RootState, null, AnyAction> {
   return async (dispatch: Dispatch<AnyAction>) => {
@@ -144,7 +144,7 @@ export function getConciliaciones(
   };
 }
 
-export function deleteConciliaciones() {
+export function deleteConciliacionDetail() {
   return {
     type: DELETE_CONCILIACIONES_DETAILS,
   };

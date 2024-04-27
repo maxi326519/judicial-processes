@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ProcessesConfig as ProcessesConfiguration, initProcessesConfig } from "../../../interfaces/configuraiton/processes";
+import { ProcessesConfig as ProcessesConfiguration, initProcessesConfig } from "../../../interfaces/Configuration/processes";
 
 import Checkbox from "../../../components/Inputs/Checkbox";
 import { closeLoading, openLoading } from "../../../redux/actions/loading";

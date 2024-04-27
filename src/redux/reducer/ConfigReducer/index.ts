@@ -1,10 +1,12 @@
 import { RootConfig, initRootState } from "../../../interfaces/RootState";
 import { AnyAction } from "redux";
 import {
+  UPDATE_CONCILIACIONES_CONFIG,
   GET_PODERES_CONFIG,
   GET_PROCESSES_CONFIG,
   GET_REQUIREMENTS_CONFIG,
   GET_TUTELAS_CONFIG,
+  GET_CONCILIACIONES_CONFIG,
   UPDATE_PODERES_CONFIG,
   UPDATE_PROCESSES_CHANGE_CONFIG,
   UPDATE_PROCESSES_CONFIG,
@@ -47,6 +49,12 @@ export const configReducer = (
         poderes: action.payload,
       };
 
+    case UPDATE_CONCILIACIONES_CONFIG:
+      return {
+        ...state,
+        consiliaciones: action.payload,
+      };
+
     case GET_PROCESSES_CONFIG:
       return {
         ...state,
@@ -66,6 +74,12 @@ export const configReducer = (
       };
 
     case GET_PODERES_CONFIG:
+      return {
+        ...state,
+        poderes: action.payload,
+      };
+
+    case GET_CONCILIACIONES_CONFIG:
       return {
         ...state,
         poderes: action.payload,

@@ -6,7 +6,7 @@ import { RootState } from "../../../interfaces/RootState";
 import {
   TutelasConfig as TutelasConfiguration,
   initTutelasConfig,
-} from "../../../interfaces/configuraiton/tutelas";
+} from "../../../interfaces/Configuration/tutelas";
 import swal from "sweetalert";
 
 import Checkbox from "../../../components/Inputs/Checkbox";

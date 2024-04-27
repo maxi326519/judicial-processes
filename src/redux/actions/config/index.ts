@@ -1,5 +1,5 @@
 import { collection, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
-import { PoderesConfig } from "../../../interfaces/configuraiton/poderes";
+import { PoderesConfig } from "../../../interfaces/Configuration/poderes";
 import { ThunkAction } from "redux-thunk";
 import { RootState } from "../../../interfaces/RootState";
 import { AnyAction } from "redux";
@@ -8,32 +8,35 @@ import { db } from "../../../firebase/config";
 import {
   ProcessesConfig,
   initProcessesConfig,
-} from "../../../interfaces/configuraiton/processes";
+} from "../../../interfaces/Configuration/processes";
 import {
   TutelasConfig,
   initTutelasConfig,
-} from "../../../interfaces/configuraiton/tutelas";
+} from "../../../interfaces/Configuration/tutelas";
 import {
   RequirementsConfig,
   initRequirementsConfig,
-} from "../../../interfaces/configuraiton/requirements";
+} from "../../../interfaces/Configuration/requirements";
 
 const configColl = collection(db, "Configuration");
 const processesConfigDoc = doc(configColl, "ProcessesConfig");
 const tutelasConfigDoc = doc(configColl, "TutelasConfig");
 const requirementsConfigDoc = doc(configColl, "RequirementsConfig");
 const poderesConfigDoc = doc(configColl, "PoderesConfig");
+const consolidacionesConfigDoc = doc(configColl, "ConsolidacionesConfig");
 
 export const UPDATE_PROCESSES_CONFIG = "UPDATE_PROCESSES_CONFIG";
 export const UPDATE_PROCESSES_CHANGE_CONFIG = "UPDATE_PROCESSES_CHANGE_CONFIG";
 export const UPDATE_TUTELAS_CONFIG = "UPDATE_TUTELAS_CONFIG";
 export const UPDATE_REQUIREMENTS_CONFIG = "UPDATE_REQUIREMENTS_CONFIG";
 export const UPDATE_PODERES_CONFIG = "UPDATE_PODERES_CONFIG";
+export const UPDATE_CONCILIACIONES_CONFIG = "UPDATE_CONCILIACIONES_CONFIG";
 
 export const GET_PROCESSES_CONFIG = "GET_PROCESSES_CONFIG";
 export const GET_TUTELAS_CONFIG = "GET_TUTELAS_CONFIG";
 export const GET_REQUIREMENTS_CONFIG = "GET_REQUIREMENTS_CONFIG";
 export const GET_PODERES_CONFIG = "GET_PODERES_CONFIG";
+export const GET_CONCILIACIONES_CONFIG = "GET_CONCILIACIONES_CONFIG";
 
 export function getProcessesConfig(): ThunkAction<
   Promise<void>,
@@ -139,6 +142,32 @@ export function getPoderesConfig(): ThunkAction<
   };
 }
 
+export function getConsolidacionesConfig(): ThunkAction<
+  Promise<void>,
+  RootState,
+  null,
+  AnyAction
+> {
+  return async (dispatch: Dispatch<AnyAction>) => {
+    try {
+      const snapshot = await getDoc(consolidacionesConfigDoc);
+      let consolidacionesConfig = snapshot.data();
+
+      if (!snapshot.exists()) {
+        consolidacionesConfig = initRequirementsConfig();
+        await setDoc(consolidacionesConfigDoc, consolidacionesConfig);
+      }
+
+      dispatch({
+        type: GET_CONCILIACIONES_CONFIG,
+        payload: consolidacionesConfig,
+      });
+    } catch (e: any) {
+      throw new Error(e);
+    }
+  };
+}
+
 export function updateProcessesConfig(
   processesConfig: ProcessesConfig
 ): ThunkAction<Promise<void>, RootState, null, AnyAction> {
@@ -227,6 +256,23 @@ export function updatePoderesConfig(
       dispatch({
         type: GET_PODERES_CONFIG,
         payload: poderesConfig,
+      });
+    } catch (e: any) {
+      throw new Error(e);
+    }
+  };
+}
+
+export function updateConsolidacionesConfig(
+  consolidacionesConfig: PoderesConfig
+): ThunkAction<Promise<void>, RootState, null, AnyAction> {
+  return async (dispatch: Dispatch<AnyAction>) => {
+    try {
+      await updateDoc(consolidacionesConfigDoc, { ...consolidacionesConfig });
+
+      dispatch({
+        type: GET_CONCILIACIONES_CONFIG,
+        payload: consolidacionesConfig,
       });
     } catch (e: any) {
       throw new Error(e);

@@ -32,6 +32,15 @@ import {
   RequirementsCharts,
   initRequirementsCharts,
 } from "./Requirements/charts";
+import {
+  ConciliacionesConfig,
+  initConciliacionesConfig,
+} from "./configuraiton/consiliaciones";
+import { Conciliaciones, ConciliacionesHeads } from "./Conciliaciones/data";
+import {
+  ConciliacionesList,
+  initConciliacionesList,
+} from "./Conciliaciones/list";
 
 export interface RootProcesses {
   heads: ProcessHeads[];
@@ -64,11 +73,20 @@ export interface RootRequirements {
   charts: RequirementsCharts;
   iframes: IFrames[];
 }
+
+export interface RootConciliaciones {
+  heads: ConciliacionesHeads[];
+  details: Conciliaciones | null;
+  lists: ConciliacionesList;
+  iframes: IFrames[];
+}
+
 export interface RootConfig {
   processes: ProcessesConfig;
   tutelas: TutelasConfig;
   requirements: RequirementsConfig;
   poderes: PoderesConfig;
+  consolidaciones: ConciliacionesConfig;
 }
 
 export interface RootState {
@@ -79,6 +97,7 @@ export interface RootState {
   tutelas: RootTutelas;
   requirements: RootRequirements;
   poderes: RootPoderes;
+  conciliaciones: RootConciliaciones;
   config: RootConfig;
   history: HistoryData;
 }
@@ -116,11 +135,18 @@ export const initRootState: RootState = {
     charts: initPoderesChart(),
     iframes: [],
   },
+  conciliaciones: {
+    heads: [],
+    details: null,
+    lists: initConciliacionesList(),
+    iframes: [],
+  },
   config: {
     processes: initProcessesConfig(),
     tutelas: initTutelasConfig(),
     requirements: initRequirementsConfig(),
     poderes: initPoderesConfig(),
+    consolidaciones: initConciliacionesConfig(),
   },
   history: initHistoryData(),
 };

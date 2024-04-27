@@ -6,7 +6,7 @@ import { RootState } from "../../../interfaces/RootState";
 import {
   initPoderesConfig,
   PoderesConfig as PoderesConfigTS,
-} from "../../../interfaces/configuraiton/poderes";
+} from "../../../interfaces/Configuration/poderes";
 import swal from "sweetalert";
 
 import Checkbox from "../../../components/Inputs/Checkbox";

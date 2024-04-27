@@ -324,7 +324,7 @@ function App() {
 
         {/* CONCILIACION */}
         <Route
-          path="/dashboard/concilidaciones"
+          path="/dashboard/conciliaciones"
           element={
             user.rol === UserRol.Admin || user.permissions.conciliaciones ? (
               <Dashboard

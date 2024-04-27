@@ -48,8 +48,8 @@ export function setConciliaciones(
       const batch = writeBatch(db);
 
       // Firesoter collections
-      const headDoc = doc(headColl);
-      const detailsDoc = doc(detailsColl, headDoc.id);
+      const headDoc = doc(headColl, conciliaciones.id);
+      const detailsDoc = doc(detailsColl, conciliaciones.id);
 
       // Check if the idSiproj of this "conciliacion" already exist
       const snapIdcheck = await getDoc(doc(headColl, conciliaciones.id));
@@ -124,14 +124,14 @@ export function getConciliacion(
   return async (dispatch: Dispatch<AnyAction>) => {
     try {
       const snapshot = await getDoc(doc(detailsColl, id));
-      let details: any = snapshot.data();
+      let data: any = snapshot.data();
 
-      details = {
-        ...details,
+      if (!data) throw new Error("Document not found");
+
+      const details: ConciliacionesHeads = {
         id: id,
-        fechaIngresoSolicitud: getDateOrNull(details.fecha),
-        fechaComite: getDateOrNull(details.fechaComite),
-        fechaCitacionAudiencia: getDateOrNull(details.fechaCitacionAudiencia),
+        fechaIngresoSolicitud: getDateOrNull(data.fechaIngresoSolicitud),
+        radicadoSIPA: data.radicadoSIPA,
       };
 
       dispatch({

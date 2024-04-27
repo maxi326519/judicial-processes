@@ -8,6 +8,7 @@ import { loadingReducer } from "./LoadingReducer";
 import { sesionReducer } from "./SesionReducer";
 import { usersReducer } from "./UsersReducer";
 import { configReducer } from "./ConfigReducer";
+import { conciliacionesReducer } from "./ConciliacionesReducer";
 
 const rootReducer = combineReducers({
   loading: loadingReducer,
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   processes: processesReducer,
   tutelas: tutelasReducer,
   requirements: requirementsReducer,
+  conciliaciones: conciliacionesReducer,
   poderes: poderesReducer,
   config: configReducer,
   history: historyReducer,

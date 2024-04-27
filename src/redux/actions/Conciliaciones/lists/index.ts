@@ -1,4 +1,4 @@
-import { initTutelaLists } from "../../../../interfaces/Tutelas/lists";
+import { initConciliacionesList } from "../../../../interfaces/Conciliaciones/list";
 import { ThunkAction } from "redux-thunk";
 import { RootState } from "../../../../interfaces/RootState";
 import { Dispatch } from "redux";
@@ -20,7 +20,7 @@ export const DELETE_CONCILIACIONES_ITEM_LISTS =
   "DELETE_CONCILIACIONES_ITEM_LISTS";
 
 const dataColl = collection(db, "Data");
-const conciliacionesDoc = doc(dataColl, "Tutelas");
+const conciliacionesDoc = doc(dataColl, "Conciliaciones");
 
 export function setItem(
   listName: string,
@@ -60,10 +60,10 @@ export function getLists(): ThunkAction<Promise<void>, RootState, null, any> {
 
       // If lists don't existe, create it
       if (!doc) {
-        lists = { ...initTutelaLists };
+        lists = initConciliacionesList();
         await setDoc(conciliacionesDoc, { lists });
       } else if (!lists) {
-        lists = { ...initTutelaLists };
+        lists = initConciliacionesList();
         await updateDoc(conciliacionesDoc, { lists });
       } else {
         lists = doc.lists;

@@ -18,7 +18,7 @@ export const UPDATE_CONCILIACIONES_IFRAME = "UPDATE_CONCILIACIONES_IFRAME";
 export const DELETE_CONCILIACIONES_IFRAME = "DELETE_CONCILIACIONES_IFRAME";
 
 const dataColl = collection(db, "Data");
-const conciliacionesDoc = doc(dataColl, "Tutelas");
+const conciliacionesDoc = doc(dataColl, "Conciliaciones");
 const iframesColl = collection(conciliacionesDoc, "Iframes");
 
 export function setIframe(

@@ -1,4 +1,4 @@
-import { getLists as getProsesLists } from "../../../../redux/actions/Processes/lists";
+import { getLists as getConciliacionesLists } from "../../../../redux/actions/Processes/lists";
 import { closeLoading, openLoading } from "../../../../redux/actions/loading";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../../interfaces/RootState";
@@ -56,6 +56,7 @@ export default function ConciliacionTable() {
   useEffect(() => {
     const filter = conciliacion.filter((data: ConciliacionesHeads) => {
       // Add filters
+      return true;
     });
 
     setRows(filter);
@@ -66,9 +67,9 @@ export default function ConciliacionTable() {
     setError(false);
 
     Promise.all([
-      dispatch<any>(getProsesLists()),
-      dispatch<any>(getLists()),
       dispatch<any>(getConciliacionesHeaders(user)),
+      dispatch<any>(getConciliacionesLists()),
+      dispatch<any>(getLists()),
       dispatch<any>(getUserDisabled()),
     ])
       .then(() => {
@@ -162,9 +163,9 @@ export default function ConciliacionTable() {
     });
   }
 
-  function handleEdit(idSiproj: string) {
+  function handleEdit(id: string) {
     dispatch(openLoading());
-    dispatch<any>(getConciliacion(idSiproj))
+    dispatch<any>(getConciliacion(id))
       .then(() => {
         dispatch(closeLoading());
         setForm(true);

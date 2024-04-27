@@ -24,11 +24,12 @@ export enum UserRol {
 }
 
 export enum UserPermissions {
+  Any = "Any",
   Admin = "Admin",
   Processes = "processes",
   Tutelas = "tutelas",
   Requirements = "requirements",
-  Any = "Any",
+  conciliaciones = "Conciliaciones",
 }
 
 export interface ErrorUser {

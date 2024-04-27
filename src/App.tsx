@@ -8,7 +8,7 @@ import { getUserData } from "./redux/actions/sesion";
 import { RootState } from "./interfaces/RootState";
 import { getLists } from "./redux/actions/Processes/lists";
 import { UserRol } from "./interfaces/users";
-import { auth, db } from "./firebase/config";
+import { auth } from "./firebase/config";
 import {
   getProcessesConfig,
   getRequirementsConfig,
@@ -50,8 +50,10 @@ import PoderesHome from "./pages/Home/Poderes/Home";
 import PoderTable from "./pages/Tables/Poderes/Table/PoderTable";
 import PoderesIframe from "./pages/Tables/Poderes/Iframes/Iframes";
 import PoderesExcel from "./pages/Tables/Poderes/Excel/Excel";
-import { collection, doc, getDoc, getDocs } from "firebase/firestore";
-import { ProcessDetails, ProcessHeads } from "./interfaces/Processes/data";
+
+import ConciliacionTable from "./pages/Tables/Conciliacion/Table/ConciliacionesTable";
+import ConciliacionIframe from "./pages/Tables/Conciliacion/Iframes/Iframes";
+import ConcilidacionExcel from "./pages/Tables/Conciliacion/Excel/Excel";
 
 function App() {
   const redirect = useNavigate();
@@ -314,6 +316,47 @@ function App() {
           element={
             user.rol === UserRol.Admin || user.permissions.poderes ? (
               <Dashboard element={<PoderesExcel />} title={"Poderes - Excel"} />
+            ) : (
+              <PageNotFound />
+            )
+          }
+        />
+
+        {/* CONCILIACION */}
+        <Route
+          path="/dashboard/concilidaciones"
+          element={
+            user.rol === UserRol.Admin || user.permissions.conciliaciones ? (
+              <Dashboard
+                element={<ConciliacionTable />}
+                title={"Concilidaciones - Tabla"}
+              />
+            ) : (
+              <PageNotFound />
+            )
+          }
+        />
+        <Route
+          path="/dashboard/conciliaciones/graficos"
+          element={
+            user.rol === UserRol.Admin || user.permissions.conciliaciones ? (
+              <Dashboard
+                element={<ConciliacionIframe />}
+                title={"Concilidaciones - Gráficos"}
+              />
+            ) : (
+              <PageNotFound />
+            )
+          }
+        />
+        <Route
+          path="/dashboard/conciliaciones/excel"
+          element={
+            user.rol === UserRol.Admin || user.permissions.conciliaciones ? (
+              <Dashboard
+                element={<ConcilidacionExcel />}
+                title={"Concilidaciones - Excel"}
+              />
             ) : (
               <PageNotFound />
             )

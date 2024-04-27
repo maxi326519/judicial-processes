@@ -61,7 +61,11 @@ const sideList = [
     permissions: UserPermissions.Requirements,
     subList: [
       { label: "Listado", icon: list, path: "/dashboard/requerimientos" },
-      { label: "Graficos", icon: graphics, path: "/dashboard/requerimientos/graficos" },
+      {
+        label: "Graficos",
+        icon: graphics,
+        path: "/dashboard/requerimientos/graficos",
+      },
       { label: "Excel", icon: excel, path: "/dashboard/requerimientos/excel" },
     ],
   },
@@ -71,15 +75,33 @@ const sideList = [
     permissions: UserPermissions.Requirements,
     subList: [
       { label: "Listado", icon: list, path: "/dashboard/poderes" },
-      { label: "Graficos", icon: graphics, path: "/dashboard/poderes/graficos" },
+      {
+        label: "Graficos",
+        icon: graphics,
+        path: "/dashboard/poderes/graficos",
+      },
       { label: "Excel", icon: excel, path: "/dashboard/poderes/excel" },
+    ],
+  },
+  {
+    label: "Conciliacion",
+    icon: document,
+    permissions: UserPermissions.conciliaciones,
+    subList: [
+      { label: "Listado", icon: list, path: "/dashboard/conciliaciones" },
+      {
+        label: "Graficos",
+        icon: graphics,
+        path: "/dashboard/conciliaciones/graficos",
+      },
+      { label: "Excel", icon: excel, path: "/dashboard/conciliaciones/excel" },
     ],
   },
   {
     label: "Configuración",
     icon: config,
     permissions: UserPermissions.Admin,
-    path: "/dashboard/configuracion"
+    path: "/dashboard/configuracion",
   },
 ];
 

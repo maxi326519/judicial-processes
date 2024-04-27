@@ -27,7 +27,7 @@ import Filters from "./FIlters/Filters";
 import Lists from "../Lists/Lists";
 import ConciliacionRow from "./ConciliacionesRow/ConciliacionesRow";
 
-import styles from "./ConciliacionTable.module.css";
+import styles from "./ConciliacionesTable.module.css";
 import loadingSvg from "../../../../assets/img/loading.gif";
 import errorSvg from "../../../../assets/svg/error.svg";
 import listSvg from "../../../../assets/svg/list.svg";

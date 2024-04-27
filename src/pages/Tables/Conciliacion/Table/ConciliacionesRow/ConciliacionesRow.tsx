@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../../../interfaces/RootState";
 import { UserRol } from "../../../../../interfaces/users";
 
-import style from "./PoderRow.module.css";
+import style from "./ConciliacionesRow.module.css";
 import editSvg from "../../../../../assets/svg/edit.svg";
 import deleteSvg from "../../../../../assets/svg/delete.svg";
 
@@ -14,7 +14,11 @@ interface Props {
   handleDelete: (procesess: ConciliacionesHeads) => void;
 }
 
-export default function PoderRow({ conciliacion, handleEdit, handleDelete }: Props) {
+export default function ConciliacionesRow({
+  conciliacion,
+  handleEdit,
+  handleDelete,
+}: Props) {
   const user = useSelector((state: RootState) => state.sesion);
   return (
     <tr

@@ -56,6 +56,74 @@ export default function ConciliacionTable() {
   useEffect(() => {
     const filter = conciliacion.filter((data: ConciliacionesHeads) => {
       // Add filters
+
+      /* id */
+      if (filters.id && filters.id === data.id) return false;
+
+      /* FECHA SOLICITUD */
+      if (
+        filters.fechaIngresoSolicitud &&
+        filters.fechaIngresoSolicitud.getDate() ===
+          data.fechaIngresoSolicitud?.getDate() &&
+        filters.fechaIngresoSolicitud.getMonth() ===
+          data.fechaIngresoSolicitud?.getMonth() &&
+        filters.fechaIngresoSolicitud.getFullYear() ===
+          data.fechaIngresoSolicitud?.getFullYear()
+      )
+        return false;
+
+      /* RADICADO SIPA */
+      if (
+        filters.radicadoSIPA &&
+        !data.radicadoSIPA.toString().startsWith(filters.radicadoSIPA)
+      )
+        return false;
+
+      /* CONVOCANTE */
+      if (
+        filters.convocante &&
+        !data.convocante
+          .toUpperCase()
+          .includes(filters.convocante.toUpperCase())
+      )
+        return false;
+
+      /* ASIGNACION ABOGADO */
+      if (
+        filters.asignacionAbogado &&
+        !data.asignacionAbogado
+          .toUpperCase()
+          .includes(filters.asignacionAbogado.toUpperCase())
+      )
+        return false;
+
+      /* ESTADO SOLICITUD */
+      if (
+        filters.estadoSolicitud &&
+        !data.estadoSolicitud
+          .toUpperCase()
+          .includes(filters.estadoSolicitud.toUpperCase())
+      )
+        return false;
+
+      /* MEDIO DE CONTROL */
+      if (
+        filters.medioControl &&
+        !data.medioControl
+          .toUpperCase()
+          .includes(filters.medioControl.toUpperCase())
+      )
+        return false;
+
+      /* DESICION DEL COMITE */
+      if (
+        filters.desicionComite &&
+        !data.desicionComite
+          .toUpperCase()
+          .includes(filters.desicionComite.toUpperCase())
+      )
+        return false;
+
       return true;
     });
 

@@ -17,6 +17,7 @@ import {
   RequirementsConfig,
   initRequirementsConfig,
 } from "../../../interfaces/Configuration/requirements";
+import { ConciliacionesConfig } from "../../../interfaces/Configuration/conciliaciones";
 
 const configColl = collection(db, "Configuration");
 const processesConfigDoc = doc(configColl, "ProcessesConfig");
@@ -142,7 +143,7 @@ export function getPoderesConfig(): ThunkAction<
   };
 }
 
-export function getConsolidacionesConfig(): ThunkAction<
+export function getConciliacionesConfig(): ThunkAction<
   Promise<void>,
   RootState,
   null,
@@ -264,7 +265,7 @@ export function updatePoderesConfig(
 }
 
 export function updateConsolidacionesConfig(
-  consolidacionesConfig: PoderesConfig
+  consolidacionesConfig: ConciliacionesConfig
 ): ThunkAction<Promise<void>, RootState, null, AnyAction> {
   return async (dispatch: Dispatch<AnyAction>) => {
     try {

@@ -1,4 +1,5 @@
 import { closeLoading, openLoading } from "../../redux/actions/loading";
+import { ConciliacionesConfig } from "./ConciliacionConfig/ConciliacionConfig";
 import { useEffect, useState } from "react";
 import { RequirementsConfig } from "./RequirementsConfig/RequirementsConfig";
 import { ProcessesConfig } from "./ProcessesConfig/ProcessesConfig";
@@ -10,6 +11,7 @@ import {
   getProcessesConfig,
   getRequirementsConfig,
   getPoderesConfig,
+  getConciliacionesConfig,
 } from "../../redux/actions/config";
 import swal from "sweetalert";
 
@@ -24,6 +26,11 @@ const sideItems = [
     element: <RequirementsConfig />,
   },
   { label: "Poderes", value: "poderes", element: <PoderesConfig /> },
+  {
+    label: "Conciliaciones",
+    value: "conciliaciones",
+    element: <ConciliacionesConfig />,
+  },
 ];
 
 export function Configuration() {
@@ -38,6 +45,7 @@ export function Configuration() {
       dispatch<any>(getTutelasConfig()),
       dispatch<any>(getRequirementsConfig()),
       dispatch<any>(getPoderesConfig()),
+      dispatch<any>(getConciliacionesConfig()),
     ])
       .then(() => {
         dispatch(closeLoading());

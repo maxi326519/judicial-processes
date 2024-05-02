@@ -1,4 +1,5 @@
 export interface ConciliacionesConfig {
+  id: number;
   fechaIngresoSolicitud: boolean;
   radicadoSIPA: boolean;
   convocante: boolean;
@@ -20,6 +21,7 @@ export interface ConciliacionesConfig {
 }
 
 export const initConciliacionesConfig = (): ConciliacionesConfig => ({
+  id: 0,
   fechaIngresoSolicitud: false,
   radicadoSIPA: false,
   convocante: false,

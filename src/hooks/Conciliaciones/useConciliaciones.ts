@@ -95,56 +95,61 @@ export default function useConciliaciones() {
     let error: ErrorConciliaciones = initErrorConciliaciones();
     let value = true;
 
+    if (conciliacion.id === "") {
+      error.id = "Debes completar este campo";
+      value = false;
+    }
+
     if (
-      config.fechaIngresoSolicitud &&
+      !config.fechaIngresoSolicitud &&
       conciliacion.fechaIngresoSolicitud === null
     ) {
       error.fechaIngresoSolicitud = "Debes completar este campo";
       value = false;
     }
 
-    if (config.radicadoSIPA && conciliacion.radicadoSIPA === "") {
+    if (!config.radicadoSIPA && conciliacion.radicadoSIPA === "") {
       error.radicadoSIPA = "Debes completar este campo";
       value = false;
     }
 
-    if (config.convocante && conciliacion.convocante === "") {
+    if (!config.convocante && conciliacion.convocante === "") {
       error.convocante = "Debes completar este campo";
       value = false;
     }
 
-    if (config.medioControl && conciliacion.medioControl === "") {
+    if (!config.medioControl && conciliacion.medioControl === "") {
       error.medioControl = "Debes completar este campo";
       value = false;
     }
 
-    if (config.pretension && conciliacion.pretension === "") {
+    if (!config.pretension && conciliacion.pretension === "") {
       error.pretension = "Debes completar este campo";
       value = false;
     }
 
-    if (config.asignacionAbogado && conciliacion.asignacionAbogado === "") {
+    if (!config.asignacionAbogado && conciliacion.asignacionAbogado === "") {
       error.asignacionAbogado = "Debes completar este campo";
       value = false;
     }
 
-    if (config.estadoSolicitud && conciliacion.estadoSolicitud === "") {
+    if (!config.estadoSolicitud && conciliacion.estadoSolicitud === "") {
       error.estadoSolicitud = "Debes completar este campo";
       value = false;
     }
 
-    if (config.terminoLegal && conciliacion.terminoLegal === "") {
+    if (!config.terminoLegal && conciliacion.terminoLegal === "") {
       error.terminoLegal = "Debes completar este campo";
       value = false;
     }
 
-    if (config.consecutivo && conciliacion.consecutivo === 0) {
+    if (!config.consecutivo && conciliacion.consecutivo === 0) {
       error.consecutivo = "Debes completar este campo";
       value = false;
     }
 
     if (
-      config.radicadosSIPASolicitud &&
+      !config.radicadosSIPASolicitud &&
       conciliacion.radicadosSIPASolicitud === ""
     ) {
       error.radicadosSIPASolicitud = "Debes completar este campo";
@@ -152,50 +157,50 @@ export default function useConciliaciones() {
     }
 
     if (
-      config.radicadosSIPARespuesta &&
+      !config.radicadosSIPARespuesta &&
       conciliacion.radicadosSIPARespuesta === ""
     ) {
       error.radicadosSIPARespuesta = "Debes completar este campo";
       value = false;
     }
 
-    if (config.fechaComite && conciliacion.fechaComite === null) {
+    if (!config.fechaComite && conciliacion.fechaComite === null) {
       error.fechaComite = "Debes completar este campo";
       value = false;
     }
 
-    if (config.desicionComite && conciliacion.desicionComite === "") {
+    if (!config.desicionComite && conciliacion.desicionComite === "") {
       error.desicionComite = "Debes completar este campo";
       value = false;
     }
 
-    if (config.estadoAudiencia && conciliacion.estadoAudiencia === "") {
+    if (!config.estadoAudiencia && conciliacion.estadoAudiencia === "") {
       error.estadoAudiencia = "Debes completar este campo";
       value = false;
     }
 
     if (
-      config.procuraduriaRemitente &&
+      !config.procuraduriaRemitente &&
       conciliacion.procuraduriaRemitente === ""
     ) {
       error.procuraduriaRemitente = "Debes completar este campo";
       value = false;
     }
 
-    if (config.numeroSolicitud && conciliacion.numeroSolicitud === "") {
+    if (!config.numeroSolicitud && conciliacion.numeroSolicitud === "") {
       error.numeroSolicitud = "Debes completar este campo";
       value = false;
     }
 
     if (
-      config.fechaCitacionAudiencia &&
+      !config.fechaCitacionAudiencia &&
       conciliacion.fechaCitacionAudiencia === null
     ) {
       error.fechaCitacionAudiencia = "Debes completar este campo";
       value = false;
     }
 
-    if (config.observaciones && conciliacion.observaciones === "") {
+    if (!config.observaciones && conciliacion.observaciones === "") {
       error.observaciones = "Debes completar este campo";
       value = false;
     }

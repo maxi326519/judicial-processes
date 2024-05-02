@@ -29,7 +29,8 @@ export enum UserPermissions {
   Processes = "processes",
   Tutelas = "tutelas",
   Requirements = "requirements",
-  conciliaciones = "Conciliaciones",
+  Poderes = "Poderes",
+  Conciliaciones = "Conciliaciones",
 }
 
 export interface ErrorUser {

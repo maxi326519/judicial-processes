@@ -85,7 +85,7 @@ export default function Form({ handleClose }: Props) {
       name: "asignacionAbogado",
       label: "Asignacion abogado",
       inputType: "select",
-      listado: users
+      list: users
         .filter(
           (user) =>
             user.id !== "2RuL7ejyY7ftgEAL4j7jy2RyOXQ2" && // Filter one user

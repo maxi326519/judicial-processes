@@ -196,6 +196,12 @@ export default function Form({ editUser, handleClose }: Props) {
               label={"Poderes"}
               handleCheck={handlePermissions}
             />
+            <Checkbox
+              name={"conciliaciones"}
+              value={user.permissions?.conciliaciones}
+              label={"Conciliaciones"}
+              handleCheck={handlePermissions}
+            />
           </div>
           <button type="submit" className="btn btn-success">
             {editUser ? "Guardar" : "Agregar"} usuario

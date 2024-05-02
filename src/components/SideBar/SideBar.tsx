@@ -72,7 +72,7 @@ const sideList = [
   {
     label: "Poderes",
     icon: document,
-    permissions: UserPermissions.Requirements,
+    permissions: UserPermissions.Poderes,
     subList: [
       { label: "Listado", icon: list, path: "/dashboard/poderes" },
       {
@@ -86,7 +86,7 @@ const sideList = [
   {
     label: "Conciliacion",
     icon: document,
-    permissions: UserPermissions.conciliaciones,
+    permissions: UserPermissions.Conciliaciones,
     subList: [
       { label: "Listado", icon: list, path: "/dashboard/conciliaciones" },
       {
@@ -125,7 +125,13 @@ export default function SideBar() {
               user.permissions.tutelas) ||
             // If is'nt admin, but has permission "requirements"
             (item.permissions === UserPermissions.Requirements &&
-              user.permissions.requirements))) ? (
+              user.permissions.requirements) ||
+            // If is'nt admin, but has permission "requirements"
+            (item.permissions === UserPermissions.Poderes &&
+              user.permissions.poderes) ||
+            // If is'nt admin, but has permission "requirements"
+            (item.permissions === UserPermissions.Conciliaciones &&
+              user.permissions.conciliaciones))) ? (
           // If item has sublist
           item.subList ? (
             <SideDropDown

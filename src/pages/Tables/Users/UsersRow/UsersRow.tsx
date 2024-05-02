@@ -71,6 +71,15 @@ export default function UsersRow({
           <span>Denegado</span>
         </td>
       )}
+      {user.rol === UserRol.Admin || user.permissions?.conciliaciones ? (
+        <td className={`${style.permissions} ${style.access}`}>
+          <span>Habilitado</span>
+        </td>
+      ) : (
+        <td className={`${style.permissions} ${style.denegated}`}>
+          <span>Denegado</span>
+        </td>
+      )}
       <button
         className="btn btn-outline-primary"
         type="button"

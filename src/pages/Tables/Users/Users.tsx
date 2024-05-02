@@ -2,9 +2,9 @@ import { closeLoading, openLoading } from "../../../redux/actions/loading";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteUser, getUsers } from "../../../redux/actions/users";
 import { useEffect, useState } from "react";
+import { UserRol, Users } from "../../../interfaces/users";
 import { AvailableForm } from "./AvailableForm/AvailableForm";
 import { RootState } from "../../../interfaces/RootState";
-import { UserRol, Users } from "../../../interfaces/users";
 
 import UsersRow from "./UsersRow/UsersRow";
 import Form from "./Form/Form";
@@ -131,6 +131,7 @@ export default function UsersTable() {
             <th>Tutelas</th>
             <th>Requerimientos</th>
             <th>Poderes</th>
+            <th>Conciliaciones</th>
             <th>Acciones</th>
           </tr>
         </thead>

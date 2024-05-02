@@ -1,4 +1,4 @@
-import { updateConsolidacionesConfig } from "../../../redux/actions/config";
+import { updateConciliacionesConfig } from "../../../redux/actions/config";
 import { closeLoading, openLoading } from "../../../redux/actions/loading";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
@@ -48,16 +48,16 @@ const inputs: Inputs[] = [
 
 export function ConciliacionesConfig() {
   const dispatch = useDispatch();
-  const consolidacionesConfig = useSelector(
-    (state: RootState) => state.config.consolidaciones
+  const conciliacionesConfig = useSelector(
+    (state: RootState) => state.config.conciliaciones
   );
   const [config, setConfig] = useState<ConciliacionesConfigTS>(
     initConciliacionesConfig()
   );
 
   useEffect(() => {
-    setConfig(consolidacionesConfig);
-  }, [consolidacionesConfig]);
+    setConfig(conciliacionesConfig);
+  }, [conciliacionesConfig]);
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     setConfig({ ...config, id: Number(event.target.value) || 0 });
@@ -72,7 +72,7 @@ export function ConciliacionesConfig() {
 
   function handleSubmit() {
     dispatch(openLoading());
-    dispatch<any>(updateConsolidacionesConfig(config))
+    dispatch<any>(updateConciliacionesConfig(config))
       .then(() => {
         dispatch(closeLoading());
         swal("Guardado", "Se guardó la configuración con éxito", "success");

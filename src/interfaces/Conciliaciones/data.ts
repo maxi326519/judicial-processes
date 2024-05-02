@@ -1,20 +1,26 @@
 export interface ConciliacionesHeads {
-  id?: string;
+  id?: number;
   fechaIngresoSolicitud: Date | null;
   radicadoSIPA: string;
+  convocante: string;
+  asignacionAbogado: string;
+  estadoSolicitud: string;
+  medioControl: string;
+  desicionComite: string;
 }
 
 export interface Conciliaciones {
   // 1 MOMENTO: NOTIFICACION DE SOLICITUD DE CONCILIACION
-  id?: string;
+  id?: number;
   fechaIngresoSolicitud: Date | null;
   radicadoSIPA: string;
   convocante: string;
   medioControl: string; // Listado
   pretension: string; // Listado
+  valorEstimado: string;
   asignacionAbogado: string; // Abogados
   estadoSolicitud: string;
-  terminoLegal: string;
+  terminoLegal: Date | null;
 
   // 2 MOMENTO: ESTUDIO DE CASO POR PARTE DEL ABOGADO
   consecutivo: number;
@@ -34,9 +40,14 @@ export interface Conciliaciones {
 }
 
 export interface ConciliacionesFilters {
-  id: string;
+  id?: number;
   fechaIngresoSolicitud: Date | null;
   radicadoSIPA: string;
+  convocante: string;
+  asignacionAbogado: string;
+  estadoSolicitud: string;
+  medioControl: string;
+  desicionComite: string;
 }
 
 export interface ErrorConciliaciones {
@@ -46,6 +57,7 @@ export interface ErrorConciliaciones {
   convocante: string;
   medioControl: string;
   pretension: string;
+  valorEstimado: string;
   asignacionAbogado: string;
   estadoSolicitud: string;
   terminoLegal: string;
@@ -61,15 +73,17 @@ export interface ErrorConciliaciones {
   observaciones: string;
 }
 
-export const initConciliaciones = (): Conciliaciones => ({
+export const initConciliaciones = (id?: number): Conciliaciones => ({
+  id: id || 0,
   fechaIngresoSolicitud: null,
   radicadoSIPA: "",
   convocante: "",
   medioControl: "",
   pretension: "",
+  valorEstimado: "",
   asignacionAbogado: "",
   estadoSolicitud: "",
-  terminoLegal: "",
+  terminoLegal: new Date(),
   consecutivo: 0,
   radicadosSIPASolicitud: "",
   radicadosSIPARespuesta: "",
@@ -83,9 +97,14 @@ export const initConciliaciones = (): Conciliaciones => ({
 });
 
 export const initConciliacionesFilters = (): ConciliacionesFilters => ({
-  id: "",
-  fechaIngresoSolicitud: new Date(),
+  id: 0,
+  fechaIngresoSolicitud: null,
   radicadoSIPA: "",
+  convocante: "",
+  asignacionAbogado: "",
+  estadoSolicitud: "",
+  medioControl: "",
+  desicionComite: "",
 });
 
 export const initErrorConciliaciones = (): ErrorConciliaciones => ({
@@ -95,6 +114,7 @@ export const initErrorConciliaciones = (): ErrorConciliaciones => ({
   convocante: "",
   medioControl: "",
   pretension: "",
+  valorEstimado: "",
   asignacionAbogado: "",
   estadoSolicitud: "",
   terminoLegal: "",

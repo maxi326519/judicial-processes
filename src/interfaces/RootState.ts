@@ -31,7 +31,10 @@ import {
 
 // CONCILIACIONES
 import { Conciliaciones, ConciliacionesHeads } from "./Conciliaciones/data";
-import { initProcessesConfig, ProcessesConfig } from "./Configuration/processes";
+import {
+  initProcessesConfig,
+  ProcessesConfig,
+} from "./Configuration/processes";
 import {
   ConciliacionesConfig,
   initConciliacionesConfig,
@@ -85,7 +88,7 @@ export interface RootConfig {
   tutelas: TutelasConfig;
   requirements: RequirementsConfig;
   poderes: PoderesConfig;
-  consolidaciones: ConciliacionesConfig;
+  conciliaciones: ConciliacionesConfig;
 }
 
 export interface RootState {
@@ -145,7 +148,7 @@ export const initRootState: RootState = {
     tutelas: initTutelasConfig(),
     requirements: initRequirementsConfig(),
     poderes: initPoderesConfig(),
-    consolidaciones: initConciliacionesConfig(),
+    conciliaciones: initConciliacionesConfig(),
   },
   history: initHistoryData(),
 };

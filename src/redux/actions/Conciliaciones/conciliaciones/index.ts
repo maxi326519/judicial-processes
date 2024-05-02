@@ -39,6 +39,8 @@ const dataColl = collection(db, "Data");
 const conciliacionesDoc = doc(dataColl, "Conciliaciones");
 const headColl = collection(conciliacionesDoc, "Head");
 const detailsColl = collection(conciliacionesDoc, "Details");
+const configColl = collection(db, "Configuration");
+const ConsolidacionesConfigDoc = doc(configColl, "ConsolidacionesConfig");
 
 export function setConciliaciones(
   conciliaciones: Conciliaciones
@@ -48,11 +50,13 @@ export function setConciliaciones(
       const batch = writeBatch(db);
 
       // Firesoter collections
-      const headDoc = doc(headColl, conciliaciones.id);
-      const detailsDoc = doc(detailsColl, conciliaciones.id);
+      const headDoc = doc(headColl, conciliaciones.id?.toString());
+      const detailsDoc = doc(detailsColl, conciliaciones.id?.toString());
 
       // Check if the idSiproj of this "conciliacion" already exist
-      const snapIdcheck = await getDoc(doc(headColl, conciliaciones.id));
+      const snapIdcheck = await getDoc(
+        doc(headColl, conciliaciones.id?.toString())
+      );
       if (snapIdcheck.exists()) throw new Error("id already exist");
 
       // Data to save
@@ -60,12 +64,20 @@ export function setConciliaciones(
         id: conciliaciones.id,
         fechaIngresoSolicitud: conciliaciones.fechaIngresoSolicitud,
         radicadoSIPA: conciliaciones.radicadoSIPA,
+        convocante: conciliaciones.convocante,
+        asignacionAbogado: conciliaciones.asignacionAbogado,
+        estadoSolicitud: conciliaciones.estadoSolicitud,
+        medioControl: conciliaciones.medioControl,
+        desicionComite: conciliaciones.desicionComite,
       };
       let details: Conciliaciones = conciliaciones;
 
       // Add data to save
       batch.set(headDoc, head);
       batch.set(detailsDoc, details);
+      batch.update(ConsolidacionesConfigDoc, {
+        id: Number(conciliaciones.id) + 1,
+      });
 
       // Post data
       await batch.commit();
@@ -119,19 +131,24 @@ export function getConciliacionesHeaders(
 }
 
 export function getConciliacion(
-  id: string
+  id: number
 ): ThunkAction<Promise<void>, RootState, null, AnyAction> {
   return async (dispatch: Dispatch<AnyAction>) => {
     try {
-      const snapshot = await getDoc(doc(detailsColl, id));
+      const snapshot = await getDoc(doc(detailsColl, id.toString()));
       let data: any = snapshot.data();
 
       if (!data) throw new Error("Document not found");
 
       const details: ConciliacionesHeads = {
-        id: id,
+        id: data.id,
         fechaIngresoSolicitud: getDateOrNull(data.fechaIngresoSolicitud),
         radicadoSIPA: data.radicadoSIPA,
+        convocante: data.convocante,
+        asignacionAbogado: data.asignacionAbogado,
+        estadoSolicitud: data.estadoSolicitud,
+        medioControl: data.medioControl,
+        desicionComite: data.desicionComite,
       };
 
       dispatch({
@@ -160,10 +177,15 @@ export function updateConciliaciones(
       id: details.id,
       fechaIngresoSolicitud: details.fechaIngresoSolicitud,
       radicadoSIPA: details.radicadoSIPA,
+      convocante: details.convocante,
+      asignacionAbogado: details.asignacionAbogado,
+      estadoSolicitud: details.estadoSolicitud,
+      medioControl: details.medioControl,
+      desicionComite: details.desicionComite,
     };
 
-    batch.update(doc(headColl, details.id), { ...head });
-    batch.update(doc(detailsColl, details.id), { ...details });
+    batch.update(doc(headColl, details.id?.toString()), { ...head });
+    batch.update(doc(detailsColl, details.id?.toString()), { ...details });
 
     batch.commit();
 
@@ -179,14 +201,14 @@ export function updateConciliaciones(
 }
 
 export function deleteConciliacion(
-  id: string
+  id: number
 ): ThunkAction<Promise<void>, RootState, null, AnyAction> {
   return async (dispatch: Dispatch<AnyAction>) => {
     try {
       const batch = writeBatch(db);
 
-      batch.delete(doc(headColl, id));
-      batch.delete(doc(detailsColl, id));
+      batch.delete(doc(headColl, id.toString()));
+      batch.delete(doc(detailsColl, id.toString()));
 
       await batch.commit();
 
@@ -224,6 +246,11 @@ export function importConciliaciones(
             id: detail.id,
             fechaIngresoSolicitud: detail.fechaIngresoSolicitud,
             radicadoSIPA: detail.radicadoSIPA,
+            convocante: detail.convocante,
+            asignacionAbogado: detail.asignacionAbogado,
+            estadoSolicitud: detail.estadoSolicitud,
+            medioControl: detail.medioControl,
+            desicionComite: detail.desicionComite,
           };
           heads.push(head);
 

@@ -163,7 +163,7 @@ export default function ConciliacionTable() {
     });
   }
 
-  function handleEdit(id: string) {
+  function handleEdit(id: number) {
     dispatch(openLoading());
     dispatch<any>(getConciliacion(id))
       .then(() => {
@@ -233,10 +233,14 @@ export default function ConciliacionTable() {
       <table className={styles.table}>
         <thead>
           <tr className={`${styles.row} ${styles.firstRow}`}>
-            <th>Radicado SIPA</th>
-            <th>Abogado</th>
-            <th>Concepto</th>
-            <th>Accionante</th>
+            <td>id</td>
+            <td>Fecha Solicitud</td>
+            <td>Radicado SIPA</td>
+            <td>Convocante</td>
+            <td>Asignacion abogado</td>
+            <td>Estado de la solicitud</td>
+            <td>Medio de Control</td>
+            <td>Desición de Comité</td>
           </tr>
         </thead>
         <tbody className={styles.contentRows}>

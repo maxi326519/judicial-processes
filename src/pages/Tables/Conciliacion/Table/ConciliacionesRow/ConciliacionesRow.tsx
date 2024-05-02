@@ -10,7 +10,7 @@ import deleteSvg from "../../../../../assets/svg/delete.svg";
 
 interface Props {
   conciliacion: ConciliacionesHeads;
-  handleEdit: (id: string) => void;
+  handleEdit: (id: number) => void;
   handleDelete: (procesess: ConciliacionesHeads) => void;
 }
 
@@ -29,6 +29,11 @@ export default function ConciliacionesRow({
       <td>{conciliacion.id}</td>
       <td>{dateToString(conciliacion.fechaIngresoSolicitud)}</td>
       <td>{conciliacion.radicadoSIPA}</td>
+      <td>{conciliacion.convocante}</td>
+      <td>{conciliacion.asignacionAbogado}</td>
+      <td>{conciliacion.estadoSolicitud}</td>
+      <td>{conciliacion.medioControl}</td>
+      <td>{conciliacion.desicionComite}</td>
       <button
         className="btn btn-outline-primary"
         type="button"

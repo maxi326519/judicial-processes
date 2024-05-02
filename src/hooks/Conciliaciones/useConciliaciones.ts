@@ -1,5 +1,5 @@
-import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { RootState } from "../../interfaces/RootState";
 import {
   Conciliaciones,
@@ -7,16 +7,17 @@ import {
   initConciliaciones,
   initErrorConciliaciones,
 } from "../../interfaces/Conciliaciones/data";
+import { getFechaTermino } from "../../functions/getFechaTermino";
 
 export default function useConciliaciones() {
-  const dispatch = useDispatch();
-  const users = useSelector((state: RootState) => state.users);
-  const list = useSelector((state: RootState) => state.processes.lists);
   const config = useSelector(
-    (state: RootState) => state.config.consolidaciones
+    (state: RootState) => state.config.conciliaciones
+  );
+  const diasFestivos = useSelector(
+    (state: RootState) => state.processes.lists.diasFestivos
   );
   const [conciliacion, setConciliacion] = useState<Conciliaciones>(
-    initConciliaciones()
+    initConciliaciones(config.id)
   );
   const [errors, setErrors] = useState<ErrorConciliaciones>(
     initErrorConciliaciones()
@@ -83,6 +84,14 @@ export default function useConciliaciones() {
       setErrors({ ...errors, [name]: "" });
     }
 
+    // Functions
+    if (newConciliaciones.fechaIngresoSolicitud) {
+      newConciliaciones.terminoLegal = getFechaTermino(
+        diasFestivos,
+        newConciliaciones.fechaIngresoSolicitud
+      );
+    }
+
     setConciliacion(newConciliaciones);
   }
 
@@ -95,7 +104,7 @@ export default function useConciliaciones() {
     let error: ErrorConciliaciones = initErrorConciliaciones();
     let value = true;
 
-    if (conciliacion.id === "") {
+    if (conciliacion.id === 0) {
       error.id = "Debes completar este campo";
       value = false;
     }
@@ -135,11 +144,6 @@ export default function useConciliaciones() {
 
     if (!config.estadoSolicitud && conciliacion.estadoSolicitud === "") {
       error.estadoSolicitud = "Debes completar este campo";
-      value = false;
-    }
-
-    if (!config.terminoLegal && conciliacion.terminoLegal === "") {
-      error.terminoLegal = "Debes completar este campo";
       value = false;
     }
 

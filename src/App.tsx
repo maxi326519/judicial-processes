@@ -329,7 +329,7 @@ function App() {
             user.rol === UserRol.Admin || user.permissions.conciliaciones ? (
               <Dashboard
                 element={<ConciliacionTable />}
-                title={"Concilidaciones - Tabla"}
+                title={"Conciliaciones - Tabla"}
               />
             ) : (
               <PageNotFound />
@@ -342,7 +342,7 @@ function App() {
             user.rol === UserRol.Admin || user.permissions.conciliaciones ? (
               <Dashboard
                 element={<ConciliacionIframe />}
-                title={"Concilidaciones - Gráficos"}
+                title={"Conciliaciones - Gráficos"}
               />
             ) : (
               <PageNotFound />
@@ -355,7 +355,7 @@ function App() {
             user.rol === UserRol.Admin || user.permissions.conciliaciones ? (
               <Dashboard
                 element={<ConcilidacionExcel />}
-                title={"Concilidaciones - Excel"}
+                title={"Conciliaciones - Excel"}
               />
             ) : (
               <PageNotFound />

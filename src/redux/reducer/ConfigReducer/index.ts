@@ -82,7 +82,7 @@ export const configReducer = (
     case GET_CONCILIACIONES_CONFIG:
       return {
         ...state,
-        poderes: action.payload,
+        conciliaciones: action.payload,
       };
 
     default:

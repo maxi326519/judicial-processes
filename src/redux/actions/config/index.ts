@@ -17,14 +17,14 @@ import {
   RequirementsConfig,
   initRequirementsConfig,
 } from "../../../interfaces/Configuration/requirements";
-import { ConciliacionesConfig } from "../../../interfaces/Configuration/conciliaciones";
+import { ConciliacionesConfig, initConciliacionesConfig } from "../../../interfaces/Configuration/conciliaciones";
 
 const configColl = collection(db, "Configuration");
 const processesConfigDoc = doc(configColl, "ProcessesConfig");
 const tutelasConfigDoc = doc(configColl, "TutelasConfig");
 const requirementsConfigDoc = doc(configColl, "RequirementsConfig");
 const poderesConfigDoc = doc(configColl, "PoderesConfig");
-const consolidacionesConfigDoc = doc(configColl, "ConsolidacionesConfig");
+const conciliacionesConfigDoc = doc(configColl, "ConciliacionesConfig");
 
 export const UPDATE_PROCESSES_CONFIG = "UPDATE_PROCESSES_CONFIG";
 export const UPDATE_PROCESSES_CHANGE_CONFIG = "UPDATE_PROCESSES_CHANGE_CONFIG";
@@ -151,17 +151,17 @@ export function getConciliacionesConfig(): ThunkAction<
 > {
   return async (dispatch: Dispatch<AnyAction>) => {
     try {
-      const snapshot = await getDoc(consolidacionesConfigDoc);
-      let consolidacionesConfig = snapshot.data();
+      const snapshot = await getDoc(conciliacionesConfigDoc);
+      let conciliacionesConfig = snapshot.data();
 
       if (!snapshot.exists()) {
-        consolidacionesConfig = initRequirementsConfig();
-        await setDoc(consolidacionesConfigDoc, consolidacionesConfig);
+        conciliacionesConfig = initConciliacionesConfig();
+        await setDoc(conciliacionesConfigDoc, conciliacionesConfig);
       }
 
       dispatch({
         type: GET_CONCILIACIONES_CONFIG,
-        payload: consolidacionesConfig,
+        payload: conciliacionesConfig,
       });
     } catch (e: any) {
       throw new Error(e);
@@ -264,16 +264,16 @@ export function updatePoderesConfig(
   };
 }
 
-export function updateConsolidacionesConfig(
-  consolidacionesConfig: ConciliacionesConfig
+export function updateConciliacionesConfig(
+  conciliacionesConfig: ConciliacionesConfig
 ): ThunkAction<Promise<void>, RootState, null, AnyAction> {
   return async (dispatch: Dispatch<AnyAction>) => {
     try {
-      await updateDoc(consolidacionesConfigDoc, { ...consolidacionesConfig });
+      await updateDoc(conciliacionesConfigDoc, { ...conciliacionesConfig });
 
       dispatch({
         type: GET_CONCILIACIONES_CONFIG,
-        payload: consolidacionesConfig,
+        payload: conciliacionesConfig,
       });
     } catch (e: any) {
       throw new Error(e);

@@ -1,7 +1,5 @@
-import { useSelector } from "react-redux";
-import { RootState } from "../../../../../interfaces/RootState";
+import { dateToString } from "../../../../../functions/dateToString";
 import { useState } from "react";
-import { UserRol } from "../../../../../interfaces/users";
 import {
   initConciliacionesFilters,
   ConciliacionesFilters,
@@ -16,8 +14,6 @@ interface Props {
 }
 
 export default function Filters({ filters, setFilters }: Props) {
-  const user = useSelector((state: RootState) => state.sesion);
-  const users = useSelector((state: RootState) => state.users);
   const [filter, setFilter] = useState(false);
 
   function handleFilter() {
@@ -42,6 +38,104 @@ export default function Filters({ filters, setFilters }: Props) {
       </button>
       <form className={style.filterContainer}>
         {/* Add filters */}
+
+        <div className="form-floating form-floating-dark">
+          <input
+            id="id"
+            className="form-control form-control-dark"
+            name="id"
+            type="text"
+            value={filters.id}
+            onChange={handleChange}
+          />
+          <label htmlFor="id">ID:</label>
+        </div>
+
+        <div className="form-floating form-floating-dark">
+          <input
+            id="fechaIngresoSolicitud"
+            className="form-control form-control-dark"
+            name="fechaIngresoSolicitud"
+            type="text"
+            value={dateToString(filters.fechaIngresoSolicitud)}
+            onChange={handleChange}
+          />
+          <label htmlFor="fechaIngresoSolicitud">
+            Fecha de ingreso de la solicitud:
+          </label>
+        </div>
+
+        <div className="form-floating form-floating-dark">
+          <input
+            id="radicadoSIPA"
+            className="form-control form-control-dark"
+            name="radicadoSIPA"
+            type="text"
+            value={filters.radicadoSIPA}
+            onChange={handleChange}
+          />
+          <label htmlFor="radicadoSIPA">Radicado SIPA:</label>
+        </div>
+
+        <div className="form-floating form-floating-dark">
+          <input
+            id="convocante"
+            className="form-control form-control-dark"
+            name="convocante"
+            type="text"
+            value={filters.convocante}
+            onChange={handleChange}
+          />
+          <label htmlFor="convocante">Convocante:</label>
+        </div>
+
+        <div className="form-floating form-floating-dark">
+          <input
+            id="asignacionAbogado"
+            className="form-control form-control-dark"
+            name="asignacionAbogado"
+            type="text"
+            value={filters.asignacionAbogado}
+            onChange={handleChange}
+          />
+          <label htmlFor="asignacionAbogado">Asignacion abogado:</label>
+        </div>
+
+        <div className="form-floating form-floating-dark">
+          <input
+            id="estadoSolicitud"
+            className="form-control form-control-dark"
+            name="estadoSolicitud"
+            type="text"
+            value={filters.estadoSolicitud}
+            onChange={handleChange}
+          />
+          <label htmlFor="estadoSolicitud">Estado de la solicitud:</label>
+        </div>
+
+        <div className="form-floating form-floating-dark">
+          <input
+            id="medioControl"
+            className="form-control form-control-dark"
+            name="medioControl"
+            type="text"
+            value={filters.medioControl}
+            onChange={handleChange}
+          />
+          <label htmlFor="medioControl">Medio de Control:</label>
+        </div>
+
+        <div className="form-floating form-floating-dark">
+          <input
+            id="desicionComite"
+            className="form-control form-control-dark"
+            name="desicionComite"
+            type="text"
+            value={filters.desicionComite}
+            onChange={handleChange}
+          />
+          <label htmlFor="desicionComite">Desición de Comité:</label>
+        </div>
 
         <button
           className="btn btn-outline-success"

@@ -13,6 +13,11 @@ export default function ExcelRow({ conciliacion }: Props) {
       <td>{conciliacion.id}</td>
       <td>{dateToString(conciliacion.fechaIngresoSolicitud)}</td>
       <td>{conciliacion.radicadoSIPA}</td>
+      <td>{conciliacion.convocante}</td>
+      <td>{conciliacion.asignacionAbogado}</td>
+      <td>{conciliacion.estadoSolicitud}</td>
+      <td>{conciliacion.medioControl}</td>
+      <td>{conciliacion.desicionComite}</td>
     </tr>
   );
 }

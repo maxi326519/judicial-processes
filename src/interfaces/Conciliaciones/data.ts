@@ -7,6 +7,7 @@ export interface ConciliacionesHeads {
   estadoSolicitud: string;
   medioControl: string;
   desicionComite: string;
+  terminoLegal: Date | null;
 }
 
 export interface Conciliaciones {

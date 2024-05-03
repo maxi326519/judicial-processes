@@ -13,6 +13,7 @@ import {
   UPDATE_REQUIREMENTS_CONFIG,
   UPDATE_TUTELAS_CONFIG,
 } from "../../actions/config";
+import { SET_CONCILIACIONES } from "../../actions/Conciliaciones/conciliaciones";
 
 export const configReducer = (
   state: RootConfig = { ...initRootState.config },
@@ -83,6 +84,15 @@ export const configReducer = (
       return {
         ...state,
         conciliaciones: action.payload,
+      };
+
+    case SET_CONCILIACIONES:
+      return {
+        ...state,
+        conciliaciones: {
+          ...state.conciliaciones,
+          id: action.payload.id + 1,
+        },
       };
 
     default:

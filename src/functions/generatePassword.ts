@@ -9,5 +9,5 @@ export function generatePassword() {
     password += chars[randomIndex];
   }
 
-  return password; 
+  return password;
 }

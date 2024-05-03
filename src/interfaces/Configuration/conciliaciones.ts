@@ -5,6 +5,7 @@ export interface ConciliacionesConfig {
   convocante: boolean;
   medioControl: boolean;
   pretension: boolean;
+  valorEstimado: boolean;
   asignacionAbogado: boolean;
   estadoSolicitud: boolean;
   terminoLegal: boolean;
@@ -27,6 +28,7 @@ export const initConciliacionesConfig = (): ConciliacionesConfig => ({
   convocante: false,
   medioControl: false,
   pretension: false,
+  valorEstimado: false,
   asignacionAbogado: false,
   estadoSolicitud: false,
   terminoLegal: false,

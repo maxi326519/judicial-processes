@@ -7,6 +7,7 @@ import { UserRol } from "../../../../../interfaces/users";
 import style from "./ConciliacionesRow.module.css";
 import editSvg from "../../../../../assets/svg/edit.svg";
 import deleteSvg from "../../../../../assets/svg/delete.svg";
+import getSignal from "../../../../../functions/getSignal";
 
 interface Props {
   conciliacion: ConciliacionesHeads;
@@ -20,6 +21,8 @@ export default function ConciliacionesRow({
   handleDelete,
 }: Props) {
   const user = useSelector((state: RootState) => state.sesion);
+  const signal = getSignal(conciliacion.terminoLegal);
+
   return (
     <tr
       className={`${style.row} ${
@@ -34,6 +37,19 @@ export default function ConciliacionesRow({
       <td>{conciliacion.estadoSolicitud}</td>
       <td>{conciliacion.medioControl}</td>
       <td>{conciliacion.desicionComite}</td>
+      <td>
+        <div
+          className={`${style.signal} ${
+            signal === 1
+              ? style.state1
+              : signal === 2
+              ? style.state2
+              : signal === 3
+              ? style.state3
+              : ""
+          }`}
+        ></div>
+      </td>
       <button
         className="btn btn-outline-primary"
         type="button"

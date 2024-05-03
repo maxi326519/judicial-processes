@@ -40,7 +40,7 @@ const conciliacionesDoc = doc(dataColl, "Conciliaciones");
 const headColl = collection(conciliacionesDoc, "Head");
 const detailsColl = collection(conciliacionesDoc, "Details");
 const configColl = collection(db, "Configuration");
-const ConsolidacionesConfigDoc = doc(configColl, "ConsolidacionesConfig");
+const ConciliacionesConfigDoc = doc(configColl, "ConciliacionesConfig");
 
 export function setConciliaciones(
   conciliaciones: Conciliaciones
@@ -69,13 +69,14 @@ export function setConciliaciones(
         estadoSolicitud: conciliaciones.estadoSolicitud,
         medioControl: conciliaciones.medioControl,
         desicionComite: conciliaciones.desicionComite,
+        terminoLegal: conciliaciones.terminoLegal,
       };
       let details: Conciliaciones = conciliaciones;
 
       // Add data to save
       batch.set(headDoc, head);
       batch.set(detailsDoc, details);
-      batch.update(ConsolidacionesConfigDoc, {
+      batch.update(ConciliacionesConfigDoc, {
         id: Number(conciliaciones.id) + 1,
       });
 
@@ -115,6 +116,7 @@ export function getConciliacionesHeaders(
           fechaIngresoSolicitud: getDateOrNull(
             doc.data().fechaIngresoSolicitud
           ),
+          terminoLegal: getDateOrNull(doc.data().terminoLegal),
         });
       });
     }
@@ -140,15 +142,10 @@ export function getConciliacion(
 
       if (!data) throw new Error("Document not found");
 
-      const details: ConciliacionesHeads = {
-        id: data.id,
+      const details: Conciliaciones = {
+        ...data,
         fechaIngresoSolicitud: getDateOrNull(data.fechaIngresoSolicitud),
-        radicadoSIPA: data.radicadoSIPA,
-        convocante: data.convocante,
-        asignacionAbogado: data.asignacionAbogado,
-        estadoSolicitud: data.estadoSolicitud,
-        medioControl: data.medioControl,
-        desicionComite: data.desicionComite,
+        terminoLegal: getDateOrNull(data.terminoLegal),
       };
 
       dispatch({
@@ -182,6 +179,7 @@ export function updateConciliaciones(
       estadoSolicitud: details.estadoSolicitud,
       medioControl: details.medioControl,
       desicionComite: details.desicionComite,
+      terminoLegal: details.terminoLegal,
     };
 
     batch.update(doc(headColl, details.id?.toString()), { ...head });
@@ -251,6 +249,7 @@ export function importConciliaciones(
             estadoSolicitud: detail.estadoSolicitud,
             medioControl: detail.medioControl,
             desicionComite: detail.desicionComite,
+            terminoLegal: detail.terminoLegal,
           };
           heads.push(head);
 

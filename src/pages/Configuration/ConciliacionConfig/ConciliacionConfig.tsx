@@ -25,6 +25,7 @@ const inputs: Inputs[] = [
   { name: "convocante", label: "Convocante" },
   { name: "medioControl", label: "Medio de Control" },
   { name: "pretension", label: "Pretensión" },
+  { name: "valorEstimado", label: "Valor estimado" },
   { name: "asignacionAbogado", label: "Asignacion abogado" },
   { name: "estadoSolicitud", label: "Estado de la solicitud" },
   { name: "terminoLegal", label: "Término legal" },

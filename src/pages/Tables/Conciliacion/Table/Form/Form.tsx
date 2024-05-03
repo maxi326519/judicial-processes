@@ -81,6 +81,13 @@ export default function Form({ handleClose }: Props) {
       error: errors.pretension,
     },
     {
+      value: conciliacion.valorEstimado,
+      name: "valorEstimado",
+      label: "Valor Estimado",
+      inputType: "string",
+      error: errors.valorEstimado,
+    },
+    {
       value: conciliacion.asignacionAbogado,
       name: "asignacionAbogado",
       label: "Asignacion abogado",
@@ -90,6 +97,7 @@ export default function Form({ handleClose }: Props) {
           (user) =>
             user.id !== "2RuL7ejyY7ftgEAL4j7jy2RyOXQ2" && // Filter one user
             (user.permissions?.conciliaciones || user.rol === UserRol.Admin) && // Filter only they have access
+            user.rol !== UserRol.Admin &&
             !(
               user.available && // If available exist
               user.available.startDate! <= new Date() && // If the date is within the range
@@ -246,6 +254,16 @@ export default function Form({ handleClose }: Props) {
         <div className="btn-close" onClick={handleLocalClose} />
       </div>
       <div className={styles.grid}>
+        <h3 className={styles.title1}>
+          1 MOMENTO: NOTIFICACION DE SOLICITUD DE CONCILIACION
+        </h3>
+        <h3 className={styles.title2}>
+          2 MOMENTO: ESTUDIO DE CASO POR PARTE DEL ABOGADO
+        </h3>
+        <h3 className={styles.title3}>
+          3 MOMENTO: RECEPCION AL COMITÉ DE CONCILIACION
+        </h3>
+        <h3 className={styles.title4}>DATOS COMPLEMENTARIOS</h3>
         {inputs.map((data, i) =>
           data.inputType === "select" ? (
             <SelectInput

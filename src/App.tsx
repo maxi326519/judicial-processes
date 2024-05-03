@@ -10,6 +10,7 @@ import { getLists } from "./redux/actions/Processes/lists";
 import { UserRol } from "./interfaces/users";
 import { auth } from "./firebase/config";
 import {
+  getConciliacionesConfig,
   getProcessesConfig,
   getRequirementsConfig,
   getTutelasConfig,
@@ -77,6 +78,8 @@ function App() {
               dispatch<any>(getProcessesConfig()),
               dispatch<any>(getTutelasConfig()),
               dispatch<any>(getRequirementsConfig()),
+              dispatch<any>(getProcessesConfig()),
+              dispatch<any>(getConciliacionesConfig()),
             ])
               .then(async () => {
                 dispatch(closeLoading());

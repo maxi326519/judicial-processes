@@ -35,7 +35,7 @@
   flex-grow: 1;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(10, max-content);
+  grid-template-rows: repeat(14, max-content);
   grid-template-areas:
     "title1 title1 title1"
     "id fechaIngresoSolicitud radicadoSIPA"
@@ -91,7 +91,7 @@
   grid-area: title1;
 }
 
-.grid.title2 {
+.grid .title2 {
   grid-area: title2;
 }
 
@@ -103,82 +103,82 @@
   grid-area: title4;
 }
 
-.grid input[name="id"] {
+.grid div:nth-child(5) {
   grid-area: id;
 }
 
-.grid input[name="fechaIngresoSolicitud"] {
+.grid div:nth-child(6) {
   grid-area: fechaIngresoSolicitud;
 }
 
-.grid input[name="radicadoSIPA"] {
+.grid div:nth-child(7) {
   grid-area: radicadoSIPA;
 }
 
-.grid input[name="convocante"] {
+.grid div:nth-child(8) {
   grid-area: convocante;
 }
 
-.grid input[name="medioControl"] {
+.grid div:nth-child(9) {
   grid-area: medioControl;
 }
 
-.grid input[name="pretension"] {
+.grid div:nth-child(10) {
   grid-area: pretension;
 }
 
-.grid input[name="valorEstimado"] {
+.grid div:nth-child(11) {
   grid-area: valorEstimado;
 }
 
-.grid input[name="asignacionAbogado"] {
+.grid div:nth-child(12) {
   grid-area: asignacionAbogado;
 }
 
-.grid input[name="estadoSolicitud"] {
+.grid div:nth-child(13) {
   grid-area: estadoSolicitud;
 }
 
-.grid input[name="terminoLegal"] {
+.grid div:nth-child(14) {
   grid-area: terminoLegal;
 }
 
-.grid input[name="consecutivo"] {
+.grid div:nth-child(15) {
   grid-area: consecutivo;
 }
 
-.grid input[name="radicadosSIPASolicitud"] {
+.grid div:nth-child(16) {
   grid-area: radicadosSIPASolicitud;
 }
 
-.grid input[name="radicadosSIPARespuesta"] {
+.grid div:nth-child(17) {
   grid-area: radicadosSIPARespuesta;
 }
 
-.grid input[name="fechaComite"] {
+.grid div:nth-child(18) {
   grid-area: fechaComite;
 }
 
-.grid input[name="desicionComite"] {
+.grid div:nth-child(19) {
   grid-area: desicionComite;
 }
 
-.grid input[name="estadoAudiencia"] {
+.grid div:nth-child(20) {
   grid-area: estadoAudiencia;
 }
 
-.grid input[name="procuraduriaRemitente"] {
+.grid div:nth-child(21) {
   grid-area: procuraduriaRemitente;
 }
 
-.grid input[name="numeroSolicitud"] {
+.grid div:nth-child(22) {
   grid-area: numeroSolicitud;
 }
 
-.grid input[name="fechaCitacionAudiencia"] {
+.grid div:nth-child(23) {
   grid-area: fechaCitacionAudiencia;
 }
 
-.grid textarea[name="observaciones"] {
+.grid div:nth-child(24) {
   grid-area: observaciones;
 }

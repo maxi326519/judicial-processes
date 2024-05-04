@@ -64,14 +64,19 @@ export default function ConciliacionTable() {
       /* FECHA SOLICITUD */
       if (
         filters.fechaIngresoSolicitud &&
-        filters.fechaIngresoSolicitud.getDate() ===
-          data.fechaIngresoSolicitud?.getDate() &&
-        filters.fechaIngresoSolicitud.getMonth() ===
-          data.fechaIngresoSolicitud?.getMonth() &&
-        filters.fechaIngresoSolicitud.getFullYear() ===
-          data.fechaIngresoSolicitud?.getFullYear()
+        !(
+          filters.fechaIngresoSolicitud.getDate() ===
+            data.fechaIngresoSolicitud?.getDate() &&
+          filters.fechaIngresoSolicitud.getMonth() ===
+            data.fechaIngresoSolicitud?.getMonth() &&
+          filters.fechaIngresoSolicitud.getFullYear() ===
+            data.fechaIngresoSolicitud?.getFullYear()
+        )
       )
         return false;
+
+      console.log(filters.fechaIngresoSolicitud);
+      console.log(data.fechaIngresoSolicitud);
 
       /* RADICADO SIPA */
       if (
@@ -317,6 +322,7 @@ export default function ConciliacionTable() {
             <td>Estado de la solicitud</td>
             <td>Medio de Control</td>
             <td>Desición de Comité</td>
+            <td>Término legal</td>
           </tr>
         </thead>
         <tbody className={styles.contentRows}>
@@ -353,14 +359,31 @@ export default function ConciliacionTable() {
                 <th>No hay conciliaciones</th>
               </tr>
             ) : (
-              rows?.map((conciliacion: ConciliacionesHeads) => (
-                <ConciliacionRow
-                  key={conciliacion.id}
-                  conciliacion={conciliacion}
-                  handleEdit={handleEdit}
-                  handleDelete={handleDelete}
-                />
-              ))
+              rows
+                ?.sort((a, b) => {
+                  if (a === null) return 1;
+                  if (b.fechaIngresoSolicitud === null) return 1;
+                  if (a.fechaIngresoSolicitud === null) return 1;
+                  if (
+                    a.fechaIngresoSolicitud.getTime() >
+                    b.fechaIngresoSolicitud.getTime()
+                  )
+                    return -1;
+                  if (
+                    a.fechaIngresoSolicitud.getTime() <
+                    b.fechaIngresoSolicitud.getTime()
+                  )
+                    return 1;
+                  return 0;
+                })
+                .map((conciliacion: ConciliacionesHeads) => (
+                  <ConciliacionRow
+                    key={conciliacion.id}
+                    conciliacion={conciliacion}
+                    handleEdit={handleEdit}
+                    handleDelete={handleDelete}
+                  />
+                ))
             )}
           </div>
         </tbody>

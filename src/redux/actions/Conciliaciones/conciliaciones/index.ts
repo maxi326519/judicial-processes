@@ -236,8 +236,8 @@ export function importConciliaciones(
           length++;
 
           // Firestore docs
-          const headDoc = doc(headColl);
-          const detailsDoc = doc(detailsColl, headDoc.id);
+          const headDoc = doc(headColl, detail.id?.toString());
+          const detailsDoc = doc(detailsColl, detail.id?.toString());
 
           // Data to post
           let head: ConciliacionesHeads = {

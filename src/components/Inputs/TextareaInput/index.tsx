@@ -13,12 +13,12 @@ export default function TextAreaInput({
   handleChange,
 }: TextAreaInputData) {
   return (
-    <div className="form-floating">
+    <div className={`form-floating ${name}`}>
       <textarea
         id={name}
         name={name}
         className={`form-control ${error ? "is-invalid" : ""}`}
-        style={{ height: "200px"}}
+        style={{ height: "200px" }}
         value={value}
         onChange={handleChange}
       />

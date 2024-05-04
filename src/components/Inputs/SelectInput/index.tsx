@@ -24,7 +24,7 @@ export default function SelectInput({
   handleChange,
 }: SelectProps) {
   return (
-    <div className="form-floating">
+    <div className={`form-floating ${name}`}>
       <select
         id={name}
         name={name}

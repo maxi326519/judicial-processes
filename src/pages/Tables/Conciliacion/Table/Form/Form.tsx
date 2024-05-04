@@ -119,6 +119,7 @@ export default function Form({ handleClose }: Props) {
       name: "terminoLegal",
       label: "Término legal",
       inputType: "date",
+      formulated: true,
       error: errors.terminoLegal,
     },
     {
@@ -160,7 +161,7 @@ export default function Form({ handleClose }: Props) {
     {
       value: conciliacion.estadoAudiencia,
       name: "estadoAudiencia",
-      label: "Desición de Comité",
+      label: "Estado audiencia",
       inputType: "select",
       list: lists.estadoAudiencia,
       error: errors.estadoAudiencia,
@@ -292,6 +293,7 @@ export default function Form({ handleClose }: Props) {
                 value={data.value}
                 label={data.label}
                 type={data.inputType}
+                formulated={data.formulated || false}
                 error={data.error}
                 handleChange={handleChange}
               />

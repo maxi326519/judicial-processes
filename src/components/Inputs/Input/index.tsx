@@ -27,7 +27,7 @@ export default function Input({
   handleChange,
 }: InputProps) {
   return (
-    <div className="form-floating">
+    <div className={`form-floating ${name}`}>
       <input
         id={name}
         name={name}

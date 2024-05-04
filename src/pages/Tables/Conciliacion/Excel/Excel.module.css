@@ -121,7 +121,7 @@
 
 .row {
   display: grid;
-  grid-template-columns: 100px 100px repeat(7, 1fr) 50px 50px;
+  grid-template-columns: 100px 100px repeat(7, 1fr);
   gap: 10px;
   padding: 10px;
   outline: 1px solid var(--border);

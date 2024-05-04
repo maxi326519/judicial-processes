@@ -1,4 +1,6 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getFechaTermino } from "../../../../../functions/getFechaTermino";
+import { RootState } from "../../../../../interfaces/RootState";
 import {
   closeLoading,
   openLoading,
@@ -19,6 +21,7 @@ interface Props {
 }
 
 export default function ImportExcel({ handleData, handleClose }: Props) {
+  const lists = useSelector((state: RootState) => state.processes.lists);
   const dispatch = useDispatch();
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(openLoading());
@@ -36,8 +39,8 @@ export default function ImportExcel({ handleData, handleClose }: Props) {
           });
 
           worksheetData
-            .slice(1)
-            .forEach((item: any) => (item[3] ? data.push(item) : null));
+            .slice(3)
+            .forEach((item: any) => (item[2] ? data.push(item) : null));
 
           const convert = dataConvert(data);
           handleData(convert);
@@ -65,36 +68,20 @@ export default function ImportExcel({ handleData, handleClose }: Props) {
   function dataConvert(data: any) {
     let newData: Conciliaciones[] = [];
     let idList: number[] = [];
-    let nroList: string[] = [];
-    let radicadoList: string[] = [];
+    console.log(data);
 
     data.forEach((conciliacion: any, i: number) => {
       // Save data to check
-      const idSiproj = Number(conciliacion[21]);
-      const nroConciliacion = conciliacion[11];
-      const radicado = conciliacion[3];
+      const id = Number(conciliacion[0]);
 
-      // Check if idSiproj already exist
-      /*       if (idList.some((id) => id === idSiproj))
-        throw new Error(`El id de la fila ${i + 1} ya existe: (${idSiproj})`); */
+      console.log(id, conciliacion[0]);
 
       // Check if radicado already exist
-      if (radicadoList.some((radicadoItem) => radicadoItem === radicado))
-        throw new Error(
-          `El radicado de la fila ${i + 1} ya existe: (${radicado})`
-        );
-
-      // Check if nroConciliacion already exist
-      /*       if (nroList.some((nro) => nro === nroConciliacion))
-        throw new Error(`El numero ${i + 1} ya existe: (${radicado})`); */
+      if (idList.some((idItem) => idItem === id))
+        throw new Error(`El id de la fila ${i + 1} ya existe: (${id})`);
 
       // Add idSiproj and nroConciliacion to list
-      idList.push(idSiproj);
-      nroList.push(nroConciliacion);
-
-      if (radicado !== "NO TIENE NUMERO SIPA") {
-        radicadoList.push(radicado);
-      }
+      idList.push(id);
 
       const currentData: Conciliaciones = {
         id: Number(conciliacion[0] || 0),
@@ -106,7 +93,9 @@ export default function ImportExcel({ handleData, handleClose }: Props) {
         valorEstimado: textParser(conciliacion[6] || ""),
         asignacionAbogado: textParser(conciliacion[7] || ""),
         estadoSolicitud: textParser(conciliacion[8] || ""),
-        terminoLegal: newDate(conciliacion[9]),
+        terminoLegal:
+          newDate(conciliacion[1] || "") &&
+          getFechaTermino(lists.diasFestivos, newDate(conciliacion[1]) as Date),
         consecutivo: Number(conciliacion[10] || ""),
         radicadosSIPASolicitud: textParser(conciliacion[11] || ""),
         radicadosSIPARespuesta: textParser(conciliacion[12] || ""),
@@ -132,6 +121,7 @@ export default function ImportExcel({ handleData, handleClose }: Props) {
           estadoSolicitud: item.estadoSolicitud,
           medioControl: item.medioControl,
           desicionComite: item.desicionComite,
+          terminoLegal: item.terminoLegal,
         })
       ),
       details: newData,

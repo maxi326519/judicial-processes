@@ -8,38 +8,32 @@ const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
 const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
 
 const dataLabels = [
+  { value: "id", label: "ID" },
+  { value: "fechaIngresoSolicitud", label: "Fecha de ingreso solicitud" },
+  { value: "radicadoSIPA", label: "Radicado SIPA" },
+  { value: "convocante", label: "Convocante" },
+  { value: "medioControl", label: "Medio de Control" },
+  { value: "pretension", label: "Pretensión" },
+  { value: "valorEstimado", label: "Valor estimado" },
+  { value: "asignacionAbogado", label: "Asignacion abogado" },
+  { value: "estadoSolicitud", label: "Estado de la solicitud" },
+  { value: "terminoLegal", label: "Término legal" },
+  { value: "consecutivo", label: "Consecutivo" },
   {
-    value: "fechaRadicacion",
-    label: "Fecha de Radicacion",
+    value: "radicadosSIPASolicitud",
+    label: "Radicados SIPA Solicitud de insumo",
   },
   {
-    value: "radicadoSipa",
-    label: "Radicado Sipa",
+    value: "radicadosSIPARespuesta",
+    label: "Radicados SIPA Respuesta de insumo",
   },
-  {
-    value: "abogado",
-    label: "Abogado",
-  },
-  {
-    value: "concepto",
-    label: "Concepto",
-  },
-  {
-    value: "proceso",
-    label: "Proceso",
-  },
-  {
-    value: "numero",
-    label: "Numero",
-  },
-  {
-    value: "accionante",
-    label: "Accionante",
-  },
-  {
-    value: "observaciones",
-    label: "Observaciones",
-  },
+  { value: "fechaComite", label: "Fecha de Comité" },
+  { value: "desicionComite", label: "Desición de Comité" },
+  { value: "estadoAudiencia", label: "Estado audiencia" },
+  { value: "procuraduriaRemitente", label: "Procuraduría Remitente" },
+  { value: "numeroSolicitud", label: "Número de solicitud" },
+  { value: "fechaCitacionAudiencia", label: "Fecha de citación o audiencia" },
+  { value: "observaciones", label: "Observaciones" },
 ];
 
 export default function Excel({ data, handleClose }) {

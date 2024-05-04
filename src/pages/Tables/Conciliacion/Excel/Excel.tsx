@@ -254,9 +254,14 @@ export default function Excel() {
       <table className={styles.table}>
         <thead>
           <tr className={`${styles.row} ${styles.firstRow}`}>
-            <th>Id</th>
-            <th>Fecha</th>
-            <th>Radicado</th>
+            <td>id</td>
+            <td>Fecha Solicitud</td>
+            <td>Radicado SIPA</td>
+            <td>Convocante</td>
+            <td>Asignacion abogado</td>
+            <td>Estado de la solicitud</td>
+            <td>Medio de Control</td>
+            <td>Desición de Comité</td>
           </tr>
         </thead>
         <tbody className={styles.contentRows}>

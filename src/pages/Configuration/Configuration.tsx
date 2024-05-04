@@ -16,6 +16,7 @@ import {
 import swal from "sweetalert";
 
 import styles from "./Configuration.module.css";
+import { BackUps } from "./BackUps/BackUps";
 
 const sideItems = [
   { label: "Procesos", value: "processes", element: <ProcessesConfig /> },
@@ -30,6 +31,11 @@ const sideItems = [
     label: "Conciliaciones",
     value: "conciliaciones",
     element: <ConciliacionesConfig />,
+  },
+  {
+    label: "Backup",
+    value: "backup",
+    element: <BackUps />,
   },
 ];
 

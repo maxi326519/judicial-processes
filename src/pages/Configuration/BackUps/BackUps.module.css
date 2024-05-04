@@ -1,0 +1,10 @@
+.background {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+}
+
+.background button {
+  width: max-content;
+}

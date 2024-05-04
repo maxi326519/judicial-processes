@@ -219,7 +219,6 @@ export function importPoderes(
 
           // Data to post
           let head: PoderesHeads = {
-            id: detail.id,
             radicadoSipa: detail.radicadoSipa,
             abogado: detail.abogado,
             concepto: detail.concepto,

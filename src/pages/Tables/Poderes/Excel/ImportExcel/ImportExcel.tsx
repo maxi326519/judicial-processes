@@ -64,19 +64,11 @@ export default function ImportExcel({ handleData, handleClose }: Props) {
 
   function dataConvert(data: any) {
     let newData: PoderesDetails[] = [];
-    let idList: number[] = [];
-    let nroList: string[] = [];
     let radicadoList: string[] = [];
 
     data.forEach((processes: any, i: number) => {
       // Save data to check
-      const idSiproj = Number(processes[21]);
-      const nroPoder = processes[11];
-      const radicado = processes[3];
-
-      // Check if idSiproj already exist
-      /*       if (idList.some((id) => id === idSiproj))
-        throw new Error(`El id de la fila ${i + 1} ya existe: (${idSiproj})`); */
+      const radicado = processes[2];
 
       // Check if radicado already exist
       if (radicadoList.some((radicadoItem) => radicadoItem === radicado))
@@ -84,36 +76,24 @@ export default function ImportExcel({ handleData, handleClose }: Props) {
           `El radicado de la fila ${i + 1} ya existe: (${radicado})`
         );
 
-      // Check if nroPoder already exist
-      /*       if (nroList.some((nro) => nro === nroPoder))
-        throw new Error(`El numero ${i + 1} ya existe: (${radicado})`); */
-
-      // Add idSiproj and nroPoder to list
-      idList.push(idSiproj);
-      nroList.push(nroPoder);
-
-      if (radicado !== "NO TIENE NUMERO SIPA") {
-        radicadoList.push(radicado);
-      }
-
       const currentData: PoderesDetails = {
-        id: textParser(processes[0] || ""),
-        fechaRadicacion: newDate(processes[1] || null),
-        radicadoSipa: textParser(processes[2] || ""),
-        abogado: textParser(processes[3] || ""),
-        concepto: textParser(processes[4] || ""),
-        proceso: textParser(processes[5] || ""),
-        numero: textParser(processes[6] || ""),
-        accionante: textParser(processes[7] || ""),
-        observaciones: textParser(processes[8] || ""),
+        fechaRadicacion: newDate(processes[0] || null),
+        radicadoSipa: textParser(processes[1] || ""),
+        abogado: textParser(processes[2] || ""),
+        concepto: textParser(processes[3] || ""),
+        proceso: textParser(processes[4] || ""),
+        numero: textParser(processes[5] || ""),
+        accionante: textParser(processes[6] || ""),
+        observaciones: textParser(processes[7] || ""),
       };
       newData.push(currentData);
     });
 
+    console.log(newData);
+
     return {
       head: newData.map(
         (item: PoderesDetails): PoderesHeads => ({
-          id: item.id,
           radicadoSipa: item.radicadoSipa,
           abogado: item.abogado,
           concepto: item.concepto,

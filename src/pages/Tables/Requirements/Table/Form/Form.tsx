@@ -119,7 +119,7 @@ export default function Form({ handleClose }: Props) {
         .filter(
           (user) =>
             user.id !== "2RuL7ejyY7ftgEAL4j7jy2RyOXQ2" && // Filter one user
-            (user.permissions?.processes || user.rol === UserRol.Admin) && // Filter only they have access
+            (user.permissions?.requirements || user.rol === UserRol.Admin) && // Filter only they have access
             !(
               user.available && // If available exist
               user.available.startDate! <= new Date() && // If the date is within the range

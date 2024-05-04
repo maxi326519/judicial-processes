@@ -141,10 +141,10 @@ export default function Excel() {
       // Sort, convert and save the data to export
       setExcelData(details
         .sort((a: any, b: any) => {
-          if (a.fecha === null) return 1;
-          if (b.fecha === null) return -1;
-          if (a.fecha > b.fecha) return 1;
-          if (a.fecha < b.fecha) return -1;
+          if (a.fechaRadicacion === null) return 1;
+          if (b.fechaRadicacion === null) return -1;
+          if (a.fechaRadicacion > b.fechaRadicacion) return 1;
+          if (a.fechaRadicacion < b.fechaRadicacion) return -1;
           return 0;
         })
         .map((data: PoderesDetails) => convertirValoresATexto(data))

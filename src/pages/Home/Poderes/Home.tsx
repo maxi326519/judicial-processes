@@ -2,7 +2,7 @@ import { closeLoading, openLoading } from "../../../redux/actions/loading";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { getCharts } from "../../../redux/actions/Tutelas/charts";
+import { getCharts } from "../../../redux/actions/Poderes/charts";
 import { RootState } from "../../../interfaces/RootState";
 import { UserRol } from "../../../interfaces/users";
 import usePoderesChart from "../../../hooks/Poderes/usePoderesChart";
@@ -14,7 +14,6 @@ import Navbar from "../../../components/Navbar/Navbar";
 import SideBar from "../../../components/SideBar/SideBar";
 
 import styles from "./Home.module.css";
-import RadicadoChart from "./RadicadoChart/RadicadoChart";
 
 export default function Home() {
   const redirect = useNavigate();
@@ -84,7 +83,6 @@ export default function Home() {
         >{`>`}</button>
         <PoderesChart />
         <ConceptoChart />
-        <RadicadoChart />
       </div>
     </div>
   );

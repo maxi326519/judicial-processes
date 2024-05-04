@@ -31,6 +31,7 @@ import styles from "./ConciliacionesTable.module.css";
 import loadingSvg from "../../../../assets/img/loading.gif";
 import errorSvg from "../../../../assets/svg/error.svg";
 import listSvg from "../../../../assets/svg/list.svg";
+import getSignal from "../../../../functions/getSignal";
 
 export default function ConciliacionTable() {
   const dispatch = useDispatch();
@@ -121,6 +122,13 @@ export default function ConciliacionTable() {
         !data.desicionComite
           .toUpperCase()
           .includes(filters.desicionComite.toUpperCase())
+      )
+        return false;
+
+      /* ESTADO */
+      if (
+        filters.estado !== 0 &&
+        filters.estado !== getSignal(data.terminoLegal)
       )
         return false;
 

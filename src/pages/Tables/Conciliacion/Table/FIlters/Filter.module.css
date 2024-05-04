@@ -53,3 +53,40 @@
 .filter:hover .filterContainer {
   display: flex;
 }
+
+.signal {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, min-content);
+  padding: 10px 15px;
+  outline: 1px solid var(--border);
+  border-radius: 5px;
+}
+
+.signal span {
+  grid-column: 1 / 4;
+}
+
+.signal .state1,
+.signal .state2,
+.signal .state3 {
+  width: 20px;
+  height: 20px;
+  border-radius: 2px;
+}
+
+.signal .state1 {
+  background-color: green;
+}
+
+.signal .state2 {
+  background-color: yellow;
+}
+
+.signal .state3 {
+  background-color: red;
+}
+
+.signal .selected {
+  outline: 4px solid grey;
+}

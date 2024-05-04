@@ -49,6 +49,7 @@ export interface ConciliacionesFilters {
   estadoSolicitud: string;
   medioControl: string;
   desicionComite: string;
+  estado: number;
 }
 
 export interface ErrorConciliaciones {
@@ -106,6 +107,7 @@ export const initConciliacionesFilters = (): ConciliacionesFilters => ({
   estadoSolicitud: "",
   medioControl: "",
   desicionComite: "",
+  estado: 0,
 });
 
 export const initErrorConciliaciones = (): ErrorConciliaciones => ({

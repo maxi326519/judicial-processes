@@ -30,6 +30,10 @@ export default function Filters({ filters, setFilters }: Props) {
     setFilters(initConciliacionesFilters());
   }
 
+  function handleChangeState(estado: number) {
+    setFilters({ ...filters, estado });
+  }
+
   return (
     <div className={style.filter}>
       <button className={style.btnFilter} type="button" onClick={handleFilter}>
@@ -135,6 +139,28 @@ export default function Filters({ filters, setFilters }: Props) {
             onChange={handleChange}
           />
           <label htmlFor="desicionComite">Desición de Comité:</label>
+        </div>
+
+        <div className={style.signal}>
+          <span>Estado</span>
+          <div
+            className={`${style.state1} ${
+              filters.estado === 1 && style.selected
+            }`}
+            onClick={() => handleChangeState(1)}
+          ></div>
+          <div
+            className={`${style.state2} ${
+              filters.estado === 2 && style.selected
+            }`}
+            onClick={() => handleChangeState(2)}
+          ></div>
+          <div
+            className={`${style.state3} ${
+              filters.estado === 3 && style.selected
+            }`}
+            onClick={() => handleChangeState(3)}
+          ></div>
         </div>
 
         <button

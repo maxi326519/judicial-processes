@@ -23,6 +23,9 @@ export default function useConciliaciones() {
   const conciliacionDetails = useSelector(
     (state: RootState) => state.conciliaciones.details
   );
+  const conciliaciones = useSelector(
+    (state: RootState) => state.conciliaciones.heads
+  );
 
   useEffect(() => {
     if (conciliacionDetails) setConciliacion(conciliacionDetails);
@@ -105,6 +108,9 @@ export default function useConciliaciones() {
     if (conciliacion.id === 0) {
       error.id = "Debes completar este campo";
       value = false;
+    } else if (conciliaciones.some((head) => head.id === conciliacion.id)) {
+      error.id = "Este id ya existe";
+      value = false;
     }
 
     if (
@@ -176,8 +182,8 @@ export default function useConciliaciones() {
       value = false;
     }
 
-    if (config.desicionComite && conciliacion.desicionComite === "") {
-      error.desicionComite = "Debes completar este campo";
+    if (config.decisionComite && conciliacion.decisionComite === "") {
+      error.decisionComite = "Debes completar este campo";
       value = false;
     }
 

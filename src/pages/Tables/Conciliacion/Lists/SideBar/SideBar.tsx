@@ -8,8 +8,9 @@ interface Props {
 const lists = [
   ["medioControl", "Medio de Control"],
   ["pretension", "Pretensión"],
-  ["desicionComite", "Desición del comité"],
+  ["decisionComite", "Decisión del comité"],
   ["estadoAudiencia", "Estado de audiencia"],
+  ["estadoSolicitud", "Estado de solicitud"],
   ["procuraduriaRemitente", "Procuraduría remitente"],
 ];
 

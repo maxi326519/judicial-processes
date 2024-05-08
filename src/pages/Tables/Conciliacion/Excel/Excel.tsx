@@ -51,7 +51,7 @@ export default function Excel() {
     (state: RootState) => state.conciliaciones.heads
   );
   const [rows, setRows] = useState<ConciliacionesHeads[]>([]);
-  const [excelData, setExcelData] = useState([]);
+  const [excelData, setExcelData] = useState<Conciliaciones[]>([]);
   const [form, setForm] = useState<boolean>(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -132,23 +132,31 @@ export default function Excel() {
       // Firestore collections
       const conciliacionesDoc = doc(collection(db, "Data"), "Conciliaciones");
       const conciliacionesColl = collection(conciliacionesDoc, "Details");
-      let details: any = [];
+      let details: Conciliaciones[] = [];
 
       // Query variables
       let snapshot: QuerySnapshot;
       snapshot = await getDocs(conciliacionesColl);
 
       // Save data
-      snapshot.forEach((doc) => details.push(doc.data()));
+      snapshot.forEach((doc) => details.push(doc.data() as Conciliaciones));
 
       // Sort, convert and save the data to export
       setExcelData(
         details
-          .sort((a: any, b: any) => {
-            if (a.fecha === null) return 1;
-            if (b.fecha === null) return -1;
-            if (a.fecha > b.fecha) return 1;
-            if (a.fecha < b.fecha) return -1;
+          .sort((a, b) => {
+            if (a.fechaIngresoSolicitud === null) return 1;
+            if (b.fechaIngresoSolicitud === null) return -1;
+            if (
+              a.fechaIngresoSolicitud.getTime() >
+              b.fechaIngresoSolicitud.getTime()
+            )
+              return 1;
+            if (
+              a.fechaIngresoSolicitud.getTime() <
+              b.fechaIngresoSolicitud.getTime()
+            )
+              return -1;
             return 0;
           })
           .map((data: Conciliaciones) => convertirValoresATexto(data))
@@ -261,7 +269,7 @@ export default function Excel() {
             <td>Asignacion abogado</td>
             <td>Estado de la solicitud</td>
             <td>Medio de Control</td>
-            <td>Desición de Comité</td>
+            <td>Decisión de Comité</td>
           </tr>
         </thead>
         <tbody className={styles.contentRows}>

@@ -26,8 +26,14 @@ interface Props {
 
 export default function Form({ handleClose }: Props) {
   const dispatch = useDispatch();
-  const { conciliacion, errors, validations, reset, setConciliacion } =
-    useConciliaciones();
+  const {
+    conciliacion,
+    errors,
+    setErrors,
+    validations,
+    reset,
+    setConciliacion,
+  } = useConciliaciones();
   const conciliacionDetails = useSelector(
     (state: RootState) => state.conciliaciones.details
   );
@@ -111,7 +117,8 @@ export default function Form({ handleClose }: Props) {
       value: conciliacion.estadoSolicitud,
       name: "estadoSolicitud",
       label: "Estado de la solicitud",
-      inputType: "string",
+      inputType: "select",
+      list: lists.estadoSolicitud,
       error: errors.estadoSolicitud,
     },
     {
@@ -151,12 +158,12 @@ export default function Form({ handleClose }: Props) {
       error: errors.fechaComite,
     },
     {
-      value: conciliacion.desicionComite,
-      name: "desicionComite",
-      label: "Desición de Comité",
+      value: conciliacion.decisionComite,
+      name: "decisionComite",
+      label: "Decisión de Comité",
       inputType: "select",
-      list: lists.desicionComite,
-      error: errors.desicionComite,
+      list: lists.decisionComite,
+      error: errors.decisionComite,
     },
     {
       value: conciliacion.estadoAudiencia,
@@ -192,7 +199,7 @@ export default function Form({ handleClose }: Props) {
       value: conciliacion.observaciones,
       name: "observaciones",
       label: "Observaciones",
-      inputType: "string",
+      inputType: "textarea",
       error: errors.observaciones,
     },
   ];
@@ -229,9 +236,13 @@ export default function Form({ handleClose }: Props) {
           swal("Guardado", "Se guardo la conciliacion", "success");
         })
         .catch((error: any) => {
-          console.log(error);
           dispatch(closeLoading());
-          swal("Error", "No se pudo guardar la conciliacion", "error");
+          if (error.includes("id already exist")) {
+            setErrors({ ...error, id: "El id ya existe" });
+          } else {
+            console.log(error);
+            swal("Error", "No se pudo guardar la conciliacion", "error");
+          }
         });
     }
   }

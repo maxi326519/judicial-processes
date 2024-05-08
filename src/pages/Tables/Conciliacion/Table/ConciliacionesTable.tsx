@@ -123,10 +123,10 @@ export default function ConciliacionTable() {
 
       /* DESICION DEL COMITE */
       if (
-        filters.desicionComite &&
-        !data.desicionComite
+        filters.decisionComite &&
+        !data.decisionComite
           .toUpperCase()
-          .includes(filters.desicionComite.toUpperCase())
+          .includes(filters.decisionComite.toUpperCase())
       )
         return false;
 
@@ -321,7 +321,7 @@ export default function ConciliacionTable() {
             <td>Asignacion abogado</td>
             <td>Estado de la solicitud</td>
             <td>Medio de Control</td>
-            <td>Desición de Comité</td>
+            <td>Decisión de Comité</td>
             <td>Término legal</td>
           </tr>
         </thead>

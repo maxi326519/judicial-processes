@@ -28,7 +28,7 @@ const dataLabels = [
     label: "Radicados SIPA Respuesta de insumo",
   },
   { value: "fechaComite", label: "Fecha de Comité" },
-  { value: "desicionComite", label: "Desición de Comité" },
+  { value: "decisionComite", label: "Decisión de Comité" },
   { value: "estadoAudiencia", label: "Estado audiencia" },
   { value: "procuraduriaRemitente", label: "Procuraduría Remitente" },
   { value: "numeroSolicitud", label: "Número de solicitud" },

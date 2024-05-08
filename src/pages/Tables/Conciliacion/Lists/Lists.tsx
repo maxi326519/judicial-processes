@@ -13,8 +13,9 @@ interface Props {
 const lists = [
   "medioControl",
   "pretension",
-  "desicionComite",
+  "decisionComite",
   "estadoAudiencia",
+  "estadoSolicitud",
   "procuraduriaRemitente",
 ];
 

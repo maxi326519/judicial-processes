@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   initConciliacionesFilters,
   ConciliacionesFilters,
@@ -15,6 +15,29 @@ interface Props {
 
 export default function Filters({ filters, setFilters }: Props) {
   const [filter, setFilter] = useState(false);
+  const dropDownRef = useRef<HTMLDivElement>(null);
+
+  // Close filter
+  useEffect(() => {
+    // Function to get mouse event
+    const handleClickOutside = (event: MouseEvent) => {
+      // If ref exist and not contain the event, close filter
+      if (
+        dropDownRef.current &&
+        !dropDownRef.current.contains(event.target as Node)
+      ) {
+        setFilter(false);
+      }
+    };
+
+    // Set mouse event to close filter if user clicked outside
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      // Remove event when the component closes
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   function handleFilter() {
     setFilter(!filter);
@@ -57,7 +80,7 @@ export default function Filters({ filters, setFilters }: Props) {
   }
 
   return (
-    <div className={style.filter}>
+    <div className={style.filter} ref={dropDownRef}>
       <button className={style.btnFilter} type="button" onClick={handleFilter}>
         <span>Filtros</span>
         <img src={filterSvg} alt="filtros" />
@@ -152,14 +175,14 @@ export default function Filters({ filters, setFilters }: Props) {
 
           <div className="form-floating form-floating-dark">
             <input
-              id="desicionComite"
+              id="decisionComite"
               className="form-control form-control-dark"
-              name="desicionComite"
+              name="decisionComite"
               type="text"
-              value={filters.desicionComite}
+              value={filters.decisionComite}
               onChange={handleChange}
             />
-            <label htmlFor="desicionComite">Desición de Comité:</label>
+            <label htmlFor="decisionComite">Decisión de Comité:</label>
           </div>
 
           <div className={style.signal}>

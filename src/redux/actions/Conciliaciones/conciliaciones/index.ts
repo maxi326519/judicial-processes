@@ -68,7 +68,7 @@ export function setConciliaciones(
         asignacionAbogado: conciliaciones.asignacionAbogado,
         estadoSolicitud: conciliaciones.estadoSolicitud,
         medioControl: conciliaciones.medioControl,
-        desicionComite: conciliaciones.desicionComite,
+        decisionComite: conciliaciones.decisionComite,
         terminoLegal: conciliaciones.terminoLegal,
       };
       let details: Conciliaciones = conciliaciones;
@@ -146,6 +146,8 @@ export function getConciliacion(
         ...data,
         fechaIngresoSolicitud: getDateOrNull(data.fechaIngresoSolicitud),
         terminoLegal: getDateOrNull(data.terminoLegal),
+        fechaComite: getDateOrNull(data.fechaComite),
+        fechaCitacionAudiencia: getDateOrNull(data.fechaCitacionAudiencia),
       };
 
       dispatch({
@@ -178,7 +180,7 @@ export function updateConciliaciones(
       asignacionAbogado: details.asignacionAbogado,
       estadoSolicitud: details.estadoSolicitud,
       medioControl: details.medioControl,
-      desicionComite: details.desicionComite,
+      decisionComite: details.decisionComite,
       terminoLegal: details.terminoLegal,
     };
 
@@ -248,7 +250,7 @@ export function importConciliaciones(
             asignacionAbogado: detail.asignacionAbogado,
             estadoSolicitud: detail.estadoSolicitud,
             medioControl: detail.medioControl,
-            desicionComite: detail.desicionComite,
+            decisionComite: detail.decisionComite,
             terminoLegal: detail.terminoLegal,
           };
           heads.push(head);

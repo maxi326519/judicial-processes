@@ -17,7 +17,7 @@ export default function ExcelRow({ conciliacion }: Props) {
       <td>{conciliacion.asignacionAbogado}</td>
       <td>{conciliacion.estadoSolicitud}</td>
       <td>{conciliacion.medioControl}</td>
-      <td>{conciliacion.desicionComite}</td>
+      <td>{conciliacion.decisionComite}</td>
     </tr>
   );
 }

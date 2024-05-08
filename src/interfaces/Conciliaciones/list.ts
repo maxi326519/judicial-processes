@@ -1,15 +1,17 @@
 export interface ConciliacionesList {
   medioControl: string[];
   pretension: string[];
-  desicionComite: string[];
+  decisionComite: string[];
   estadoAudiencia: string[];
+  estadoSolicitud: string[];
   procuraduriaRemitente: string[];
 }
 
 export const initConciliacionesList = (): ConciliacionesList => ({
   medioControl: [],
   pretension: [],
-  desicionComite: [],
+  decisionComite: [],
   estadoAudiencia: [],
+  estadoSolicitud: [],
   procuraduriaRemitente: [],
 });

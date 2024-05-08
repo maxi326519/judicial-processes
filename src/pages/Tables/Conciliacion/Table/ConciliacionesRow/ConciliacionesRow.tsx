@@ -36,7 +36,7 @@ export default function ConciliacionesRow({
       <td>{conciliacion.asignacionAbogado}</td>
       <td>{conciliacion.estadoSolicitud}</td>
       <td>{conciliacion.medioControl}</td>
-      <td>{conciliacion.desicionComite}</td>
+      <td>{conciliacion.decisionComite}</td>
       <td>
         <div
           className={`${style.signal} ${

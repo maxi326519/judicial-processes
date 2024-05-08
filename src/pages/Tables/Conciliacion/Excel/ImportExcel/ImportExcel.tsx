@@ -39,7 +39,7 @@ export default function ImportExcel({ handleData, handleClose }: Props) {
           });
 
           worksheetData
-            .slice(3)
+            .slice(2)
             .forEach((item: any) => (item[2] ? data.push(item) : null));
 
           const convert = dataConvert(data);
@@ -100,7 +100,7 @@ export default function ImportExcel({ handleData, handleClose }: Props) {
         radicadosSIPASolicitud: textParser(conciliacion[11] || ""),
         radicadosSIPARespuesta: textParser(conciliacion[12] || ""),
         fechaComite: newDate(conciliacion[13] || ""),
-        desicionComite: textParser(conciliacion[14] || ""),
+        decisionComite: textParser(conciliacion[14] || ""),
         estadoAudiencia: textParser(conciliacion[15] || ""),
         procuraduriaRemitente: textParser(conciliacion[16] || ""),
         numeroSolicitud: textParser(conciliacion[17] || ""),
@@ -120,7 +120,7 @@ export default function ImportExcel({ handleData, handleClose }: Props) {
           asignacionAbogado: item.asignacionAbogado,
           estadoSolicitud: item.estadoSolicitud,
           medioControl: item.medioControl,
-          desicionComite: item.desicionComite,
+          decisionComite: item.decisionComite,
           terminoLegal: item.terminoLegal,
         })
       ),

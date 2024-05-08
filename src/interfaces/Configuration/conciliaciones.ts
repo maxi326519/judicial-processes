@@ -13,7 +13,7 @@ export interface ConciliacionesConfig {
   radicadosSIPASolicitud: boolean;
   radicadosSIPARespuesta: boolean;
   fechaComite: boolean;
-  desicionComite: boolean;
+  decisionComite: boolean;
   estadoAudiencia: boolean;
   procuraduriaRemitente: boolean;
   numeroSolicitud: boolean;
@@ -36,7 +36,7 @@ export const initConciliacionesConfig = (): ConciliacionesConfig => ({
   radicadosSIPASolicitud: false,
   radicadosSIPARespuesta: false,
   fechaComite: false,
-  desicionComite: false,
+  decisionComite: false,
   estadoAudiencia: false,
   procuraduriaRemitente: false,
   numeroSolicitud: false,

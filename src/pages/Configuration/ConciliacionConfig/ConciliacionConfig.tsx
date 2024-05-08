@@ -39,7 +39,7 @@ const inputs: Inputs[] = [
     label: "Radicados SIPA Respuesta de insumo",
   },
   { name: "fechaComite", label: "Fecha de Comité" },
-  { name: "desicionComite", label: "Desición de Comité" },
+  { name: "decisionComite", label: "Decisión de Comité" },
   { name: "estadoAudiencia", label: "Estado audiencia" },
   { name: "procuraduriaRemitente", label: "Procuraduría Remitente" },
   { name: "numeroSolicitud", label: "Número de solicitud" },

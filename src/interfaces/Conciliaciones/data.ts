@@ -6,7 +6,7 @@ export interface ConciliacionesHeads {
   asignacionAbogado: string;
   estadoSolicitud: string;
   medioControl: string;
-  desicionComite: string;
+  decisionComite: string;
   terminoLegal: Date | null;
 }
 
@@ -30,7 +30,7 @@ export interface Conciliaciones {
   fechaComite: Date | null;
 
   // 3 MOMENTO: RECEPCION AL COMITÉ DE CONCILIACION
-  desicionComite: string; // Listado
+  decisionComite: string; // Listado
   estadoAudiencia: string; // Listado
 
   // DATOS COMPLEMENTARIOS
@@ -48,7 +48,7 @@ export interface ConciliacionesFilters {
   asignacionAbogado: string;
   estadoSolicitud: string;
   medioControl: string;
-  desicionComite: string;
+  decisionComite: string;
   estado: number;
 }
 
@@ -67,7 +67,7 @@ export interface ErrorConciliaciones {
   radicadosSIPASolicitud: string;
   radicadosSIPARespuesta: string;
   fechaComite: string;
-  desicionComite: string;
+  decisionComite: string;
   estadoAudiencia: string;
   procuraduriaRemitente: string;
   numeroSolicitud: string;
@@ -90,7 +90,7 @@ export const initConciliaciones = (id?: number): Conciliaciones => ({
   radicadosSIPASolicitud: "",
   radicadosSIPARespuesta: "",
   fechaComite: null,
-  desicionComite: "",
+  decisionComite: "",
   estadoAudiencia: "",
   procuraduriaRemitente: "",
   numeroSolicitud: "",
@@ -106,7 +106,7 @@ export const initConciliacionesFilters = (): ConciliacionesFilters => ({
   asignacionAbogado: "",
   estadoSolicitud: "",
   medioControl: "",
-  desicionComite: "",
+  decisionComite: "",
   estado: 0,
 });
 
@@ -125,7 +125,7 @@ export const initErrorConciliaciones = (): ErrorConciliaciones => ({
   radicadosSIPASolicitud: "",
   radicadosSIPARespuesta: "",
   fechaComite: "",
-  desicionComite: "",
+  decisionComite: "",
   estadoAudiencia: "",
   procuraduriaRemitente: "",
   numeroSolicitud: "",

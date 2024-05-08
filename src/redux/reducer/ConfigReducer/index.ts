@@ -1,4 +1,5 @@
 import { RootConfig, initRootState } from "../../../interfaces/RootState";
+import { SET_CONCILIACIONES } from "../../actions/Conciliaciones/conciliaciones";
 import { AnyAction } from "redux";
 import {
   UPDATE_CONCILIACIONES_CONFIG,
@@ -12,8 +13,8 @@ import {
   UPDATE_PROCESSES_CONFIG,
   UPDATE_REQUIREMENTS_CONFIG,
   UPDATE_TUTELAS_CONFIG,
+  GET_BACKUP_CONFIG,
 } from "../../actions/config";
-import { SET_CONCILIACIONES } from "../../actions/Conciliaciones/conciliaciones";
 
 export const configReducer = (
   state: RootConfig = { ...initRootState.config },
@@ -84,6 +85,12 @@ export const configReducer = (
       return {
         ...state,
         conciliaciones: action.payload,
+      };
+
+    case GET_BACKUP_CONFIG:
+      return {
+        ...state,
+        backup: action.payload,
       };
 
     case SET_CONCILIACIONES:

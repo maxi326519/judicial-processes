@@ -5,6 +5,7 @@ import { initializeApp } from "firebase/app";
 import { connectFirestoreEmulator, getFirestore } from "firebase/firestore";
 import { connectAuthEmulator, getAuth } from "firebase/auth";
 import { getFunctions, connectFunctionsEmulator } from "firebase/functions";
+import { getStorage, connectStorageEmulator } from "firebase/storage";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -23,11 +24,13 @@ export const fs = initializeApp(firebaseConfig);
 export const db = getFirestore(fs);
 export const auth = getAuth(fs);
 export const functions = getFunctions(fs);
+export const storage = getStorage(fs);
 
 // Emulator
 if (process.env.REACT_APP_EMULATOR === "true") {
   console.log("Emulator running");
   connectAuthEmulator(auth, "http://localhost:9099");
-  connectFirestoreEmulator(db, "localhost", 8085);
-  connectFunctionsEmulator(functions, "localhost", 5001);
+  connectFirestoreEmulator(db, "localhost", 8080);
+  connectFunctionsEmulator(functions, "localhost", 5000);
+  connectStorageEmulator(storage, "localhost", 9100)
 }

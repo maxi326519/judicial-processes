@@ -1,4 +1,11 @@
-import { collection, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  setDoc,
+  Timestamp,
+  updateDoc,
+} from "firebase/firestore";
 import { PoderesConfig } from "../../../interfaces/Configuration/poderes";
 import { ThunkAction } from "redux-thunk";
 import { RootState } from "../../../interfaces/RootState";
@@ -17,7 +24,11 @@ import {
   RequirementsConfig,
   initRequirementsConfig,
 } from "../../../interfaces/Configuration/requirements";
-import { ConciliacionesConfig, initConciliacionesConfig } from "../../../interfaces/Configuration/conciliaciones";
+import {
+  ConciliacionesConfig,
+  initConciliacionesConfig,
+} from "../../../interfaces/Configuration/conciliaciones";
+import { initBackups } from "../../../interfaces/Configuration/backup";
 
 const configColl = collection(db, "Configuration");
 const processesConfigDoc = doc(configColl, "ProcessesConfig");
@@ -25,6 +36,7 @@ const tutelasConfigDoc = doc(configColl, "TutelasConfig");
 const requirementsConfigDoc = doc(configColl, "RequirementsConfig");
 const poderesConfigDoc = doc(configColl, "PoderesConfig");
 const conciliacionesConfigDoc = doc(configColl, "ConciliacionesConfig");
+const backupDoc = doc(configColl, "Backup");
 
 export const UPDATE_PROCESSES_CONFIG = "UPDATE_PROCESSES_CONFIG";
 export const UPDATE_PROCESSES_CHANGE_CONFIG = "UPDATE_PROCESSES_CHANGE_CONFIG";
@@ -38,6 +50,7 @@ export const GET_TUTELAS_CONFIG = "GET_TUTELAS_CONFIG";
 export const GET_REQUIREMENTS_CONFIG = "GET_REQUIREMENTS_CONFIG";
 export const GET_PODERES_CONFIG = "GET_PODERES_CONFIG";
 export const GET_CONCILIACIONES_CONFIG = "GET_CONCILIACIONES_CONFIG";
+export const GET_BACKUP_CONFIG = "GET_BACKUP_CONFIG";
 
 export function getProcessesConfig(): ThunkAction<
   Promise<void>,
@@ -162,6 +175,38 @@ export function getConciliacionesConfig(): ThunkAction<
       dispatch({
         type: GET_CONCILIACIONES_CONFIG,
         payload: conciliacionesConfig,
+      });
+    } catch (e: any) {
+      throw new Error(e);
+    }
+  };
+}
+
+export function getBackupConfig(): ThunkAction<
+  Promise<void>,
+  RootState,
+  null,
+  AnyAction
+> {
+  return async (dispatch: Dispatch<AnyAction>) => {
+    try {
+      const snapshot = await getDoc(backupDoc);
+      let backup: any = snapshot.data();
+
+      if (!snapshot.exists()) {
+        backup = initBackups();
+        await setDoc(backupDoc, backup);
+      } else {
+        backup = {
+          data: backup.data,
+          lastBackUp: (backup.lastBackUp as Timestamp).toDate(),
+          nextBackUp: (backup.nextBackUp as Timestamp).toDate(),
+        };
+      }
+
+      dispatch({
+        type: GET_BACKUP_CONFIG,
+        payload: backup,
       });
     } catch (e: any) {
       throw new Error(e);

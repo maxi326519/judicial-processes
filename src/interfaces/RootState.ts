@@ -43,6 +43,7 @@ import {
   ConciliacionesList,
   initConciliacionesList,
 } from "./Conciliaciones/list";
+import { Backups, initBackups } from "./Configuration/backup";
 
 export interface RootProcesses {
   heads: ProcessHeads[];
@@ -89,6 +90,7 @@ export interface RootConfig {
   requirements: RequirementsConfig;
   poderes: PoderesConfig;
   conciliaciones: ConciliacionesConfig;
+  backup: Backups;
 }
 
 export interface RootState {
@@ -149,6 +151,7 @@ export const initRootState: RootState = {
     requirements: initRequirementsConfig(),
     poderes: initPoderesConfig(),
     conciliaciones: initConciliacionesConfig(),
+    backup: initBackups(),
   },
   history: initHistoryData(),
 };

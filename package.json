@@ -28,7 +28,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "emulator": "npx firebase emulators:start",
+    "emulators": "npx firebase emulators:start",
     "build": "react-scripts build",
     "deploy": "react-scripts build && firebase deploy",
     "test": "react-scripts test",

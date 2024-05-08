@@ -6,6 +6,7 @@ import { ProcessesConfig } from "./ProcessesConfig/ProcessesConfig";
 import { PoderesConfig } from "./PoderesConfig/PoderesConfig";
 import { TutelasConfig } from "./TutelasConfig/TutelasConfig";
 import { useDispatch } from "react-redux";
+import { BackUps } from "./BackUps/BackUps";
 import {
   getTutelasConfig,
   getProcessesConfig,
@@ -16,7 +17,6 @@ import {
 import swal from "sweetalert";
 
 import styles from "./Configuration.module.css";
-import { BackUps } from "./BackUps/BackUps";
 
 const sideItems = [
   { label: "Procesos", value: "processes", element: <ProcessesConfig /> },

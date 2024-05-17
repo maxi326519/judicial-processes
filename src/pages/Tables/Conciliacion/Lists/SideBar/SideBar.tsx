@@ -6,12 +6,12 @@ interface Props {
 }
 
 const lists = [
-  ["medioControl", "Medio de Control"],
-  ["pretension", "Pretensión"],
-  ["decisionComite", "Decisión del comité"],
-  ["estadoAudiencia", "Estado de audiencia"],
-  ["estadoSolicitud", "Estado de solicitud"],
-  ["procuraduriaRemitente", "Procuraduría remitente"],
+  ["Medio de Control", "medioControl"],
+  ["Pretensión", "pretension"],
+  ["Decisión del comité", "decisionComite"],
+  ["Estado de audiencia", "estadoAudiencia"],
+  ["Estado de solicitud", "estadoSolicitud"],
+  ["Procuraduría remitente", "procuraduriaRemitente"],
 ];
 
 export default function SideBar({ name, handleSelect }: Props) {

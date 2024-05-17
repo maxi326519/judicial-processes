@@ -1,10 +1,10 @@
-import { ThunkAction } from "redux-thunk";
-import { Users } from "../../../interfaces/users";
-import { RootState } from "../../../interfaces/RootState";
+import { collection, getDocs } from "firebase/firestore";
 import { AnyAction, Dispatch } from "redux";
 import { db, functions } from "../../../firebase/config";
-import { collection, getDocs } from "firebase/firestore";
 import { httpsCallable } from "@firebase/functions";
+import { ThunkAction } from "redux-thunk";
+import { RootState } from "../../../interfaces/RootState";
+import { Users } from "../../../interfaces/users";
 
 export const SET_USER = "SET_USER";
 export const GET_USERS = "GET_USERS";
@@ -66,14 +66,14 @@ export function getUsers(): ThunkAction<
         if (currentUser.available) {
           currentUser.available.startDate =
             currentUser.available.startDate?.toDate();
-          
-            currentUser.available.endDate =
+
+          currentUser.available.endDate =
             currentUser.available.endDate?.toDate();
-            
-            // Check users availables
-            if(currentUser.available.endDate < new Date()){
-              currentUser.available = false;
-            }
+
+          // Check users availables
+          if (currentUser.available.endDate < new Date()) {
+            currentUser.available = false;
+          }
         }
 
         // Save current user

@@ -31,6 +31,7 @@ import loadingSvg from "../../../../assets/img/loading.gif";
 import errorSvg from "../../../../assets/svg/error.svg";
 import importSvg from "../../../../assets/svg/import.svg";
 import exportSvg from "../../../../assets/svg/export.svg";
+import getDateOrNull from "../../../../functions/getDateOrNull";
 
 enum actionType {
   import,
@@ -139,7 +140,13 @@ export default function Excel() {
       snapshot = await getDocs(conciliacionesColl);
 
       // Save data
-      snapshot.forEach((doc) => details.push(doc.data() as Conciliaciones));
+      snapshot.forEach((doc) => details.push({
+        ...doc.data() as Conciliaciones,
+        fechaIngresoSolicitud: getDateOrNull(
+          doc.data().fechaIngresoSolicitud
+        ),
+        terminoLegal: getDateOrNull(doc.data().terminoLegal),
+      }));
 
       // Sort, convert and save the data to export
       setExcelData(

@@ -108,9 +108,6 @@ export default function useConciliaciones() {
     if (conciliacion.id === 0) {
       error.id = "Debes completar este campo";
       value = false;
-    } else if (conciliaciones.some((head) => head.id === conciliacion.id)) {
-      error.id = "Este id ya existe";
-      value = false;
     }
 
     if (

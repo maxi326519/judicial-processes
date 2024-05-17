@@ -23,7 +23,7 @@ exports.setNewUser = onCall(async (data, context) => {
       throw new HttpsError("not-found", "user not found");
 
     // Validate if the user is 'Admin'
-    if (requestUser.data()!.rol !== "Admin")
+    if (requestUser.data()?.rol !== "Admin")
       throw new HttpsError("permission-denied", "must have admin rol");
 
     // Validate parameters

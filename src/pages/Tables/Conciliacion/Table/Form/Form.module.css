@@ -38,11 +38,11 @@
   grid-template-rows: repeat(11, max-content);
   grid-template-areas:
     "title1 title1 title1 title1"
-    "id fechaIngresoSolicitud radicadoSIPA radicadosSIPARespuesta"
-    "convocante medioControl pretension valorEstimado"
-    "asignacionAbogado estadoSolicitud terminoLegal ."
+    "id fechaIngresoSolicitud radicadoSIPA convocante"
+    "medioControl pretension valorEstimado asignacionAbogado"
+    "estadoSolicitud terminoLegal . ."
     "title2 title2 title2 title2"
-    "consecutivo radicadosSIPASolicitud fechaComite ."
+    "consecutivo radicadosSIPASolicitud radicadosSIPARespuesta fechaComite"
     "title3 title3 title3 title3"
     "decisionComite decisionComite estadoAudiencia estadoAudiencia"
     "title4 title4 title4 title4"

@@ -62,7 +62,7 @@ function App() {
   const user = useSelector((state: RootState) => state.sesion);
   const loading = useSelector((state: RootState) => state.loading);
   const [ingress, setIngress] = useState<boolean>(false);
-  let register = false;
+  const [register, setRegister] = useState<boolean>(false);
 
   useEffect(() => {
     redirect("/login");
@@ -122,7 +122,7 @@ function App() {
           console.log(error);
         }
       );
-      register = true;
+      setRegister(true);
       setIngress(false);
     }
   }, [user, ingress]);

@@ -94,22 +94,3 @@
   filter: invert(28%) sepia(73%) saturate(7153%) hue-rotate(353deg)
     brightness(94%) contrast(125%);
 }
-
-.signal {
-  width: 20px;
-  height: 20px;
-  border-radius: 2px;
-  background-color: grey;
-}
-
-.state1 {
-  background-color: green;
-}
-
-.state2 {
-  background-color: yellow;
-}
-
-.state3 {
-  background-color: red;
-}

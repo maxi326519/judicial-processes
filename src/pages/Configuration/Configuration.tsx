@@ -7,6 +7,7 @@ import { PoderesConfig } from "./PoderesConfig/PoderesConfig";
 import { TutelasConfig } from "./TutelasConfig/TutelasConfig";
 import { useDispatch } from "react-redux";
 import { BackUps } from "./BackUps/BackUps";
+import { System } from "./System/System";
 import {
   getTutelasConfig,
   getProcessesConfig,
@@ -36,6 +37,11 @@ const sideItems = [
     label: "Backup",
     value: "backup",
     element: <BackUps />,
+  },
+  {
+    label: "Sistema",
+    value: "system",
+    element: <System />,
   },
 ];
 

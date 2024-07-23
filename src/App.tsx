@@ -13,6 +13,7 @@ import {
   getConciliacionesConfig,
   getProcessesConfig,
   getRequirementsConfig,
+  getSystemConfig,
   getTutelasConfig,
 } from "./redux/actions/config";
 
@@ -65,8 +66,16 @@ function App() {
   let register = false;
 
   useEffect(() => {
-    redirect("/login");
     dispatch(openLoading());
+    redirect("/login");
+    dispatch<any>(getSystemConfig())
+      .then(() => {
+        dispatch(closeLoading());
+      })
+      .catch((error: Error) => {
+        dispatch(closeLoading());
+        console.log(error);
+      });
     auth.onAuthStateChanged(() => {
       if (auth.currentUser) {
         dispatch<any>(getUserData())
@@ -115,8 +124,6 @@ function App() {
 
   useEffect(() => {
     if (ingress && !register && user.id) {
-      console.log("App");
-      console.log(ingress, !register, user.id);
       dispatch<any>(updateUserHistory(user, false, true)).catch(
         (error: any) => {
           console.log(error);

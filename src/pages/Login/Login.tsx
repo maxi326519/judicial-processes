@@ -1,6 +1,6 @@
 import { openLoading, closeLoading } from "../../redux/actions/loading";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getLists } from "../../redux/actions/Processes/lists";
 import { useState } from "react";
 import { logIn } from "../../redux/actions/sesion";
@@ -13,6 +13,7 @@ import swal from "sweetalert";
 
 import styles from "./Login.module.css";
 import logo from "../../assets/img/logo.png";
+import { RootState } from "../../interfaces/RootState";
 
 interface Error {
   email: string | null;
@@ -27,6 +28,7 @@ const initialError: Error = {
 export default function Signin() {
   const redirect = useNavigate();
   const dispatch = useDispatch();
+  const system = useSelector((state: RootState) => state.config.system);
   const [error, setError] = useState(initialError);
   const [user, setUser] = useState({
     email: "",
@@ -99,7 +101,7 @@ export default function Signin() {
     <div className={styles.sesion}>
       <form onSubmit={handleSubmit}>
         <div className={styles.logoContainer}>
-          <img src={logo} alt="logo" />
+          <img src={system.logo.url} alt="logo" />
         </div>
         <hr></hr>
         <h2>Iniciar sesión</h2>

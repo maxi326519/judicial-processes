@@ -82,7 +82,9 @@ export default function TutelaTable() {
           /* TEMA TUTELA */
           if (
             filters.temaTutela &&
-            !data.temaTutela.toString().startsWith(filters.temaTutela.toUpperCase())
+            !data.temaTutela
+              .toString()
+              .startsWith(filters.temaTutela.toUpperCase())
           ) {
             return false;
           }
@@ -118,12 +120,14 @@ export default function TutelaTable() {
         } else return true;
       })
       .sort((a, b) => {
-        if (a.fechaNotificacion !== null && b.fechaNotificacion !== null){
-          if (a.fechaNotificacion?.getTime() < b.fechaNotificacion?.getTime()) return 1;
-          if (a.fechaNotificacion?.getTime() > b.fechaNotificacion?.getTime()) return -1;
+        if (a.fechaNotificacion !== null && b.fechaNotificacion !== null) {
+          if (a.fechaNotificacion?.getTime() < b.fechaNotificacion?.getTime())
+            return 1;
+          if (a.fechaNotificacion?.getTime() > b.fechaNotificacion?.getTime())
+            return -1;
         }
         return 0;
-      })
+      });
     setRows(filter);
   }, [tutela, filters]);
 
@@ -342,6 +346,11 @@ export default function TutelaTable() {
                 <TuelaRow
                   key={tutela.id}
                   tutela={tutela}
+                  duplicated={
+                    !rows.some((data) =>
+                      data.demandante === tutela.demandante && data.id !== tutela.id
+                    )
+                  }
                   handleEdit={handleEdit}
                   handleDelete={handleDelete}
                 />

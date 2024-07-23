@@ -11,7 +11,7 @@ import { ThunkAction } from "redux-thunk";
 import { RootState } from "../../../interfaces/RootState";
 import { AnyAction } from "redux";
 import { Dispatch } from "react";
-import { db } from "../../../firebase/config";
+import { db, storage } from "../../../firebase/config";
 import {
   ProcessesConfig,
   initProcessesConfig,
@@ -29,6 +29,13 @@ import {
   initConciliacionesConfig,
 } from "../../../interfaces/Configuration/conciliaciones";
 import { initBackups } from "../../../interfaces/Configuration/backup";
+import { initSystem, System } from "../../../interfaces/Configuration/sistema";
+import {
+  deleteObject,
+  getDownloadURL,
+  ref,
+  uploadBytes,
+} from "firebase/storage";
 
 const configColl = collection(db, "Configuration");
 const processesConfigDoc = doc(configColl, "ProcessesConfig");
@@ -37,6 +44,7 @@ const requirementsConfigDoc = doc(configColl, "RequirementsConfig");
 const poderesConfigDoc = doc(configColl, "PoderesConfig");
 const conciliacionesConfigDoc = doc(configColl, "ConciliacionesConfig");
 const backupDoc = doc(configColl, "Backup");
+const systemDoc = doc(configColl, "System");
 
 export const UPDATE_PROCESSES_CONFIG = "UPDATE_PROCESSES_CONFIG";
 export const UPDATE_PROCESSES_CHANGE_CONFIG = "UPDATE_PROCESSES_CHANGE_CONFIG";
@@ -44,6 +52,7 @@ export const UPDATE_TUTELAS_CONFIG = "UPDATE_TUTELAS_CONFIG";
 export const UPDATE_REQUIREMENTS_CONFIG = "UPDATE_REQUIREMENTS_CONFIG";
 export const UPDATE_PODERES_CONFIG = "UPDATE_PODERES_CONFIG";
 export const UPDATE_CONCILIACIONES_CONFIG = "UPDATE_CONCILIACIONES_CONFIG";
+export const UPDATE_SYSTEM_CONFIG = "UPDATE_SYSTEM_CONFIG";
 
 export const GET_PROCESSES_CONFIG = "GET_PROCESSES_CONFIG";
 export const GET_TUTELAS_CONFIG = "GET_TUTELAS_CONFIG";
@@ -51,6 +60,7 @@ export const GET_REQUIREMENTS_CONFIG = "GET_REQUIREMENTS_CONFIG";
 export const GET_PODERES_CONFIG = "GET_PODERES_CONFIG";
 export const GET_CONCILIACIONES_CONFIG = "GET_CONCILIACIONES_CONFIG";
 export const GET_BACKUP_CONFIG = "GET_BACKUP_CONFIG";
+export const GET_SYSTEM_CONFIG = "GET_SYSTEM_CONFIG";
 
 export function getProcessesConfig(): ThunkAction<
   Promise<void>,
@@ -214,6 +224,32 @@ export function getBackupConfig(): ThunkAction<
   };
 }
 
+export function getSystemConfig(): ThunkAction<
+  Promise<void>,
+  RootState,
+  null,
+  AnyAction
+> {
+  return async (dispatch: Dispatch<AnyAction>) => {
+    try {
+      const snapshot = await getDoc(systemDoc);
+      let system: any = snapshot.data();
+
+      if (!snapshot.exists()) {
+        system = initSystem();
+        await setDoc(systemDoc, system);
+      }
+
+      dispatch({
+        type: GET_SYSTEM_CONFIG,
+        payload: system,
+      });
+    } catch (e: any) {
+      throw new Error(e);
+    }
+  };
+}
+
 export function updateProcessesConfig(
   processesConfig: ProcessesConfig
 ): ThunkAction<Promise<void>, RootState, null, AnyAction> {
@@ -322,6 +358,48 @@ export function updateConciliacionesConfig(
       });
     } catch (e: any) {
       throw new Error(e);
+    }
+  };
+}
+
+export function updateSystemConfig(
+  system: System,
+  logo?: File
+): ThunkAction<Promise<void>, RootState, null, any> {
+  return async (dispatch: Dispatch<any>) => {
+    try {
+      // Data copy
+      let configUpdated = initSystem();
+
+      // Delete current logo
+      if (logo && system.logo.name) {
+        const oldStorageRef = ref(storage, `system/${system.logo.name}`);
+        await deleteObject(oldStorageRef).catch((error) => {
+          console.error("Error deleting old file:", error);
+        });
+      }
+
+      // Save image
+      if (logo) {
+        const fileExtension = logo.name.split(".").pop();
+        const storageRef = ref(storage, `system/logo.${fileExtension}`);
+        const logoResult = await uploadBytes(storageRef, logo);
+        const url = await getDownloadURL(logoResult.ref);
+        configUpdated.logo.name = logoResult.metadata.name;
+        configUpdated.logo.url = url;
+
+        // Post data
+        const systemConfigDoc = doc(configColl, "System");
+        await updateDoc(systemConfigDoc, { ...configUpdated });
+      }
+
+      dispatch({
+        type: UPDATE_SYSTEM_CONFIG,
+        payload: configUpdated,
+      });
+    } catch (error: unknown) {
+      if (error instanceof Error) throw new Error(error.message);
+      else throw new Error("An unknown error ocurred");
     }
   };
 }

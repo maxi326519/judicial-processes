@@ -5,7 +5,6 @@ import { RootState } from "../../interfaces/RootState";
 import swal from "sweetalert";
 
 import styles from "./Navbar.module.css";
-import logo from "../../assets/img/logo.png";
 import userSvg from "../../assets/svg/user.svg";
 import emailSvg from "../../assets/svg/menu/email.svg";
 import passSvg from "../../assets/svg/menu/password.svg";
@@ -19,6 +18,7 @@ export default function Navbar({ title }: Props) {
   const redirect = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.sesion);
+  const system = useSelector((state: RootState) => state.config.system);
 
   function handleLogout() {
     swal({
@@ -37,7 +37,7 @@ export default function Navbar({ title }: Props) {
   return (
     <nav className={styles.navBar}>
       <div className={styles.logo}>
-        <img src={logo} alt="logo" />
+        <img src={system.logo.url} alt="logo" />
       </div>
       <h5>{title}</h5>
       <div className={styles.userImg}>

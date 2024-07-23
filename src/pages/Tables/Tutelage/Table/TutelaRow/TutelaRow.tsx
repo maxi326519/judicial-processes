@@ -10,11 +10,12 @@ import { dateToString } from "../../../../../functions/dateToString";
 
 interface Props {
   tutela: TutelaHeads;
+  duplicated: boolean;
   handleEdit: (id: string) => void;
   handleDelete: (procesess: TutelaHeads) => void;
 }
 
-export default function TutelaRow({ tutela, handleEdit, handleDelete }: Props) {
+export default function TutelaRow({ tutela, duplicated, handleEdit, handleDelete }: Props) {
   const user = useSelector((state: RootState) => state.sesion);
   return (
     <tr
@@ -27,7 +28,7 @@ export default function TutelaRow({ tutela, handleEdit, handleDelete }: Props) {
       <td>{tutela.abogado}</td>
       <td>{tutela.temaTutela}</td>
       <td>{tutela.demandanteId}</td>
-      <td>{tutela.demandante}</td>
+      <td style={!duplicated ? { color: "red" } : { color: "grey" }}>{tutela.demandante}</td>
       <td>{tutela.derechoVulnerado}</td>
       <button
         className="btn btn-outline-primary"

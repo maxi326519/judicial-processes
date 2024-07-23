@@ -14,6 +14,8 @@ import {
   UPDATE_REQUIREMENTS_CONFIG,
   UPDATE_TUTELAS_CONFIG,
   GET_BACKUP_CONFIG,
+  UPDATE_SYSTEM_CONFIG,
+  GET_SYSTEM_CONFIG,
 } from "../../actions/config";
 
 export const configReducer = (
@@ -57,6 +59,14 @@ export const configReducer = (
         consiliaciones: action.payload,
       };
 
+    case UPDATE_SYSTEM_CONFIG:
+      console.log(action.payload);
+
+      return {
+        ...state,
+        system: action.payload,
+      };
+
     case GET_PROCESSES_CONFIG:
       return {
         ...state,
@@ -91,6 +101,12 @@ export const configReducer = (
       return {
         ...state,
         backup: action.payload,
+      };
+
+    case GET_SYSTEM_CONFIG:
+      return {
+        ...state,
+        system: action.payload,
       };
 
     case SET_CONCILIACIONES:
